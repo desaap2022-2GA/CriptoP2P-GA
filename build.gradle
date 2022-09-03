@@ -11,6 +11,7 @@ sourceCompatibility = '17'
 
 repositories {
 	mavenCentral()
+	gradlePluginPortal()
 }
 
 dependencies {
@@ -22,8 +23,20 @@ dependencies {
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0'
+	implementation group: 'org.springframework.boot', name: 'spring-boot', version: '2.7.3'
+
 }
 
+test {
+	useJUnitPlatform()
+	testLogging.showStandardStreams(true)
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
+}
+/*
 tasks.named('test') {
 	useJUnitPlatform()
 }
+*/
