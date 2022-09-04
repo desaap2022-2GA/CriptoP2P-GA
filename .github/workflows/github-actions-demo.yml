@@ -25,9 +25,8 @@ jobs:
           POSTGRES_USER: p2padmin
           POSTGRES_PASSWORD: Cuatri2022.
           POSTGRES_DB: db_criptop2p
-          ports:
-            # Asigna el puerto tcp 5432 del contenedor de servicios al host
-            -5432:5432
+          POSTGRES_HOST: Postgres
+          POSTGRES_PORT: 5432
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
