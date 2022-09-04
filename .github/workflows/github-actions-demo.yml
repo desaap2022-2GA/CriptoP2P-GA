@@ -15,24 +15,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
     # Service containers to run with `container-job`
-    services:
+    #services:
       # Label used to access the service container
-      postgres:
+    #  postgres:
         # Docker Hub image
-        image: postgres
+    #    image: postgres
         # Provide the password for postgres
-        env:
-          POSTGRES_USER: p2padmin
-          POSTGRES_PASSWORD: Cuatri2022.
-          POSTGRES_DB: db_criptop2p
-          POSTGRES_HOST: postgres
-          POSTGRES_PORT: 5432
+    #    env:
+    #      POSTGRES_USER: p2padmin
+    #      POSTGRES_PASSWORD: Cuatri2022.
+    #      POSTGRES_DB: db_criptop2p
+    #      POSTGRES_HOST: postgres
+    #      POSTGRES_PORT: 5432
         # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+    #    options: >-
+    #      --health-cmd pg_isready
+    #      --health-interval 10s
+    #      --health-timeout 5s
+    #      --health-retries 5
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
