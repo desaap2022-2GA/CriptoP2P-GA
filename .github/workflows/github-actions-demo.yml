@@ -25,7 +25,7 @@ jobs:
           POSTGRES_USER: p2padmin
           POSTGRES_PASSWORD: Cuatri2022.
           POSTGRES_DB: db_criptop2p
-          POSTGRES_HOST: Postgres
+          POSTGRES_HOST: localhost
           POSTGRES_PORT: 5432
         # Set health checks to wait until postgres has started
         options: >-
