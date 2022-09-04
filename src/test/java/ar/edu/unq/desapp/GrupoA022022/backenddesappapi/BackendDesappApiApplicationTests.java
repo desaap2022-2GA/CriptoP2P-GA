@@ -44,16 +44,16 @@ class BackendDesappApiApplicationTests {
 		assertEquals(1, 1);
 
 	}
-/*
+
 	@Test
 	void seRecuperaDeLaPersistenciaUnUsuarioNuevo() {
-		User saved = userrepo.save(new User("Martin","Haite","haite@yahoo.com.ar","Azucena Villaflor 128, CABA","1111","60548798","XwrHg5ef"));
+		User saved = userrepo.save(new User("Luis","Clerck","clerck@yahoo.com.ar","Manuela Pedraza 215, CABA","1111","60548798","XwrHg5ef"));
 		int idSaved = saved.getId();
 		Optional<User> finded = userrepo.findById(idSaved);
 
 		assertEquals(finded.get().getId(), idSaved);
 	}
-*/
+
 
 
 }
