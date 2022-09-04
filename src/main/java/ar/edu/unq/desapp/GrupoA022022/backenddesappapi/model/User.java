@@ -1,15 +1,20 @@
-package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.Model;
+package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.Exceptions.ExceptionsLastname;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.Exceptions.ExceptionsName;
 
+import javax.persistence.*;
+
 import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.Model.Verify.*;
 
+@Entity
+@Table (name = "userp2p")
 public class User {
 
-    //@Id
+    @Id
     //@GeneratedValue(generator = "User_ID_Generator", initialValue = 1)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+     private Integer id;
     //@Column
     private String name;
     //@Column
@@ -28,6 +33,16 @@ public class User {
     //private String apiKey;
 
     public User(){
+        this.name = "";
+        this.lastname = "";
+        this.email = "";
+        this.adress = "";
+        this.password = "";
+        this.CVUMercadoPago = "";
+        this.adressWalletActiveCripto = "";
+    }
+
+    public User(String name, String lastname, String email, String adress, String password, String CVUMercadoPago, String adressWalletActiveCripto){
         this.name = name;
         this.lastname = lastname;
         this.email = email;
@@ -102,7 +117,3 @@ public class User {
         } else {}
     }
 }
-
-
-
-
