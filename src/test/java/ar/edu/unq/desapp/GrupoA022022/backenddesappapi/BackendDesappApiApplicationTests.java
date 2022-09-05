@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 
 @SpringBootTest
 class BackendDesappApiApplicationTests {
-
 	@Test
 	void elNombreDeUnUsuarioEsCorrecto() throws ExceptionsUser {
 		User user = new User();
@@ -25,7 +24,6 @@ class BackendDesappApiApplicationTests {
 
 		assertEquals(user.getName(), "Graciela");
 	}
-
 	@Test
 	void elNombreDeUnUsuarioNoCumpleLasCondicionesLanzaUnaException(){
 		assertThrows(ExceptionsUser.class, () -> {
@@ -39,9 +37,7 @@ class BackendDesappApiApplicationTests {
 		user.setName(name);
 
 		assertEquals(exp.getMessage(), "El nombre es obligatorio. Debe contener entre 3 y 30 caracteres");
-*/
-	}
-
+*/	}
 	@Test
 	void elApellidoDeUnUsuarioEsCorrecto() throws ExceptionsUser {
 		User user = new User();
@@ -50,7 +46,6 @@ class BackendDesappApiApplicationTests {
 
 		assertEquals(user.getLastname(), "Gonzalez");
 	}
-
 	@Test
 	void elApellidoDeUnUsuarioNoCumpleLasCondicionesLanzaUnaException(){
 		assertThrows(ExceptionsUser.class, () -> {
@@ -59,7 +54,6 @@ class BackendDesappApiApplicationTests {
 			user.setLastname(lastname);
 		});
 	}
-
 	@Test
 	void elEmailDeUnUsuarioEsCorrecto() throws ExceptionsUser {
 		User user = new User();
@@ -68,7 +62,6 @@ class BackendDesappApiApplicationTests {
 
 		assertEquals(user.getEmail(), "user@desp.com");
 	}
-
 	@Test
 	void elEmailDeUnUsuarioNoCumpleLasCondicionesLanzaUnaException(){
 		assertThrows(ExceptionsUser.class, () -> {
@@ -77,7 +70,6 @@ class BackendDesappApiApplicationTests {
 			user.setLastname(lastname);
 		});
 	}
-
 	@Test
 	void laDirecciónDeUnUsuarioEsCorrecto() throws ExceptionsUser {
 		User user = new User();
@@ -86,7 +78,6 @@ class BackendDesappApiApplicationTests {
 
 		assertEquals(user.getAdress(), "Roque Saenz Peña 352");
 	}
-
 	@Test
 	void laDireccionDeUnUsuarioNoCumpleLasCondicionesLanzaUnaException(){
 		assertThrows(ExceptionsUser.class, () -> {
@@ -95,7 +86,6 @@ class BackendDesappApiApplicationTests {
 			user.setAdress(adress);
 		});
 	}
-
 	@Test
 	void laContraseñaDeUnUsuarioEsCorrecto() throws ExceptionsUser {
 		User user = new User();
@@ -104,7 +94,6 @@ class BackendDesappApiApplicationTests {
 
 		assertEquals(user.getPassword(), "Desarrollo1!");
 	}
-
 	@Test
 	void laContraseñaDeUnUsuarioNoCumpleLasCondicionesLanzaUnaException(){
 		assertThrows(ExceptionsUser.class, () -> {
@@ -113,7 +102,6 @@ class BackendDesappApiApplicationTests {
 			user.setPassword(password);
 		});
 	}
-
 	@Test
 	void elCVDeMercadoLibreDeUnUsuarioEsCorrecto() throws ExceptionsUser {
 		User user = new User();
@@ -122,7 +110,6 @@ class BackendDesappApiApplicationTests {
 
 		assertEquals(user.getCVUMercadoPago(), "1234567890123456789012");
 	}
-
 	@Test
 	void elCVDeMercadoLibreDeUnUsuarioNoCumpleLasCondicionesLanzaUnaException(){
 		assertThrows(ExceptionsUser.class, () -> {
@@ -131,7 +118,6 @@ class BackendDesappApiApplicationTests {
 			user.setPassword(CVUMercadoPago);
 		});
 	}
-
 	@Test
 	void laDirecciónBilleteraDeCriptoActivosDeUnUsuarioEsCorrecta() throws ExceptionsUser {
 		User user = new User();
@@ -140,7 +126,6 @@ class BackendDesappApiApplicationTests {
 
 		assertEquals(user.getAdressWalletActiveCripto(), "12345678");
 	}
-
 	@Test
 	void laDirecciónBilleteraDeCriptoActivosNoCumpleLasCondicionesLanzaUnaException(){
 		assertThrows(ExceptionsUser.class, () -> {
@@ -149,12 +134,4 @@ class BackendDesappApiApplicationTests {
 			user.setAdressWalletActiveCripto(adressWalletActiveCripto);
 		});
 	}
-
-
-
-
-
-
-
-
 }
