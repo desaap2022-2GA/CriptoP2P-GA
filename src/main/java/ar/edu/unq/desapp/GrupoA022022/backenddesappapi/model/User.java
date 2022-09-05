@@ -1,7 +1,6 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.Model;
 
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.Exceptions.ExceptionsLastname;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.Exceptions.ExceptionsName;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.Model.Exceptions.ExceptionsUser;
 
 import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.Model.Verify.*;
 
@@ -54,52 +53,56 @@ public class User {
     public String getAdressWalletActiveCripto() { return adressWalletActiveCripto;
     }
 
-
-
-    public void setName(String name){
+    public void setName(String name) throws ExceptionsUser {
         if (verifyLong(name, 3, 30)) {
             this.name = name;
         } else {
-            new ExceptionsName();
+            throw new ExceptionsUser("Campo Obligatorio. Debe tener entre 3 y 30 caracteres");
         }
     }
-
-    public void setLastname(String lastname){
+    public void setLastname(String lastname) throws ExceptionsUser {
         if (verifyLong(lastname, 3, 30)) {
             this.lastname = lastname;
         } else {
-            new ExceptionsLastname();
+            throw new ExceptionsUser("Campo Obligatorio. Debe tener entre 3 y 30 caracteres");
+        }
+    }
+    public void setAdress(String adress) throws ExceptionsUser {
+        if (verifyLong(adress, 10, 30)) {
+            this.adress = adress;
+        } else {
+            throw new ExceptionsUser("Campo Obligatorio. Debe tener entre 10 y 30 caracteres");
+        }
+    }
+    public void setEmail(String email) throws ExceptionsUser {
+        if (verifyEmail(email)) {
+            this.email = email;
+        } else {
+            throw new ExceptionsUser("Campo Obligatoiro. Debe tener formato de email");
+        }
+    }
+   public void setPassword(String password) throws ExceptionsUser {
+        if (verifyPassword(password)) {
+            this.password = password;
+        } else {
+            throw new ExceptionsUser("Debe contener al menos 1 minúscula, 1 mayúscula, " +
+                    "1 carácter especial y como mínimo 6 caracteres");
+        }
+    }
+    public void setCVUMercadoPago (String CVUMercadoPago) throws ExceptionsUser {
+        if(verifyCVUMercadoPago(CVUMercadoPago)){
+            this.CVUMercadoPago = CVUMercadoPago;
+        } else {
+            throw new ExceptionsUser("Campo Obligatorio. Debe contener 22 dígitos");
         }
     }
 
-    public void setAdress(String adress){
-        if (verifyLong(adress, 10, 30)) {
-            this.adress = adress;
-        } else {}
-    }
-
-    public void setEmail(String email){
-        if (verifyEmail(email)) {
-            this.email = email;
-        } else {}
-    }
-
-    public void setPassword(String password){
-        if (verifyPassword(password)) {
-            this.password = password;
-        } else {}
-    }
-
-    public void setCVUMercadoPago (String CVUMercadoPago){
-        if(verifyCVUMercadoPago(CVUMercadoPago)){
-            this.CVUMercadoPago = CVUMercadoPago;
-        } else {}
-    }
-
-    public void setAdressWalletActiveCripto(String adressWalletActiveCripto){
-        if (verifyCVUMercadoPago(adressWalletActiveCripto)) {
+    public void setAdressWalletActiveCripto(String adressWalletActiveCripto) throws ExceptionsUser {
+        if (verifyAdressWalletActiveCripto(adressWalletActiveCripto)) {
             this.adressWalletActiveCripto = adressWalletActiveCripto;
-        } else {}
+        } else {
+            throw new ExceptionsUser("Campo Obligatorio. Debe contener 8 dígitos");
+        }
     }
 }
 
