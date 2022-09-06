@@ -33,18 +33,18 @@ class BackendDesappApiApplicationTests {
 
 		assertEquals(user.getName(), "Graciela");
 	}
-
+/*
 	@Test
 	void elNombreDeUnUsuarioNoCumpleLasCondicionesLanzaUnaExcepcion(){
 		User user = new User();
 		String name = "";
 		user.setName(name);
 		System.out.println("en elNombreDeUnUsuarioNoCumpleLasCondicionesLanzaUnaExcepcion");
-		/*le puse cualquier cosa en el assert solo para que no rompa el build*/
+		/*le puse cualquier cosa en el assert solo para que no rompa el build
 		assertEquals(1, 1);
 
 	}
-
+*/
 	@Test
 	void seRecuperaDeLaPersistenciaUnUsuarioNuevo() {
 		User saved = userrepo.save(new User("Guillermo","Vilas","vilas@yahoo.com.ar","Juana Azurduy 315, CABA","1111","66548798","Xwfefg5ef"));
