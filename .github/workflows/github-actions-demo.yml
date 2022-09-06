@@ -23,11 +23,11 @@ jobs:
         image: postgres:14
         # Provide the password for postgres
         env:
-          POSTGRES_USER: p2padmin
-          POSTGRES_PASSWORD: Cuatri2022.
-          POSTGRES_DB: db_criptop2p
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
+          POSTGRES_USER: ${{ secrets.DB_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
+          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+          POSTGRES_PORT: ${{ secrets.DB_PORT }}
         ports:
           - 5432:5432
         # Set health checks to wait until postgres has started
