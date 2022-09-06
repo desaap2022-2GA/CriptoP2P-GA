@@ -47,7 +47,7 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       - name: Query database
-        run: psql -h postgres -d db_criptop2p -U postgres -c 'SELECT;'
+        run: psql --host=localhost --port=5432 --username=postgres --dbname=db_criptop2p -c 'SELECT * from userp2p;'
         env:
           DB_NAME: ${{ secrets.DB_NAME }}
           DB_USER: ${{ secrets.DB_USER }}
