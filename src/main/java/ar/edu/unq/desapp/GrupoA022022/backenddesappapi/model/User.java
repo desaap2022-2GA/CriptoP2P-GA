@@ -1,8 +1,8 @@
-package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.Model;
+package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.Model.Exceptions.ExceptionsUser;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
 
-import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.Model.Verify.*;
+import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Verify.*;
 
 public class User {
 

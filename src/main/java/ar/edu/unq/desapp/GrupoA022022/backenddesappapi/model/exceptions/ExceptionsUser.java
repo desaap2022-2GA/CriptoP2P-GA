@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.Model.Exceptions;
+package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions;
 
 public class ExceptionsUser extends Throwable {
     String message = "";

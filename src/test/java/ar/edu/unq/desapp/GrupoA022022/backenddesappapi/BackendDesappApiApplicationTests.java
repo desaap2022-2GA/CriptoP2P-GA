@@ -1,8 +1,8 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi;
 
 
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.Model.Exceptions.ExceptionsUser;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.Model.User;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
 import org.springframework.boot.test.context.SpringBootTest;
 //import org.testng.annotations.Test;
 
