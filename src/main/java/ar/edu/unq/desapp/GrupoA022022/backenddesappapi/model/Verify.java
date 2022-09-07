@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.Model;
+package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -6,11 +6,9 @@ import java.util.regex.Pattern;
 public class Verify {
 
     public Verify(){}
-
     public static boolean verifyLong(String word, int long1, int long2){
         return (word.length() >= long1 && word.length() <= long2);
     }
-
     public static boolean verifyEmail(String email){
         //return (email.contains("@") && email.contains(".com"));
         Pattern pattern = Pattern
