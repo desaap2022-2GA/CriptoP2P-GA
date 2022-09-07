@@ -6,17 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.hamcrest.Matchers.equalTo;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
-import org.springframework.boot.test.context.SpringBootTest;
-//import org.testng.annotations.Test;
-//import static org.testng.Assert.*;
-//import org.junit.jupiter.api.Test;
-//import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 @SpringBootTest
@@ -34,22 +24,7 @@ class BackendDesappApiApplicationTests {
 
 		assertEquals(user.getName(), "Graciela");
 	}
-/*
-	@Test
-	void elNombreDeUnUsuarioNoCumpleLasCondicionesLanzaUnaExcepcion(){
-		assertThrows(ExceptionsUser.class, () -> {
-			User user = new User();
-			String name = "G";
-			user.setName(name);
-		});
-		/*ExceptionsName exp = new ExceptionsNameLastName();
-		User user = new User();
-		String name = "";
-		user.setName(name);
 
-		assertEquals(exp.getMessage(), "El nombre es obligatorio. Debe contener entre 3 y 30 caracteres");
-	}
-*/
 	@Test
 	void seRecuperaDeLaPersistenciaUnUsuarioNuevo() {
 		User saved = userrepo.save(new User("Coria","Guillermo","coria@yahoo.com.ar",
