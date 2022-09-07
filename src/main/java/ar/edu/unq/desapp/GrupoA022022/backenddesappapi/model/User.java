@@ -11,6 +11,7 @@ public class User {
     //@GeneratedValue(generator = "User_ID_Generator", initialValue = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String name;
     //@Column
     private String lastname;

@@ -24,7 +24,6 @@ class BackendDesappApiApplicationTests {
 
 		assertEquals(user.getName(), "Graciela");
 	}
-
 	@Test
 	void seRecuperaDeLaPersistenciaUnUsuarioNuevo() {
 		User saved = userrepo.save(new User("Coria","Guillermo","coria@yahoo.com.ar",

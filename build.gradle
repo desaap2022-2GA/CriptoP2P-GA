@@ -10,8 +10,9 @@ compileTestJava.options.encoding = 'utf-8'
 
 group = 'ar.edu.unq.desapp.Grupo-A-022022'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 17
-targetCompatibility = 17
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 repositories {
 	mavenCentral()

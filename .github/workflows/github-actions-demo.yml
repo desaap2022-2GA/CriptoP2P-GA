@@ -11,7 +11,7 @@ name: Java CI
 
 on:
   push:
-    branches: [master, CristianGonzalez1980-patch-1, GraDev]
+    branches: [master]
 jobs:
   build:
     runs-on: ubuntu-latest
