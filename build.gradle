@@ -5,9 +5,13 @@ plugins {
 	id 'war'
 }
 
+compileJava.options.encoding = 'utf-8'
+compileTestJava.options.encoding = 'utf-8'
+
 group = 'ar.edu.unq.desapp.Grupo-A-022022'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 repositories {
 	mavenCentral()
@@ -24,20 +28,20 @@ dependencies {
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-
-
-
+	implementation 'org.postgresql:postgresql:42.5.0'
 }
-/*
-tasks.named('test') {
-	useJUnitPlatform()
-}
-*/
 
 test {
 	useJUnitPlatform()
+	testLogging.showStandardStreams(true)
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
 }
 
+/*
+tasks.named('test') {
+	useJUnitPlatform()
+}*/

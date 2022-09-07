@@ -1,31 +1,42 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi;
 
-
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.Model.Exceptions.ExceptionsUser;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.Model.User;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IUserRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
 import org.springframework.boot.test.context.SpringBootTest;
 //import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
+//import static org.testng.Assert.*;
 //import org.junit.jupiter.api.Test;
 //import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
-
-
+import java.util.Optional;
 
 @SpringBootTest
 class BackendDesappApiApplicationTests {
+
+	@Autowired
+	private IUserRepo userrepo;
+
 	@Test
 	void elNombreDeUnUsuarioEsCorrecto() throws ExceptionsUser {
 		User user = new User();
 		String name = "Graciela";
 		user.setName(name);
+		System.out.println("en elNombreDeUnUsuarioEsCorrecto");
 
 		assertEquals(user.getName(), "Graciela");
 	}
+/*
 	@Test
-	void elNombreDeUnUsuarioNoCumpleLasCondicionesLanzaUnaException(){
+	void elNombreDeUnUsuarioNoCumpleLasCondicionesLanzaUnaExcepcion(){
 		assertThrows(ExceptionsUser.class, () -> {
 			User user = new User();
 			String name = "G";
@@ -37,7 +48,18 @@ class BackendDesappApiApplicationTests {
 		user.setName(name);
 
 		assertEquals(exp.getMessage(), "El nombre es obligatorio. Debe contener entre 3 y 30 caracteres");
-*/	}
+	}
+*/
+	@Test
+	void seRecuperaDeLaPersistenciaUnUsuarioNuevo() {
+		User saved = userrepo.save(new User("Coria","Guillermo","coria@yahoo.com.ar",
+				"Av Libertador 3500, CABA","1111","63528798",
+				"Xwf5ui5ef"));
+		int idSaved = saved.getId();
+		Optional<User> finded = userrepo.findById(idSaved);
+
+		assertEquals(finded.get().getId(), idSaved);
+	}
 	@Test
 	void elApellidoDeUnUsuarioEsCorrecto() throws ExceptionsUser {
 		User user = new User();
