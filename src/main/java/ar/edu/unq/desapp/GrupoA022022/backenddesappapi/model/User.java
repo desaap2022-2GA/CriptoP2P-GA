@@ -1,10 +1,15 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
-import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Verify.*;
+import java.util.HashSet;
+import java.util.Set;
+
+import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.Verify.*;
 
 @Entity
-@Table (name = "userp2p")
+@Table (name = "userp2p_desa")
 public class User {
 
     @Id
@@ -26,7 +31,31 @@ public class User {
     //@Column
     private String adressWalletActiveCripto;
     //@Column
+    private int points;
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public int getNumberOperations() {
+        return numberOperations;
+    }
+
+    public void setNumberOperations(int numberOperations) {
+        this.numberOperations = numberOperations;
+    }
+
+    //@Column
+    private int numberOperations;
     //private String apiKey;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private Set<Intention> intentions = new HashSet<>();
 
     public User(){
         this.name = "";
@@ -115,5 +144,9 @@ public class User {
         } else {
             throw new ExceptionsUser("Campo Obligatorio. Debe contener 8 dígitos");
         }
+    }
+
+    public int reputation(){
+        return (this.numberOperations != 0) ? this.points / this.numberOperations : 0;
     }
 }

@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-@Table(name = "cryptocurrencyp2p")
+@Table(name = "cryptocurrencyp2p_desa")
 public class Cryptocurrency {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,17 +14,31 @@ public class Cryptocurrency {
 
     private String name;
 
-    /*lista de cotizaciones????*/
-
-    public Set<Intention> getIntentions() {
-        return intentions;
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "cryptocurrency")
+    private Set<Quote> quotes = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "cryptocurrency")
     private Set<Intention> intentions = new HashSet<>();
 
+    public void setIntentions(Set<Intention> intentions) {
+        this.intentions = intentions;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public Set<Intention> getIntentions() {
+        return intentions;
+    }
+
+    public Quote latestQuote() throws Exception {
+        if (!this.quotes.isEmpty()) {
+            return this.quotes.stream().findFirst().get();
+        } else {
+            throw new Exception();
+        }
     }
 }

@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
+package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
