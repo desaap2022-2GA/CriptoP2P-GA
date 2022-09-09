@@ -26,8 +26,8 @@ class BackendDesappApiApplicationTests {
 	}
 	@Test
 	void seRecuperaDeLaPersistenciaUnUsuarioNuevo() {
-		User saved = userrepo.save(new User("Coria","Guillermo","coria@yahoo.com.ar",
-				"Av Libertador 3500, CABA","1111","63528798",
+		User saved = userrepo.save(new User("Roger","Federer","federer@yahoo.com",
+				"Av Libertador 5000, CABA","1111","63528798",
 				"Xwf5ui5ef"));
 		int idSaved = saved.getId();
 		Optional<User> finded = userrepo.findById(idSaved);
