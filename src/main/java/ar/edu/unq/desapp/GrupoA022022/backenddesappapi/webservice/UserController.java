@@ -15,17 +15,15 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<User> listAllUsers(){
-    return userService.getAllUsers();
+    public List<User> listAllUsers() {
+        return userService.getAllUsers();
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user){
-        System.out.println(user+"c1");
-        System.out.println(userService.create(user)+"c2");
+    public User createUser(@RequestBody User user) {
         return userService.create(user);
     }
-
+/*
     @PutMapping
     public void modifyUser(@RequestBody User user){
         userService.modify(user);
@@ -34,5 +32,5 @@ public class UserController {
     @DeleteMapping(value = "/(id)")
     public void deleteUser(@PathVariable("id") int id) {
         userService.delete(id);
-    }
+    }*/
 }

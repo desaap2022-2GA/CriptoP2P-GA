@@ -3,6 +3,8 @@ import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.Exceptio
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,8 +19,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank
+    @Size(min=3, max =30)
     private String name;
     //@Column
+    @NotBlank
+    @Size(min=3, max =30)
     private String lastname;
    // @Column
     private String email;
