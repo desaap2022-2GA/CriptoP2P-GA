@@ -1,8 +1,12 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.webservice;
 
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserRequest;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,14 +19,20 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<User> listAllUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<User>> listAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.create(user);
+    public ResponseEntity<User> createUser(@RequestBody UserRequest userRequest) {
+        return new ResponseEntity<>(userService.create(userRequest), HttpStatus.CREATED);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUser(@PathVariable int id) throws ResourceNotFoundException {
+        return ResponseEntity.ok(userService.getUser(id));
+    }
+
 /*
     @PutMapping
     public void modifyUser(@RequestBody User user){
