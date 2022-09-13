@@ -33,14 +33,14 @@ public class UserController {
         return ResponseEntity.ok(userService.getUser(id));
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable int id) throws ResourceNotFoundException {
+        userService.delete(id);
+    }
 /*
     @PutMapping
     public void modifyUser(@RequestBody User user){
         userService.modify(user);
     }
-
-    @DeleteMapping(value = "/(id)")
-    public void deleteUser(@PathVariable("id") int id) {
-        userService.delete(id);
-    }*/
+*/
 }

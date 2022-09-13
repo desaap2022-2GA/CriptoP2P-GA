@@ -35,8 +35,12 @@ public class UserService {
         return userRepo.findAll();
     }
 
-    public void delete(int id) {
-        userRepo.deleteById(id);
+    public void delete(int id) throws ResourceNotFoundException {
+        try {
+            userRepo.deleteById(id);
+        } catch (Exception err) {
+            throw new ResourceNotFoundException("user not found with id : " + id);
+        }
     }
 
     public User getUser(Integer id) throws ResourceNotFoundException {
