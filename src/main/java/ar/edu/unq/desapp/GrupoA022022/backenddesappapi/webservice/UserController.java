@@ -23,14 +23,14 @@ public class UserController {
     public User createUser(@RequestBody User user) {
         return userService.create(user);
     }
-/*
-    @PutMapping
-    public void modifyUser(@RequestBody User user){
-        userService.modify(user);
-    }
 
     @DeleteMapping(value = "/(id)")
     public void deleteUser(@PathVariable("id") int id) {
         userService.delete(id);
-    }*/
+    }
+
+    @PutMapping
+    public void modifyUser(@RequestBody User user) {
+        userService.modify(user);
+    }
 }

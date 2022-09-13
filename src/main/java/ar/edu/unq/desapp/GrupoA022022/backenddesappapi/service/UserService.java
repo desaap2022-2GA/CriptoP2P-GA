@@ -22,7 +22,6 @@ public class UserService {
     }
 
     public User modify(User user) {
-        System.out.println(user+"s1");
         return userRepo.save(user);
     }
 
