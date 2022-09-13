@@ -42,6 +42,11 @@ test {
 	}
 }
 
+jar {
+	baseName = 'app'
+	version = '0.0.1'
+}
+
 /*
 tasks.named('test') {
 	useJUnitPlatform()
