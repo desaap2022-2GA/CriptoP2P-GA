@@ -3,15 +3,18 @@ package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @Entity
-@Table(name = "cryptocurrencyp2p_desa")
+@Table(name = "cryptocurrencyp2p_des_CG")
 public class Cryptocurrency {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String name;
 
     @JsonIgnore
@@ -21,6 +24,13 @@ public class Cryptocurrency {
     @JsonIgnore
     @OneToMany(mappedBy = "cryptocurrency")
     private Set<Intention> intentions = new HashSet<>();
+
+    public Cryptocurrency(String name) {
+        this.name = name;
+    }
+
+    public Cryptocurrency() {
+    }
 
     public void setIntentions(Set<Intention> intentions) {
         this.intentions = intentions;
@@ -40,5 +50,25 @@ public class Cryptocurrency {
         } else {
             throw new Exception();
         }
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<Quote> getQuotes() {
+        return quotes;
+    }
+
+    public void setQuotes(Set<Quote> quotes) {
+        this.quotes = quotes;
     }
 }

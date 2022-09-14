@@ -25,7 +25,7 @@ public class IntentionController {
     ) {
         Intention intention = intentionRepo.findById(Math.toIntExact(intentionId)).get();
         Cryptocurrency cryptocurrency = cryptocurrencyRepo.findById(Math.toIntExact(cryptocurrencyId)).get();
-        intention.assignCryptocurrency(cryptocurrency);
+        intention.setCryptocurrency(cryptocurrency);
         return intentionRepo.save(intention);
     }
 

@@ -1,6 +1,9 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseconds;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "quote")
@@ -15,7 +18,17 @@ public class Quote {
     @JoinColumn(name = "cryptocurrency_id", referencedColumnName = "id")
     private Cryptocurrency cryptocurrency;
 
+    @NotNull
     private Double price;
+
+    public Quote() {
+    }
+
+    public Quote(Cryptocurrency cryptocurrency, Double price) {
+        this.dateTime = new DateTimeInMilliseconds().currentTimeInMilliseconds;
+        this.cryptocurrency = cryptocurrency;
+        this.price = price;
+    }
 
     public Cryptocurrency getCryptocurrency() {
         return cryptocurrency;
