@@ -11,7 +11,7 @@ name: Java CI
 
 on:
   push:
-    branches: [master]
+    branches: [master, validations, GraDev]
 jobs:
   build:
     runs-on: ubuntu-latest
