@@ -1,7 +1,9 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jdk.jfr.DataAmount;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,36 +20,42 @@ import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.Verify.*;
 
 @Entity
 @Table(name = "userp2p_desa")
-@Data
+/*@Data
 @AllArgsConstructor(staticName = "build")
-@NoArgsConstructor
+/*@NoArgsConstructor*/
+@JsonFilter("UserDetails")
 public class User {
     @Id
     //@GeneratedValue(generator = "User_ID_Generator", initialValue = 1)
     @GeneratedValue/*(strategy = GenerationType.IDENTITY)*/
     private int id;
+    @NotBlank
+    @Size(min = 3, max = 30, message = "name must be between 3 and 30 characters")
     private String name;
-    //@Column
+    @NotBlank
+    @Size(min = 3, max = 30, message = "lastname must be between 3 and 30 characters")
     private String lastname;
-    // @Column
+    @Email(message = "lastname must be between 3 and 30 characters")
     private String email;
-    //@Column
+    @NotBlank
+    @Size(min = 10, max = 30, message = "adress must be between 10 and 30 characters")
     private String adress;
-    //@Column
-    private String password;
-    //@Column
+    @NotBlank
+    private String password;//investigar como validar los requerimentos indicados
+    @NotBlank
+    @Size(min = 22, max = 22, message = "CVU must be 22 characters")
     private String CVUMercadoPago;
-    //@Column
+    @NotBlank
+    @Size(min = 8, max = 8, message = "wallet must be 8 characters")
     private String adressWalletActiveCripto;
-    //@Column
     private int points;
-    //@Column
     private int numberOperations;
     //private String apiKey;
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<Intention> intentions = new HashSet<>();
 
+    public User(){};
     public User(String name, String lastname, String email, String adress, String password, String CVUMercadoPago, String adressWalletActiveCripto) {
         this.name = name;
         this.lastname = lastname;
