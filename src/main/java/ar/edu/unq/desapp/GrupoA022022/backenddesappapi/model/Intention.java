@@ -48,6 +48,8 @@ public class Intention {
         this.price = price;
         this.units = units;
         this.user = user;
+        this.cryptocurrency.addIntention(this);
+        this.user.addIntention(this);
     }
 
     public Intention() {

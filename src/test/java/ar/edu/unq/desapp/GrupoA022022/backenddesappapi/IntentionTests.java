@@ -2,13 +2,14 @@ package ar.edu.unq.desapp.GrupoA022022.backenddesappapi;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Intention;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.IntentionType;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class IntentionTests {
@@ -17,6 +18,12 @@ public class IntentionTests {
             "Xwf5u5ef");
 
     private final Cryptocurrency cryptocurrency = new Cryptocurrency("DAI");
+
+    private final IntentionType someType = IntentionType.SELL;
+
+    private final Double somePrice = 1000.00;
+
+    private final int someUnit = 3;
 
     @Test
     void ObtainPriceInIntentionSettingWithAPriceOf1000 () {
@@ -67,4 +74,15 @@ public class IntentionTests {
         assertEquals(currentTime,intention.getDateTime());
     }
 
+    @Test
+    void IntentionExistInCryptocurrencyIntentionsWhenCreateAnIntentionWithThatCryptocurrency(){
+        Intention intention = new Intention(someType,cryptocurrency,somePrice,someUnit,prueUser);
+        assertTrue(cryptocurrency.getIntentions().contains(intention));
+    }
+
+    @Test
+    void IntentionExistInUserIntentionsWhenCreateAnIntentionWithThatUser(){
+        Intention intention = new Intention(someType,cryptocurrency,somePrice,someUnit,prueUser);
+        assertTrue(prueUser.getIntentions().contains(intention));
+    }
 }

@@ -48,7 +48,7 @@ public class Cryptocurrency {
     public Quote latestQuote() throws ResourceNotFoundException {
         if (!this.quotes.isEmpty()) {
             return this.quotes.stream()
-                    .max(Comparator.comparing(Quote::getPrice)).get();
+                    .max(Comparator.comparing(Quote::getDateTime)).get();
         } else {
             throw new ResourceNotFoundException("does not exist quote for the cryptocurrency");
         }
@@ -72,5 +72,13 @@ public class Cryptocurrency {
 
     public void setQuotes(Set<Quote> quotes) {
         this.quotes = quotes;
+    }
+
+    public void addNewQuote(Quote quote) {
+        this.quotes.add(quote);
+    }
+
+    public void addIntention(Intention intention) {
+        this.intentions.add(intention);
     }
 }

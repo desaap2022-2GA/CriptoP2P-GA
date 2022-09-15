@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.GrupoA022022.backenddesappapi;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Quote;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,5 +35,12 @@ public class QuoteTests {
         long afterTime = new DateTimeInMilliseconds().currentTimeInMilliseconds+1;
         long quoteTime = quote.getDateTime();
         assertTrue((beforeTime<quoteTime)&&(quoteTime<afterTime));
+    }
+
+    @Test
+    void ObtainQuoteFromCryptocurrencyWhenCreateAQuoteWhitThatCryptocurrency() throws ResourceNotFoundException {
+        Quote quote = new Quote(cryptocurrency, somePrice);
+        assertEquals(quote, cryptocurrency.latestQuote());
+
     }
 }

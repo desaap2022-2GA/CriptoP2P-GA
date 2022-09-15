@@ -50,19 +50,17 @@ public class CryptocurrencyTests {
 
     @Test
     void ObtainLastQuoteInCyptocurrencySettingWithoutAPairOfQuotesAnNotExpectingTheFirstOfThem() throws ResourceNotFoundException {
-        HashSet<Quote> quotes = new HashSet<>();
-        quotes.add(quote1);
-        quotes.add(quote2);
-        cryptocurrency.setQuotes(quotes);
+        quote2.setDateTime(quote1.getDateTime()+1);
+        cryptocurrency.addNewQuote(quote1);
+        cryptocurrency.addNewQuote(quote2);
         assertNotEquals(quote1, cryptocurrency.latestQuote());
     }
 
     @Test
     void ObtainLastQuoteInCyptocurrencySettingWithoutAPairOfQuotes() throws ResourceNotFoundException {
-        HashSet<Quote> quotes = new HashSet<>();
-        quotes.add(quote1);
-        quotes.add(quote2);
-        cryptocurrency.setQuotes(quotes);
+        quote2.setDateTime(quote1.getDateTime()+1);
+        cryptocurrency.addNewQuote(quote1);
+        cryptocurrency.addNewQuote(quote2);
         assertEquals(quote2, cryptocurrency.latestQuote());
     }
 }

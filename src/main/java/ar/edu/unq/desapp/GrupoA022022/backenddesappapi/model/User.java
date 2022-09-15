@@ -3,12 +3,14 @@ package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
+
 import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.Verify.*;
 
 @Entity
@@ -58,7 +60,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Intention> intentions = new HashSet<>();
 
-    public User(){};
+    public User() {
+    }
+
+    ;
+
     public User(String name, String lastname, String email, String adress, String password, String CVUMercadoPago, String adressWalletActiveCripto) {
         this.name = name;
         this.lastname = lastname;
@@ -179,5 +185,13 @@ public class User {
 
     public int reputation() {
         return (this.numberOperations != 0) ? this.points / this.numberOperations : 0;
+    }
+
+    public void addIntention(Intention intention) {
+        this.intentions.add(intention);
+    }
+
+    public Set<Intention> getIntentions() {
+        return intentions;
     }
 }
