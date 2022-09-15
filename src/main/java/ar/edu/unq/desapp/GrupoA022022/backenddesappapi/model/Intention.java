@@ -4,6 +4,7 @@ import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseco
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.IntentionType;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -28,9 +29,11 @@ public class Intention {
     private Cryptocurrency cryptocurrency;
 
     @NotNull
+    @Min(value = 0)
     private Double price;
 
     @NotNull
+    @Min(value = 0)
     private int units;
 
     @NotNull
@@ -59,10 +62,6 @@ public class Intention {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public void setDateTime(long dateTime) {
         this.dateTime = dateTime;
     }
@@ -83,11 +82,6 @@ public class Intention {
         return dateTime;
     }
 
-    /*
-        public void setDateTime(long dateTimeInMilliseconds) {
-            this.dateTime = dateTimeInMilliseconds;
-        }
-    */
     public Double priceInPesos() {
         return this.price * 148; //cambiar por cotizacion actualizada
     }

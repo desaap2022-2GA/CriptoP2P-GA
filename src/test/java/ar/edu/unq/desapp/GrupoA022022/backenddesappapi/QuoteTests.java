@@ -11,29 +11,28 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 public class QuoteTests {
 
-    final Cryptocurrency cryptocurrency = new Cryptocurrency("DAI");
-    final Quote quote = new Quote();
-
-    private Double somePrice = 1000.00;
+    private final Cryptocurrency cryptocurrency = new Cryptocurrency("DAI");
+    private final Quote quote = new Quote();
+    private final Double somePrice = 1000.00;
 
     @Test
-    void QuoteSettingWithNameDAIIsConfirmed() {
+    void ObtainCryptocurrencyNameInQuoteSettingWithNameDAI() {
         quote.setCryptocurrency(cryptocurrency);
         assertEquals("DAI", quote.getCryptocurrency().getName());
     }
 
     @Test
-    void QuoteSettingWithPrice5000IsConfirmed() {
+    void ObtainCryptocurrencyPriceInQuoteSettingWithPrice5000() {
         quote.setPrice(5000.00);
         assertEquals(5000.00, quote.getPrice());
     }
 
     @Test
-    void QuoteSettingWithDateTimeIsConfirmedInARange() throws InterruptedException {
-        Long beforTime = new DateTimeInMilliseconds().currentTimeInMilliseconds-1;
+    void ObtainDateTimeOnRangeInQuoteSettingWithDateTime() throws InterruptedException {
+        long beforeTime = new DateTimeInMilliseconds().currentTimeInMilliseconds-1;
         Quote quote = new Quote(cryptocurrency,somePrice);
-        Long afterTime = new DateTimeInMilliseconds().currentTimeInMilliseconds+1;
-        Long quoteTime = quote.getDateTime();
-        assertTrue((beforTime<quoteTime)&&(quoteTime<afterTime));
+        long afterTime = new DateTimeInMilliseconds().currentTimeInMilliseconds+1;
+        long quoteTime = quote.getDateTime();
+        assertTrue((beforeTime<quoteTime)&&(quoteTime<afterTime));
     }
 }

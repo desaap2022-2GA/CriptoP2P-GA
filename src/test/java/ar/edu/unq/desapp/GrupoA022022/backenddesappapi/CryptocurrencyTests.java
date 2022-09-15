@@ -1,61 +1,68 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Cryptocurrency;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Intention;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.ICryptocurrencyRepo;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IIntentionRepo;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IUserRepo;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseconds;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.IntentionType;
-import net.bytebuddy.pool.TypePool;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Quote;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.util.HashSet;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class CryptocurrencyTests {
 
-    @Autowired
-    private IUserRepo userRepo;
-    @Autowired
-    private IIntentionRepo intentionRepo;
-    @Autowired
-    private ICryptocurrencyRepo cryptocurrencyRepo;
+    private final Cryptocurrency cryptocurrency = new Cryptocurrency();
+    private final Quote quote1 = new Quote(cryptocurrency,100.00);
+    private final Quote quote2 = new Quote(cryptocurrency,200.00);
 
-    private User prueUser = new User("Gaston", "Gaudio", "gaudio@yahoo.com",
-            "Av Libertador 5000, CABA", "1111", "6352879863528798635287",
-            "Xwf5u5ef");
 
     @Test
-    void CyptocurrencySetWithNameBitcoinRespondsOk () {
-        Cryptocurrency cryptocurrency = new Cryptocurrency();
+    void ObtainNameOfCyptocurrencySettingWithNameBitcoin() {
         cryptocurrency.setName("Bitcoin");
         assertEquals("Bitcoin", cryptocurrency.getName());
     }
 
     @Test
-    void CyptocurrencySetWithoutQuoteRespondsOk () {
-        Cryptocurrency cryptocurrency = new Cryptocurrency();
+    void ObtainNotQuotesInCyptocurrencySettingWithoutQuotes() {
         cryptocurrency.setQuotes(new HashSet<>());
-        assertEquals(true, cryptocurrency.getQuotes().isEmpty());
+        assertTrue(cryptocurrency.getQuotes().isEmpty());
     }
 
     @Test
-    void IntentionSetWithUnit4RespondsOk () {
-        Intention intention = new Intention();
-        intention.setUnits(4);  ;
-        assertEquals(4, intention.getUnits());
+    void ObtainNullIdInCryptocurrencyThanNotWasPersisted() {
+        assertNull(cryptocurrency.getId());
     }
 
     @Test
-    void IntentionSetWithUserPrueUserRespondsOk () {
-        Intention intention = new Intention();
-        intention.setUser(prueUser); ;
-        assertEquals(prueUser, intention.getUser());
+    void ObtainNotIntentionsInCyptocurrencySettingWithoutIntentions() {
+        cryptocurrency.setIntentions(new HashSet<>());
+        assertTrue(cryptocurrency.getIntentions().isEmpty());
+    }
+
+    @Test
+    void ThrowExceptionAskingForLastQuoteInCyptocurrencySettingWithoutQuotes() {
+        assertThrows(ResourceNotFoundException.class, () -> {
+            cryptocurrency.setQuotes(new HashSet<>());
+            cryptocurrency.latestQuote();
+        });
+    }
+
+    @Test
+    void ObtainLastQuoteInCyptocurrencySettingWithoutAPairOfQuotesAnNotExpectingTheFirstOfThem() throws ResourceNotFoundException {
+        HashSet<Quote> quotes = new HashSet<>();
+        quotes.add(quote1);
+        quotes.add(quote2);
+        cryptocurrency.setQuotes(quotes);
+        assertNotEquals(quote1, cryptocurrency.latestQuote());
+    }
+
+    @Test
+    void ObtainLastQuoteInCyptocurrencySettingWithoutAPairOfQuotes() throws ResourceNotFoundException {
+        HashSet<Quote> quotes = new HashSet<>();
+        quotes.add(quote1);
+        quotes.add(quote2);
+        cryptocurrency.setQuotes(quotes);
+        assertEquals(quote2, cryptocurrency.latestQuote());
     }
 }

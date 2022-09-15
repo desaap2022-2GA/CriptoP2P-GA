@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -44,11 +45,12 @@ public class Cryptocurrency {
         return intentions;
     }
 
-    public Quote latestQuote() throws Exception {
+    public Quote latestQuote() throws ResourceNotFoundException {
         if (!this.quotes.isEmpty()) {
-            return this.quotes.stream().findFirst().get();
+            return this.quotes.stream()
+                    .max(Comparator.comparing(Quote::getPrice)).get();
         } else {
-            throw new Exception();
+            throw new ResourceNotFoundException("does not exist quote for the cryptocurrency");
         }
     }
 
