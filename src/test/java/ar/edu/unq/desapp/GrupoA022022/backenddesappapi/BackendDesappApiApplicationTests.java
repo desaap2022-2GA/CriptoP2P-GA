@@ -16,7 +16,7 @@ import java.util.Optional;
 class BackendDesappApiApplicationTests {
 
     @Autowired
-    private IUserRepo userrepo;
+    private IUserRepo userRepo;
 
     final private User prueUser = new User("Roger", "Federer", "federer@yahoo.com",
             "Av Libertador 5000, CABA", "1111", "63528798",
@@ -34,9 +34,9 @@ class BackendDesappApiApplicationTests {
 
     @Test
     void recoversPersistanceANewUser() {
-        User saved = userrepo.save(prueUser);
+        User saved = userRepo.save(prueUser);
         int idSaved = saved.getId();
-        Optional<User> finded = userrepo.findById(idSaved);
+        Optional<User> finded = userRepo.findById(idSaved);
 
         assertEquals(finded.get().getId(), idSaved);
     }

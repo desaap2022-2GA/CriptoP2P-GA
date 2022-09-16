@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.service;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,19 @@ public class UserService {
         return userRepo.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("User not found with userId " + id)
         );
+    }
+
+    public User findByEmail(String email){
+        return userRepo.findByEmail(email).get();
+    }
+
+    public void checkNewUserEmail(String email) throws ExceptionsUser {
+        User newUser = new User();
+        newUser = findByEmail(email);
+        if (newUser.toString().length() != 0){
+            create(newUser);
+        }else{
+            throw new ExceptionsUser("Already registered user");
+        }
     }
 }

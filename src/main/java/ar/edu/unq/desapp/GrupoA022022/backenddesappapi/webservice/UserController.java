@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/users")
@@ -32,5 +33,10 @@ public class UserController {
     @PutMapping
     public void modifyUser(@RequestBody User user) {
         userService.modify(user);
+    }
+
+    @GetMapping(value = "/(email)")
+    public User getUserByEmail(@PathVariable("email") String emial) throws NoSuchElementException{
+        return userService.findByEmail(emial);
     }
 }

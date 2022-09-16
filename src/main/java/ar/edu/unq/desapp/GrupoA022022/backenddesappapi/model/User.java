@@ -1,7 +1,9 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.boot.context.properties.ConstructorBinding;
 
+import javax.management.ConstructorParameters;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -12,6 +14,8 @@ import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.Verify.*;
 
 @Entity
 @Table (name = "userp2p_desa")
+
+@ConstructorBinding()
 public class User {
 
     @Id
@@ -27,7 +31,7 @@ public class User {
     @Size(min=3, max =30)
     private String lastname;
    // @Column
-    private String email;
+     private String email;
     //@Column
     private String adress;
     //@Column
@@ -62,6 +66,7 @@ public class User {
         this.CVUMercadoPago = "";
         this.adressWalletActiveCripto = "";
     }
+
 
     public User(String name, String lastname, String email, String adress, String password, String CVUMercadoPago, String adressWalletActiveCripto){
         this.name = name;
