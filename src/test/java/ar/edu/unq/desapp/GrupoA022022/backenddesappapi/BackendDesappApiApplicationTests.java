@@ -23,7 +23,7 @@ class BackendDesappApiApplicationTests {
             "Xwf5ui5ef");
 
     @Test
-    void elNombreDeUnUsuarioEsCorrecto() throws ExceptionsUser {
+    void theNameOfAUserIsCorrect() throws ExceptionsUser {
         User user = new User();
         String name = "Graciela";
         user.setName(name);
@@ -33,7 +33,7 @@ class BackendDesappApiApplicationTests {
     }
 
     @Test
-    void seRecuperaDeLaPersistenciaUnUsuarioNuevo() {
+    void recoversPersistanceANewUser() {
         User saved = userrepo.save(prueUser);
         int idSaved = saved.getId();
         Optional<User> finded = userrepo.findById(idSaved);
@@ -42,7 +42,7 @@ class BackendDesappApiApplicationTests {
     }
 
     @Test
-    void elApellidoDeUnUsuarioEsCorrecto() throws ExceptionsUser {
+    void theLastnameOfAUserIsCorrect() throws ExceptionsUser {
         User user = new User();
         String lastname = "Gonzalez";
         user.setLastname(lastname);
@@ -51,7 +51,7 @@ class BackendDesappApiApplicationTests {
     }
 
     @Test
-    void elApellidoDeUnUsuarioNoCumpleLasCondicionesLanzaUnaException() {
+    void theLastnameOfAUserDoesNotMeetTheConditionsThrowsAnException() {
         assertThrows(ExceptionsUser.class, () -> {
             User user = new User();
             String lastname = "";
@@ -60,7 +60,7 @@ class BackendDesappApiApplicationTests {
     }
 
     @Test
-    void elEmailDeUnUsuarioEsCorrecto() throws ExceptionsUser {
+    void theEmailOfAUserIsCorrect() throws ExceptionsUser {
         User user = new User();
         String email = "user@desp.com";
         user.setEmail(email);
@@ -69,7 +69,7 @@ class BackendDesappApiApplicationTests {
     }
 
     @Test
-    void elEmailDeUnUsuarioNoCumpleLasCondicionesLanzaUnaException() {
+    void theEmailOfAUserDoesNotMeetTheConditionsTrowsAnException() {
         assertThrows(ExceptionsUser.class, () -> {
             User user = new User();
             String lastname = "";
@@ -78,7 +78,7 @@ class BackendDesappApiApplicationTests {
     }
 
     @Test
-    void laDirecciónDeUnUsuarioEsCorrecto() throws ExceptionsUser {
+    void theAdressOfAUserIsCorrect() throws ExceptionsUser {
         User user = new User();
         String adress = "Roque Saenz Peña 352";
         user.setAdress(adress);
@@ -87,7 +87,7 @@ class BackendDesappApiApplicationTests {
     }
 
     @Test
-    void laDireccionDeUnUsuarioNoCumpleLasCondicionesLanzaUnaException() {
+    void theAdressOfAUserDoesNotMeetTheCOnditionsThrowsAnExpection() {
         assertThrows(ExceptionsUser.class, () -> {
             User user = new User();
             String adress = "Roque 352";
@@ -96,7 +96,7 @@ class BackendDesappApiApplicationTests {
     }
 
     @Test
-    void laContraseñaDeUnUsuarioEsCorrecto() throws ExceptionsUser {
+    void thePasswordOfAUserIsCorrect() throws ExceptionsUser {
         User user = new User();
         String password = "Desarrollo1!";
         user.setPassword(password);
@@ -105,7 +105,7 @@ class BackendDesappApiApplicationTests {
     }
 
     @Test
-    void laContraseñaDeUnUsuarioNoCumpleLasCondicionesLanzaUnaException() {
+    void thePasswordOfAUserDoesNotMeetTheConditionsThrowsAnException() {
         assertThrows(ExceptionsUser.class, () -> {
             User user = new User();
             String password = "Desa!";
@@ -114,7 +114,7 @@ class BackendDesappApiApplicationTests {
     }
 
     @Test
-    void elCVDeMercadoLibreDeUnUsuarioEsCorrecto() throws ExceptionsUser {
+    void theCVDDeMercadoLibreOfAUserIsCorrect() throws ExceptionsUser {
         User user = new User();
         String CVUMercadoPago = "1234567890123456789012";
         user.setCVUMercadoPago(CVUMercadoPago);
@@ -123,7 +123,7 @@ class BackendDesappApiApplicationTests {
     }
 
     @Test
-    void elCVDeMercadoLibreDeUnUsuarioNoCumpleLasCondicionesLanzaUnaException() {
+    void theCVDDeMarcadoLibreOfAUserDoesNotMeetTheConditionsThrowsAnException() {
         assertThrows(ExceptionsUser.class, () -> {
             User user = new User();
             String CVUMercadoPago = "123456789012345678901";
@@ -132,7 +132,7 @@ class BackendDesappApiApplicationTests {
     }
 
     @Test
-    void laDirecciónBilleteraDeCriptoActivosDeUnUsuarioEsCorrecta() throws ExceptionsUser {
+    void theActiveCryptoWalletAddressOfAUserIsCorrect() throws ExceptionsUser {
         User user = new User();
         String adressWalletActiveCripto = "12345678";
         user.setAdressWalletActiveCripto(adressWalletActiveCripto);
@@ -141,11 +141,93 @@ class BackendDesappApiApplicationTests {
     }
 
     @Test
-    void laDirecciónBilleteraDeCriptoActivosNoCumpleLasCondicionesLanzaUnaException() {
+    void theAddressCryptoAssetWalletDoesNotMeetTheConditionsThrowsAnException() {
         assertThrows(ExceptionsUser.class, () -> {
             User user = new User();
             String adressWalletActiveCripto = "123456789";
             user.setAdressWalletActiveCripto(adressWalletActiveCripto);
         });
     }
+
+    @Test
+    void aUserHas10Points(){
+        User user = new User();
+        int point = 10;
+        user.setPoints(point);
+
+        assertEquals(user.getPoints(), 10);
+    }
+
+    @Test
+    void aUserHas5Operations(){
+        User user = new User();
+        int operations = 5;
+        user.setNumberOperations(operations);
+
+        assertEquals(user.getNumberOperations(), 5);
+    }
+
+    @Test
+    void aUserHas10PointsAnd5OperationsSoHasAReputationOf2(){
+        User user = new User();
+        int point = 10;
+        int operations = 5;
+        user.setPoints(point);
+        user.setNumberOperations(operations);
+        user.setReputation();
+
+        assertEquals(user.getReputation(), 2);
+    }
+
+    @Test
+    void aUserHas10PointsAnd0OperationsSoHasAReputationOf2(){
+        User user = new User();
+        int point = 10;
+        int operations = 0;
+        user.setPoints(point);
+        user.setNumberOperations(operations);
+        user.setReputation();
+
+        assertEquals(user.getReputation(), 0);
+    }
+
+    @Test
+    void aUserHas10PointsAnd3OperationsSoHasAReputationOf3(){
+        User user = new User();
+        int point = 10;
+        int operations = 3;
+        user.setPoints(point);
+        user.setNumberOperations(operations);
+        user.setReputation();
+
+        assertEquals(user.getReputation(), 3);
+    }
+
+    @Test
+    void aUserHas10PointsAnd4OperationsSoHasAReputationOf2(){
+        User user = new User();
+        int point = 10;
+        int operations = 4;
+        user.setPoints(point);
+        user.setNumberOperations(operations);
+        user.setReputation();
+
+        assertEquals(user.getReputation(), 2);
+    }
+
+    @Test
+    void aUserHas11PointsAnd4OperationsSoHasAReputationOf2(){
+        User user = new User();
+        int point = 11;
+        int operations = 4;
+        user.setPoints(point);
+        user.setNumberOperations(operations);
+        user.setReputation();
+
+        assertEquals(user.getReputation(), 2);
+    }
+
+
+
+
 }

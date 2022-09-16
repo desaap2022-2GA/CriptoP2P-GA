@@ -39,21 +39,11 @@ public class User {
     //@Column
     private int points;
 
-    public int getPoints() {
-        return points;
-    }
+    @Column
+    private float reputation;
 
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
-    public int getNumberOperations() {
-        return numberOperations;
-    }
-
-    public void setNumberOperations(int numberOperations) {
-        this.numberOperations = numberOperations;
-    }
+    @Column
+    private int numberOperation;
 
     //@Column
     private int numberOperations;
@@ -81,24 +71,14 @@ public class User {
         this.password = password;
         this.CVUMercadoPago = CVUMercadoPago;
         this.adressWalletActiveCripto = adressWalletActiveCripto;
+        this.points = 0;
+        this.reputation = 0;
+        this.numberOperations = 0;
     }
 
     public Integer getId() { return id; }
 
     public String getName() { return name; }
-
-    public String getLastname() { return lastname; }
-
-    public String getEmail() { return email; }
-
-    public String getAdress() { return adress; }
-
-    public String getPassword() { return password;  }
-
-    public String getCVUMercadoPago() { return CVUMercadoPago; }
-
-    public String getAdressWalletActiveCripto() { return adressWalletActiveCripto;
-    }
 
     public void setName(String name) throws ExceptionsUser {
         if (verifyLong(name, 3, 30)) {
@@ -107,6 +87,9 @@ public class User {
             throw new ExceptionsUser("Campo Obligatorio. Debe tener entre 3 y 30 caracteres");
         }
     }
+
+    public String getLastname() { return lastname; }
+
     public void setLastname(String lastname) throws ExceptionsUser {
         if (verifyLong(lastname, 3, 30)) {
             this.lastname = lastname;
@@ -114,13 +97,9 @@ public class User {
             throw new ExceptionsUser("Campo Obligatorio. Debe tener entre 3 y 30 caracteres");
         }
     }
-    public void setAdress(String adress) throws ExceptionsUser {
-        if (verifyLong(adress, 10, 30)) {
-            this.adress = adress;
-        } else {
-            throw new ExceptionsUser("Campo Obligatorio. Debe tener entre 10 y 30 caracteres");
-        }
-    }
+
+    public String getEmail() { return email; }
+
     public void setEmail(String email) throws ExceptionsUser {
         if (verifyEmail(email)) {
             this.email = email;
@@ -128,7 +107,20 @@ public class User {
             throw new ExceptionsUser("Campo Obligatoiro. Debe tener formato de email");
         }
     }
-   public void setPassword(String password) throws ExceptionsUser {
+
+    public String getAdress() { return adress; }
+
+    public void setAdress(String adress) throws ExceptionsUser {
+        if (verifyLong(adress, 10, 30)) {
+            this.adress = adress;
+        } else {
+            throw new ExceptionsUser("Campo Obligatorio. Debe tener entre 10 y 30 caracteres");
+        }
+    }
+
+    public String getPassword() { return password;  }
+
+    public void setPassword(String password) throws ExceptionsUser {
         if (verifyPassword(password)) {
             this.password = password;
         } else {
@@ -136,12 +128,19 @@ public class User {
                     "1 carácter especial y como mínimo 6 caracteres");
         }
     }
+
+    public String getCVUMercadoPago() { return CVUMercadoPago; }
+
     public void setCVUMercadoPago (String CVUMercadoPago) throws ExceptionsUser {
         if(verifyCVUMercadoPago(CVUMercadoPago)){
             this.CVUMercadoPago = CVUMercadoPago;
         } else {
             throw new ExceptionsUser("Campo Obligatorio. Debe contener 22 dígitos");
         }
+    }
+
+
+    public String getAdressWalletActiveCripto() { return adressWalletActiveCripto;
     }
 
     public void setAdressWalletActiveCripto(String adressWalletActiveCripto) throws ExceptionsUser {
@@ -152,7 +151,30 @@ public class User {
         }
     }
 
-    public int reputation(){
-        return (this.numberOperations != 0) ? this.points / this.numberOperations : 0;
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public int getNumberOperations() {
+        return numberOperations;
+    }
+
+    public void setNumberOperations(int numberOperations) {
+        this.numberOperations = numberOperations;
+    }
+
+    public float getReputation(){ return reputation;}
+
+    public void setReputation(){
+        this.reputation = calculateReputation();
+    }
+
+
+    public int calculateReputation(){
+        return (this.numberOperations != 0) ? Math.round(this.points / this.numberOperations) : 0;
     }
 }
