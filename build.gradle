@@ -55,6 +55,24 @@ test {
 	}
 }
 
+dependencies {
+	implementation 'com.heroku:webapp-runner-main:9.0.52.1'
+}
+
+task stage() {
+	dependsOn clean, war
+}
+war.mustRunAfter clean
+
+task copyToLib(type: Copy) {
+	into "$buildDir/server"
+	from(configurations.implementation) {
+		include "webapp-runner*"
+	}
+}
+
+stage.dependsOn(copyToLib)
+
 /*
 tasks.named('test') {
 	useJUnitPlatform()
