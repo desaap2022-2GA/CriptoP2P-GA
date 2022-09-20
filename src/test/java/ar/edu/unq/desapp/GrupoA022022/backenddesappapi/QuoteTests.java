@@ -12,26 +12,24 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 public class QuoteTests {
 
-    private final Cryptocurrency cryptocurrency = new Cryptocurrency("DAI");
-    private final Quote quote = new Quote();
-    private final Double somePrice = 1000.00;
+    DataSetTest dataSetTest = new DataSetTest();
 
     @Test
     void ObtainCryptocurrencyNameInQuoteSettingWithNameDAI() {
-        quote.setCryptocurrency(cryptocurrency);
-        assertEquals("DAI", quote.getCryptocurrency().getName());
+        dataSetTest.getSomeQuote().setCryptocurrency(dataSetTest.getCryptocurrency());
+        assertEquals("DAI", dataSetTest.getSomeQuote().getCryptocurrency().getName());
     }
 
     @Test
     void ObtainCryptocurrencyPriceInQuoteSettingWithPrice5000() {
-        quote.setPrice(5000.00);
-        assertEquals(5000.00, quote.getPrice());
+        dataSetTest.getSomeQuote().setPrice(5000.00);
+        assertEquals(5000.00, dataSetTest.getSomeQuote().getPrice());
     }
 
     @Test
     void ObtainDateTimeOnRangeInQuoteSettingWithDateTime() throws InterruptedException {
         long beforeTime = new DateTimeInMilliseconds().currentTimeInMilliseconds-1;
-        Quote quote = new Quote(cryptocurrency,somePrice);
+        Quote quote = new Quote(dataSetTest.getCryptocurrency(),dataSetTest.getSomePrice());
         long afterTime = new DateTimeInMilliseconds().currentTimeInMilliseconds+1;
         long quoteTime = quote.getDateTime();
         assertTrue((beforeTime<quoteTime)&&(quoteTime<afterTime));
@@ -39,8 +37,7 @@ public class QuoteTests {
 
     @Test
     void ObtainQuoteFromCryptocurrencyWhenCreateAQuoteWhitThatCryptocurrency() throws ResourceNotFoundException {
-        Quote quote = new Quote(cryptocurrency, somePrice);
-        assertEquals(quote, cryptocurrency.latestQuote());
-
+        Quote quote = new Quote(dataSetTest.getCryptocurrency(),dataSetTest.getSomePrice());
+        assertEquals(quote, dataSetTest.getCryptocurrency().latestQuote());
     }
 }

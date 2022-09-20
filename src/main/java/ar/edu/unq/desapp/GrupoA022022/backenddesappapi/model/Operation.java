@@ -54,17 +54,17 @@ public class Operation {
     public Operation() {
     }
 
-    public IntentionType type() {
+    public IntentionType getType() {
         return this.intention.getType();
     }
 
     //CVU o BIlletera cripto segun tipo de OP
-    public String transactionInfoToShow() {
+    public String getTransactionInfoToShow() {
         return this.intention.getTransactionInfoToShow();
     }
 
     //reputacion
-    public int userReputation() {
+    public int getUserReputation() {
         return this.intention.getUser().reputation();
     }
     //cambia el precio de la intencion por el de la cotizacion del momento

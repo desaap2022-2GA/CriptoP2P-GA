@@ -12,55 +12,52 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class CryptocurrencyTests {
 
-    private final Cryptocurrency cryptocurrency = new Cryptocurrency();
-    private final Quote quote1 = new Quote(cryptocurrency,100.00);
-    private final Quote quote2 = new Quote(cryptocurrency,200.00);
-
+    DataSetTest dataSetTest = new DataSetTest();
 
     @Test
     void ObtainNameOfCyptocurrencySettingWithNameBitcoin() {
-        cryptocurrency.setName("Bitcoin");
-        assertEquals("Bitcoin", cryptocurrency.getName());
+        dataSetTest.getCryptocurrency().setName("Bitcoin");
+        assertEquals("Bitcoin", dataSetTest.getCryptocurrency().getName());
     }
 
     @Test
     void ObtainNotQuotesInCyptocurrencySettingWithoutQuotes() {
-        cryptocurrency.setQuotes(new HashSet<>());
-        assertTrue(cryptocurrency.getQuotes().isEmpty());
+        dataSetTest.getCryptocurrency().setQuotes(new HashSet<>());
+        assertTrue( dataSetTest.getCryptocurrency().getQuotes().isEmpty());
     }
 
     @Test
     void ObtainNullIdInCryptocurrencyThanNotWasPersisted() {
-        assertNull(cryptocurrency.getId());
+        assertNull( dataSetTest.getCryptocurrency().getId());
     }
 
     @Test
     void ObtainNotIntentionsInCyptocurrencySettingWithoutIntentions() {
-        cryptocurrency.setIntentions(new HashSet<>());
-        assertTrue(cryptocurrency.getIntentions().isEmpty());
+        dataSetTest.getCryptocurrency().setIntentions(new HashSet<>());
+        assertTrue( dataSetTest.getCryptocurrency().getIntentions().isEmpty());
     }
 
     @Test
     void ThrowExceptionAskingForLastQuoteInCyptocurrencySettingWithoutQuotes() {
         assertThrows(ResourceNotFoundException.class, () -> {
-            cryptocurrency.setQuotes(new HashSet<>());
-            cryptocurrency.latestQuote();
+            dataSetTest.getCryptocurrency().setQuotes(new HashSet<>());
+            dataSetTest.getCryptocurrency().latestQuote();
         });
     }
 
     @Test
     void ObtainLastQuoteInCyptocurrencySettingWithoutAPairOfQuotesAnNotExpectingTheFirstOfThem() throws ResourceNotFoundException {
-        quote2.setDateTime(quote1.getDateTime()+1);
-        cryptocurrency.addNewQuote(quote1);
-        cryptocurrency.addNewQuote(quote2);
-        assertNotEquals(quote1, cryptocurrency.latestQuote());
+        dataSetTest.getQuote200().setDateTime(dataSetTest.getQuote100().getDateTime()+1);
+        dataSetTest.getCryptocurrency().addNewQuote(dataSetTest.getQuote100());
+        dataSetTest.getCryptocurrency().addNewQuote(dataSetTest.getQuote200());
+        assertNotEquals(dataSetTest.getQuote100(), dataSetTest.getCryptocurrency().latestQuote());
     }
 
     @Test
     void ObtainLastQuoteInCyptocurrencySettingWithoutAPairOfQuotes() throws ResourceNotFoundException {
-        quote2.setDateTime(quote1.getDateTime()+1);
-        cryptocurrency.addNewQuote(quote1);
-        cryptocurrency.addNewQuote(quote2);
-        assertEquals(quote2, cryptocurrency.latestQuote());
+        dataSetTest.getQuote200().setDateTime(dataSetTest.getQuote100().getDateTime()+1);
+        dataSetTest.getCryptocurrency().addNewQuote(dataSetTest.getQuote100());
+        dataSetTest.getCryptocurrency().addNewQuote(dataSetTest.getQuote200());
+        assertEquals(dataSetTest.getQuote200(), dataSetTest.getCryptocurrency().latestQuote());
     }
 }
