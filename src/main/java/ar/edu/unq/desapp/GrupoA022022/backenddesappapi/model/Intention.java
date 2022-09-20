@@ -5,7 +5,6 @@ import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.IntentionType;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -41,6 +40,12 @@ public class Intention {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @OneToOne(mappedBy = "intention")
+    private Operation operation;
+
+    @NotNull
+    private boolean taken = false;
+
     public Intention(IntentionType type, Cryptocurrency cryptocurrency, Double price, int units, User user) {
         this.dateTime = new DateTimeInMilliseconds().currentTimeInMilliseconds;
         this.type = type;
@@ -53,7 +58,14 @@ public class Intention {
     }
 
     public Intention() {
+    }
 
+    public boolean isTaken() {
+        return taken;
+    }
+
+    public void setTaken(boolean taken) {
+        this.taken = taken;
     }
 
     public Cryptocurrency getCryptocurrency() {
@@ -118,5 +130,10 @@ public class Intention {
 
     public void setUnits(int units) {
         this.units = units;
+    }
+
+    public String getTransactionInfoToShow() {
+        return (this.type == IntentionType.SELL) ? this.user.getCVUMercadoPago()
+                : this.user.getAdressWalletActiveCripto();
     }
 }

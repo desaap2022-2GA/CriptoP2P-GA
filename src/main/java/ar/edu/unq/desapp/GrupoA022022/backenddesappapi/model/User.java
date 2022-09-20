@@ -60,10 +60,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Intention> intentions = new HashSet<>();
 
-    public User() {
-    }
-
-    ;
+    public User() {}
 
     public User(String name, String lastname, String email, String adress, String password, String CVUMercadoPago, String adressWalletActiveCripto) {
         this.name = name;
