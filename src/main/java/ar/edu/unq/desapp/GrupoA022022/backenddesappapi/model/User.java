@@ -13,7 +13,7 @@ import java.util.Set;
 import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.Verify.*;
 
 @Entity
-@Table (name = "userp2p_desa")
+@Table (name = "userp2p_desapp")
 
 @ConstructorBinding()
 public class User {
@@ -65,6 +65,9 @@ public class User {
         this.password = "";
         this.CVUMercadoPago = "";
         this.adressWalletActiveCripto = "";
+        this.points = 0;
+        this.reputation = 0;
+        this.numberOperations = 0;
     }
 
 

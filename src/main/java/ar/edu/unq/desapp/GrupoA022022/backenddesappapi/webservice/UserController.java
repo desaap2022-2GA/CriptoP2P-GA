@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,5 +39,10 @@ public class UserController {
     @GetMapping(value = "/(email)")
     public User getUserByEmail(@PathVariable("email") String emial) throws NoSuchElementException{
         return userService.findByEmail(emial);
+    }
+
+    @GetMapping(value = "/id")
+    public User getUserById(@PathVariable("id") Integer id) throws ResourceNotFoundException {
+        return userService.findById(id);
     }
 }
