@@ -55,4 +55,4 @@ jobs:
           POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
           DB_PORT: ${{ secrets.DB_PORT }}
         with:
-          arguments: gradle build
+          arguments: build
