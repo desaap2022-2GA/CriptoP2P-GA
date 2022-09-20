@@ -5,7 +5,8 @@ plugins {
 	id 'war'
 	id "org.sonarqube" version "3.4.0.2513"
 }
-
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
 /*
 task stage(type: Copy, dependsOn: [clean, build]) {
 	from jar."archiveFile"
