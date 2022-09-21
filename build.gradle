@@ -5,8 +5,7 @@ plugins {
 	id 'war'
 	id "org.sonarqube" version "3.4.0.2513"
 }
-task stage(dependsOn: ['build', 'clean'])
-build.mustRunAfter clean
+
 /*
 task stage(type: Copy, dependsOn: [clean, build]) {
 	from jar."archiveFile"
@@ -70,7 +69,24 @@ test {
 		events "passed", "skipped", "failed"
 	}
 }
+/*
+dependencies {
+	compile 'com.github.jsimone:webapp-runner:9.0.27.1'
+}
 
+task stage() {
+	dependsOn clean, war
+}
+war.mustRunAfter clean
+
+task copyToLib(type: Copy) {
+	into "$buildDir/server"
+	from(configurations.compile) {
+		include "webapp-runner*"
+	}
+}
+
+stage.dependsOn(copyToLib)*/
 /*
 tasks.named('test') {
 	useJUnitPlatform()

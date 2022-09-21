@@ -1,1 +1,1 @@
-web: java -jar target/backend-desapp-api-0.0.1.jar
+web: java -jar build/server/webapp-runner-*.jar build/libs/*.war
