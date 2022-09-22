@@ -37,8 +37,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/(email)")
-    public User getUserByEmail(@PathVariable("email") String emial) throws NoSuchElementException{
-        return userService.findByEmail(emial);
+    public User getUserByEmail(@PathVariable("email") String email) throws NoSuchElementException, ResourceNotFoundException {
+        return userService.findByEmail(email);
     }
 
     @GetMapping(value = "/id")

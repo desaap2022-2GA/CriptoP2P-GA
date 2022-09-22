@@ -1,4 +1,5 @@
-package ar.edu.unq.desapp.GrupoA022022.backenddesappapi;
+package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.modelo;
+
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
@@ -11,15 +12,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.FluentQuery;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
 @SpringBootTest
 class BackendDesappApiApplicationTests {
@@ -29,8 +24,6 @@ class BackendDesappApiApplicationTests {
 
     @Autowired
     private UserService userService;
-
-
 
 
     final private User prueUser = new User("Roger", "Federer", "federer@yahoo.com",
@@ -45,15 +38,6 @@ class BackendDesappApiApplicationTests {
         System.out.println("en elNombreDeUnUsuarioEsCorrecto");
 
         assertEquals(user.getName(), "Graciela");
-    }
-
-   @Test
-    void recoversPersistanceANewUser() {
-        User saved = userRepo.save(prueUser);
-        Integer idSaved = saved.getId();
-        Optional<User> finded = userRepo.findById(idSaved);
-
-        assertEquals(finded.get().getId(), idSaved);
     }
 
     @Test
@@ -242,27 +226,93 @@ class BackendDesappApiApplicationTests {
         assertEquals(user.getReputation(), 2);
     }
 
-   @Test
+//**************** SERVICE - REPOSITORY ****************
+
+    @Test
+    void recoversPersistanceANewUser() {
+        User saved = userRepo.save(prueUser);
+        Integer idSaved = saved.getId();
+        Optional<User> finded = userRepo.findById(idSaved);
+
+        assertEquals(finded.get().getId(), idSaved);
+    }
+
+    @Test
+    void modifyAnUserWithId1() throws ResourceNotFoundException, ExceptionsUser {
+        User userRecov = userService.findById(1);
+        userRecov.setEmail("rogerFederer@gmail.com");
+        userRepo.save(userRecov);
+
+        assertEquals(userRecov.getEmail(), "rogerFederer@gmail.com");
+    }
+
+    @Test
+    void databaseHasTwoUsers(){
+        List<User> users = userService.getAllUsers();
+
+        assertEquals(users.toArray().length, 2);
+    }
+
+    @Test
+    void theUserWithId2IsDeletedFromTheDatabaseSoThereIsOnlyOneUser() throws ResourceNotFoundException {
+        userService.delete(2);
+        List<User> users = userService.getAllUsers();
+
+        assertEquals(users.toArray().length, 1);
+
+    }
+
+    @Test
     void givenTheIdOfAUserItIsRetrievedFromTheDB() throws ResourceNotFoundException {
         User newUser = userService.findById(1);
-        User user = new User("Roger","Federer","federer@yahoo.com",
-                "Av Libertador 5000, CABA","1111","Xwf5ui5ef",
-                "63528798");
 
-        assertEquals(user.getName(), newUser.getName());
-
+        assertEquals(prueUser.getName(), newUser.getName());
     }
 
     @Test
     void givenTheEmailOfAUserItIsRetrievedFromTheDB() throws ResourceNotFoundException {
         User newUser = userService.findByEmail("federer@yahoo.com");
-        User user = new User("Roger","Federer","federer@yahoo.com",
-                "Av Libertador 5000, CABA","1111","Xwf5ui5ef",
-                "63528798");
 
-        assertEquals(user.getEmail(), newUser.getEmail());
-
+        assertEquals(prueUser.getEmail(), newUser.getEmail());
     }
 
+    @Test
+    void checkIfAnEmailIsInTheDatabaseAndCanFindIt() throws ExceptionsUser, ResourceNotFoundException {
+        User newUser = new User();
+        newUser.setName("Rafael");
+        newUser.setLastname("Nadal");
+        newUser.setEmail("federer@yahoo.com");
+        newUser.setAdress("Av Libertador 5001, CABA");
+        newUser.setPassword("Damero22");
+        newUser.setCVUMercadoPago("1234567890123456789012");
+        newUser.setAdressWalletActiveCripto("12345678");
+        newUser.setReputation();
+        newUser.setPoints(5);
+        newUser.setNumberOperations(5);
 
+        assertThrows(ExceptionsUser.class, () -> {
+            userService.checkNewUserEmail(newUser);
+        });
+    }
+
+    @Test
+    void checkIfAnEmailIsInTheDatabaseAndCanNotFindItCreatingTheUser() throws ExceptionsUser, ResourceNotFoundException{
+        User newUser = new User();
+        newUser.setName("Rafael");
+        newUser.setLastname("Nadal");
+        newUser.setEmail("nadalrafael1@gmail.com");
+        newUser.setAdress("Av Libertador 5001, CABA");
+        newUser.setPassword("Damero22");
+        newUser.setCVUMercadoPago("1234567890123456789012");
+        newUser.setAdressWalletActiveCripto("12345678");
+        newUser.setReputation();
+        newUser.setPoints(5);
+        newUser.setNumberOperations(5);
+
+        userService.checkNewUserEmail(newUser);
+
+        List<User> users = userService.getAllUsers();
+
+        assertEquals(users.toArray().length, 7);
+    }
 }
