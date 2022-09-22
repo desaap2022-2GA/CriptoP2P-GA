@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.OperationState;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.Verify.*;
 
@@ -205,7 +207,13 @@ public class User {
         this.setPoints(this.getPoints() - pointsToSub);
     }
 
-    public void addAnOpertion() {
+    public void oneMoreOperation() {
         this.setNumberOperations(this.getNumberOperations() + 1);
+    }
+
+    public Set<Operation> operationsBetweenDates(long firstDate, long secondDate) {
+        return this.operations.stream().filter(o -> o.getState().equals(OperationState.CRYPTOSENDED)
+                && o.getDateTime() > firstDate
+                && o.getDateTime() < secondDate).collect(Collectors.toSet());
     }
 }

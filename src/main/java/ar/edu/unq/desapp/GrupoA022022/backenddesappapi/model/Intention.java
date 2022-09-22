@@ -96,12 +96,12 @@ public class Intention {
         return dateTime;
     }
 
-    public Double priceInPesos() {
+    public Double amountPriceInPesos() {
         return this.price * this.units;
     }
 
-    public Double amountToOperateInPesos() {
-        return this.priceInPesos() * this.units;
+    public Double amountPriceInDolares(Double dollars) {
+        return this.amountPriceInPesos() * dollars;
     }
 
     public int numberOpUser() {
@@ -132,13 +132,13 @@ public class Intention {
         this.units = units;
     }
 
+    public int getUserReputation() {
+        return this.user.reputation();
+    }
+
     public String getTransactionInfoToShow() {
         return (this.type == IntentionType.SELL) ? this.user.getCVUMercadoPago()
                 : this.user.getAdressWalletActiveCripto();
-    }
-
-    public int getUserReputation() {
-        return this.user.reputation();
     }
 
 

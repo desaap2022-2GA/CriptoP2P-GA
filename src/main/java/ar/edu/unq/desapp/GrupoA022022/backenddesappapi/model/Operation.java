@@ -7,6 +7,7 @@ import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.OperationState;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "operation_des_CG")
@@ -113,5 +114,13 @@ public class Operation {
 
     public long getDateTime() {
         return dateTime;
+    }
+
+    public double volumeTraded(Set<Operation> operations) {
+        return operations.stream().mapToDouble(o -> o.getIntention().amountPriceInPesos()).sum();
+    }
+
+    public double amountInDollars(double amount, double dollarQuote) {
+        return amount * dollarQuote;
     }
 }
