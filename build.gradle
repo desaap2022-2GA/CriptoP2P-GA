@@ -58,13 +58,11 @@ test {
 /*
 dependencies {
 	compile 'com.github.jsimone:webapp-runner:9.0.27.1'
-}
+}*/
 
-task stage() {
-	dependsOn clean, war
-}
-war.mustRunAfter clean
-
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
+/*
 task copyToLib(type: Copy) {
 	into "$buildDir/server"
 	from(configurations.compile) {
