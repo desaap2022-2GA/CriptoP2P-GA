@@ -1,12 +1,14 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "cryptocurrencyp2p_des_CG")
@@ -80,5 +82,10 @@ public class Cryptocurrency {
 
     public void addIntention(Intention intention) {
         this.intentions.add(intention);
+    }
+
+    public Set<Quote> last24HoursQuotes() {
+        long nowMinusOneDay = new DateTimeInMilliseconds().currentTimeMinusOneDayInMilliseconds;
+        return this.quotes.stream().filter(q -> q.getDateTime() > nowMinusOneDay).collect(Collectors.toSet());
     }
 }

@@ -59,4 +59,24 @@ public class Quote {
         this.dateTime = dateTime;
     }
 
+    public double fivePercentDown() {
+        return this.price * 0.95;
+    }
+
+    public double fivePercentUp() {
+        return this.price * 1.05;
+    }
+
+    public boolean intentionPriceInARangeOfFiveUpAndDown(Double intentionPrice) {
+        return fivePercentDown() < intentionPrice && intentionPrice < fivePercentUp();
+    }
+
+    public boolean intentionPriceMoreThanQuotePrice(Double intentionPrice) {
+        return intentionPrice > this.price;
+    }
+
+    public boolean intentionPriceLessThanQuotePrice(Double intentionPrice) {
+        return intentionPrice < this.price;
+    }
+
 }

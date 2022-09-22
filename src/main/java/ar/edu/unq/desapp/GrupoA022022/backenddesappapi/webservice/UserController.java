@@ -30,7 +30,7 @@ public class UserController {
         return userService.register(user);
     }
 
-    @GetMapping(value = "/(id)")
+    @GetMapping(value = "/{id}")
     public MappingJacksonValue getUser(@PathVariable("id") int id) throws NoSuchElementException {
         return userService.getUser(id);
     }

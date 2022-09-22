@@ -60,7 +60,12 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Intention> intentions = new HashSet<>();
 
-    public User() {}
+    @JsonIgnore
+    @OneToMany(mappedBy = "userWhoAccepts")
+    private Set<Operation> operations = new HashSet<>();
+
+    public User() {
+    }
 
     public User(String name, String lastname, String email, String adress, String password, String CVUMercadoPago, String adressWalletActiveCripto) {
         this.name = name;
@@ -190,5 +195,17 @@ public class User {
 
     public Set<Intention> getIntentions() {
         return intentions;
+    }
+
+    public void addPoints(int pointsToAdd) {
+        this.setPoints(this.getPoints() + pointsToAdd);
+    }
+
+    public void subPoints(int pointsToSub) {
+        this.setPoints(this.getPoints() - pointsToSub);
+    }
+
+    public void addAnOpertion() {
+        this.setNumberOperations(this.getNumberOperations() + 1);
     }
 }

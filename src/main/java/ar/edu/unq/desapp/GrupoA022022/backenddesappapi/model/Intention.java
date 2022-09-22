@@ -97,7 +97,7 @@ public class Intention {
     }
 
     public Double priceInPesos() {
-        return this.price * 148; //cambiar por cotizacion actualizada
+        return this.price * this.units;
     }
 
     public Double amountToOperateInPesos() {
@@ -136,4 +136,10 @@ public class Intention {
         return (this.type == IntentionType.SELL) ? this.user.getCVUMercadoPago()
                 : this.user.getAdressWalletActiveCripto();
     }
+
+    public int getUserReputation() {
+        return this.user.reputation();
+    }
+
+
 }
