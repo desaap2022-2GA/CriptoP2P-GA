@@ -40,6 +40,6 @@ public class OperationTests {
     @Test
     void ObtainUserReputationOnOperationCreatedWhitAnIntentionFromAnUserWithoutPoints() {
         Operation operation = new Operation(dataSetTest.getIntentionBuy());
-        assertEquals(0,operation.getUserReputation());
+        assertEquals(0, operation.getUserReputation());
     }
 }

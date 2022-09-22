@@ -1,11 +1,11 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi;
 
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -28,16 +28,16 @@ public class QuoteTests {
 
     @Test
     void ObtainDateTimeOnRangeInQuoteSettingWithDateTime() throws InterruptedException {
-        long beforeTime = new DateTimeInMilliseconds().currentTimeInMilliseconds-1;
-        Quote quote = new Quote(dataSetTest.getCryptocurrency(),dataSetTest.getSomePrice());
-        long afterTime = new DateTimeInMilliseconds().currentTimeInMilliseconds+1;
+        long beforeTime = new DateTimeInMilliseconds().currentTimeInMilliseconds - 1;
+        Quote quote = new Quote(dataSetTest.getCryptocurrency(), dataSetTest.getSomePrice());
+        long afterTime = new DateTimeInMilliseconds().currentTimeInMilliseconds + 1;
         long quoteTime = quote.getDateTime();
-        assertTrue((beforeTime<quoteTime)&&(quoteTime<afterTime));
+        assertTrue((beforeTime < quoteTime) && (quoteTime < afterTime));
     }
 
     @Test
     void ObtainQuoteFromCryptocurrencyWhenCreateAQuoteWhitThatCryptocurrency() throws ResourceNotFoundException {
-        Quote quote = new Quote(dataSetTest.getCryptocurrency(),dataSetTest.getSomePrice());
+        Quote quote = new Quote(dataSetTest.getCryptocurrency(), dataSetTest.getSomePrice());
         assertEquals(quote, dataSetTest.getCryptocurrency().latestQuote());
     }
 }
