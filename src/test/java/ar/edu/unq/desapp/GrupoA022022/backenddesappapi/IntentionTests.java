@@ -58,7 +58,7 @@ public class IntentionTests {
     @Test
     void ObtainDateTimeInIntentionSettingWithADateTimeOfCreation() {
         Intention intention = new Intention();
-        Long currentTime = new DateTimeInMilliseconds().currentTimeInMilliseconds;
+        Long currentTime = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds();
         intention.setDateTime(currentTime);
         assertEquals(currentTime, intention.getDateTime());
     }

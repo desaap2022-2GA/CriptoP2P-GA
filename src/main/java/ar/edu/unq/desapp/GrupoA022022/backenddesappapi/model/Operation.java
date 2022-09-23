@@ -47,7 +47,7 @@ public class Operation {
     }
 
     public Operation(Intention intention) {
-        this.dateTime = new DateTimeInMilliseconds().currentTimeInMilliseconds;
+        this.dateTime = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds();
         this.intention = intention;
     }
 
@@ -102,7 +102,7 @@ public class Operation {
     }
 
     public void bonusTimeOperationAssign() {
-        long thirtyminutesago = new DateTimeInMilliseconds().currentTimeMinus30MinutesInMilliseconds;
+        long thirtyminutesago = new DateTimeInMilliseconds().getCurrentTimeMinus30MinutesInMilliseconds();
         int points = (this.getDateTime() > thirtyminutesago) ? 10 : 5;
         addPointsToUsers(points);
     }

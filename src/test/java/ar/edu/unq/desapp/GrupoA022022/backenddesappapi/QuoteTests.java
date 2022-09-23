@@ -28,9 +28,9 @@ public class QuoteTests {
 
     @Test
     void ObtainDateTimeOnRangeInQuoteSettingWithDateTime() throws InterruptedException {
-        long beforeTime = new DateTimeInMilliseconds().currentTimeInMilliseconds - 1;
+        long beforeTime = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds() - 1;
         Quote quote = new Quote(dataSetTest.getCryptocurrency(), dataSetTest.getSomePrice());
-        long afterTime = new DateTimeInMilliseconds().currentTimeInMilliseconds + 1;
+        long afterTime = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds() + 1;
         long quoteTime = quote.getDateTime();
         assertTrue((beforeTime < quoteTime) && (quoteTime < afterTime));
     }

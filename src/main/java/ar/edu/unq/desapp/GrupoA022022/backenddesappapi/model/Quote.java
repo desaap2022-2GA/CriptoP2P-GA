@@ -29,7 +29,7 @@ public class Quote {
     }
 
     public Quote(Cryptocurrency cryptocurrency, Double price) {
-        this.dateTime = new DateTimeInMilliseconds().currentTimeInMilliseconds;
+        this.dateTime = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds();
         this.cryptocurrency = cryptocurrency;
         this.price = price;
         this.cryptocurrency.addNewQuote(this);

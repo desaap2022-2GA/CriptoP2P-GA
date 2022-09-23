@@ -85,7 +85,7 @@ public class Cryptocurrency {
     }
 
     public Set<Quote> last24HoursQuotes() {
-        long nowMinusOneDay = new DateTimeInMilliseconds().currentTimeMinusOneDayInMilliseconds;
+        long nowMinusOneDay = new DateTimeInMilliseconds().getCurrentTimeMinusOneDayInMilliseconds();
         return this.quotes.stream().filter(q -> q.getDateTime() > nowMinusOneDay).collect(Collectors.toSet());
     }
 }

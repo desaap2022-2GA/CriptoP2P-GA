@@ -47,7 +47,7 @@ public class Intention {
     private boolean taken = false;
 
     public Intention(IntentionType type, Cryptocurrency cryptocurrency, Double price, int units, User user) {
-        this.dateTime = new DateTimeInMilliseconds().currentTimeInMilliseconds;
+        this.dateTime = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds();
         this.type = type;
         this.cryptocurrency = cryptocurrency;
         this.price = price;
