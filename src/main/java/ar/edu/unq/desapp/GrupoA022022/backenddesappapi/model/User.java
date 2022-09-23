@@ -5,6 +5,7 @@ import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.OperationState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.boot.context.properties.ConstructorBinding;
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
@@ -29,9 +30,12 @@ public class User {
     @NotBlank
     @Size(min = 3, max = 30, message = "lastname must be between 3 and 30 characters")
     private String lastname;
-    // @Column
+
+    @Email(message = "lastname must be between 3 and 30 characters")
     private String email;
-    //@Column
+
+    @NotBlank
+    @Size(min = 10, max = 30, message = "adress must be between 10 and 30 characters")
     private String adress;
 
     @NotBlank

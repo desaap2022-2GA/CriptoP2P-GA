@@ -1,11 +1,14 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.modelo;
 
 
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.HelperDTO;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserDTO;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IUserRepo;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
+@AutoConfigureTestDatabase
 class BackendDesappApiApplicationTests {
 
     @Autowired
@@ -25,6 +29,7 @@ class BackendDesappApiApplicationTests {
     @Autowired
     private UserService userService;
 
+    private HelperDTO helper = new HelperDTO();
 
     final private User prueUser = new User("Roger", "Federer", "federer@yahoo.com",
             "Av Libertador 5000, CABA", "1111", "6352879863528798635287",
@@ -239,7 +244,8 @@ class BackendDesappApiApplicationTests {
 
     @Test
     void modifyAnUserWithId1() throws ResourceNotFoundException, ExceptionsUser {
-        User userRecov = userService.findById(1);
+        userRepo.save(prueUser);
+        User userRecov = helper.userDTOtoUser(userService.findById(1));
         userRecov.setEmail("rogerFederer@gmail.com");
         userRepo.save(userRecov);
 
@@ -264,7 +270,7 @@ class BackendDesappApiApplicationTests {
 
     @Test
     void givenTheIdOfAUserItIsRetrievedFromTheDB() throws ResourceNotFoundException {
-        User newUser = userService.findById(1);
+        User newUser = helper.userDTOtoUser(userService.findById(1));
 
         assertEquals(prueUser.getName(), newUser.getName());
     }/*

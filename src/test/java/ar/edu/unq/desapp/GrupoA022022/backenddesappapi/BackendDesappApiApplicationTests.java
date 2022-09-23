@@ -1,10 +1,12 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi;
 
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserDTO;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IUserRepo;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Test;
 
@@ -22,6 +24,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 @SpringBootTest
+@AutoConfigureTestDatabase
 class BackendDesappApiApplicationTests {
 
     @Autowired
@@ -244,7 +247,7 @@ class BackendDesappApiApplicationTests {
 
     @Test
     void givenTheIdOfAUserItIsRetrievedFromTheDB() throws ResourceNotFoundException {
-        User newUser = userService.findById(1);
+        UserDTO newUser = userService.findById(1);
         User user = new User("Roger","Federer","federer@yahoo.com",
                 "Av Libertador 5000, CABA","1111","Xwf5ui5ef",
                 "63528798");
