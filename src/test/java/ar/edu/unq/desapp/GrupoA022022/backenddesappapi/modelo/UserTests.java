@@ -234,9 +234,8 @@ class BackendDesappApiApplicationTests {
     void recoversPersistanceANewUser() {
         User saved = userRepo.save(prueUser);
         Integer idSaved = saved.getId();
-        Optional<User> finded = userRepo.findById(idSaved);
 
-        assertEquals(finded.get().getId(), idSaved);
+        assertEquals(userRepo.findById(idSaved).get().getId(), idSaved);
     }
 /*
     @Test

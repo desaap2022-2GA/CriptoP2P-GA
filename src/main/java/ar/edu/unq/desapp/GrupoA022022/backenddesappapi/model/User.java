@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.Verify.*;
 
 @Entity
-@Table(name = "userp2p_desapp")
+@Table(name = "userp2p_des_cg")
 @ConstructorBinding()
 public class User {
     @Id

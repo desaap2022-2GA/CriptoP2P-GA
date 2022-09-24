@@ -3,10 +3,8 @@ package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -15,9 +13,10 @@ import java.util.stream.Collectors;
 public class Cryptocurrency {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @NotBlank
+    @Column(unique = true)
     private String name;
 
     @JsonIgnore
@@ -39,7 +38,7 @@ public class Cryptocurrency {
         this.intentions = intentions;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -54,10 +53,6 @@ public class Cryptocurrency {
         } else {
             throw new ResourceNotFoundException("does not exist quote for the cryptocurrency");
         }
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
