@@ -66,7 +66,7 @@ public class User {
     }
 
     @Column
-    private float reputation;
+    private float reputation = 0;
 
     public User(String name, String lastname, String email, String adress, String password, String CVUMercadoPago, String adressWalletActiveCripto) {
         this.name = name;
@@ -76,9 +76,9 @@ public class User {
         this.password = password;
         this.CVUMercadoPago = CVUMercadoPago;
         this.adressWalletActiveCripto = adressWalletActiveCripto;
-        this.points = 0;
+   /*     this.points = 0;
         this.reputation = 0;
-        this.numberOperations = 0;
+        this.numberOperations = 0;*/
     }
 
     public Integer getId() {

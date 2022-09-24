@@ -1,14 +1,14 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.webservice;
 
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserDTO;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserModify;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserRegister;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserView;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/users")
@@ -18,32 +18,32 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<UserDTO> listAllUsers() {
+    public List<UserView> listAllUsers() {
         return userService.getAllUsers();
     }
 
     @PostMapping
-    public UserDTO createUser(@RequestBody UserDTO userDTO) {
-        return userService.create(userDTO);
+    public ResponseEntity<?> createUser(@RequestBody UserRegister userRegister) {
+        return userService.create(userRegister);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void deleteUser(@PathVariable("id") int id) {
-        userService.delete(id);
+    public ResponseEntity<?> deleteUser(@PathVariable("id") int id) {
+        return userService.delete(id);
     }
 
     @PutMapping
-    public UserDTO modifyUser(@RequestBody UserDTO userDTO) {
-        return userService.modify(userDTO);
+    public ResponseEntity<?> modifyUser(@RequestBody UserModify userModify) {
+        return userService.modify(userModify);
     }
 
     @GetMapping(value = "/email/{email}")
-    public UserDTO getUserByEmail(@PathVariable("email") String email) throws NoSuchElementException, ResourceNotFoundException {
+    public ResponseEntity<?>  getUserByEmail(@PathVariable("email") String email) {
         return userService.findByEmail(email);
     }
 
     @GetMapping(value = "/{id}")
-    public UserDTO getUserById(@PathVariable("id") Integer id) throws ResourceNotFoundException {
+    public ResponseEntity<?>  getUserById(@PathVariable("id") Integer id) {
         return userService.findById(id);
     }
 }

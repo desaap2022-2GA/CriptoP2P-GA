@@ -2,9 +2,7 @@ package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.modelo;
 
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.HelperDTO;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserDTO;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IUserRepo;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
 
-import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -241,7 +238,7 @@ class BackendDesappApiApplicationTests {
 
         assertEquals(finded.get().getId(), idSaved);
     }
-
+/*
     @Test
     void modifyAnUserWithId1() throws ResourceNotFoundException, ExceptionsUser {
         userRepo.save(prueUser);
@@ -266,22 +263,22 @@ class BackendDesappApiApplicationTests {
 
         assertEquals(users.toArray().length, 1);
 
-    }*/
-
+    }
+/*
     @Test
     void givenTheIdOfAUserItIsRetrievedFromTheDB() throws ResourceNotFoundException {
         User newUser = helper.userDTOtoUser(userService.findById(1));
 
         assertEquals(prueUser.getName(), newUser.getName());
-    }/*
-
+    }
+*//*
     @Test
     void givenTheEmailOfAUserItIsRetrievedFromTheDB() throws ResourceNotFoundException {
         User newUser = userService.findByEmail("federer@yahoo.com");
 
         assertEquals(prueUser.getEmail(), newUser.getEmail());
     }
-
+*//*
     @Test
     void checkIfAnEmailIsInTheDatabaseAndCanFindIt() throws ExceptionsUser, ResourceNotFoundException {
         User newUser = new User();
