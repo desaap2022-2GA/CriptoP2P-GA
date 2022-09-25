@@ -14,8 +14,8 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("ar.edu.unq.desapp.GrupoA022022.backenddesappapi.webservice"))
-                .paths(PathSelectors.any())
+ /*               .apis(RequestHandlerSelectors.basePackage("ar.edu.unq.desapp.GrupoA022022.backenddesappapi.webservice"))
+*/                .paths(PathSelectors.any())
                 .build();
     }
 }

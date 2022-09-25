@@ -24,9 +24,6 @@ class BackendDesappApiApplicationTests {
     @Autowired
     private UserService userService;
 
-
-
-
     final private User prueUser = new User("Roger", "Federer", "federer@yahoo.com",
             "Av Libertador 5000, CABA", "1111", "6352879863528798635287",
             "Xwfui5ef");
@@ -257,6 +254,4 @@ class BackendDesappApiApplicationTests {
         assertEquals(user.getEmail(), newUser.getEmail());
 
     }*/
-
-
 }
