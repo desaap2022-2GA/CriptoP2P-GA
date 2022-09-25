@@ -7,17 +7,17 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "quote")
+@Table(name = "quote_des_cg")
 public class Quote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     private long dateTime;
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "cryptocurrency_id", referencedColumnName = "id")
     private Cryptocurrency cryptocurrency;
 
@@ -79,4 +79,7 @@ public class Quote {
         return intentionPrice < this.price;
     }
 
+    public int getId() {
+        return id;
+    }
 }

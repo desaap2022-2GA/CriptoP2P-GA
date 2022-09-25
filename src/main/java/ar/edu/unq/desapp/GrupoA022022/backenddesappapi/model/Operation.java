@@ -16,12 +16,12 @@ public class Operation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private int id;
 
     @NotNull
     private long dateTime;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "intention_id", referencedColumnName = "id")
     private Intention intention;
 
@@ -30,11 +30,11 @@ public class Operation {
     private OperationState state = OperationState.ACTIVE;
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userWhoAccepts_id", referencedColumnName = "id")
     private User userWhoAccepts;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -46,9 +46,10 @@ public class Operation {
         this.intention = intention;
     }
 
-    public Operation(Intention intention) {
+    public Operation(Intention intention, User userWhoAccepts) {
         this.dateTime = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds();
         this.intention = intention;
+        this.userWhoAccepts = userWhoAccepts;
     }
 
     public Operation() {

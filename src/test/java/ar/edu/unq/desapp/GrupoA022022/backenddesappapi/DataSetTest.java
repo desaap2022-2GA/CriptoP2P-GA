@@ -12,8 +12,14 @@ public class DataSetTest {
             "Av Libertador 5000, CABA", "1111", "6352879863528798635287",
             "Xwf5u5ef");
 
+    private final User userTest2 = new User("Martin", "Fierro", "fierro@gmail.com",
+            "Av Cordoba 3000, CABA", "1111", "6352879863528798635287",
+            "Xwf5u5ef");
     private final Cryptocurrency cryptocurrency = new Cryptocurrency("DAI");
+    private final Cryptocurrency cryptocurrency2 = new Cryptocurrency("USDT");
+    private final Cryptocurrency cryptocurrency3 = new Cryptocurrency("BITCOIN");
 
+    private final Cryptocurrency cryptocurrency4 = new Cryptocurrency("ETHER");
     private final IntentionType someType = IntentionType.SELL;
 
     private final Double somePrice = 1000.00;
@@ -56,6 +62,10 @@ public class DataSetTest {
         return userTest;
     }
 
+    public User getUserTest2() {
+        return userTest2;
+    }
+
     public Cryptocurrency getCryptocurrency() {
         return cryptocurrency;
     }
@@ -70,5 +80,16 @@ public class DataSetTest {
 
     public int getSomeUnit() {
         return someUnit;
+    }
+
+    public Cryptocurrency getCryptocurrency2() {
+        return cryptocurrency2;
+    }
+
+    public Cryptocurrency getCryptocurrency3() {
+        return cryptocurrency3;
+    }
+    public Cryptocurrency getCryptocurrency4() {
+        return cryptocurrency4;
     }
 }

@@ -13,7 +13,7 @@ public class Intention {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @NotNull
     private long dateTime;
@@ -23,7 +23,7 @@ public class Intention {
     private IntentionType type;
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "cryptocurrency_id", referencedColumnName = "id")
     private Cryptocurrency cryptocurrency;
 
@@ -36,7 +36,7 @@ public class Intention {
     private int units;
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
@@ -72,7 +72,7 @@ public class Intention {
         return cryptocurrency;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -133,13 +133,11 @@ public class Intention {
     }
 
     public int getUserReputation() {
-        return this.user.calculateReputation();
+        return this.user.getReputation();
     }
 
     public String getTransactionInfoToShow() {
         return (this.type == IntentionType.SELL) ? this.user.getCVUMercadoPago()
                 : this.user.getAdressWalletActiveCripto();
     }
-
-
 }
