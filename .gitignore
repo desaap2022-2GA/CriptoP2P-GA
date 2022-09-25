@@ -42,3 +42,4 @@ daemon
 native
 wrapper
 
+secrets.properties

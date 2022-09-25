@@ -11,12 +11,12 @@ import javax.security.auth.Subject;
 
 @RequestMapping("/cryptocurrencies")
 public class CrytocurrencyController {
-
+/*
     @Autowired
     ICryptocurrencyRepo cryptocurrencyRepo;
 
     @Autowired
     IIntentionRepo intentionRepo;
 
-
+*/
 }

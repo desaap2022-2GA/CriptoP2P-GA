@@ -1,6 +1,8 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto;
 
-public class UserDTO {
+public class UserModify {
+
+    private int id;
 
     private String name;
 
@@ -12,20 +14,29 @@ public class UserDTO {
 
     private String password;
 
-    private String CVUMercadoPago;
+    private String cvumercadoPago;
 
     private String adressWalletActiveCripto;
 
-    public UserDTO(String name, String lastname, String email, String adress, String password, String CVUMercadoPago, String adressWalletActiveCripto) {
+    public UserModify(int id, String name, String lastname, String email, String adress, String password, String cvumercadoPago, String adressWalletActiveCripto) {
+        this.id = id;
         this.name = name;
         this.lastname = lastname;
         this.email = email;
         this.adress = adress;
         this.password = password;
-        this.CVUMercadoPago = CVUMercadoPago;
+        this.cvumercadoPago = cvumercadoPago;
         this.adressWalletActiveCripto = adressWalletActiveCripto;
     }
+    public UserModify(){}
 
+    public int getId() {
+        return id;
+    }
+
+    public String getCvumercadoPago() {
+        return cvumercadoPago;
+    }
 
     public String getName() {
         return name;
@@ -45,10 +56,6 @@ public class UserDTO {
 
     public String getPassword() {
         return password;
-    }
-
-    public String getCVUMercadoPago() {
-        return CVUMercadoPago;
     }
 
     public String getAdressWalletActiveCripto() {

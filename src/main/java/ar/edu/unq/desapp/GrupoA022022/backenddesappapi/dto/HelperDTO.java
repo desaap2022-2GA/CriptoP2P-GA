@@ -7,17 +7,24 @@ import java.util.stream.Collectors;
 
 public class HelperDTO {
 
-    public User userDTOtoUser(UserDTO userDTO) {
-        return new User(userDTO.getName(), userDTO.getLastname(), userDTO.getEmail(), userDTO.getAdress()
-                , userDTO.getPassword(), userDTO.getCVUMercadoPago(), userDTO.getAdressWalletActiveCripto());
+    public User userRegistertoUser(UserRegister userRegister) {
+        return new User(userRegister.getName(), userRegister.getLastname(), userRegister.getEmail()
+                , userRegister.getAdress(), userRegister.getPassword(), userRegister.getCvumercadoPago()
+                , userRegister.getAdressWalletActiveCripto());
     }
 
-    public UserDTO usertoUserDTO(User user) {
-        return new UserDTO(user.getName(), user.getLastname(), user.getEmail(), user.getAdress()
-                , user.getPassword(), user.getCVUMercadoPago(), user.getAdressWalletActiveCripto());
+    public User userModifytoUser(UserModify userModify) {
+        return new User(userModify.getName(), userModify.getLastname(), userModify.getEmail()
+                , userModify.getAdress(), userModify.getPassword(), userModify.getCvumercadoPago()
+                , userModify.getAdressWalletActiveCripto());
     }
 
-    public List<UserDTO> userstoUsersDTO(List<User> all) {
-        return all.stream().map(u -> this.usertoUserDTO(u)).collect(Collectors.toList());
+    public UserView usertoUserView(User user) {
+        return new UserView(user.getId(), user.getName(), user.getLastname(), user.getEmail(), user.getAdress()
+                , user.getCVUMercadoPago(), user.getAdressWalletActiveCripto());
+    }
+
+    public List<UserView> userstoUsersView(List<User> all) {
+        return all.stream().map(u -> this.usertoUserView(u)).collect(Collectors.toList());
     }
 }

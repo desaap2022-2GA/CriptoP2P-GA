@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/intentions")
 public class IntentionController {
-
+/*
     @Autowired
     IIntentionRepo intentionRepo;
 
@@ -29,5 +29,5 @@ public class IntentionController {
         return intentionRepo.save(intention);
     }
 
-
+*/
 }
