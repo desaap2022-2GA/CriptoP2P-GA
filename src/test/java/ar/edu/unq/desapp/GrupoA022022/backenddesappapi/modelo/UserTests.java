@@ -1,11 +1,13 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.modelo;
 
 
+
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IUserRepo;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Test;
 
@@ -13,10 +15,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
 
+
 import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
+
 class BackendDesappApiApplicationTests {
 
     @Autowired
@@ -24,6 +28,7 @@ class BackendDesappApiApplicationTests {
 
     @Autowired
     private UserService userService;
+
 
 
     final private User prueUser1 = new User("Roger", "Federer", "federer@yahoo.com",
@@ -37,6 +42,7 @@ class BackendDesappApiApplicationTests {
     final private User prueUser3 = new User("Juan", "Delpo", "delpo@yahoo.com",
             "Av Libertador 5000, CABA", "321Martin", "5469875465852365478952",
             "pup3oi5e");
+
 
     @Test
     void theNameOfAUserIsCorrect() throws ExceptionsUser {
@@ -234,6 +240,7 @@ class BackendDesappApiApplicationTests {
         assertEquals(user.getReputation(), 2);
     }
 
+
 //**************** SERVICE - PERSISTANCE ****************
 /*
     @Test
@@ -264,11 +271,13 @@ class BackendDesappApiApplicationTests {
         assertEquals(userRecov.getEmail(), "rogerFederer@gmail.com");
     }
 
+
     @Test
     void databaseHasTwoUsers(){
         List<User> users = userService.getAllUsers();
 
         assertEquals(users.toArray().length, 4);
+
     }
 
     @Test
@@ -315,3 +324,4 @@ class BackendDesappApiApplicationTests {
         assertEquals(users.toArray().length, 3);
     }*/
 }
+

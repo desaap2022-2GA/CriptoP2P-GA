@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/intentions")
 public class IntentionController {
-
+/*
     @Autowired
     IIntentionRepo intentionRepo;
 
@@ -25,9 +25,9 @@ public class IntentionController {
     ) {
         Intention intention = intentionRepo.findById(Math.toIntExact(intentionId)).get();
         Cryptocurrency cryptocurrency = cryptocurrencyRepo.findById(Math.toIntExact(cryptocurrencyId)).get();
-        intention.assignCryptocurrency(cryptocurrency);
+        intention.setCryptocurrency(cryptocurrency);
         return intentionRepo.save(intention);
     }
 
-
+*/
 }

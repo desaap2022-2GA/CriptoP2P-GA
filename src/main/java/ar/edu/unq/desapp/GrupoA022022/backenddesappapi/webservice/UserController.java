@@ -4,6 +4,7 @@ import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
 
     @GetMapping(value = "/users")
     public List<User> listAllUsers() {
@@ -46,3 +48,4 @@ public class UserController {
         return userService.findById(id);
     }
 }
+

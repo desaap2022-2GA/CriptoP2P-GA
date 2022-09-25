@@ -1,10 +1,25 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.3'
-	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
-	id 'java'
-	id 'war'
+    id 'org.springframework.boot' version '2.7.3'
+    id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+    id 'java'
+    id 'war'
+    id "jacoco"
+    id "org.sonarqube" version "3.4.0.2513"
 }
-
+/*
+sonarqube {
+	properties {
+		property "sonar.projectKey", "desaap2022-2ga"
+		property "sonar.organization", "desaap2022-2GA"
+		property "sonar.host.url", "https://sonarcloud.io"
+	}
+}
+*/
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
 compileJava.options.encoding = 'utf-8'
 compileTestJava.options.encoding = 'utf-8'
 
@@ -12,10 +27,11 @@ group = 'ar.edu.unq.desapp.Grupo-A-022022'
 version = '0.0.1-SNAPSHOT'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -48,12 +64,15 @@ dependencies {
 }
 
 test {
-	useJUnitPlatform()
-	testLogging.showStandardStreams(true)
-	testLogging {
-		events "passed", "skipped", "failed"
-	}
+    useJUnitPlatform()
+    testLogging.showStandardStreams(true)
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
+
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
 
 /*
 tasks.named('test') {

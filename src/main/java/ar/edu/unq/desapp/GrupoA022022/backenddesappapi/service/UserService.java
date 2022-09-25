@@ -5,11 +5,12 @@ import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.Exceptio
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Service
 public class UserService {
@@ -17,27 +18,55 @@ public class UserService {
     @Autowired
     private IUserRepo userRepo;
 
-    public User create(@Valid User user) {
-        return userRepo.save(user);
+    private HelperDTO helper = new HelperDTO();
+
+    public ResponseEntity<?> create(@Valid UserRegister userRegister) {
+        try {
+            return new ResponseEntity<>(helper.usertoUserView(userRepo.save(helper.userRegistertoUser(userRegister)))
+                    , HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
-    public User modify(User user) {
-        return userRepo.save(user);
+    public ResponseEntity<?> modify(@Valid UserModify userModify) {
+        try {
+            return new ResponseEntity<>(helper.usertoUserView(userRepo.save(helper.userModifytoUser(userModify)))
+                    , HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
-    public List<User> getAllUsers() {
-        return userRepo.findAll();
+    public ResponseEntity<?> getAllUsers() {
+        return new ResponseEntity<>(helper.userstoUsersView(userRepo.findAll()), HttpStatus.OK);
     }
 
-    public void delete(int id) {
-        userRepo.deleteById(id);
+    public ResponseEntity<?> delete(int id) {
+        try {
+            userRepo.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (EmptyResultDataAccessException e) {
+            return new ResponseEntity<>(" User with id: " +id+" not found", HttpStatus.BAD_REQUEST);
+        }
     }
 
-    public User findById(Integer id) throws ResourceNotFoundException {
-        return userRepo.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("User not found with userId " + id)
-        );
+    public ResponseEntity<?> findById(Integer id) {
+        try {
+            return new ResponseEntity<>(helper.usertoUserView(userRepo.findById(id).get()), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(" User with id: " +id+" not found", HttpStatus.BAD_REQUEST);
+        }
     }
+
+    public ResponseEntity<?> findByEmail(String email) {
+        try {
+            return new ResponseEntity<>(helper.usertoUserView(userRepo.findByEmail(email).get()), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(" User with email: " +email+" not found", HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
     public User findByEmail(String email) throws ResourceNotFoundException {
         return userRepo.findByEmail(email).orElseThrow(
@@ -72,4 +101,5 @@ public class UserService {
          */
 
     }
+
 }
