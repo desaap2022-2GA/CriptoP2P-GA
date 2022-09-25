@@ -1,14 +1,11 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.service;
 
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.HelperDTO;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserModify;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserRegister;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserView;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
@@ -69,14 +66,40 @@ public class UserService {
             return new ResponseEntity<>(" User with email: " +email+" not found", HttpStatus.BAD_REQUEST);
         }
     }
-/*
+
+
+    public User findByEmail(String email) throws ResourceNotFoundException {
+        return userRepo.findByEmail(email).orElseThrow(
+                () -> new ResourceNotFoundException("User not found with user email")
+        );
+    }
+
+    public Optional<User> findUserByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
+
     public void checkNewUserEmail(User user) throws ExceptionsUser, ResourceNotFoundException {
 
         try {
-            User newUser = helper.userDTOtoUser(findByEmail(user.getEmail()));
+            User newUser = findByEmail(user.getEmail());
+            if (findUserByEmail(user.getEmail()).toString().length() != 0) {
+                throw new ExceptionsUser("usuario ya registrado");
+            }
 
         } catch (ResourceNotFoundException e) {
-            create(helper.usertoUserView(user));
+            create(user);
         }
-    }*/
+
+        /*if (findUserByEmail(user.getEmail()).toString().length() != 0) {
+            System.out.println("por aca tambien");
+            throw new ExceptionsUser("usuario ya registrado");
+        } else {
+            create(user);
+        }
+
+
+         */
+
+    }
+
 }

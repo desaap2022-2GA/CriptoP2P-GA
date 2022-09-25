@@ -17,6 +17,10 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
+/*
+                .apis(RequestHandlerSelectors.basePackage("ar.edu.unq.desapp.GrupoA022022.backenddesappapi.webservice"))
+                .paths(PathSelectors.any())
+*/
                 /* .apis(RequestHandlerSelectors.basePackage("ar.edu.unq.desapp.GrupoA022022.backenddesappapi.webservice"))
                  */.paths(PathSelectors.any())
                 .build();

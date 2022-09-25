@@ -16,7 +16,10 @@ import java.util.stream.Collectors;
 import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.Verify.*;
 
 @Entity
-@Table(name = "userp2p_des_cg")
+
+@Table (name = "desappcriptp2p_5")
+
+
 @ConstructorBinding()
 public class User {
     @Id
@@ -32,11 +35,10 @@ public class User {
     @Size(min = 3, max = 30, message = "lastname must be between 3 and 30 characters")
     private String lastname;
 
-    @Email(message = "lastname must be between 3 and 30 characters")
-    private String email;
+   // @Column
+     private String email;
+    //@Column
 
-    @NotBlank
-    @Size(min = 10, max = 30, message = "adress must be between 10 and 30 characters")
     private String adress;
 
     @NotBlank
@@ -53,6 +55,7 @@ public class User {
     private int points = 0;
 
     private int numberOperations = 0;
+
     //private String apiKey;
 
     @JsonIgnore
@@ -66,7 +69,7 @@ public class User {
     public User() {
     }
 
-/*    @Column
+/*  @Column
     private float reputation = 0;*/
 
     public User(String name, String lastname, String email, String adress, String password, String CVUMercadoPago, String adressWalletActiveCripto) {
@@ -77,11 +80,9 @@ public class User {
         this.password = password;
         this.CVUMercadoPago = CVUMercadoPago;
         this.adressWalletActiveCripto = adressWalletActiveCripto;
-   /*     this.points = 0;
-        this.reputation = 0;
-        this.numberOperations = 0;*/
     }
 
+  
     public Integer getId() {
         return id;
     }
@@ -102,6 +103,7 @@ public class User {
         return lastname;
     }
 
+
     public void setLastname(String lastname) throws ExceptionsUser {
         if (verifyLong(lastname, 3, 30)) {
             this.lastname = lastname;
@@ -113,6 +115,7 @@ public class User {
     public String getEmail() {
         return email;
     }
+
 
     public void setEmail(String email) throws ExceptionsUser {
         if (verifyEmail(email)) {
@@ -133,6 +136,7 @@ public class User {
             throw new ExceptionsUser("Campo Obligatorio. Debe tener entre 10 y 30 caracteres");
         }
     }
+
 
     public String getPassword() {
         return password;
@@ -161,6 +165,7 @@ public class User {
 
     public String getAdressWalletActiveCripto() {
         return adressWalletActiveCripto;
+
     }
 
     public void setAdressWalletActiveCripto(String adressWalletActiveCripto) throws ExceptionsUser {
@@ -186,6 +191,16 @@ public class User {
     public void setNumberOperations(int numberOperations) {
         this.numberOperations = numberOperations;
     }
+
+
+    public void setReputation(){
+        this.reputation = calculateReputation();
+    }
+
+
+    public int calculateReputation(){
+        return (this.numberOperations != 0) ? Math.round(this.points / this.numberOperations) : 0;
+
 /*
 
     public float getReputation() {
@@ -231,5 +246,6 @@ public class User {
         return this.operations.stream().filter(o -> o.getState().equals(OperationState.CRYPTOSENDED)
                 && o.getDateTime() > firstDate
                 && o.getDateTime() < secondDate).collect(Collectors.toSet());
+
     }
 }
