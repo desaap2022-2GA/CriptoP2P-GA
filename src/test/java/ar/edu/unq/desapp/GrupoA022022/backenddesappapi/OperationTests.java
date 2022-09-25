@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -35,30 +34,35 @@ public class OperationTests {
     @Test
     void ObtainActiveOperationStateAfterCreation() {
         Operation operation = new Operation();
+
         assertEquals(OperationState.ACTIVE, operation.getState());
     }
 
     @Test
     void ObtainIntentionTypeAfterAOperationIsCreatedWhitAnIntentionTypedAsSell() {
         Operation operation = new Operation(dataSetTest.getIntentionSell(), dataSetTest.getUserTest());
+
         assertEquals(IntentionType.SELL, operation.getType());
     }
 
     @Test
     void ObtainCVUMercadoPagoFromUserOnOperationCreatedWhitAnIntentionTypedAsSell() {
         Operation operation = new Operation(dataSetTest.getIntentionSell(), dataSetTest.getUserTest());
+
         assertEquals("6352879863528798635287", operation.getTransactionInfoToShow());
     }
 
     @Test
     void ObtainAdressWalletCryptoFromUserOnOperationCreatedWhitAnIntentionTypedAsBuy() {
         Operation operation = new Operation(dataSetTest.getIntentionBuy(), dataSetTest.getUserTest());
+
         assertEquals("Xwf5u5ef", operation.getTransactionInfoToShow());
     }
 
     @Test
     void ObtainUserReputationOnOperationCreatedWhitAnIntentionFromAnUserWithoutPoints() {
         Operation operation = new Operation(dataSetTest.getIntentionBuy(), dataSetTest.getUserTest());
+
         assertEquals(0, operation.getUserReputation());
     }
 
@@ -74,6 +78,6 @@ public class OperationTests {
         Operation saved = operationRepo.save(new Operation(intentionDB,someuser2DB));
 
         int idSaved = saved.getId();
-        assertEquals(intentionRepo.findById(idSaved).get().getId(), idSaved);
+        assertEquals(operationRepo.findById(idSaved).get().getId(), idSaved);
     }
 }

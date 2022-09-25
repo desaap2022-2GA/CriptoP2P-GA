@@ -24,41 +24,45 @@ public class QuoteTests {
 
     @Autowired
     ICryptocurrencyRepo cryptocurrencyRepo;
+
     @Test
-    void ObtainCryptocurrencyNameInQuoteSettingWithNameDAI() {
-        dataSetTest.getSomeQuote().setCryptocurrency(dataSetTest.getCryptocurrency());
-        assertEquals("DAI", dataSetTest.getSomeQuote().getCryptocurrency().getName());
+    void ObtainCryptocurrencyNameFromNewQuoteOfDAICryptocurrency() {
+        Quote quote = new Quote(new Cryptocurrency("DAI"), dataSetTest.getSomePrice());
+
+        assertEquals("DAI", quote.getCryptocurrency().getName());
     }
 
     @Test
-    void ObtainCryptocurrencyPriceInQuoteSettingWithPrice5000() {
-        dataSetTest.getSomeQuote().setPrice(5000.00);
-        assertEquals(5000.00, dataSetTest.getSomeQuote().getPrice());
+    void ObtainCryptocurrencyPriceFromNewQuoteWithPrice5000() {
+        Quote quote = new Quote(dataSetTest.getCryptocurrency(), 5000.00);
+
+        assertEquals(5000.00, quote.getPrice());
     }
 
     @Test
-    void ObtainDateTimeOnRangeInQuoteSettingWithDateTime() throws InterruptedException {
+    void ObtainDateTimeFromNewQuoteBetweenARangeOfDates() throws InterruptedException {
         long beforeTime = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds() - 1;
         Quote quote = new Quote(dataSetTest.getCryptocurrency(), dataSetTest.getSomePrice());
         long afterTime = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds() + 1;
         long quoteTime = quote.getDateTime();
+
         assertTrue((beforeTime < quoteTime) && (quoteTime < afterTime));
     }
 
     @Test
-    void ObtainQuoteFromCryptocurrencyWhenCreateAQuoteWhitThatCryptocurrency() throws ResourceNotFoundException {
+    void ObtainLatestQuoteFromCryptocurrencyWhenCreateAQuoteForThatCryptocurrency() throws ResourceNotFoundException {
         Quote quote = new Quote(dataSetTest.getCryptocurrency(), dataSetTest.getSomePrice());
+
         assertEquals(quote, dataSetTest.getCryptocurrency().latestQuote());
     }
 
     //**************** SERVICE - REPOSITORY ****************
 
     @Test
-    void recoversPersistanceANewQuote() {
-        Cryptocurrency cryptocurrency = cryptocurrencyRepo.save(dataSetTest.getCryptocurrency3());
-        Quote quote = new Quote(cryptocurrency,dataSetTest.getSomePrice());
-        Quote saved = quoteRepo.save(quote);
-        int idSaved = saved.getId();
+    void recoverANewQuotePersisted() {
+        Cryptocurrency cryptocurrencyDB = cryptocurrencyRepo.save(dataSetTest.getCryptocurrency3());
+        Quote quoteDB = quoteRepo.save(new Quote(cryptocurrencyDB, dataSetTest.getSomePrice()));
+        int idSaved = quoteDB.getId();
 
         assertEquals(quoteRepo.findById(idSaved).get().getId(), idSaved);
     }
