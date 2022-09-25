@@ -12,7 +12,7 @@ import java.util.Set;
 import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.Verify.*;
 
 @Entity
-@Table (name = "desappcriptp2p_3")
+@Table (name = "desappcriptp2p_5")
 
 @ConstructorBinding()
 public class User {
