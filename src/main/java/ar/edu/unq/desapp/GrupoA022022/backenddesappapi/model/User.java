@@ -4,6 +4,7 @@ import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.Exceptio
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.OperationState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.boot.context.properties.ConstructorBinding;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -65,8 +66,8 @@ public class User {
     public User() {
     }
 
-    @Column
-    private float reputation = 0;
+/*    @Column
+    private float reputation = 0;*/
 
     public User(String name, String lastname, String email, String adress, String password, String CVUMercadoPago, String adressWalletActiveCripto) {
         this.name = name;
@@ -185,17 +186,22 @@ public class User {
     public void setNumberOperations(int numberOperations) {
         this.numberOperations = numberOperations;
     }
+/*
 
     public float getReputation() {
         return reputation;
     }
+*/
 
+/*
     public void setReputation() {
         this.reputation = calculateReputation();
     }
+*/
 
-    public int calculateReputation() {
-        return (this.numberOperations != 0) ? Math.round(this.points / this.numberOperations) : 0;
+    //   public int calculateReputation() {
+    public int getReputation() {
+        return (this.numberOperations != 0) ? /*Math.round(*/this.points / this.numberOperations/*)*/ : 0;
 /*    public int reputation() {
         return (this.numberOperations != 0) ? this.points / this.numberOperations : 0;
     */

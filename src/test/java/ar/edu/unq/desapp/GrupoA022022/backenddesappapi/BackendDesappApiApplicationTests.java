@@ -180,7 +180,7 @@ class BackendDesappApiApplicationTests {
         int operations = 5;
         user.setPoints(point);
         user.setNumberOperations(operations);
-        user.setReputation();
+/*        user.setReputation();*/
 
         assertEquals(user.getReputation(), 2);
     }
@@ -192,7 +192,7 @@ class BackendDesappApiApplicationTests {
         int operations = 0;
         user.setPoints(point);
         user.setNumberOperations(operations);
-        user.setReputation();
+/*        user.setReputation();*/
 
         assertEquals(user.getReputation(), 0);
     }
@@ -204,7 +204,7 @@ class BackendDesappApiApplicationTests {
         int operations = 3;
         user.setPoints(point);
         user.setNumberOperations(operations);
-        user.setReputation();
+/*        user.setReputation();*/
 
         assertEquals(user.getReputation(), 3);
     }
@@ -216,7 +216,7 @@ class BackendDesappApiApplicationTests {
         int operations = 4;
         user.setPoints(point);
         user.setNumberOperations(operations);
-        user.setReputation();
+/*        user.setReputation();*/
 
         assertEquals(user.getReputation(), 2);
     }
@@ -228,7 +228,7 @@ class BackendDesappApiApplicationTests {
         int operations = 4;
         user.setPoints(point);
         user.setNumberOperations(operations);
-        user.setReputation();
+/*        user.setReputation();*/
 
         assertEquals(user.getReputation(), 2);
     }

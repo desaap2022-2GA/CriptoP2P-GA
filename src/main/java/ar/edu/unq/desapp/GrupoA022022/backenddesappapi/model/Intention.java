@@ -133,7 +133,7 @@ public class Intention {
     }
 
     public int getUserReputation() {
-        return this.user.calculateReputation();
+        return this.user.getReputation();
     }
 
     public String getTransactionInfoToShow() {
