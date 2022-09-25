@@ -10,38 +10,38 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/users")
+//@RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping
+    @GetMapping(value = "/users")
     public List<User> listAllUsers() {
         return userService.getAllUsers();
     }
 
-    @PostMapping
+    @PostMapping(value = "/users")
     public User createUser(@RequestBody User user) {
         return userService.create(user);
     }
 
-    @DeleteMapping(value = "/(id)")
+    @DeleteMapping(value = "/{id}")
     public void deleteUser(@PathVariable("id") int id) {
         userService.delete(id);
     }
 
-    @PutMapping
+    @PutMapping(value = "/users/update/{id}")
     public void modifyUser(@RequestBody User user) {
         userService.modify(user);
     }
 
-    @GetMapping(value = "/(email)")
+    @GetMapping(value = "/{email}")
     public User getUserByEmail(@PathVariable("email") String email) throws NoSuchElementException, ResourceNotFoundException {
         return userService.findByEmail(email);
     }
 
-    @GetMapping(value = "/id")
+    @GetMapping(value = "/users/{id}")
     public User getUserById(@PathVariable("id") Integer id) throws ResourceNotFoundException {
         return userService.findById(id);
     }

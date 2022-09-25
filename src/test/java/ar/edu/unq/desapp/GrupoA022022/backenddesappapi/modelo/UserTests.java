@@ -26,9 +26,17 @@ class BackendDesappApiApplicationTests {
     private UserService userService;
 
 
-    final private User prueUser = new User("Roger", "Federer", "federer@yahoo.com",
-            "Av Libertador 5000, CABA", "1111", "63528798",
-            "Xwf5ui5ef");
+    final private User prueUser1 = new User("Roger", "Federer", "federer@yahoo.com",
+            "Av Libertador 5000, CABA", "3546DelpoWinner", "5469875465852365478952",
+            "pup3oi5e");
+
+    final private User prueUser2 = new User("Rafael", "Nadal", "nadal@yahoo.com",
+            "Av Libertador 5000, CABA", "123NadalChampion", "5469875465852365478952",
+            "pup3oi5e");
+
+    final private User prueUser3 = new User("Juan", "Delpo", "delpo@yahoo.com",
+            "Av Libertador 5000, CABA", "321Martin", "5469875465852365478952",
+            "pup3oi5e");
 
     @Test
     void theNameOfAUserIsCorrect() throws ExceptionsUser {
@@ -226,11 +234,20 @@ class BackendDesappApiApplicationTests {
         assertEquals(user.getReputation(), 2);
     }
 
-//**************** SERVICE - REPOSITORY ****************
+//**************** SERVICE - PERSISTANCE ****************
 
     @Test
     void recoversPersistanceANewUser() {
-        User saved = userRepo.save(prueUser);
+        User saved = userRepo.save(prueUser1);
+        Integer idSaved = saved.getId();
+        Optional<User> finded = userRepo.findById(idSaved);
+
+        assertEquals(finded.get().getId(), idSaved);
+    }
+
+    @Test
+    void recoversPersistanceAnOtherUser() {
+        User saved = userRepo.save(prueUser2);
         Integer idSaved = saved.getId();
         Optional<User> finded = userRepo.findById(idSaved);
 
@@ -266,29 +283,19 @@ class BackendDesappApiApplicationTests {
     void givenTheIdOfAUserItIsRetrievedFromTheDB() throws ResourceNotFoundException {
         User newUser = userService.findById(1);
 
-        assertEquals(prueUser.getName(), newUser.getName());
+        assertEquals(prueUser1.getName(), newUser.getName());
     }
 
     @Test
     void givenTheEmailOfAUserItIsRetrievedFromTheDB() throws ResourceNotFoundException {
-        User newUser = userService.findByEmail("federer@yahoo.com");
+        User newUser = userService.findByEmail("rogerFederer@gmail.com");
 
-        assertEquals(prueUser.getEmail(), newUser.getEmail());
+        assertEquals(newUser.getName(), "Roger");
     }
 
     @Test
     void checkIfAnEmailIsInTheDatabaseAndCanFindIt() throws ExceptionsUser, ResourceNotFoundException {
-        User newUser = new User();
-        newUser.setName("Rafael");
-        newUser.setLastname("Nadal");
-        newUser.setEmail("federer@yahoo.com");
-        newUser.setAdress("Av Libertador 5001, CABA");
-        newUser.setPassword("Damero22");
-        newUser.setCVUMercadoPago("1234567890123456789012");
-        newUser.setAdressWalletActiveCripto("12345678");
-        newUser.setReputation();
-        newUser.setPoints(5);
-        newUser.setNumberOperations(5);
+        User newUser = prueUser1;
 
         assertThrows(ExceptionsUser.class, () -> {
             userService.checkNewUserEmail(newUser);
@@ -297,22 +304,11 @@ class BackendDesappApiApplicationTests {
 
     @Test
     void checkIfAnEmailIsInTheDatabaseAndCanNotFindItCreatingTheUser() throws ExceptionsUser, ResourceNotFoundException{
-        User newUser = new User();
-        newUser.setName("Rafael");
-        newUser.setLastname("Nadal");
-        newUser.setEmail("nadalrafael1@gmail.com");
-        newUser.setAdress("Av Libertador 5001, CABA");
-        newUser.setPassword("Damero22");
-        newUser.setCVUMercadoPago("1234567890123456789012");
-        newUser.setAdressWalletActiveCripto("12345678");
-        newUser.setReputation();
-        newUser.setPoints(5);
-        newUser.setNumberOperations(5);
 
-        userService.checkNewUserEmail(newUser);
+        userService.checkNewUserEmail(prueUser3);
 
         List<User> users = userService.getAllUsers();
 
-        assertEquals(users.toArray().length, 7);
+        assertEquals(users.toArray().length, 3);
     }
 }

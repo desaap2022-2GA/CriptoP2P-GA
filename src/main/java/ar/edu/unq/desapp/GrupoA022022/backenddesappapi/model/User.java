@@ -12,7 +12,7 @@ import java.util.Set;
 import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.Verify.*;
 
 @Entity
-@Table (name = "userp2p_desapp")
+@Table (name = "desappcriptp2p_3")
 
 @ConstructorBinding()
 public class User {
@@ -46,10 +46,10 @@ public class User {
     private float reputation;
 
     @Column
-    private int numberOperation;
+    private int numberOperations;
 
     //@Column
-    private int numberOperations;
+    //private int numberOperations;
     //private String apiKey;
 
     @JsonIgnore
@@ -70,7 +70,8 @@ public class User {
     }
 
 
-    public User(String name, String lastname, String email, String adress, String password, String CVUMercadoPago, String adressWalletActiveCripto){
+    public User(String name, String lastname, String email, String adress, String password, String CVUMercadoPago,
+                String adressWalletActiveCripto){
         this.name = name;
         this.lastname = lastname;
         this.email = email;

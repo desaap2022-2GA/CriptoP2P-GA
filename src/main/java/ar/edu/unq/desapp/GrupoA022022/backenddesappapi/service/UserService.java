@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -44,13 +45,31 @@ public class UserService {
         );
     }
 
+    public Optional<User> findUserByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
+
     public void checkNewUserEmail(User user) throws ExceptionsUser, ResourceNotFoundException {
 
         try {
             User newUser = findByEmail(user.getEmail());
+            if (findUserByEmail(user.getEmail()).toString().length() != 0) {
+                throw new ExceptionsUser("usuario ya registrado");
+            }
 
         } catch (ResourceNotFoundException e) {
             create(user);
         }
+
+        /*if (findUserByEmail(user.getEmail()).toString().length() != 0) {
+            System.out.println("por aca tambien");
+            throw new ExceptionsUser("usuario ya registrado");
+        } else {
+            create(user);
+        }
+
+
+         */
+
     }
 }
