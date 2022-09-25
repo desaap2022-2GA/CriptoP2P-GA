@@ -17,7 +17,7 @@ import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.Verify.*;
 
 @Entity
 
-@Table (name = "desappcriptp2p_5")
+@Table(name = "desappcriptp2p_5")
 
 
 @ConstructorBinding()
@@ -35,8 +35,8 @@ public class User {
     @Size(min = 3, max = 30, message = "lastname must be between 3 and 30 characters")
     private String lastname;
 
-   // @Column
-     private String email;
+    // @Column
+    private String email;
     //@Column
 
     private String adress;
@@ -69,9 +69,6 @@ public class User {
     public User() {
     }
 
-/*  @Column
-    private float reputation = 0;*/
-
     public User(String name, String lastname, String email, String adress, String password, String CVUMercadoPago, String adressWalletActiveCripto) {
         this.name = name;
         this.lastname = lastname;
@@ -82,7 +79,7 @@ public class User {
         this.adressWalletActiveCripto = adressWalletActiveCripto;
     }
 
-  
+
     public Integer getId() {
         return id;
     }
@@ -192,29 +189,16 @@ public class User {
         this.numberOperations = numberOperations;
     }
 
-
-    public void setReputation(){
-        this.reputation = calculateReputation();
-    }
-
-
-    public int calculateReputation(){
-        return (this.numberOperations != 0) ? Math.round(this.points / this.numberOperations) : 0;
-
-/*
-
-    public float getReputation() {
-        return reputation;
-    }
-*/
-
-/*
+    /*
     public void setReputation() {
         this.reputation = calculateReputation();
     }
 */
 
-    //   public int calculateReputation() {
+    public int calculateReputation() {
+        return (this.numberOperations != 0) ? Math.round(this.points / this.numberOperations) : 0;
+    }
+
     public int getReputation() {
         return (this.numberOperations != 0) ? /*Math.round(*/this.points / this.numberOperations/*)*/ : 0;
 /*    public int reputation() {
@@ -246,6 +230,5 @@ public class User {
         return this.operations.stream().filter(o -> o.getState().equals(OperationState.CRYPTOSENDED)
                 && o.getDateTime() > firstDate
                 && o.getDateTime() < secondDate).collect(Collectors.toSet());
-
     }
 }

@@ -1,13 +1,9 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.modelo;
 
-
-
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IUserRepo;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Test;
 
@@ -15,8 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
 
-
-import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -187,7 +181,6 @@ class BackendDesappApiApplicationTests {
         int operations = 5;
         user.setPoints(point);
         user.setNumberOperations(operations);
-        user.setReputation();
 
         assertEquals(user.getReputation(), 2);
     }
@@ -199,7 +192,6 @@ class BackendDesappApiApplicationTests {
         int operations = 0;
         user.setPoints(point);
         user.setNumberOperations(operations);
-        user.setReputation();
 
         assertEquals(user.getReputation(), 0);
     }
@@ -211,7 +203,6 @@ class BackendDesappApiApplicationTests {
         int operations = 3;
         user.setPoints(point);
         user.setNumberOperations(operations);
-        user.setReputation();
 
         assertEquals(user.getReputation(), 3);
     }
@@ -223,7 +214,6 @@ class BackendDesappApiApplicationTests {
         int operations = 4;
         user.setPoints(point);
         user.setNumberOperations(operations);
-        user.setReputation();
 
         assertEquals(user.getReputation(), 2);
     }
@@ -235,14 +225,13 @@ class BackendDesappApiApplicationTests {
         int operations = 4;
         user.setPoints(point);
         user.setNumberOperations(operations);
-        user.setReputation();
 
         assertEquals(user.getReputation(), 2);
     }
 
 
 //**************** SERVICE - PERSISTANCE ****************
-/*
+
     @Test
     void recoversPersistanceANewUser() {
         User saved = userRepo.save(prueUser1);
@@ -251,7 +240,7 @@ class BackendDesappApiApplicationTests {
 
         assertEquals(finded.get().getId(), idSaved);
     }
-
+/*
     @Test
     void recoversPersistanceAnOtherUser() {
         User saved = userRepo.save(prueUser2);
@@ -287,24 +276,35 @@ class BackendDesappApiApplicationTests {
         List<User> users = userService.getAllUsers();
 
 
+<<<<<<< HEAD
+    }
+/*
+=======
         assertEquals(users.toArray().length, cantUsers-1);
 
     }
 
+>>>>>>> 7fb21c4a64b944a20ccd7ffe33cb2463f857d7bc
     @Test
     void givenTheIdOfAUserItIsRetrievedFromTheDB() throws ResourceNotFoundException {
         User newUser = userService.findById(1);
 
+<<<<<<< HEAD
+        assertEquals(prueUser.getName(), newUser.getName());
+    }
+*//*
+=======
         assertEquals(prueUser1.getName(), newUser.getName());
     }
 
+>>>>>>> 7fb21c4a64b944a20ccd7ffe33cb2463f857d7bc
     @Test
     void givenTheEmailOfAUserItIsRetrievedFromTheDB() throws ResourceNotFoundException {
         User newUser = userService.findByEmail("rogerFederer@gmail.com");
 
         assertEquals(newUser.getName(), "Roger");
     }
-
+*//*
     @Test
     void checkIfAnEmailIsInTheDatabaseAndCanFindIt() throws ExceptionsUser, ResourceNotFoundException {
         User newUser = prueUser1;
