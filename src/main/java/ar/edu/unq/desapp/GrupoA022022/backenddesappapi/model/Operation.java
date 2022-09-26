@@ -3,7 +3,6 @@ package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.IntentionType;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.OperationState;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
@@ -67,12 +66,10 @@ public class Operation {
         return this.intention.getType();
     }
 
-    //CVU o BIlletera cripto segun tipo de OP
     public String getTransactionInfoToShow() {
         return this.intention.getTransactionInfoToShow();
     }
 
-    //reputacion
     public int getUserReputation() {
         return this.intention.getUserReputation();
     }

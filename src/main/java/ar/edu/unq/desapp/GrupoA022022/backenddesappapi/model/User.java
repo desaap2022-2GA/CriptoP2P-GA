@@ -4,7 +4,6 @@ import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.Exceptio
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.OperationState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.boot.context.properties.ConstructorBinding;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -22,7 +21,6 @@ import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.Verify.*;
 @ConstructorBinding()
 public class User {
     @Id
-    //@GeneratedValue(generator = "User_ID_Generator", initialValue = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -45,7 +43,7 @@ public class User {
 
     @NotBlank
     @Size(min = 22, max = 22, message = "CVU must be 22 characters")
-    private String CVUMercadoPago;
+    private String mercadoPagoCVU;
 
     @NotBlank
     @Size(min = 8, max = 8, message = "wallet must be 8 characters")
@@ -68,16 +66,15 @@ public class User {
     public User() {
     }
 
-    public User(String name, String lastname, String email, String adress, String password, String CVUMercadoPago, String adressWalletActiveCripto) {
+    public User(String name, String lastname, String email, String adress, String password, String mercadoPagoCVU, String adressWalletActiveCripto) {
         this.name = name;
         this.lastname = lastname;
         this.email = email;
         this.adress = adress;
         this.password = password;
-        this.CVUMercadoPago = CVUMercadoPago;
+        this.mercadoPagoCVU = mercadoPagoCVU;
         this.adressWalletActiveCripto = adressWalletActiveCripto;
     }
-
 
     public Integer getId() {
         return id;
@@ -133,7 +130,6 @@ public class User {
         }
     }
 
-
     public String getPassword() {
         return password;
     }
@@ -147,13 +143,13 @@ public class User {
         }
     }
 
-    public String getCVUMercadoPago() {
-        return CVUMercadoPago;
+    public String getMercadoPagoCVU() {
+        return mercadoPagoCVU;
     }
 
-    public void setCVUMercadoPago(String CVUMercadoPago) throws ExceptionsUser {
+    public void setMercadoPagoCVU(String CVUMercadoPago) throws ExceptionsUser {
         if (verifyCVUMercadoPago(CVUMercadoPago)) {
-            this.CVUMercadoPago = CVUMercadoPago;
+            this.mercadoPagoCVU = CVUMercadoPago;
         } else {
             throw new ExceptionsUser("Campo Obligatorio. Debe contener 22 dígitos");
         }
@@ -161,7 +157,6 @@ public class User {
 
     public String getAdressWalletActiveCripto() {
         return adressWalletActiveCripto;
-
     }
 
     public void setAdressWalletActiveCripto(String adressWalletActiveCripto) throws ExceptionsUser {
@@ -188,21 +183,8 @@ public class User {
         this.numberOperations = numberOperations;
     }
 
-    /*
-    public void setReputation() {
-        this.reputation = calculateReputation();
-    }
-*/
-
-    public int calculateReputation() {
-        return (this.numberOperations != 0) ? Math.round(this.points / this.numberOperations) : 0;
-    }
-
     public int getReputation() {
-        return (this.numberOperations != 0) ? /*Math.round(*/this.points / this.numberOperations/*)*/ : 0;
-/*    public int reputation() {
-        return (this.numberOperations != 0) ? this.points / this.numberOperations : 0;
-    */
+        return (this.numberOperations != 0) ? (this.points / this.numberOperations) : 0;
     }
 
     public void addIntention(Intention intention) {

@@ -2,7 +2,6 @@ package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.IntentionType;
-
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -137,7 +136,7 @@ public class Intention {
     }
 
     public String getTransactionInfoToShow() {
-        return (this.type == IntentionType.SELL) ? this.user.getCVUMercadoPago()
+        return (this.type == IntentionType.SELL) ? this.user.getMercadoPagoCVU()
                 : this.user.getAdressWalletActiveCripto();
     }
 }

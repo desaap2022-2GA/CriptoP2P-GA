@@ -20,7 +20,7 @@ public class HelperDTO {
 
     public UserView usertoUserView(User user) {
         return new UserView(user.getId(), user.getName(), user.getLastname(), user.getEmail(), user.getAdress()
-                , user.getCVUMercadoPago(), user.getAdressWalletActiveCripto());
+                , user.getMercadoPagoCVU(), user.getAdressWalletActiveCripto());
     }
 
     public List<UserView> userstoUsersView(List<User> all) {

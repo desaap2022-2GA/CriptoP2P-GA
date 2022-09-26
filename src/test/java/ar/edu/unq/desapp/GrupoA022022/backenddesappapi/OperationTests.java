@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
-public class OperationTests {
+class OperationTests {
 
     DataSetTest dataSetTest = new DataSetTest();
 

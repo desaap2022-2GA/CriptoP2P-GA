@@ -8,12 +8,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
-public class CryptocurrencyTests {
+class CryptocurrencyTests {
 
     DataSetTest dataSetTest = new DataSetTest();
 
@@ -38,7 +40,7 @@ public class CryptocurrencyTests {
     void Obtain0IdFromCryptocurrencyThatNotWasPersisted() {
         Cryptocurrency cryptocurrency = new Cryptocurrency();
 
-        assertEquals(0,cryptocurrency.getId());
+        assertEquals(0, cryptocurrency.getId());
     }
 
     @Test
@@ -59,9 +61,9 @@ public class CryptocurrencyTests {
     @Test
     void ObtainLastQuoteFromCryptocurrencySettingWithAPairOfQuotesAnNotExpectingTheFirstOfThem() throws ResourceNotFoundException {
         Cryptocurrency cryptocurrency = new Cryptocurrency("SOL");
-        Quote quote1 = new Quote(cryptocurrency,1000.00);
-        Quote quote2 = new Quote(cryptocurrency,5000.00);
-        quote2.setDateTime(quote1.getDateTime()+1);
+        Quote quote1 = new Quote(cryptocurrency, 1000.00);
+        Quote quote2 = new Quote(cryptocurrency, 5000.00);
+        quote2.setDateTime(quote1.getDateTime() + 1);
 
         assertNotEquals(quote1, cryptocurrency.latestQuote());
     }
@@ -69,9 +71,9 @@ public class CryptocurrencyTests {
     @Test
     void ObtainLastQuoteFromCryptocurrencySettingWithAPairOfQuotes() throws ResourceNotFoundException {
         Cryptocurrency cryptocurrency = new Cryptocurrency("SOL");
-        Quote quote1 = new Quote(cryptocurrency,1000.00);
-        Quote quote2 = new Quote(cryptocurrency,5000.00);
-        quote2.setDateTime(quote1.getDateTime()+1);
+        Quote quote1 = new Quote(cryptocurrency, 1000.00);
+        Quote quote2 = new Quote(cryptocurrency, 5000.00);
+        quote2.setDateTime(quote1.getDateTime() + 1);
 
         assertEquals(quote2, cryptocurrency.latestQuote());
     }
