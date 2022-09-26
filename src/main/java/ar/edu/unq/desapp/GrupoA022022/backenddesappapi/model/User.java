@@ -189,21 +189,12 @@ public class User {
         this.numberOperations = numberOperations;
     }
 
-    /*
-    public void setReputation() {
-        this.reputation = calculateReputation();
-    }
-*/
-
     public int calculateReputation() {
-        return (this.numberOperations != 0) ? Math.round(this.points / this.numberOperations) : 0;
+        return (this.numberOperations != 0) ? (this.points / this.numberOperations) : 0;
     }
 
     public int getReputation() {
-        return (this.numberOperations != 0) ? /*Math.round(*/this.points / this.numberOperations/*)*/ : 0;
-/*    public int reputation() {
-        return (this.numberOperations != 0) ? this.points / this.numberOperations : 0;
-    */
+        return (this.numberOperations != 0) ? (this.points / this.numberOperations) : 0;
     }
 
     public void addIntention(Intention intention) {
