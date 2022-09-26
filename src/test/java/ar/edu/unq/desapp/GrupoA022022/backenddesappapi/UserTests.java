@@ -1,9 +1,10 @@
-package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.modelo;
+package ar.edu.unq.desapp.GrupoA022022.backenddesappapi;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IUserRepo;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +15,8 @@ import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.Exceptio
 import java.util.Optional;
 
 @SpringBootTest
-
-class BackendDesappApiApplicationTests {
+@AutoConfigureTestDatabase
+class UserTests {
 
     @Autowired
     private IUserRepo userRepo;

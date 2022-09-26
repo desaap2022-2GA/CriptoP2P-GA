@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/main")
 public class MainController {
 
-@GetMapping
-    public String pub(){
-    return "You are on main";
-}
+    @GetMapping
+    public String pub() {
+        return "You are on main";
+    }
 }

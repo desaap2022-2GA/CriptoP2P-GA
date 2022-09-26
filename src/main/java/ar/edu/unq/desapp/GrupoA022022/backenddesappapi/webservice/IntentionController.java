@@ -1,12 +1,5 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.webservice;
 
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Cryptocurrency;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Intention;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.ICryptocurrencyRepo;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IIntentionRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/intentions")

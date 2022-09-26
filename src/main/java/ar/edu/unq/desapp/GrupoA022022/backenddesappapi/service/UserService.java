@@ -61,6 +61,5 @@ public class UserService {
         } catch (ResourceNotFoundException e) {
             create(user);
         }
-
     }
 }

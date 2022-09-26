@@ -4,7 +4,6 @@ import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.Exceptio
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.OperationState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.boot.context.properties.ConstructorBinding;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -22,7 +21,6 @@ import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.Verify.*;
 @ConstructorBinding()
 public class User {
     @Id
-    //@GeneratedValue(generator = "User_ID_Generator", initialValue = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -78,7 +76,6 @@ public class User {
         this.adressWalletActiveCripto = adressWalletActiveCripto;
     }
 
-
     public Integer getId() {
         return id;
     }
@@ -133,7 +130,6 @@ public class User {
         }
     }
 
-
     public String getPassword() {
         return password;
     }
@@ -161,7 +157,6 @@ public class User {
 
     public String getAdressWalletActiveCripto() {
         return adressWalletActiveCripto;
-
     }
 
     public void setAdressWalletActiveCripto(String adressWalletActiveCripto) throws ExceptionsUser {
@@ -186,10 +181,6 @@ public class User {
 
     public void setNumberOperations(int numberOperations) {
         this.numberOperations = numberOperations;
-    }
-
-    public int calculateReputation() {
-        return (this.numberOperations != 0) ? (this.points / this.numberOperations) : 0;
     }
 
     public int getReputation() {

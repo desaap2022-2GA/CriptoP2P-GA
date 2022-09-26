@@ -1,7 +1,6 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseconds;
-
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;

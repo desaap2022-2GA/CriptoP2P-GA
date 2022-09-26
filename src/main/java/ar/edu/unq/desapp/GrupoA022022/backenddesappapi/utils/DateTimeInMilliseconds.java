@@ -14,7 +14,7 @@ public class DateTimeInMilliseconds {
         return currentTimeInMilliseconds;
     }
 
-        public long getCurrentTimeMinusOneDayInMilliseconds() {
+    public long getCurrentTimeMinusOneDayInMilliseconds() {
         return currentTimeMinusOneDayInMilliseconds;
     }
 
