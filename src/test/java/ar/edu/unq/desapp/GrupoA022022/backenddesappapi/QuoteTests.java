@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
-public class QuoteTests {
+class QuoteTests {
 
     DataSetTest dataSetTest = new DataSetTest();
 

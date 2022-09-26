@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
-public class IntentionTests {
+class IntentionTests {
 
     DataSetTest dataSetTest = new DataSetTest();
 
