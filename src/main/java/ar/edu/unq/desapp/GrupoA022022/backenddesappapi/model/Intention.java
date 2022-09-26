@@ -137,7 +137,7 @@ public class Intention {
     }
 
     public String getTransactionInfoToShow() {
-        return (this.type == IntentionType.SELL) ? this.user.getCVUMercadoPago()
+        return (this.type == IntentionType.SELL) ? this.user.getMercadoPagoCVU()
                 : this.user.getAdressWalletActiveCripto();
     }
 }

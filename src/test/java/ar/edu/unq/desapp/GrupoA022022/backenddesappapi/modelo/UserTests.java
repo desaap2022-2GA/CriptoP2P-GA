@@ -124,9 +124,9 @@ class BackendDesappApiApplicationTests {
     void theCVDDeMercadoLibreOfAUserIsCorrect() throws ExceptionsUser {
         User user = new User();
         String CVUMercadoPago = "1234567890123456789012";
-        user.setCVUMercadoPago(CVUMercadoPago);
+        user.setMercadoPagoCVU(CVUMercadoPago);
 
-        assertEquals(user.getCVUMercadoPago(), "1234567890123456789012");
+        assertEquals(user.getMercadoPagoCVU(), "1234567890123456789012");
     }
 
     @Test

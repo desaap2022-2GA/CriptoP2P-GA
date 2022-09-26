@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
@@ -46,7 +45,7 @@ public class User {
 
     @NotBlank
     @Size(min = 22, max = 22, message = "CVU must be 22 characters")
-    private String CVUMercadoPago;
+    private String mercadoPagoCVU;
 
     @NotBlank
     @Size(min = 8, max = 8, message = "wallet must be 8 characters")
@@ -69,13 +68,13 @@ public class User {
     public User() {
     }
 
-    public User(String name, String lastname, String email, String adress, String password, String CVUMercadoPago, String adressWalletActiveCripto) {
+    public User(String name, String lastname, String email, String adress, String password, String mercadoPagoCVU, String adressWalletActiveCripto) {
         this.name = name;
         this.lastname = lastname;
         this.email = email;
         this.adress = adress;
         this.password = password;
-        this.CVUMercadoPago = CVUMercadoPago;
+        this.mercadoPagoCVU = mercadoPagoCVU;
         this.adressWalletActiveCripto = adressWalletActiveCripto;
     }
 
@@ -148,13 +147,13 @@ public class User {
         }
     }
 
-    public String getCVUMercadoPago() {
-        return CVUMercadoPago;
+    public String getMercadoPagoCVU() {
+        return mercadoPagoCVU;
     }
 
-    public void setCVUMercadoPago(String CVUMercadoPago) throws ExceptionsUser {
+    public void setMercadoPagoCVU(String CVUMercadoPago) throws ExceptionsUser {
         if (verifyCVUMercadoPago(CVUMercadoPago)) {
-            this.CVUMercadoPago = CVUMercadoPago;
+            this.mercadoPagoCVU = CVUMercadoPago;
         } else {
             throw new ExceptionsUser("Campo Obligatorio. Debe contener 22 dígitos");
         }
