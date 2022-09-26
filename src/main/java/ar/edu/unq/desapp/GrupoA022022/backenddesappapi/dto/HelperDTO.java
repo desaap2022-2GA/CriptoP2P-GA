@@ -1,7 +1,6 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
-
 import java.util.List;
 import java.util.stream.Collectors;
 

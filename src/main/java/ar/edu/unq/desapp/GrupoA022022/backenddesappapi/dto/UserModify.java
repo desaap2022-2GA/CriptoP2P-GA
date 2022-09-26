@@ -18,8 +18,7 @@ public class UserModify {
 
     private String adressWalletActiveCripto;
 
-    public UserModify(int id, String name, String lastname, String email, String adress, String password, String cvumercadoPago, String adressWalletActiveCripto) {
-        this.id = id;
+    public UserModify(String name, String lastname, String email, String adress, String password, String cvumercadoPago, String adressWalletActiveCripto) {
         this.name = name;
         this.lastname = lastname;
         this.email = email;

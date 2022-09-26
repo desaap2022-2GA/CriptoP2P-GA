@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
@@ -42,7 +41,7 @@ public class User {
     private String adress;
 
     @NotBlank
-    private String password;//investigar como validar los requerimentos indicados
+    private String password;
 
     @NotBlank
     @Size(min = 22, max = 22, message = "CVU must be 22 characters")
