@@ -25,7 +25,6 @@ class UserTests {
     private UserService userService;
 
 
-
     final private User prueUser1 = new User("Roger", "Federer", "federer@yahoo.com",
             "Av Libertador 5000, CABA", "3546DelpoWinner", "5469875465852365478952",
             "pup3oi5e");
@@ -46,7 +45,7 @@ class UserTests {
         user.setName(name);
         System.out.println("en elNombreDeUnUsuarioEsCorrecto");
 
-        assertEquals(user.getName(), "Graciela");
+        assertEquals("Graciela", user.getName());
     }
 
     @Test
@@ -55,7 +54,7 @@ class UserTests {
         String lastname = "Gonzalez";
         user.setLastname(lastname);
 
-        assertEquals(user.getLastname(), "Gonzalez");
+        assertEquals("Gonzalez", user.getLastname());
     }
 
     @Test
@@ -73,7 +72,7 @@ class UserTests {
         String email = "user@desp.com";
         user.setEmail(email);
 
-        assertEquals(user.getEmail(), "user@desp.com");
+        assertEquals("user@desp.com", user.getEmail());
     }
 
     @Test
@@ -127,7 +126,7 @@ class UserTests {
         String CVUMercadoPago = "1234567890123456789012";
         user.setMercadoPagoCVU(CVUMercadoPago);
 
-        assertEquals(user.getMercadoPagoCVU(), "1234567890123456789012");
+        assertEquals("1234567890123456789012", user.getMercadoPagoCVU());
     }
 
     @Test
@@ -145,7 +144,7 @@ class UserTests {
         String adressWalletActiveCripto = "12345678";
         user.setAdressWalletActiveCripto(adressWalletActiveCripto);
 
-        assertEquals(user.getAdressWalletActiveCripto(), "12345678");
+        assertEquals("12345678", user.getAdressWalletActiveCripto());
     }
 
     @Test
@@ -158,7 +157,7 @@ class UserTests {
     }
 
     @Test
-    void aUserHas10Points(){
+    void aUserHas10Points() {
         User user = new User();
         int point = 10;
         user.setPoints(point);
@@ -167,67 +166,67 @@ class UserTests {
     }
 
     @Test
-    void aUserHas5Operations(){
+    void aUserHas5Operations() {
         User user = new User();
         int operations = 5;
         user.setNumberOperations(operations);
 
-        assertEquals(user.getNumberOperations(), 5);
+        assertEquals(5, user.getNumberOperations());
     }
 
     @Test
-    void aUserHas10PointsAnd5OperationsSoHasAReputationOf2(){
+    void aUserHas10PointsAnd5OperationsSoHasAReputationOf2() {
         User user = new User();
         int point = 10;
         int operations = 5;
         user.setPoints(point);
         user.setNumberOperations(operations);
 
-        assertEquals(user.getReputation(), 2);
+        assertEquals(2, user.getReputation());
     }
 
     @Test
-    void aUserHas10PointsAnd0OperationsSoHasAReputationOf2(){
+    void aUserHas10PointsAnd0OperationsSoHasAReputationOf2() {
         User user = new User();
         int point = 10;
         int operations = 0;
         user.setPoints(point);
         user.setNumberOperations(operations);
 
-        assertEquals(user.getReputation(), 0);
+        assertEquals(0, user.getReputation());
     }
 
     @Test
-    void aUserHas10PointsAnd3OperationsSoHasAReputationOf3(){
+    void aUserHas10PointsAnd3OperationsSoHasAReputationOf3() {
         User user = new User();
         int point = 10;
         int operations = 3;
         user.setPoints(point);
         user.setNumberOperations(operations);
 
-        assertEquals(user.getReputation(), 3);
+        assertEquals(3, user.getReputation());
     }
 
     @Test
-    void aUserHas10PointsAnd4OperationsSoHasAReputationOf2(){
+    void aUserHas10PointsAnd4OperationsSoHasAReputationOf2() {
         User user = new User();
         int point = 10;
         int operations = 4;
         user.setPoints(point);
         user.setNumberOperations(operations);
 
-        assertEquals(user.getReputation(), 2);
+        assertEquals(2, user.getReputation());
     }
 
     @Test
-    void aUserHas11PointsAnd4OperationsSoHasAReputationOf2(){
+    void aUserHas11PointsAnd4OperationsSoHasAReputationOf2() {
         User user = new User();
         int point = 11;
         int operations = 4;
         user.setPoints(point);
         user.setNumberOperations(operations);
 
-        assertEquals(user.getReputation(), 2);
+        assertEquals(2, user.getReputation());
     }
 
 
@@ -239,7 +238,7 @@ class UserTests {
         Integer idSaved = saved.getId();
         Optional<User> finded = userRepo.findById(idSaved);
 
-        assertEquals(finded.get().getId(), idSaved);
+        assertEquals(idSaved, finded.get().getId());
     }
 /*
     @Test
@@ -325,4 +324,3 @@ class UserTests {
         assertEquals(users.toArray().length, 3);
     }*/
 }
-
