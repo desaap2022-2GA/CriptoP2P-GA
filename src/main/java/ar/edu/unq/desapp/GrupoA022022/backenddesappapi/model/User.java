@@ -15,7 +15,7 @@ import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.Verify.*;
 
 @Entity
 
-@Table(name = "desappcriptp2p_7")
+@Table(name = "desappcriptp2p_10")
 
 
 @ConstructorBinding()
@@ -32,9 +32,7 @@ public class User {
     @Size(min = 3, max = 30, message = "lastname must be between 3 and 30 characters")
     private String lastname;
 
-    // @Column
     private String email;
-    //@Column
 
     private String address;
 

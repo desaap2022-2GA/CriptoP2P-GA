@@ -1,6 +1,8 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IUserRepo;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
 
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -43,7 +46,6 @@ class UserTests {
         User user = new User();
         String name = "Graciela";
         user.setName(name);
-        System.out.println("en elNombreDeUnUsuarioEsCorrecto");
 
         assertEquals("Graciela", user.getName());
     }
@@ -232,6 +234,7 @@ class UserTests {
 
 //**************** SERVICE - PERSISTANCE ****************
 
+    //SAVE
     @Test
     void recoversPersistanceANewUser() {
         User saved = userRepo.save(prueUser1);
@@ -240,19 +243,27 @@ class UserTests {
 
         assertEquals(idSaved, finded.get().getId());
     }
-/*
-    @Test
-    void recoversPersistanceAnOtherUser() {
-        User saved = userRepo.save(prueUser2);
-        Integer idSaved = saved.getId();
-        Optional<User> finded = userRepo.findById(idSaved);
 
-        assertEquals(idSaved, finded.get().getId());
+    //GET ALL
+    @Test
+    void databaseHasTwoUsers(){
+        userRepo.deleteAll();
+        userRepo.save(prueUser1);
+        userRepo.save(prueUser2);
+
+        List<User> users = userService.getAllUsers();
+
+        assertEquals(2, users.toArray().length);
+
     }
 
-
+    //PUT
     @Test
     void modifyAnUserWithId1() throws ResourceNotFoundException, ExceptionsUser {
+        userRepo.deleteAll();
+        userRepo.save(prueUser1);
+        userRepo.save(prueUser2);
+        userRepo.save(prueUser3);
         User userRecov = userService.findById(1);
         userRecov.setEmail("rogerFederer@gmail.com");
         userRepo.save(userRecov);
@@ -261,66 +272,60 @@ class UserTests {
     }
 
 
-    @Test
-    void databaseHasTwoUsers(){
-        List<User> users = userService.getAllUsers();
 
-        assertEquals(4, users.toArray().length);
 
-    }
-
+    //DELETTE BY ID
     @Test
     void theUserWithId2IsDeletedFromTheDatabaseSoThereIsOnlyOneUser() throws ResourceNotFoundException {
+        userRepo.save(prueUser1);
+        userRepo.save(prueUser2);
+        userRepo.save(prueUser3);
+
         int cantUsers = userService.getAllUsers().toArray().length;
         userService.delete(2);
         List<User> users = userService.getAllUsers();
 
-
-<<<<<<< HEAD
-    }
-/*
-=======
         assertEquals(cantUsers-1, users.toArray().length);
-
     }
 
->>>>>>> 7fb21c4a64b944a20ccd7ffe33cb2463f857d7bc
-    @Test
-    void givenTheIdOfAUserItIsRetrievedFromTheDB() throws ResourceNotFoundException {
-        User newUser = userService.findById(1);
-
-<<<<<<< HEAD
-        assertEquals(prueUser.getName(), newUser.getName());
-    }
-*//*
-=======
-        assertEquals(prueUser1.getName(), newUser.getName());
-    }
-
->>>>>>> 7fb21c4a64b944a20ccd7ffe33cb2463f857d7bc
+    //GET EMAIL ******
     @Test
     void givenTheEmailOfAUserItIsRetrievedFromTheDB() throws ResourceNotFoundException {
-        User newUser = userService.findByEmail("rogerFederer@gmail.com");
+        userRepo.deleteAll();
+        userRepo.save(prueUser1);
+        userRepo.save(prueUser2);
+        userRepo.save(prueUser3);
+
+        User newUser = userService.findByEmail("federer@yahoo.com");
 
         assertEquals("Roger", newUser.getName());
     }
-*//*
-    @Test
-    void checkIfAnEmailIsInTheDatabaseAndCanFindIt() throws ExceptionsUser, ResourceNotFoundException {
-        User newUser = prueUser1;
 
-        assertThrows(ExceptionsUser.class, () -> {
-            userService.checkNewUserEmail(newUser);
+    //EXISTS EMAIL EXCEPTION *********
+    @Test
+    void checkIfAnEmailIsInTheDatabaseAndCanNotFindIt() throws ExceptionsUser, ResourceNotFoundException {
+        userRepo.deleteAll();
+        userRepo.save(prueUser1);
+        User newUser = new User();
+        newUser.setEmail("milonina@gmail.com");
+
+        assertThrows(ResourceNotFoundException.class, () -> {
+            userService.findByEmail(newUser.getEmail());
         });
     }
 
+    //POST  -  ADD NEW USER ************
     @Test
-    void checkIfAnEmailIsInTheDatabaseAndCanNotFindItCreatingTheUser() throws ExceptionsUser, ResourceNotFoundException{
+    void checkIfAnEmailIsInTheDatabaseAndCanNotFindItCreatingTheUser() throws EmailAlreadyExists {
+        userRepo.deleteAll();
+        userRepo.save(prueUser1);
+        userRepo.save(prueUser2);
 
-        userService.checkNewUserEmail(prueUser3);
+        userService.checkNewUserEmail(prueUser3.getEmail());
 
         List<User> users = userService.getAllUsers();
 
-        assertEquals(3, users.toArray().length);
-    }*/
+        assertEquals(2, users.toArray().length);
+    }
+
 }

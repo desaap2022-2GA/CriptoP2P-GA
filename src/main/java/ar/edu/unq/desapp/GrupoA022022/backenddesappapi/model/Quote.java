@@ -39,6 +39,7 @@ public class Quote {
     }
 
     public void setCryptocurrency(Cryptocurrency cryptocurrency) {
+
         this.cryptocurrency = cryptocurrency;
     }
 
@@ -71,10 +72,12 @@ public class Quote {
     }
 
     public boolean intentionPriceMoreThanQuotePrice(Double intentionPrice) {
+
         return intentionPrice > this.price;
     }
 
     public boolean intentionPriceLessThanQuotePrice(Double intentionPrice) {
+
         return intentionPrice < this.price;
     }
 

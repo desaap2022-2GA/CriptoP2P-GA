@@ -11,12 +11,9 @@ import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
-import java.util.NoSuchElementException;
 
 @Service
 public class UserService {
@@ -65,14 +62,10 @@ public class UserService {
     }
 
     public void checkNewUserEmail(String email) throws EmailAlreadyExists {
-/*        try {
-            User newUser = findByEmail(user.getEmail());*/
+
         if (!findUserByEmail(email).isEmpty()) {
             throw new EmailAlreadyExists("The email is already registered");
-/*            }
-        } catch (ResourceNotFoundException e) {
-            userRepo.save(user);*/
-        }
+           }
     }
 
 

@@ -88,14 +88,17 @@ public class Operation {
     }
 
     public void cancelOperationBySystem() {
+
         this.setState(OperationState.CANCELLED);
     }
 
     public void moneyTranferedDone() {
+
         this.setState(OperationState.PAID);
     }
 
     public void cryptoSendDone() {
+
         this.setState(OperationState.CRYPTOSENDED);
     }
 
@@ -119,6 +122,7 @@ public class Operation {
     }
 
     public double amountInDollars(double amount, double dollarQuote) {
+
         return amount * dollarQuote;
     }
 }
