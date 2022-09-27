@@ -1,28 +1,43 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class UserRegister {
+    @NotBlank
+    @Size(min = 3, max = 30, message = "Name: must be between 3 and 30 characters")
     private String name;
 
+    @NotBlank
+    @Size(min = 3, max = 30, message = "Lastname: must be between 3 and 30 characters")
     private String lastname;
 
+    @Email(message = "Email: must be a properly formatted email address")
     private String email;
 
-    private String adress;
+    @NotBlank(message = "Address: it can not be null")
+    private String address;
 
+    @NotBlank(message = "Password: it can not be null")
     private String password;
 
-    private String cvumercadoPago;
+    @NotBlank
+    @Size(min = 22, max = 22, message = "MercadoPagoCVU: must be 22 characters")
+    private String mercadoPagoCVU;
 
-    private String adressWalletActiveCripto;
+    @NotBlank
+    @Size(min = 8, max = 8, message = "AdressWalleActiveCryptot: must be 8 characters")
+    private String addressWalletActiveCripto;
 
-    public UserRegister(String name, String lastname, String email, String adress, String password, String cvumercadoPago, String adressWalletActiveCripto) {
+    public UserRegister(String name, String lastname, String email, String address, String password, String mercadoPagoCVU, String addressWalletActiveCripto) {
         this.name = name;
         this.lastname = lastname;
         this.email = email;
-        this.adress = adress;
+        this.address = address;
         this.password = password;
-        this.cvumercadoPago = cvumercadoPago;
-        this.adressWalletActiveCripto = adressWalletActiveCripto;
+        this.mercadoPagoCVU = mercadoPagoCVU;
+        this.addressWalletActiveCripto = addressWalletActiveCripto;
     }
     public UserRegister(){}
 
@@ -38,20 +53,19 @@ public class UserRegister {
         return email;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public String getAdressWalletActiveCripto() {
-        return adressWalletActiveCripto;
+    public String getAddressWalletActiveCripto() {
+        return addressWalletActiveCripto;
     }
 
-    public String getCvumercadoPago() {
-        return cvumercadoPago;
+    public String getmercadoPagoCVU() {
+        return mercadoPagoCVU;
     }
-
 }

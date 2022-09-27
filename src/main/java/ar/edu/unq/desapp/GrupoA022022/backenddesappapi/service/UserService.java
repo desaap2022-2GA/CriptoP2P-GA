@@ -1,6 +1,10 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.service;
 
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.HelperDTO;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserModify;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserRegister;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IUserRepo;
@@ -19,19 +23,28 @@ public class UserService {
     @Autowired
     private IUserRepo userRepo;
 
-    public User create(@Valid User user) {
-        return userRepo.save(user);
+    private HelperDTO helper = new HelperDTO();
+
+    public User create(UserRegister userRegister) throws EmailAlreadyExists {
+        this.checkNewUserEmail(userRegister.getEmail());
+        return userRepo.save(helper.userRegistertoUser(userRegister));
     }
 
-    public User modify(User user) {
-        return userRepo.save(user);
+    public User modify(UserModify userModify) throws EmailAlreadyExists {
+        this.checkNewUserEmail(userModify.getEmail());
+        try {
+            return userRepo.save(helper.userModifytoUser(userModify, this.findById(userModify.getId())));
+        } catch (ExceptionsUser | ResourceNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public List<User> getAllUsers() {
         return userRepo.findAll();
     }
 
-    public void delete(int id) {
+    public void delete(int id) throws ResourceNotFoundException {
+        this.findById(id);
         userRepo.deleteById(id);
     }
 
@@ -51,15 +64,14 @@ public class UserService {
         return userRepo.findByEmail(email);
     }
 
-    public void checkNewUserEmail(User user) throws ExceptionsUser, ResourceNotFoundException {
-
-        try {
-            User newUser = findByEmail(user.getEmail());
-            if (findUserByEmail(user.getEmail()).toString().length() != 0) {
-                throw new ExceptionsUser("usuario ya registrado");
-            }
+    public void checkNewUserEmail(String email) throws EmailAlreadyExists {
+/*        try {
+            User newUser = findByEmail(user.getEmail());*/
+        if (!findUserByEmail(email).isEmpty()) {
+            throw new EmailAlreadyExists("The email is already registered");
+/*            }
         } catch (ResourceNotFoundException e) {
-            create(user);
+            userRepo.save(user);*/
         }
     }
 }

@@ -87,18 +87,18 @@ class UserTests {
     @Test
     void theAdressOfAUserIsCorrect() throws ExceptionsUser {
         User user = new User();
-        String adress = "Roque Saenz Peña 352";
-        user.setAdress(adress);
+        String address = "Roque Saenz Peña 352";
+        user.setAddress(address);
 
-        assertEquals(user.getAdress(), "Roque Saenz Peña 352");
+        assertEquals(user.getAddress(), "Roque Saenz Peña 352");
     }
 
     @Test
     void theAdressOfAUserDoesNotMeetTheCOnditionsThrowsAnExpection() {
         assertThrows(ExceptionsUser.class, () -> {
             User user = new User();
-            String adress = "Roque 352";
-            user.setAdress(adress);
+            String address = "Roque 352";
+            user.setAddress(address);
         });
     }
 
@@ -142,9 +142,9 @@ class UserTests {
     void theActiveCryptoWalletAddressOfAUserIsCorrect() throws ExceptionsUser {
         User user = new User();
         String adressWalletActiveCripto = "12345678";
-        user.setAdressWalletActiveCripto(adressWalletActiveCripto);
+        user.setAddressWalletActiveCripto(adressWalletActiveCripto);
 
-        assertEquals("12345678", user.getAdressWalletActiveCripto());
+        assertEquals("12345678", user.getAddressWalletActiveCripto());
     }
 
     @Test
@@ -152,7 +152,7 @@ class UserTests {
         assertThrows(ExceptionsUser.class, () -> {
             User user = new User();
             String adressWalletActiveCripto = "123456789";
-            user.setAdressWalletActiveCripto(adressWalletActiveCripto);
+            user.setAddressWalletActiveCripto(adressWalletActiveCripto);
         });
     }
 

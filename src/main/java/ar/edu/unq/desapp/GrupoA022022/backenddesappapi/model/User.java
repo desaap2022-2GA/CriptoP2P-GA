@@ -15,7 +15,7 @@ import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.Verify.*;
 
 @Entity
 
-@Table(name = "desappcriptp2p_5")
+@Table(name = "desappcriptp2p_7")
 
 
 @ConstructorBinding()
@@ -36,7 +36,7 @@ public class User {
     private String email;
     //@Column
 
-    private String adress;
+    private String address;
 
     @NotBlank
     private String password;
@@ -47,7 +47,7 @@ public class User {
 
     @NotBlank
     @Size(min = 8, max = 8, message = "wallet must be 8 characters")
-    private String adressWalletActiveCripto;
+    private String addressWalletActiveCripto;
 
     private int points = 0;
 
@@ -66,14 +66,14 @@ public class User {
     public User() {
     }
 
-    public User(String name, String lastname, String email, String adress, String password, String mercadoPagoCVU, String adressWalletActiveCripto) {
+    public User(String name, String lastname, String email, String address, String password, String mercadoPagoCVU, String addressWalletActiveCripto) {
         this.name = name;
         this.lastname = lastname;
         this.email = email;
-        this.adress = adress;
+        this.address = address;
         this.password = password;
         this.mercadoPagoCVU = mercadoPagoCVU;
-        this.adressWalletActiveCripto = adressWalletActiveCripto;
+        this.addressWalletActiveCripto = addressWalletActiveCripto;
     }
 
     public Integer getId() {
@@ -118,13 +118,13 @@ public class User {
         }
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) throws ExceptionsUser {
-        if (verifyLong(adress, 10, 30)) {
-            this.adress = adress;
+    public void setAddress(String address) throws ExceptionsUser {
+        if (verifyLong(address, 10, 30)) {
+            this.address = address;
         } else {
             throw new ExceptionsUser("Campo Obligatorio. Debe tener entre 10 y 30 caracteres");
         }
@@ -155,13 +155,13 @@ public class User {
         }
     }
 
-    public String getAdressWalletActiveCripto() {
-        return adressWalletActiveCripto;
+    public String getAddressWalletActiveCripto() {
+        return addressWalletActiveCripto;
     }
 
-    public void setAdressWalletActiveCripto(String adressWalletActiveCripto) throws ExceptionsUser {
+    public void setAddressWalletActiveCripto(String adressWalletActiveCripto) throws ExceptionsUser {
         if (verifyAdressWalletActiveCripto(adressWalletActiveCripto)) {
-            this.adressWalletActiveCripto = adressWalletActiveCripto;
+            this.addressWalletActiveCripto = adressWalletActiveCripto;
         } else {
             throw new ExceptionsUser("Campo Obligatorio. Debe contener 8 dígitos");
         }
