@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @AutoConfigureTestDatabase
 class OperationTests {
 
-    DataSetTest dataSetTest = new DataSetTest();
+    DataSet dataSet = new DataSet();
 
     @Autowired
     IIntentionRepo intentionRepo;
@@ -40,28 +40,28 @@ class OperationTests {
 
     @Test
     void ObtainIntentionTypeAfterAOperationIsCreatedWhitAnIntentionTypedAsSell() {
-        Operation operation = new Operation(dataSetTest.getIntentionSell(), dataSetTest.getUserTest());
+        Operation operation = new Operation(dataSet.getIntentionSell(), dataSet.getUserTest());
 
         assertEquals(IntentionType.SELL, operation.getType());
     }
 
     @Test
     void ObtainCVUMercadoPagoFromUserOnOperationCreatedWhitAnIntentionTypedAsSell() {
-        Operation operation = new Operation(dataSetTest.getIntentionSell(), dataSetTest.getUserTest());
+        Operation operation = new Operation(dataSet.getIntentionSell(), dataSet.getUserTest());
 
         assertEquals("6352879863528798635287", operation.getTransactionInfoToShow());
     }
 
     @Test
     void ObtainAdressWalletCryptoFromUserOnOperationCreatedWhitAnIntentionTypedAsBuy() {
-        Operation operation = new Operation(dataSetTest.getIntentionBuy(), dataSetTest.getUserTest());
+        Operation operation = new Operation(dataSet.getIntentionBuy(), dataSet.getUserTest());
 
         assertEquals("Xwf5u5ef", operation.getTransactionInfoToShow());
     }
 
     @Test
     void ObtainUserReputationOnOperationCreatedWhitAnIntentionFromAnUserWithoutPoints() {
-        Operation operation = new Operation(dataSetTest.getIntentionBuy(), dataSetTest.getUserTest());
+        Operation operation = new Operation(dataSet.getIntentionBuy(), dataSet.getUserTest());
 
         assertEquals(0, operation.getUserReputation());
     }
@@ -70,11 +70,11 @@ class OperationTests {
 
     @Test
     void recoversPersistanceANewOperation() {
-        User someuserDB = userRepo.save(dataSetTest.getUserTest());
-        User someuser2DB = userRepo.save(dataSetTest.getUserTest2());
-        Cryptocurrency somecryptocurrencyDB = cryptocurrencyRepo.save(dataSetTest.getCryptocurrency4());
-        Intention intentionDB = intentionRepo.save(new Intention(dataSetTest.getSomeType(), somecryptocurrencyDB,
-                dataSetTest.getSomePrice(), dataSetTest.getSomeUnit(), someuserDB));
+        User someuserDB = userRepo.save(dataSet.getUserTest());
+        User someuser2DB = userRepo.save(dataSet.getUserTest2());
+        Cryptocurrency somecryptocurrencyDB = cryptocurrencyRepo.save(dataSet.getCryptocurrency4());
+        Intention intentionDB = intentionRepo.save(new Intention(dataSet.getSomeType(), somecryptocurrencyDB,
+                dataSet.getSomePrice(), dataSet.getSomeUnit(), someuserDB));
         Operation saved = operationRepo.save(new Operation(intentionDB,someuser2DB));
 
         int idSaved = saved.getId();

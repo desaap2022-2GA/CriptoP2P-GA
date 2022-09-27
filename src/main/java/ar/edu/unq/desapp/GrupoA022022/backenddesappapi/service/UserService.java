@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import java.util.NoSuchElementException;
@@ -30,13 +31,12 @@ public class UserService {
         return userRepo.save(helper.userRegistertoUser(userRegister));
     }
 
-    public User modify(UserModify userModify) throws EmailAlreadyExists {
-        this.checkNewUserEmail(userModify.getEmail());
-        try {
-            return userRepo.save(helper.userModifytoUser(userModify, this.findById(userModify.getId())));
-        } catch (ExceptionsUser | ResourceNotFoundException e) {
-            throw new RuntimeException(e);
+    public User modify(UserModify userModify) throws EmailAlreadyExists, ResourceNotFoundException, ExceptionsUser {
+        User originalUser = this.findById(userModify.getId());
+        if (!Objects.equals(originalUser.getEmail(), userModify.getEmail())) {
+            this.checkNewUserEmail(userModify.getEmail());
         }
+        return userRepo.save(helper.userModifytoUser(userModify, originalUser));
     }
 
     public List<User> getAllUsers() {

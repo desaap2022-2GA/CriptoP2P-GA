@@ -247,7 +247,7 @@ class UserTests {
         Integer idSaved = saved.getId();
         Optional<User> finded = userRepo.findById(idSaved);
 
-        assertEquals(finded.get().getId(), idSaved);
+        assertEquals(idSaved, finded.get().getId());
     }
 
 
@@ -257,7 +257,7 @@ class UserTests {
         userRecov.setEmail("rogerFederer@gmail.com");
         userRepo.save(userRecov);
 
-        assertEquals(userRecov.getEmail(), "rogerFederer@gmail.com");
+        assertEquals("rogerFederer@gmail.com", userRecov.getEmail());
     }
 
 
@@ -265,7 +265,7 @@ class UserTests {
     void databaseHasTwoUsers(){
         List<User> users = userService.getAllUsers();
 
-        assertEquals(users.toArray().length, 4);
+        assertEquals(4, users.toArray().length);
 
     }
 
@@ -280,7 +280,7 @@ class UserTests {
     }
 /*
 =======
-        assertEquals(users.toArray().length, cantUsers-1);
+        assertEquals(cantUsers-1, users.toArray().length);
 
     }
 
@@ -302,7 +302,7 @@ class UserTests {
     void givenTheEmailOfAUserItIsRetrievedFromTheDB() throws ResourceNotFoundException {
         User newUser = userService.findByEmail("rogerFederer@gmail.com");
 
-        assertEquals(newUser.getName(), "Roger");
+        assertEquals("Roger", newUser.getName());
     }
 *//*
     @Test
@@ -321,6 +321,6 @@ class UserTests {
 
         List<User> users = userService.getAllUsers();
 
-        assertEquals(users.toArray().length, 3);
+        assertEquals(3, users.toArray().length);
     }*/
 }

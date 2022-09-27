@@ -4,6 +4,7 @@ import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserModify;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserRegister;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/users/update/{id}")
-    public void modifyUser(@RequestBody @Valid UserModify userModify) throws EmailAlreadyExists {
+    public void modifyUser(@RequestBody @Valid UserModify userModify) throws EmailAlreadyExists, ExceptionsUser, ResourceNotFoundException {
         userService.modify(userModify);
     }
 

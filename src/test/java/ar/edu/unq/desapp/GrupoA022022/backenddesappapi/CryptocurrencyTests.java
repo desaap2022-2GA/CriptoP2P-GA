@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase
 class CryptocurrencyTests {
 
-    DataSetTest dataSetTest = new DataSetTest();
+    DataSet dataSet = new DataSet();
 
     @Autowired
     ICryptocurrencyRepo cryptocurrencyRepo;

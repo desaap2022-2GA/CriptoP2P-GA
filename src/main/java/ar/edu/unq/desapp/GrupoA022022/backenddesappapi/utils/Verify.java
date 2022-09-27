@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 public class Verify {
 
-    public Verify(){}
     public static boolean verifyLong(String word, int long1, int long2){
         return (word.length() >= long1 && word.length() <= long2);
     }
@@ -15,7 +14,7 @@ public class Verify {
 
         Matcher mather = pattern.matcher(email);
 
-        return (mather.find() == true);
+        return (mather.find());
     }
 
     public static boolean verifyPassword(String password){

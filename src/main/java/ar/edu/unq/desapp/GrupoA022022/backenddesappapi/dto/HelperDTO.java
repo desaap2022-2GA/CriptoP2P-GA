@@ -2,11 +2,9 @@ package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IUserRepo;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.webservice.UserController;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class HelperDTO {
@@ -21,22 +19,22 @@ public class HelperDTO {
 
         User userToModify = userOriginal;
 
-        if (userModify.getName() != null && userModify.getName() != userToModify.getName()) {
+        if (userModify.getName() != null && !Objects.equals(userModify.getName(), userToModify.getName())) {
             userToModify.setName(userModify.getName());
         }
-        if (userModify.getLastname() != null && userModify.getLastname() != userToModify.getLastname()) {
+        if (userModify.getLastname() != null && !Objects.equals(userModify.getLastname(), userToModify.getLastname())) {
             userToModify.setLastname(userModify.getLastname());
         }
-        if (userModify.getEmail() != null && userModify.getEmail() != userToModify.getEmail()) {
+        if (userModify.getEmail() != null && !Objects.equals(userModify.getEmail(), userToModify.getEmail())) {
             userToModify.setEmail(userModify.getEmail());
         }
-        if (userModify.getAddress() != null && userModify.getAddress() != userToModify.getAddress()) {
+        if (userModify.getAddress() != null && !Objects.equals(userModify.getAddress(), userToModify.getAddress())) {
             userToModify.setAddress(userModify.getAddress());
         }
-        if (userModify.getPassword() != null && userModify.getPassword() != userToModify.getPassword()) {
+        if (userModify.getPassword() != null && !Objects.equals(userModify.getPassword(), userToModify.getPassword())) {
             userToModify.setPassword(userModify.getPassword());
         }
-        if (userModify.getMercadoPagoCVU() != null && userModify.getMercadoPagoCVU() != userToModify.getMercadoPagoCVU()) {
+        if (userModify.getMercadoPagoCVU() != null && !Objects.equals(userModify.getMercadoPagoCVU(), userToModify.getMercadoPagoCVU())) {
             userToModify.setMercadoPagoCVU(userModify.getMercadoPagoCVU());
         }
         if (userModify.getAddressWalletActiveCripto() != null && userModify.getAddressWalletActiveCripto() != userToModify.getAddressWalletActiveCripto()) {
@@ -51,6 +49,6 @@ public class HelperDTO {
     }
 
     public List<UserView> userstoUsersView(List<User> all) {
-        return all.stream().map(u -> this.usertoUserView(u)).collect(Collectors.toList());
+        return all.stream().map(this::usertoUserView).collect(Collectors.toList());
     }
 }
