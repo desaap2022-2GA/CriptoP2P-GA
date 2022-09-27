@@ -1,57 +1,13 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto;
 
-public class UserRegister {
-    private String name;
+public class UserRegister extends UserAPI {
 
-    private String lastname;
-
-    private String email;
-
-    private String adress;
-
-    private String password;
-
-    private String cvumercadoPago;
-
-    private String adressWalletActiveCripto;
-
-    public UserRegister(String name, String lastname, String email, String adress, String password, String cvumercadoPago, String adressWalletActiveCripto) {
-        this.name = name;
-        this.lastname = lastname;
-        this.email = email;
-        this.adress = adress;
-        this.password = password;
-        this.cvumercadoPago = cvumercadoPago;
-        this.adressWalletActiveCripto = adressWalletActiveCripto;
-    }
-    public UserRegister(){}
-
-    public String getName() {
-        return name;
+    public UserRegister(String name, String lastname, String email, String address, String password, String mercadoPagoCVU, String addressWalletActiveCripto) {
+        super(name, lastname, email, address, password, mercadoPagoCVU, addressWalletActiveCripto);
     }
 
-    public String getLastname() {
-        return lastname;
+    public UserRegister() {
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String getAdress() {
-        return adress;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getAdressWalletActiveCripto() {
-        return adressWalletActiveCripto;
-    }
-
-    public String getCvumercadoPago() {
-        return cvumercadoPago;
-    }
 
 }

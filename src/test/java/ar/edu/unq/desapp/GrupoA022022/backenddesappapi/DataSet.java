@@ -6,7 +6,7 @@ import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.IntentionType;
 
-public class DataSetTest {
+public class DataSet {
 
     private final User userTest = new User("Gaston", "Gaudio", "gaudio@yahoo.com",
             "Av Libertador 5000, CABA", "1111", "6352879863528798635287",
