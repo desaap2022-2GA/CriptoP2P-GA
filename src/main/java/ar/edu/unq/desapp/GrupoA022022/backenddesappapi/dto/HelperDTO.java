@@ -11,7 +11,7 @@ public class HelperDTO {
 
     public User userRegistertoUser(UserRegister userRegister) {
         return new User(userRegister.getName(), userRegister.getLastname(), userRegister.getEmail()
-                , userRegister.getAddress(), userRegister.getPassword(), userRegister.getmercadoPagoCVU()
+                , userRegister.getAddress(), userRegister.getPassword(), userRegister.getMercadoPagoCVU()
                 , userRegister.getAddressWalletActiveCripto());
     }
 
