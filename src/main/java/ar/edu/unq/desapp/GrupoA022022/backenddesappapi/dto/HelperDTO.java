@@ -37,7 +37,7 @@ public class HelperDTO {
         if (userModify.getMercadoPagoCVU() != null && !Objects.equals(userModify.getMercadoPagoCVU(), userToModify.getMercadoPagoCVU())) {
             userToModify.setMercadoPagoCVU(userModify.getMercadoPagoCVU());
         }
-        if (userModify.getAddressWalletActiveCripto() != null && userModify.getAddressWalletActiveCripto() != userToModify.getAddressWalletActiveCripto()) {
+        if (userModify.getAddressWalletActiveCripto() != null && !Objects.equals(userModify.getAddressWalletActiveCripto(), userToModify.getAddressWalletActiveCripto())) {
             userToModify.setAddressWalletActiveCripto(userModify.getAddressWalletActiveCripto());
         }
     return userToModify;
