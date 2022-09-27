@@ -44,4 +44,9 @@ public class UserController {
     public User getUserById(@PathVariable("id") Integer id) throws ResourceNotFoundException {
         return userService.findById(id);
     }
+
+    @DeleteMapping(value = "/users")
+    public void deleteAllUsers() {
+        userService.deleteAllUsers();
+    }
 }

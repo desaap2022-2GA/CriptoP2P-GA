@@ -62,4 +62,8 @@ public class UserService {
             create(user);
         }
     }
+
+    public void deleteAllUsers() {
+        userRepo.deleteAll();
+    }
 }
