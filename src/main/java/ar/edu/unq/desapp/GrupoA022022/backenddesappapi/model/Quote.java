@@ -1,11 +1,16 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseconds;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "quote_des_cg")
 public class Quote {
 
@@ -34,31 +39,6 @@ public class Quote {
         this.cryptocurrency.addNewQuote(this);
     }
 
-    public Cryptocurrency getCryptocurrency() {
-        return cryptocurrency;
-    }
-
-    public void setCryptocurrency(Cryptocurrency cryptocurrency) {
-
-        this.cryptocurrency = cryptocurrency;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public long getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(long dateTime) {
-        this.dateTime = dateTime;
-    }
-
     public double fivePercentDown() {
         return this.price * 0.95;
     }
@@ -79,9 +59,5 @@ public class Quote {
     public boolean intentionPriceLessThanQuotePrice(Double intentionPrice) {
 
         return intentionPrice < this.price;
-    }
-
-    public int getId() {
-        return id;
     }
 }

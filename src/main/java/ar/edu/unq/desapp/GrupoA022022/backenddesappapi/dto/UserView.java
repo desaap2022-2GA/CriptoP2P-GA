@@ -1,5 +1,10 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class UserView {
     private int id;
 
@@ -9,50 +14,22 @@ public class UserView {
 
     private String email;
 
-    private String adress;
+    private String address;
 
     private String CVUMercadoPago;
 
-    private String adressWalletActiveCripto;
+    private String addressWalletActiveCripto;
 
-    public UserView(int id, String name, String lastname, String email, String adress, String CVUMercadoPago, String adressWalletActiveCripto) {
+    public UserView(int id, String name, String lastname, String email, String address, String CVUMercadoPago, String addressWalletActiveCripto) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
         this.email = email;
-        this.adress = adress;
+        this.address = address;
         this.CVUMercadoPago = CVUMercadoPago;
-        this.adressWalletActiveCripto = adressWalletActiveCripto;
+        this.addressWalletActiveCripto = addressWalletActiveCripto;
     }
 
     public UserView() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getAdress() {
-        return adress;
-    }
-
-    public String getCVUMercadoPago() {
-        return CVUMercadoPago;
-    }
-
-    public String getAdressWalletActiveCripto() {
-        return adressWalletActiveCripto;
     }
 }

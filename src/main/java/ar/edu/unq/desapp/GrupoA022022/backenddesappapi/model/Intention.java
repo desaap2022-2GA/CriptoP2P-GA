@@ -2,11 +2,16 @@ package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.IntentionType;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "intentionp2p_des_CG")
 public class Intention {
 
@@ -59,76 +64,16 @@ public class Intention {
     public Intention() {
     }
 
-    public boolean isTaken() {
-        return taken;
-    }
-
-    public void setTaken(boolean taken) {
-        this.taken = taken;
-    }
-
-    public Cryptocurrency getCryptocurrency() {
-        return cryptocurrency;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setDateTime(long dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setCryptocurrency(Cryptocurrency cryptocurrency) {
-        this.cryptocurrency = cryptocurrency;
-    }
-
-    public long getDateTime() {
-        return dateTime;
-    }
-
     public Double amountPriceInPesos() {
         return this.price * this.units;
     }
 
-    public Double amountPriceInDolares(Double dollars) {
+    public Double amountPriceInDollars(Double dollars) {
         return this.amountPriceInPesos() * dollars;
     }
 
     public int numberOpUser() {
         return this.user.getNumberOperations();
-    }
-
-    public IntentionType getType() {
-        return type;
-    }
-
-    public void setType(IntentionType type) {
-        this.type = type;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public int getUnits() {
-        return units;
-    }
-
-    public void setUnits(int units) {
-        this.units = units;
     }
 
     public int getUserReputation() {

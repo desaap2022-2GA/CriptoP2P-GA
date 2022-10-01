@@ -3,12 +3,17 @@ package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "cryptocurrencyp2p_des_CG")
 public class Cryptocurrency {
     @Id
@@ -34,18 +39,6 @@ public class Cryptocurrency {
     public Cryptocurrency() {
     }
 
-    public void setIntentions(Set<Intention> intentions) {
-        this.intentions = intentions;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public Set<Intention> getIntentions() {
-        return intentions;
-    }
-
     public Quote latestQuote() throws ResourceNotFoundException {
         if (!this.quotes.isEmpty()) {
             return this.quotes.stream()
@@ -53,22 +46,6 @@ public class Cryptocurrency {
         } else {
             throw new ResourceNotFoundException("does not exist quote for the cryptocurrency");
         }
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<Quote> getQuotes() {
-        return quotes;
-    }
-
-    public void setQuotes(Set<Quote> quotes) {
-        this.quotes = quotes;
     }
 
     public void addNewQuote(Quote quote) {

@@ -1,9 +1,14 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+@Getter
+@Setter
 public class UserAPI {
 
     @NotBlank
@@ -37,34 +42,5 @@ public class UserAPI {
     }
 
     public UserAPI() {
-
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getAddressWalletActiveCripto() {
-        return addressWalletActiveCripto;
-    }
-
-    public String getMercadoPagoCVU() {
-        return mercadoPagoCVU;
     }
 }
