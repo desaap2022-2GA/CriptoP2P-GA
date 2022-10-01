@@ -1,21 +1,19 @@
-package ar.edu.unq.desapp.GrupoA022022.backenddesappapi;
+package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Cryptocurrency;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Quote;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.DataSet;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.ICryptocurrencyRepo;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IQuoteRepo;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-@AutoConfigureTestDatabase
-class QuoteTests {
+class QuoteModelTests {
 
     DataSet dataSet = new DataSet();
 
@@ -54,16 +52,5 @@ class QuoteTests {
         Quote quote = new Quote(dataSet.getCryptocurrency(), dataSet.getSomePrice());
 
         assertEquals(quote, dataSet.getCryptocurrency().latestQuote());
-    }
-
-    //**************** SERVICE - REPOSITORY ****************
-
-    @Test
-    void recoverANewQuotePersisted() {
-        Cryptocurrency cryptocurrencyDB = cryptocurrencyRepo.save(dataSet.getCryptocurrency3());
-        Quote quoteDB = quoteRepo.save(new Quote(cryptocurrencyDB, dataSet.getSomePrice()));
-        int idSaved = quoteDB.getId();
-
-        assertEquals(quoteRepo.findById(idSaved).get().getId(), idSaved);
     }
 }
