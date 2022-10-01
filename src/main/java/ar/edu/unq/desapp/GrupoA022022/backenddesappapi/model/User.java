@@ -3,6 +3,8 @@ package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.OperationState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConstructorBinding;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -14,11 +16,12 @@ import java.util.stream.Collectors;
 import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.Verify.*;
 
 @Entity
-
+@Getter
+@Setter
 @Table(name = "desappcriptp2p_10")
 
 
-@ConstructorBinding()
+/*@ConstructorBinding()*/
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,14 +77,6 @@ public class User {
         this.addressWalletActiveCripto = addressWalletActiveCripto;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) throws ExceptionsUser {
         if (verifyLong(name, 3, 30)) {
             this.name = name;
@@ -89,11 +84,6 @@ public class User {
             throw new ExceptionsUser("Campo Obligatorio. Debe tener entre 3 y 30 caracteres");
         }
     }
-
-    public String getLastname() {
-        return lastname;
-    }
-
 
     public void setLastname(String lastname) throws ExceptionsUser {
         if (verifyLong(lastname, 3, 30)) {
@@ -103,21 +93,12 @@ public class User {
         }
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-
     public void setEmail(String email) throws ExceptionsUser {
         if (verifyEmail(email)) {
             this.email = email;
         } else {
             throw new ExceptionsUser("Campo Obligatoiro. Debe tener formato de email");
         }
-    }
-
-    public String getAddress() {
-        return address;
     }
 
     public void setAddress(String address) throws ExceptionsUser {
@@ -128,10 +109,6 @@ public class User {
         }
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) throws ExceptionsUser {
         if (verifyPassword(password)) {
             this.password = password;
@@ -139,10 +116,6 @@ public class User {
             throw new ExceptionsUser("Debe contener al menos 1 minúscula, 1 mayúscula, " +
                     "1 carácter especial y como mínimo 6 caracteres");
         }
-    }
-
-    public String getMercadoPagoCVU() {
-        return mercadoPagoCVU;
     }
 
     public void setMercadoPagoCVU(String CVUMercadoPago) throws ExceptionsUser {
@@ -165,32 +138,12 @@ public class User {
         }
     }
 
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
-    public int getNumberOperations() {
-        return numberOperations;
-    }
-
-    public void setNumberOperations(int numberOperations) {
-        this.numberOperations = numberOperations;
-    }
-
     public int getReputation() {
         return (this.numberOperations != 0) ? (this.points / this.numberOperations) : 0;
     }
 
     public void addIntention(Intention intention) {
         this.intentions.add(intention);
-    }
-
-    public Set<Intention> getIntentions() {
-        return intentions;
     }
 
     public void addPoints(int pointsToAdd) {

@@ -5,6 +5,7 @@ import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.EmailAlr
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IUserRepo;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.service.UserService;
+import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -246,8 +247,8 @@ class UserTests {
 
     //GET ALL
     @Test
-    void databaseHasTwoUsers(){
-        userRepo.deleteAll();
+    void databaseHasTwoUsers() {
+        // userRepo.deleteAll();
         userRepo.save(prueUser1);
         userRepo.save(prueUser2);
 
@@ -260,18 +261,16 @@ class UserTests {
     //PUT
     @Test
     void modifyAnUserWithId1() throws ResourceNotFoundException, ExceptionsUser {
-        userRepo.deleteAll();
-        userRepo.save(prueUser1);
+        //    userRepo.deleteAll();
+        int idUSer1 = userRepo.save(prueUser1).getId();
         userRepo.save(prueUser2);
         userRepo.save(prueUser3);
-        User userRecov = userService.findById(1);
+        User userRecov = userService.findById(idUSer1);
         userRecov.setEmail("rogerFederer@gmail.com");
         userRepo.save(userRecov);
 
         assertEquals("rogerFederer@gmail.com", userRecov.getEmail());
     }
-
-
 
 
     //DELETTE BY ID
@@ -285,13 +284,13 @@ class UserTests {
         userService.delete(2);
         List<User> users = userService.getAllUsers();
 
-        assertEquals(cantUsers-1, users.toArray().length);
+        assertEquals(cantUsers - 1, users.toArray().length);
     }
 
     //GET EMAIL ******
     @Test
     void givenTheEmailOfAUserItIsRetrievedFromTheDB() throws ResourceNotFoundException {
-        userRepo.deleteAll();
+        //   userRepo.deleteAll();
         userRepo.save(prueUser1);
         userRepo.save(prueUser2);
         userRepo.save(prueUser3);
@@ -304,7 +303,7 @@ class UserTests {
     //EXISTS EMAIL EXCEPTION *********
     @Test
     void checkIfAnEmailIsInTheDatabaseAndCanNotFindIt() throws ExceptionsUser, ResourceNotFoundException {
-        userRepo.deleteAll();
+        // userRepo.deleteAll();
         userRepo.save(prueUser1);
         User newUser = new User();
         newUser.setEmail("milonina@gmail.com");
@@ -317,7 +316,7 @@ class UserTests {
     //POST  -  ADD NEW USER ************
     @Test
     void checkIfAnEmailIsInTheDatabaseAndCanNotFindItCreatingTheUser() throws EmailAlreadyExists {
-        userRepo.deleteAll();
+        //   userRepo.deleteAll();
         userRepo.save(prueUser1);
         userRepo.save(prueUser2);
 
@@ -328,4 +327,8 @@ class UserTests {
         assertEquals(2, users.toArray().length);
     }
 
+    @AfterEach
+    void tearDownWithinTransaction() {
+        userRepo.deleteAll();
+    }
 }
