@@ -6,20 +6,15 @@ plugins {
     id "jacoco"
     id "org.sonarqube" version "3.4.0.2513"
 }
-/*
+
 sonarqube {
 	properties {
-		property "sonar.projectKey", "desaap2022-2ga"
-		property "sonar.organization", "desaap2022-2GA"
-		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.projectKey", "desaap2022-2GA_CriptoP2P-GA"
+		property "sonar.organization", "desaap2022-2ga"
+		property "sonar.host.url", "http//localhost:9000"
 	}
 }
-*/
-jacocoTestReport {
-    reports {
-        xml.enabled true
-    }
-}
+
 compileJava.options.encoding = 'utf-8'
 compileTestJava.options.encoding = 'utf-8'
 
@@ -75,9 +70,15 @@ test {
     }
 }
 
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.enabled true
+	}
+}
+
 task stage(dependsOn: ['build', 'clean'])
 build.mustRunAfter clean
-
 /*
 tasks.named('test') {
 	useJUnitPlatform()

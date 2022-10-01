@@ -3,12 +3,17 @@ package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.IntentionType;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.OperationState;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "operation_des_CG")
 public class Operation {
 
@@ -33,18 +38,6 @@ public class Operation {
     @JoinColumn(name = "userWhoAccepts_id", referencedColumnName = "id")
     private User userWhoAccepts;
 
-    public int getId() {
-        return id;
-    }
-
-    public Intention getIntention() {
-        return intention;
-    }
-
-    public void setIntention(Intention intention) {
-        this.intention = intention;
-    }
-
     public Operation(Intention intention, User userWhoAccepts) {
         this.dateTime = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds();
         this.intention = intention;
@@ -52,14 +45,6 @@ public class Operation {
     }
 
     public Operation() {
-    }
-
-    public OperationState getState() {
-        return state;
-    }
-
-    public void setState(OperationState state) {
-        this.state = state;
     }
 
     public IntentionType getType() {
@@ -111,10 +96,6 @@ public class Operation {
     private void addPointsToUsers(int points) {
         this.userWhoAccepts.addPoints(points);
         this.intention.getUser().addPoints(points);
-    }
-
-    public long getDateTime() {
-        return dateTime;
     }
 
     public double volumeTraded(Set<Operation> operations) {
