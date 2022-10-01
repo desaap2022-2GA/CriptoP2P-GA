@@ -1,8 +1,6 @@
-package ar.edu.unq.desapp.GrupoA022022.backenddesappapi;
+package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Cryptocurrency;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Intention;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.DataSet;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.ICryptocurrencyRepo;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IIntentionRepo;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.IUserRepo;
@@ -10,14 +8,12 @@ import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseco
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.IntentionType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@AutoConfigureTestDatabase
-class IntentionTests {
+class IntentionModelTests {
 
     DataSet dataSet = new DataSet();
 
@@ -107,19 +103,5 @@ class IntentionTests {
                 dataSet.getSomePrice(), dataSet.getSomeUnit(), dataSet.getUserTest());
 
         assertTrue(dataSet.getUserTest().getIntentions().contains(intention));
-    }
-
-
-    //**************** SERVICE - REPOSITORY ****************
-
-    @Test
-    void recoversPersistanceANewIntention() {
-        User someuserDB = userRepo.save(dataSet.getUserTest());
-        Cryptocurrency somecryptocurrencyDB = cryptocurrencyRepo.save(dataSet.getCryptocurrency2());
-        Intention intentionDB = intentionRepo.save(new Intention(dataSet.getSomeType(), somecryptocurrencyDB,
-                dataSet.getSomePrice(), dataSet.getSomeUnit(), someuserDB));
-        int idSaved = intentionDB.getId();
-
-        assertEquals(intentionRepo.findById(idSaved).get().getId(), idSaved);
     }
 }

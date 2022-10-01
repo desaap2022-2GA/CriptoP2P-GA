@@ -1,23 +1,15 @@
-package ar.edu.unq.desapp.GrupoA022022.backenddesappapi;
+package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Cryptocurrency;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence.ICryptocurrencyRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@AutoConfigureTestDatabase
-class CryptocurrencyTests {
-
-    DataSet dataSet = new DataSet();
+class CryptocurrencyModelTests {
 
     @Autowired
     ICryptocurrencyRepo cryptocurrencyRepo;
@@ -76,16 +68,5 @@ class CryptocurrencyTests {
         quote2.setDateTime(quote1.getDateTime() + 1);
 
         assertEquals(quote2, cryptocurrency.latestQuote());
-    }
-
-    //**************** SERVICE - REPOSITORY ****************
-
-    @Test
-    void recoversPersistanceANewCryptocurrency() {
-        Cryptocurrency saved = cryptocurrencyRepo.save(new Cryptocurrency("DAI"));
-        int idSaved = saved.getId();
-        Optional<Cryptocurrency> finded = cryptocurrencyRepo.findById(idSaved);
-
-        assertEquals(finded.get().getId(), idSaved);
     }
 }
