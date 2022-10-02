@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.IntentionType;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@NoArgsConstructor
 @Getter
 @Setter
 @Table(name = "intentionp2p_des_CG")
@@ -59,9 +61,6 @@ public class Intention {
         this.user = user;
         this.cryptocurrency.addIntention(this);
         this.user.addIntention(this);
-    }
-
-    public Intention() {
     }
 
     public Double amountPriceInPesos() {

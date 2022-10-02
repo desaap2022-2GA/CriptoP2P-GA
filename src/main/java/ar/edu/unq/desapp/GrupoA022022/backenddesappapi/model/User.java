@@ -3,8 +3,7 @@ package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.OperationState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -16,11 +15,10 @@ import java.util.stream.Collectors;
 import static ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.Verify.*;
 
 @Entity
+@NoArgsConstructor
 @Getter
 @Setter
 @Table(name = "desappcriptp2p_10")
-
-
 /*@ConstructorBinding()*/
 public class User {
     @Id
@@ -63,9 +61,6 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "userWhoAccepts")
     private Set<Operation> operations = new HashSet<>();
-
-    public User() {
-    }
 
     public User(String name, String lastname, String email, String address, String password, String mercadoPagoCVU, String addressWalletActiveCripto) {
         this.name = name;

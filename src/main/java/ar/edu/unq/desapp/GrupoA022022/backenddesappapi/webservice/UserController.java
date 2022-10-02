@@ -1,7 +1,9 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.webservice;
 
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserAPI;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserModify;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserRegister;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserView;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
@@ -21,12 +23,12 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value = "/users")
-    public List<User> listAllUsers() {
+    public List<UserView> listAllUsers() {
         return userService.getAllUsers();
     }
 
     @PostMapping(value = "/users")
-    public User createUser(@RequestBody @Valid UserRegister userRegister) throws EmailAlreadyExists {
+    public UserView createUser(@RequestBody @Valid UserRegister userRegister) throws EmailAlreadyExists {
         return userService.create(userRegister);
     }
 
@@ -41,12 +43,12 @@ public class UserController {
     }
 
     @GetMapping(value = "/{email}")
-    public User getUserByEmail(@PathVariable("email") String email) throws NoSuchElementException, ResourceNotFoundException {
+    public UserView getUserByEmail(@PathVariable("email") String email) throws NoSuchElementException, ResourceNotFoundException {
         return userService.findByEmail(email);
     }
 
     @GetMapping(value = "/users/{id}")
-    public User getUserById(@PathVariable("id") Integer id) throws ResourceNotFoundException {
+    public UserView getUserById(@PathVariable("id") Integer id) throws ResourceNotFoundException {
         return userService.findById(id);
     }
 

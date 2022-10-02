@@ -4,6 +4,7 @@ import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.Resource
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
+@NoArgsConstructor
 @Getter
 @Setter
 @Table(name = "cryptocurrencyp2p_des_CG")
@@ -34,9 +36,6 @@ public class Cryptocurrency {
 
     public Cryptocurrency(String name) {
         this.name = name;
-    }
-
-    public Cryptocurrency() {
     }
 
     public Quote latestQuote() throws ResourceNotFoundException {

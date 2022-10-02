@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.persistence;
 
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserView;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
@@ -60,7 +61,7 @@ class UserPersistenceTests {
         userRepo.save(prueUser1);
         userRepo.save(prueUser2);
 
-        List<User> users = userService.getAllUsers();
+        List<UserView> users = userService.getAllUsers();
 
         assertEquals(2, users.toArray().length);
 
@@ -73,7 +74,7 @@ class UserPersistenceTests {
         int idUSer1 = userRepo.save(prueUser1).getId();
         userRepo.save(prueUser2);
         userRepo.save(prueUser3);
-        User userRecov = userService.findById(idUSer1);
+        User userRecov = userRepo.findById(idUSer1).get();
         userRecov.setEmail("rogerFederer@gmail.com");
         userRepo.save(userRecov);
 
@@ -90,7 +91,7 @@ class UserPersistenceTests {
 
         int cantUsers = userService.getAllUsers().toArray().length;
         userService.delete(2);
-        List<User> users = userService.getAllUsers();
+        List<UserView> users = userService.getAllUsers();
 
         assertEquals(cantUsers - 1, users.toArray().length);
     }
@@ -103,7 +104,7 @@ class UserPersistenceTests {
         userRepo.save(prueUser2);
         userRepo.save(prueUser3);
 
-        User newUser = userService.findByEmail("federer@yahoo.com");
+        UserView newUser = userService.findByEmail("federer@yahoo.com");
 
         assertEquals("Roger", newUser.getName());
     }
@@ -130,7 +131,7 @@ class UserPersistenceTests {
 
         userService.checkNewUserEmail(prueUser3.getEmail());
 
-        List<User> users = userService.getAllUsers();
+        List<UserView> users = userService.getAllUsers();
 
         assertEquals(2, users.toArray().length);
     }

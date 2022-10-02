@@ -44,8 +44,9 @@ public class HelperDTO {
     }
 
     public UserView usertoUserView(User user) {
-        return new UserView(user.getId(), user.getName(), user.getLastname(), user.getEmail(), user.getAddress()
-                , user.getMercadoPagoCVU(), user.getAddressWalletActiveCripto());
+        return new UserView(user.getId(), user.getName(), user.getLastname(), user.getEmail(), user.getAddress(),
+                user.getMercadoPagoCVU(), user.getAddressWalletActiveCripto(), user.getPoints(),
+                user.getNumberOperations(), user.getReputation());
     }
 
     public List<UserView> userstoUsersView(List<User> all) {

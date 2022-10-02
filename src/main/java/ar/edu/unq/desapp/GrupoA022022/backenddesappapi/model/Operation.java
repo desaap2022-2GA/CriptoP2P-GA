@@ -4,6 +4,7 @@ import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.DateTimeInMilliseco
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.IntentionType;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.utils.OperationState;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@NoArgsConstructor
 @Getter
 @Setter
 @Table(name = "operation_des_CG")
@@ -42,9 +44,6 @@ public class Operation {
         this.dateTime = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds();
         this.intention = intention;
         this.userWhoAccepts = userWhoAccepts;
-    }
-
-    public Operation() {
     }
 
     public IntentionType getType() {

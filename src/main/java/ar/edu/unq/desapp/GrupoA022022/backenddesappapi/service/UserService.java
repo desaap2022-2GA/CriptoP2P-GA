@@ -1,8 +1,6 @@
 package ar.edu.unq.desapp.GrupoA022022.backenddesappapi.service;
 
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.HelperDTO;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserModify;
-import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.UserRegister;
+import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.dto.*;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.GrupoA022022.backenddesappapi.model.exceptions.ExceptionsUser;
@@ -23,21 +21,23 @@ public class UserService {
 
     private HelperDTO helper = new HelperDTO();
 
-    public User create(UserRegister userRegister) throws EmailAlreadyExists {
+    public UserView create(UserRegister userRegister) throws EmailAlreadyExists {
         this.checkNewUserEmail(userRegister.getEmail());
-        return userRepo.save(helper.userRegistertoUser(userRegister));
+        return helper.usertoUserView(userRepo.save(helper.userRegistertoUser(userRegister)));
     }
 
-    public User modify(UserModify userModify) throws EmailAlreadyExists, ResourceNotFoundException, ExceptionsUser {
-        User originalUser = this.findById(userModify.getId());
+    public UserView modify(UserModify userModify) throws EmailAlreadyExists, ResourceNotFoundException, ExceptionsUser {
+        User originalUser = userRepo.findById(userModify.getId()).orElseThrow(
+                () -> new ResourceNotFoundException("User not found with userId " + userModify.getId())
+        );
         if (!Objects.equals(originalUser.getEmail(), userModify.getEmail())) {
             this.checkNewUserEmail(userModify.getEmail());
         }
-        return userRepo.save(helper.userModifytoUser(userModify, originalUser));
+        return helper.usertoUserView(userRepo.save(helper.userModifytoUser(userModify, originalUser)));
     }
 
-    public List<User> getAllUsers() {
-        return userRepo.findAll();
+    public List<UserView> getAllUsers() {
+        return helper.userstoUsersView(userRepo.findAll());
     }
 
     public void delete(int id) throws ResourceNotFoundException {
@@ -45,16 +45,16 @@ public class UserService {
         userRepo.deleteById(id);
     }
 
-    public User findById(Integer id) throws ResourceNotFoundException {
-        return userRepo.findById(id).orElseThrow(
+    public UserView findById(Integer id) throws ResourceNotFoundException {
+        return helper.usertoUserView(userRepo.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("User not found with userId " + id)
-        );
+        ));
     }
 
-    public User findByEmail(String email) throws ResourceNotFoundException {
-        return userRepo.findByEmail(email).orElseThrow(
+    public UserView findByEmail(String email) throws ResourceNotFoundException {
+        return helper.usertoUserView(userRepo.findByEmail(email).orElseThrow(
                 () -> new ResourceNotFoundException("User not found with user email")
-        );
+        ));
     }
 
     public Optional<User> findUserByEmail(String email) {
