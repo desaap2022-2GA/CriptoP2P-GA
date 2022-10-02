@@ -11,6 +11,7 @@ sonarqube {
 	properties {
 		property "sonar.projectKey", "desaap2022-2GA_CriptoP2P-GA"
 		property "sonar.organization", "desaap2022-2ga"
+
 		property "sonar.host.url", "https://sonarcloud.io"
 		property "sonar.projectBaseDir", "/backend-desapp-api"
 	}

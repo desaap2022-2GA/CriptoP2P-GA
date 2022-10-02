@@ -27,11 +27,12 @@ class CryptocurrencyPersistenceTests {
     //**************** SERVICE - REPOSITORY ****************
 
     @Test
-    void recoversPersistenceANewCryptocurrency() {
+    void recoversPersistenceANewCryptocurrency() throws ResourceNotFoundException {
         Cryptocurrency saved = cryptocurrencyRepo.save(new Cryptocurrency("DAI"));
         int idSaved = saved.getId();
-        Optional<Cryptocurrency> finded = cryptocurrencyRepo.findById(idSaved);
+        Cryptocurrency finded = cryptocurrencyRepo.findById(idSaved).orElseThrow(() -> new ResourceNotFoundException
+                ("nonexistent cryptocurrency"));
 
-        assertEquals(finded.get().getId(), idSaved);
+        assertEquals(finded.getId(), idSaved);
     }
 }

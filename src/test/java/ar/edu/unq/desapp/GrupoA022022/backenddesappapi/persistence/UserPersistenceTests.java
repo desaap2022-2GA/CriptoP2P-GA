@@ -45,12 +45,12 @@ class UserPersistenceTests {
 
     //SAVE
     @Test
-    void recoversPersistanceANewUser() {
+    void recoversPersistanceANewUser() throws ResourceNotFoundException {
         User saved = userRepo.save(prueUser1);
         Integer idSaved = saved.getId();
-        Optional<User> finded = userRepo.findById(idSaved);
+        User finded = userRepo.findById(idSaved).orElseThrow(() -> new ResourceNotFoundException("nonexistent user"));
 
-        assertEquals(idSaved, finded.get().getId());
+        assertEquals(idSaved, finded.getId());
     }
 
     //GET ALL
