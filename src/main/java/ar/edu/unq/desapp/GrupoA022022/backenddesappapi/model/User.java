@@ -108,8 +108,8 @@ public class User {
         if (verifyPassword(password)) {
             this.password = password;
         } else {
-            throw new ExceptionsUser("Debe contener al menos 1 minúscula, 1 mayúscula, " +
-                    "1 carácter especial y como mínimo 6 caracteres");
+            throw new ExceptionsUser("Password: Must contain at least 1 lowercase, 1 uppercase, " +
+                    "1 special character, and at least 6 characters");
         }
     }
 
