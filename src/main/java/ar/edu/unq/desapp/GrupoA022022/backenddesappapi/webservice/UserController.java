@@ -32,17 +32,17 @@ public class UserController {
         return userService.create(userRegister);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/users/{id}")
     public void deleteUser(@PathVariable("id") int id) throws ResourceNotFoundException {
         userService.delete(id);
     }
 
-    @PutMapping(value = "/users/update/{id}")
+    @PutMapping(value = "/users/{id}")
     public void modifyUser(@RequestBody @Valid UserModify userModify) throws EmailAlreadyExists, ExceptionsUser, ResourceNotFoundException {
         userService.modify(userModify);
     }
 
-    @GetMapping(value = "/{email}")
+    @GetMapping(value = "/users/email/{email}")
     public UserView getUserByEmail(@PathVariable("email") String email) throws NoSuchElementException, ResourceNotFoundException {
         return userService.findByEmail(email);
     }
@@ -52,7 +52,7 @@ public class UserController {
         return userService.findById(id);
     }
 
-    @DeleteMapping(value = "/users")
+    @DeleteMapping(value = "/users/all")
     public void deleteAllUsers() {
         userService.deleteAllUsers();
     }
