@@ -2,7 +2,8 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice.handler;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,11 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private static final String ERROR_MESSAGE = "errorMessage";
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
             HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -28,17 +29,17 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         List<String> errors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(x -> x.getDefaultMessage())
-                .collect(Collectors.toList());
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .toList();
         body.put("errors",errors);
         return new ResponseEntity<>(body,headers,status);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public Map<String, String> handleBusinessException(ResourceNotFoundException ex) {
+    @ExceptionHandler(ResourceNotFound.class)
+    public Map<String, String> handleBusinessException(ResourceNotFound ex) {
         Map<String, String> errorMap = new HashMap<>();
-        errorMap.put("errorMessage", ex.getMessage());
+        errorMap.put(ERROR_MESSAGE, ex.getMessage());
         return errorMap;
     }
 
@@ -46,7 +47,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(EmailAlreadyExists.class)
     public Map<String, String> handleBusinessException(EmailAlreadyExists ex) {
         Map<String, String> errorMap = new HashMap<>();
-        errorMap.put("errorMessage", ex.getMessage());
+        errorMap.put(ERROR_MESSAGE, ex.getMessage());
         return errorMap;
     }
 
@@ -54,7 +55,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ExceptionsUser.class)
     public Map<String, String> handleBusinessException(ExceptionsUser ex) {
         Map<String, String> errorMap = new HashMap<>();
-        errorMap.put("errorMessage", ex.getMessage());
+        errorMap.put(ERROR_MESSAGE, ex.getMessage());
         return errorMap;
     }
 }

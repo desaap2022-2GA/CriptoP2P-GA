@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.ICryptocurrencyRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,14 +44,14 @@ class CryptocurrencyModelTests {
 
     @Test
     void ThrowExceptionAskingForLastQuoteFromNewCryptocurrency() {
-        assertThrows(ResourceNotFoundException.class, () -> {
+        assertThrows(ResourceNotFound.class, () -> {
             Cryptocurrency cryptocurrency = new Cryptocurrency("LUNA");
             cryptocurrency.latestQuote();
         });
     }
 
     @Test
-    void ObtainLastQuoteFromCryptocurrencySettingWithAPairOfQuotesAnNotExpectingTheFirstOfThem() throws ResourceNotFoundException {
+    void ObtainLastQuoteFromCryptocurrencySettingWithAPairOfQuotesAnNotExpectingTheFirstOfThem() throws ResourceNotFound {
         Cryptocurrency cryptocurrency = new Cryptocurrency("SOL");
         Quote quote1 = new Quote(cryptocurrency, 1000.00);
         Quote quote2 = new Quote(cryptocurrency, 5000.00);
@@ -61,7 +61,7 @@ class CryptocurrencyModelTests {
     }
 
     @Test
-    void ObtainLastQuoteFromCryptocurrencySettingWithAPairOfQuotes() throws ResourceNotFoundException {
+    void ObtainLastQuoteFromCryptocurrencySettingWithAPairOfQuotes() throws ResourceNotFound {
         Cryptocurrency cryptocurrency = new Cryptocurrency("SOL");
         Quote quote1 = new Quote(cryptocurrency, 1000.00);
         Quote quote2 = new Quote(cryptocurrency, 5000.00);

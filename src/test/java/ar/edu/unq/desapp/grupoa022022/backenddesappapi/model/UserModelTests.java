@@ -60,7 +60,7 @@ class UserModelTests {
         String address = "Roque Saenz Peña 352";
         user.setAddress(address);
 
-        assertEquals(user.getAddress(), "Roque Saenz Peña 352");
+        assertEquals("Roque Saenz Peña 352", user.getAddress());
     }
 
     @Test
@@ -132,7 +132,7 @@ class UserModelTests {
         int point = 10;
         user.setPoints(point);
 
-        assertEquals(user.getPoints(), 10);
+        assertEquals(10, user.getPoints());
     }
 
     @Test

@@ -34,8 +34,8 @@ public class Verify {
         return (upperCase > 0 && lowerCase > 0 && specialCharacter > 0 && password.length() >= 6);
     }
 
-    public static boolean verifyCVUMercadoPago(String CVU){
-        return CVU.length() == 22;
+    public static boolean verifyCVUMercadoPago(String cvu){
+        return cvu.length() == 22;
     }
 
     public static boolean verifyAdressWalletActiveCripto(String adressAC){

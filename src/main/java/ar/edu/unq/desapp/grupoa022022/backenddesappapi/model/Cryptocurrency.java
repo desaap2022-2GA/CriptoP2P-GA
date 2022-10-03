@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -38,12 +38,12 @@ public class Cryptocurrency {
         this.name = name;
     }
 
-    public Quote latestQuote() throws ResourceNotFoundException {
+    public Quote latestQuote() throws ResourceNotFound {
         if (!this.quotes.isEmpty()) {
             return this.quotes.stream()
                     .max(Comparator.comparing(Quote::getDateTime)).get();
         } else {
-            throw new ResourceNotFoundException("does not exist quote for the cryptocurrency");
+            throw new ResourceNotFound("does not exist quote for the cryptocurrency");
         }
     }
 

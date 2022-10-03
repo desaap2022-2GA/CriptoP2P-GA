@@ -1,8 +1,8 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions;
 
-public class ResourceNotFoundException extends Throwable {
+public class ResourceNotFound extends Throwable {
     String message = "";
-    public ResourceNotFoundException(String message){
+    public ResourceNotFound(String message){
         super(message);
     }
 }

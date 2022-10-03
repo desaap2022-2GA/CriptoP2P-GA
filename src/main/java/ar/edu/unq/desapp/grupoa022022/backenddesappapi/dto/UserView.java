@@ -10,14 +10,9 @@ public class UserView extends UserAPI{
     private int numberOperations;
     private int reputation;
 
-    public UserView(int id, String name, String lastname, String email, String address, String CVUMercadoPago,
+    public UserView(int id, String name, String lastname, String email, String address, String mercadoPagoCVU,
                     String addressWalletActiveCripto, int points, int numberOperations, int reputation) {
-        super(name,
-        lastname,
-        email,
-        address,
-        CVUMercadoPago,
-        addressWalletActiveCripto);
+        super(name, lastname, email, address, mercadoPagoCVU, addressWalletActiveCripto);
         this.id = id;
         this.points = points;
         this.numberOperations = numberOperations;

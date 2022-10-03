@@ -4,7 +4,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +45,10 @@ class UserPersistenceTests {
 
     //SAVE
     @Test
-    void recoversPersistanceANewUser() throws ResourceNotFoundException {
+    void recoversPersistanceANewUser() throws ResourceNotFound {
         User saved = userRepo.save(prueUser1);
         Integer idSaved = saved.getId();
-        User finded = userRepo.findById(idSaved).orElseThrow(() -> new ResourceNotFoundException("nonexistent user"));
+        User finded = userRepo.findById(idSaved).orElseThrow(() -> new ResourceNotFound("nonexistent user"));
 
         assertEquals(idSaved, finded.getId());
     }
@@ -68,7 +68,7 @@ class UserPersistenceTests {
 
     //PUT
     @Test
-    void modifyAnUserWithId1() throws ResourceNotFoundException, ExceptionsUser {
+    void modifyAnUserWithId1() throws ResourceNotFound, ExceptionsUser {
         //    userRepo.deleteAll();
         int idUSer1 = userRepo.save(prueUser1).getId();
         userRepo.save(prueUser2);
@@ -83,7 +83,7 @@ class UserPersistenceTests {
 
     //DELETTE BY ID
     @Test
-    void theUserWithId2IsDeletedFromTheDatabaseSoThereIsOnlyOneUser() throws ResourceNotFoundException {
+    void theUserWithId2IsDeletedFromTheDatabaseSoThereIsOnlyOneUser() throws ResourceNotFound {
         userRepo.save(prueUser1);
         userRepo.save(prueUser2);
         userRepo.save(prueUser3);
@@ -97,7 +97,7 @@ class UserPersistenceTests {
 
     //GET EMAIL ******
     @Test
-    void givenTheEmailOfAUserItIsRetrievedFromTheDB() throws ResourceNotFoundException {
+    void givenTheEmailOfAUserItIsRetrievedFromTheDB() throws ResourceNotFound {
         //   userRepo.deleteAll();
         userRepo.save(prueUser1);
         userRepo.save(prueUser2);
@@ -110,13 +110,13 @@ class UserPersistenceTests {
 
     //EXISTS EMAIL EXCEPTION *********
     @Test
-    void checkIfAnEmailIsInTheDatabaseAndCanNotFindIt() throws ExceptionsUser, ResourceNotFoundException {
+    void checkIfAnEmailIsInTheDatabaseAndCanNotFindIt() throws ExceptionsUser, ResourceNotFound {
         // userRepo.deleteAll();
         userRepo.save(prueUser1);
         User newUser = new User();
         newUser.setEmail("milonina@gmail.com");
 
-        assertThrows(ResourceNotFoundException.class, () -> {
+        assertThrows(ResourceNotFound.class, () -> {
             userService.findByEmail(newUser.getEmail());
         });
     }

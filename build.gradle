@@ -7,14 +7,6 @@ plugins {
     id "org.sonarqube" version "3.4.0.2513"
 }
 
-sonarqube {
-	properties {
-		property "sonar.projectKey", "desaap2022-2GA_CriptoP2P-GA"
-		property "sonar.organization", "desaap2022-2ga"
-		property "sonar.host.url", "https://sonarcloud.io"
-	}
-}
-
 compileJava.options.encoding = 'utf-8'
 compileTestJava.options.encoding = 'utf-8'
 
@@ -74,6 +66,14 @@ jacocoTestReport {
 	dependsOn test
 	reports {
 		xml.enabled true
+	}
+}
+
+sonarqube {
+	properties {
+		property "sonar.projectKey", "desaap2022-2GA_CriptoP2P-GA"
+		property "sonar.organization", "desaap2022-2ga"
+		property "sonar.host.url", "https://sonarcloud.io"
 	}
 }
 

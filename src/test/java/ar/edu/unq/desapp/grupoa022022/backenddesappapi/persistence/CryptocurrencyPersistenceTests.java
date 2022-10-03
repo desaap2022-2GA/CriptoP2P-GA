@@ -2,7 +2,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -24,10 +24,10 @@ class CryptocurrencyPersistenceTests {
     //**************** SERVICE - REPOSITORY ****************
 
     @Test
-    void recoversPersistenceANewCryptocurrency() throws ResourceNotFoundException {
+    void recoversPersistenceANewCryptocurrency() throws ResourceNotFound {
         Cryptocurrency saved = cryptocurrencyRepo.save(new Cryptocurrency("DAI"));
         int idSaved = saved.getId();
-        Cryptocurrency finded = cryptocurrencyRepo.findById(idSaved).orElseThrow(() -> new ResourceNotFoundException
+        Cryptocurrency finded = cryptocurrencyRepo.findById(idSaved).orElseThrow(() -> new ResourceNotFound
                 ("nonexistent cryptocurrency"));
 
         assertEquals(finded.getId(), idSaved);

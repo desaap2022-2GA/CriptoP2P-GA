@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.ICryptocurrencyRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IQuoteRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
@@ -48,7 +48,7 @@ class QuoteModelTests {
     }
 
     @Test
-    void ObtainLatestQuoteFromCryptocurrencyWhenCreateAQuoteForThatCryptocurrency() throws ResourceNotFoundException {
+    void ObtainLatestQuoteFromCryptocurrencyWhenCreateAQuoteForThatCryptocurrency() throws ResourceNotFound {
         Quote quote = new Quote(dataSet.getCryptocurrency(), dataSet.getSomePrice());
 
         assertEquals(quote, dataSet.getCryptocurrency().latestQuote());

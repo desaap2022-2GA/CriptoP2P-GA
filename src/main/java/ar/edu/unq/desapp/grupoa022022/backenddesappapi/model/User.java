@@ -113,9 +113,9 @@ public class User {
         }
     }
 
-    public void setMercadoPagoCVU(String CVUMercadoPago) throws ExceptionsUser {
-        if (verifyCVUMercadoPago(CVUMercadoPago)) {
-            this.mercadoPagoCVU = CVUMercadoPago;
+    public void setMercadoPagoCVU(String mercadoPagoCVU) throws ExceptionsUser {
+        if (verifyCVUMercadoPago(mercadoPagoCVU)) {
+            this.mercadoPagoCVU = mercadoPagoCVU;
         } else {
             throw new ExceptionsUser("Campo Obligatorio. Debe contener 22 dígitos");
         }
