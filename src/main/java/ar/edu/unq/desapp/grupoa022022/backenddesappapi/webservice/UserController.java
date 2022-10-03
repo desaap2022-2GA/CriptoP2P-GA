@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserModify;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -49,6 +51,13 @@ public class UserController {
     public UserView getUserById(@PathVariable("id") Integer id) throws ResourceNotFound {
         return userService.findById(id);
     }
+
+    @GetMapping(value = "users/password/{password}")
+    public UserView getUserByPassword(@PathVariable("password") String password) throws ResourceNotFound {
+        return userService.findByPassword(password);
+    }
+
+
 
     @DeleteMapping(value = "/users/all")
     public void deleteAllUsers() {

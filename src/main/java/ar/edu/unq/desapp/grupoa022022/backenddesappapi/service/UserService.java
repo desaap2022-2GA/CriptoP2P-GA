@@ -71,9 +71,18 @@ public class UserService {
            }
     }
 
+    public UserView findByPassword(String password) throws ResourceNotFound {
+        return helper.usertoUserView(userRepo.findByPassword(password).orElseThrow(
+                () -> new ResourceNotFound("User not found with user password")
+        ));
+    }
+
+
+
 
     public void deleteAllUsers() {
         userRepo.deleteAll();
     }
+
 }
 
