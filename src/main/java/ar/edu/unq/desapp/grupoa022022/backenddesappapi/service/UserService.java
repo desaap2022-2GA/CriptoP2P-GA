@@ -77,12 +77,10 @@ public class UserService {
         ));
     }
 
-    public UserView login(String email, String password) throws ResourceNotFound {
-        Optional<User> user1 = findUserByEmail(email);
+    public Object login(String email, String password) throws ResourceNotFound {
         UserView user = findByPassword(password);
-        return helper.usertoUserView(userRepo.findByPassword(password).orElseThrow(
-                () -> new ResourceNotFound("Incorrect email or password")
-        ));
+
+        return (user.getEmail() == email)? user: new ResourceNotFound("Incorrect email or password");
     }
 
 
