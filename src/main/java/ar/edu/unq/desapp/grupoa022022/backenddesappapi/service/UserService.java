@@ -77,7 +77,13 @@ public class UserService {
         ));
     }
 
-
+    public UserView login(String email, String password) throws ResourceNotFound {
+        Optional<User> user1 = findUserByEmail(email);
+        UserView user = findByPassword(password);
+        return helper.usertoUserView(userRepo.findByPassword(password).orElseThrow(
+                () -> new ResourceNotFound("Incorrect email or password")
+        ));
+    }
 
 
     public void deleteAllUsers() {

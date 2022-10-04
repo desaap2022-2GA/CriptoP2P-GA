@@ -57,7 +57,10 @@ public class UserController {
         return userService.findByPassword(password);
     }
 
-
+    @GetMapping(value = "/users/login/{email, password")
+    public UserView login(@PathVariable("email") String email, @PathVariable("password") String password) throws ResourceNotFound{
+        return userService.login(email, password);
+    }
 
     @DeleteMapping(value = "/users/all")
     public void deleteAllUsers() {
