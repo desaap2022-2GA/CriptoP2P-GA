@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements IUserService{
 
     @Autowired
     private IUserRepo userRepo;
@@ -70,7 +70,6 @@ public class UserService {
             throw new EmailAlreadyExists("The email is already registered");
            }
     }
-
 
     public void deleteAllUsers() {
         userRepo.deleteAll();
