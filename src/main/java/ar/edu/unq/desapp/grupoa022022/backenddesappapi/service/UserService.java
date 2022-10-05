@@ -17,18 +17,20 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements IUserService{
 
     @Autowired
     private IUserRepo userRepo;
 
     private HelperDTO helper = new HelperDTO();
 
+    @Override
     public UserView create(UserRegister userRegister) throws EmailAlreadyExists {
         this.checkNewUserEmail(userRegister.getEmail());
         return helper.usertoUserView(userRepo.save(helper.userRegistertoUser(userRegister)));
     }
 
+    @Override
     public UserView modify(UserModify userModify) throws EmailAlreadyExists, ResourceNotFound, ExceptionsUser {
         User originalUser = userRepo.findById(userModify.getId()).orElseThrow(
                 () -> new ResourceNotFound("User not found with userId " + userModify.getId())
@@ -39,31 +41,37 @@ public class UserService {
         return helper.usertoUserView(userRepo.save(helper.userModifytoUser(userModify, originalUser)));
     }
 
+    @Override
     public List<UserView> getAllUsers() {
         return helper.userstoUsersView(userRepo.findAll());
     }
 
+    @Override
     public void delete(int id) throws ResourceNotFound {
         this.findById(id);
         userRepo.deleteById(id);
     }
 
+    @Override
     public UserView findById(Integer id) throws ResourceNotFound {
         return helper.usertoUserView(userRepo.findById(id).orElseThrow(
                 () -> new ResourceNotFound("User not found with userId " + id)
         ));
     }
 
+    @Override
     public UserView findByEmail(String email) throws ResourceNotFound {
         return helper.usertoUserView(userRepo.findByEmail(email).orElseThrow(
                 () -> new ResourceNotFound("User not found with user email")
         ));
     }
 
+    @Override
     public Optional<User> findUserByEmail(String email) {
         return userRepo.findByEmail(email);
     }
 
+    @Override
     public void checkNewUserEmail(String email) throws EmailAlreadyExists {
 
         if (!findUserByEmail(email).isEmpty()) {
@@ -71,12 +79,14 @@ public class UserService {
            }
     }
 
+    @Override
     public UserView findByPassword(String password) throws ResourceNotFound {
         return helper.usertoUserView(userRepo.findByPassword(password).orElseThrow(
                 () -> new ResourceNotFound("User not found with user password")
         ));
     }
 
+    @Override
     public Object login(String email, String password) throws ResourceNotFound {
         UserView user = findByPassword(password);
 
