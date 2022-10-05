@@ -64,12 +64,12 @@ public class QuoteService implements IQuoteService {
     }
 
     @Override
-    public boolean intentionPriceMoreThanQuotePrice(double intentionPrice, Quote quote) {
-        return quote.intentionPriceMoreThanQuotePrice(intentionPrice);
+    public boolean intentionPriceHigherThanQuotePrice(double intentionPrice, Quote quote) {
+        return quote.intentionPriceHigherThanQuotePrice(intentionPrice);
     }
 
     @Override
-    public boolean intentionPriceLessThanQuotePrice(double intentionPrice, Quote quote) {
-        return quote.intentionPriceLessThanQuotePrice(intentionPrice);
+    public boolean intentionPriceLowerThanQuotePrice(double intentionPrice, Quote quote) {
+        return quote.intentionPriceLowerThanQuotePrice(intentionPrice);
     }
 }

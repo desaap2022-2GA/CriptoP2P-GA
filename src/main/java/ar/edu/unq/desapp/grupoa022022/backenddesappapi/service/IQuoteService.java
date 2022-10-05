@@ -22,7 +22,7 @@ public interface IQuoteService {
 
     boolean intentionPriceInARangeOfFiveUpAndDownRespectToQuotePrice(double intentionPrice, Quote quote);
 
-    boolean intentionPriceMoreThanQuotePrice(double intentionPrice, Quote quote);
+    boolean intentionPriceHigherThanQuotePrice(double intentionPrice, Quote quote);
 
-    boolean intentionPriceLessThanQuotePrice(double intentionPrice, Quote quote);
+    boolean intentionPriceLowerThanQuotePrice(double intentionPrice, Quote quote);
 }

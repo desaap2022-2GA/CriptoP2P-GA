@@ -18,6 +18,7 @@ public interface IUserService {
     public UserView modify(UserModify userModify) throws EmailAlreadyExists, ResourceNotFound, ExceptionsUser;
 
     public List<UserView> getAllUsers();
+
     public void delete(int id) throws ResourceNotFound;
 
     public UserView findById(Integer id) throws ResourceNotFound;
@@ -27,5 +28,6 @@ public interface IUserService {
     public Optional<User> findUserByEmail(String email);
 
     public void checkNewUserEmail(String email) throws EmailAlreadyExists;
+
     public void deleteAllUsers();
 }

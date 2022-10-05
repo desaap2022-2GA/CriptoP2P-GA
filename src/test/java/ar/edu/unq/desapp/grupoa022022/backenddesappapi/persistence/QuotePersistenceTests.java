@@ -51,7 +51,6 @@ class QuotePersistenceTests {
         assertEquals(quoteId, quoteService.findById(quoteId).getId());
     }
 
-
     @Test
     void afterCreateANewQuoteWithCryptocurrencyXCheckDependencies() throws ResourceNotFound {
         Cryptocurrency cryptocurrency = cryptocurrencyService.create("X");
@@ -70,7 +69,7 @@ class QuotePersistenceTests {
 
         assertEquals(3, quoteService.findById(quote.getId()).getPrice());
     }
-/*
+
     @Test
     void deleteQuoteCheckDoesNotExist() throws ResourceNotFound {
         Cryptocurrency cryptocurrency = cryptocurrencyService.create("X");
@@ -80,29 +79,79 @@ class QuotePersistenceTests {
 
         assertTrue(updatedCryptocurrency.getQuotes().isEmpty());
     }
-*/
 
     @Test
     void deleteAllQuotes() throws ResourceNotFound {
         Cryptocurrency cryptocurrency = cryptocurrencyService.create("X");
         quoteService.create(cryptocurrency, dataSet.getSomePrice());
-        quoteService.create(cryptocurrency, dataSet.getSomePrice()+10);
+        quoteService.create(cryptocurrency, dataSet.getSomePrice() + 10);
         quoteService.deleteAll();
         Cryptocurrency updatedCryptocurrency = cryptocurrencyService.findById(cryptocurrency.getId());
 
         assertTrue(updatedCryptocurrency.getQuotes().isEmpty());
     }
 
-/*
-    void deleteAll();
+    @Test
+    void getQuoteById() throws ResourceNotFound {
+        Cryptocurrency cryptocurrency = cryptocurrencyService.create("Z");
+        quoteService.create(cryptocurrency, dataSet.getSomePrice());
+        Quote quote2 = quoteService.create(cryptocurrency, dataSet.getSomePrice() + 10);
+        int quote2Id = quote2.getId();
 
-    List<Quote> getAll();
+        assertEquals(quote2Id, quoteService.findById(quote2Id).getId());
+    }
 
-    Quote findById(int id) throws ResourceNotFound;
+    @Test
+    void intentionPriceInARangeOfFivePercentRespectQuotePrice() {
+        Cryptocurrency cryptocurrency = cryptocurrencyService.create("Z");
+        Quote quote = quoteService.create(cryptocurrency, dataSet.getSomePrice());
+        double intentionPrice = dataSet.getSomePrice() * 0.95;
 
-    boolean intentionPriceInARangeOfFiveUpAndDownRespectToQuotePrice(double intentionPrice, Quote quote);
+        assertTrue(quoteService.intentionPriceInARangeOfFiveUpAndDownRespectToQuotePrice(intentionPrice, quote));
+    }
 
-    boolean intentionPriceMoreThanQuotePrice(double intentionPrice, Quote quote);
+    @Test
+    void intentionPriceNotInARangeOfFivePercentRespectQuotePrice() {
+        Cryptocurrency cryptocurrency = cryptocurrencyService.create("Z");
+        Quote quote = quoteService.create(cryptocurrency, dataSet.getSomePrice());
+        double intentionPrice = dataSet.getSomePrice() * 1.06;
 
-    boolean intentionPriceLessThanQuotePrice(double intentionPrice, Quote quote);*/
+        assertTrue(!quoteService.intentionPriceInARangeOfFiveUpAndDownRespectToQuotePrice(intentionPrice, quote));
+    }
+
+    @Test
+    void intentionPriceHigherThanQuotePrice() {
+        Cryptocurrency cryptocurrency = cryptocurrencyService.create("Z");
+        Quote quote = quoteService.create(cryptocurrency, dataSet.getSomePrice());
+        double intentionPrice = dataSet.getSomePrice() * 1.01;
+
+        assertTrue(quoteService.intentionPriceHigherThanQuotePrice(intentionPrice, quote));
+    }
+
+    @Test
+    void intentionPriceNotHigherThanQuotePrice() {
+        Cryptocurrency cryptocurrency = cryptocurrencyService.create("Z");
+        Quote quote = quoteService.create(cryptocurrency, dataSet.getSomePrice());
+        double intentionPrice = dataSet.getSomePrice() * 1;
+
+        assertTrue(!quoteService.intentionPriceHigherThanQuotePrice(intentionPrice, quote));
+    }
+
+    @Test
+    void intentionPriceLowerThanQuotePrice() {
+        Cryptocurrency cryptocurrency = cryptocurrencyService.create("Z");
+        Quote quote = quoteService.create(cryptocurrency, dataSet.getSomePrice());
+        double intentionPrice = dataSet.getSomePrice() * 0.90;
+
+        assertTrue(quoteService.intentionPriceLowerThanQuotePrice(intentionPrice, quote));
+    }
+
+    @Test
+    void intentionPriceNotLowerThanQuotePrice() {
+        Cryptocurrency cryptocurrency = cryptocurrencyService.create("Z");
+        Quote quote = quoteService.create(cryptocurrency, dataSet.getSomePrice());
+        double intentionPrice = dataSet.getSomePrice() * 1.90;
+
+        assertTrue(!quoteService.intentionPriceLowerThanQuotePrice(intentionPrice, quote));
+    }
 }
