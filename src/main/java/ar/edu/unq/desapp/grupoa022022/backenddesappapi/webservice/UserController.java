@@ -58,7 +58,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/users/login/{email, password")
-    public Object login(@PathVariable("email") String email, @PathVariable("password") String password) throws ResourceNotFound{
+    public Object login(@RequestBody String email, @RequestBody String password) throws ResourceNotFound{
         return userService.login(email, password);
     }
 
