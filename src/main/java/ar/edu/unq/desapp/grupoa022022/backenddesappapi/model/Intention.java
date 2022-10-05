@@ -67,11 +67,11 @@ public class Intention {
         return this.price * this.units;
     }
 
-    public Double amountPriceInDollars(Double dollars) {
-        return this.amountPriceInPesos() * dollars;
+    public Double amountPriceInDollars(Double dollarPrice) {
+        return this.amountPriceInPesos() / dollarPrice;
     }
 
-    public int numberOpUser() {
+    public int numberOperationsUser() {
         return this.user.getNumberOperations();
     }
 

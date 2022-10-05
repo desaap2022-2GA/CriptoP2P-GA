@@ -47,15 +47,15 @@ public class Quote {
     }
 
     public boolean intentionPriceInARangeOfFiveUpAndDown(Double intentionPrice) {
-        return fivePercentDown() < intentionPrice && intentionPrice < fivePercentUp();
+        return fivePercentDown() <= intentionPrice && intentionPrice <= fivePercentUp();
     }
 
-    public boolean intentionPriceMoreThanQuotePrice(Double intentionPrice) {
+    public boolean intentionPriceHigherThanQuotePrice(Double intentionPrice) {
 
         return intentionPrice > this.price;
     }
 
-    public boolean intentionPriceLessThanQuotePrice(Double intentionPrice) {
+    public boolean intentionPriceLowerThanQuotePrice(Double intentionPrice) {
 
         return intentionPrice < this.price;
     }
