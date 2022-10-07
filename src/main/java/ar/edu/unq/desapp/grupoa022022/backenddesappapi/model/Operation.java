@@ -63,7 +63,7 @@ public class Operation {
     public String actionToDo(User user) {
         return ((this.intention.getType().equals(IntentionType.SELL) && Objects.equals(userWhoAccepts.getId(), user.getId()))
                 || (this.intention.getType().equals(IntentionType.BUY) && !Objects.equals(userWhoAccepts.getId(), user.getId())))
-                ? "Realice la transferencia" : "Confirmar recepcion";
+                ? "Make transfer" : "Confirm reception";
     }
 
     public void cancelOperationByUser(User user) {
@@ -103,6 +103,6 @@ public class Operation {
 
     public double amountInDollars(double amount, double dollarQuote) {
 
-        return amount * dollarQuote;
+        return amount / dollarQuote;
     }
 }

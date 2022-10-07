@@ -6,6 +6,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IOperationRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -73,11 +74,13 @@ public class OperationService implements IOperationService {
     @Override
     public void cancelOperationByUser(Operation operation, User user) {
         operation.cancelOperationByUser(user);
+        this.update(operation);
     }
 
     @Override
     public void moneyTransferDone(Operation operation) {
         operation.moneyTranferedDone();
+        this.update(operation);
     }
 
     @Override
@@ -88,10 +91,16 @@ public class OperationService implements IOperationService {
     @Override
     public void assignBonusTimeToUsers(Operation operation) {
         operation.bonusTimeOperationAssign();
+        this.update(operation);
     }
 
     @Override
     public double amountInDollars(Operation operation, double amount, double dollarQuote) {
         return operation.amountInDollars(amount, dollarQuote);
+    }
+
+    @Override
+    public OperationState getState(Operation operation) {
+        return operation.getState();
     }
 }

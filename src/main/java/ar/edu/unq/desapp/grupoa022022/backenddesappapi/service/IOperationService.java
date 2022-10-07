@@ -5,6 +5,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 
 import java.util.List;
 
@@ -39,4 +40,6 @@ public interface IOperationService {
     void assignBonusTimeToUsers(Operation operation);
 
     double amountInDollars(Operation operation, double amount, double dollarQuote);
+
+    OperationState  getState(Operation operation);
 }
