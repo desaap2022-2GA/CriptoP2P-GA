@@ -31,17 +31,14 @@ public class QuoteService implements IQuoteService {
     }
 
     @Override
-    public void delete(int id) {
-        boolean empty = quoteRepo.findById(id).isEmpty();
-        if (!empty) {
-            Quote quote = quoteRepo.findById(id).get();
-            Cryptocurrency cryptocurrency = quote.getCryptocurrency();
-            Set<Quote> quotes = cryptocurrency.getQuotes();
-            quotes.remove(quote);
-            cryptocurrency.setQuotes(quotes);
-            cryptocurrencyRepo.save(cryptocurrency);
-            quoteRepo.deleteById(id);
-        }
+    public void delete(int id) throws ResourceNotFound {
+        Quote quote = this.findById(id);
+        Cryptocurrency cryptocurrency = quote.getCryptocurrency();
+        Set<Quote> quotes = cryptocurrency.getQuotes();
+        quotes.remove(quote);
+        cryptocurrency.setQuotes(quotes);
+        cryptocurrencyRepo.save(cryptocurrency);
+        quoteRepo.deleteById(id);
     }
 
     @Override
