@@ -12,7 +12,7 @@ public interface IQuoteService {
 
     void update(Quote quote);
 
-    void delete(int id);
+    void delete(int id) throws ResourceNotFound;
 
     void deleteAll();
 
