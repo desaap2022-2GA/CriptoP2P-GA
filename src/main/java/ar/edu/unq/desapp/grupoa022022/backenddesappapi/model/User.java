@@ -55,7 +55,7 @@ public class User {
     //private String apiKey;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",fetch=FetchType.EAGER)
     private Set<Intention> intentions = new HashSet<>();
 
     @JsonIgnore

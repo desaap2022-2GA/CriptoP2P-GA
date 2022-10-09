@@ -42,14 +42,33 @@ class IntentionPersistenceTests {
     @Autowired
     IUserService userService;
 
+    public Cryptocurrency getCryptocurrencyDB() {
+        return cryptocurrencyService.create("DAI");
+    }
+
+    public Cryptocurrency getCryptocurrencyDB2() {
+        return cryptocurrencyService.create("BITCOIN");
+    }
+
+    public User getUserDB() {
+        return userService.saveToDataBase(dataSet.getUserRegister());
+    }
+
+    public User getUserWith50Point5NumberOperations() {
+        User userDB = getUserDB();
+        userDB.setPoints(50);
+        userDB.setNumberOperations(5);
+        return userRepo.save(userDB);
+    }
+
     //**************** SERVICE - REPOSITORY ****************
 
     @Test
-    void recoversPersistanceANewIntention() {
-        User someuserDB = userRepo.save(dataSet.getUserTest());
-        Cryptocurrency somecryptocurrencyDB = cryptocurrencyRepo.save(dataSet.getCryptocurrency2());
-        Intention intentionDB = intentionRepo.save(new Intention(dataSet.getSomeType(), somecryptocurrencyDB,
-                dataSet.getSomePrice(), dataSet.getSomeUnit(), someuserDB));
+    void recoversPersistenceANewIntention() {
+        User someUserDB = userRepo.save(dataSet.getUserTest());
+        Cryptocurrency someCryptocurrencyDB = cryptocurrencyRepo.save(dataSet.getCryptocurrency2());
+        Intention intentionDB = intentionRepo.save(new Intention(dataSet.getSomeType(), someCryptocurrencyDB,
+                dataSet.getSomePrice(), dataSet.getSomeUnit(), someUserDB));
         int idSaved = intentionDB.getId();
 
         assertEquals(intentionRepo.findById(idSaved).get().getId(), idSaved);
@@ -57,18 +76,16 @@ class IntentionPersistenceTests {
 
     @Test
     void getAIntentionCreated() throws ResourceNotFound {
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("SOL");
-        User user = userRepo.save(dataSet.getUserTest());
-        Intention intention = intentionService.create(dataSet.getSomeType(), cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), user);
+        Intention intention = intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(),
+                dataSet.getSomePrice(), dataSet.getSomeUnit(), getUserDB());
 
         assertEquals(intention.getId(), intentionService.findById(intention.getId()).getId());
     }
 
     @Test
     void getPriceOfAIntentionUpdated() throws ResourceNotFound {
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("SOL");
-        User user = userRepo.save(dataSet.getUserTest());
-        Intention intention = intentionService.create(dataSet.getSomeType(), cryptocurrency, 1500.00, dataSet.getSomeUnit(), user);
+        Intention intention = intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(), 1500.00,
+                dataSet.getSomeUnit(), getUserDB());
         intention.setPrice(2000.00);
         intentionService.update(intention);
 
@@ -76,17 +93,14 @@ class IntentionPersistenceTests {
     }
 
     @Test
-    void getResouceNotFoundWhenAskForIntentionIdThatDoesNotExist() {
-        assertThrows(ResourceNotFound.class, () -> {
-            intentionService.findById(1);
-        });
+    void getResourceNotFoundWhenAskForIntentionIdThatDoesNotExist() {
+        assertThrows(ResourceNotFound.class, () -> intentionService.findById(1));
     }
 
     @Test
     void getNoIntentionsWhenAskForIntentionsAfterDeleteAll() {
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("SOL");
-        User user = userRepo.save(dataSet.getUserTest());
-        intentionService.create(dataSet.getSomeType(), cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), user);
+        intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(), dataSet.getSomePrice(),
+                dataSet.getSomeUnit(), getUserDB());
         intentionService.deleteAll();
 
         assertTrue(intentionService.getAll().isEmpty());
@@ -94,73 +108,58 @@ class IntentionPersistenceTests {
 
     @Test
     void get2IntentionsWhenAskForAllIntentions() {
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("SOL");
         User user = userRepo.save(dataSet.getUserTest());
-        intentionService.create(dataSet.getSomeType(), cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), user);
-        Cryptocurrency cryptocurrency2 = cryptocurrencyService.create("ADA");
-        intentionService.create(dataSet.getSomeType(), cryptocurrency2, dataSet.getSomePrice(), dataSet.getSomeUnit(), user);
+        intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(), dataSet.getSomePrice(), dataSet.getSomeUnit(), user);
+        intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB2(), dataSet.getSomePrice(), dataSet.getSomeUnit(), user);
 
         assertEquals(2, intentionService.getAll().size());
     }
 
     @Test
     void getResourceNotFoundWhenAskForIntentionDeleted() {
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("SOL");
-        User user = userRepo.save(dataSet.getUserTest());
-        int intentionId = intentionService.create(dataSet.getSomeType(), cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), user).getId();
+        int intentionId = intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(), dataSet.getSomePrice(),
+                dataSet.getSomeUnit(), getUserDB()).getId();
         intentionService.delete(intentionId);
 
-        assertThrows(ResourceNotFound.class, () -> {
-            intentionService.findById(intentionId);
-        });
+        assertThrows(ResourceNotFound.class, () -> intentionService.findById(intentionId));
     }
 
     @Test
     void getAmountPriceInDollars() {
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("SOL");
-        User user = userRepo.save(dataSet.getUserTest());
-        Intention intention = intentionService.create(dataSet.getSomeType(), cryptocurrency, 5000.00, 2, user);
+        Intention intention = intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(), 5000.00,
+                2, getUserDB());
 
         assertEquals(10000.00 / 149.00, intentionService.amountPriceInDollars(149.00, intention));
     }
 
     @Test
     void getAmountPriceInPesos() {
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("SOL");
-        User user = userRepo.save(dataSet.getUserTest());
-        Intention intention = intentionService.create(dataSet.getSomeType(), cryptocurrency, 5000.00, 2, user);
+        Intention intention = intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(), 5000.00,
+                2, getUserDB());
 
         assertEquals(10000, intentionService.amountPriceInPesos(intention));
     }
 
     @Test
     void getAddressCryptoWhenAskForInfoToShowOnBuyTypeIntention() {
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("SOL");
-        User user = userRepo.save(dataSet.getUserTest());
-        Intention intention = intentionService.create(IntentionType.BUY, cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), user);
+        Intention intention = intentionService.create(IntentionType.BUY, getCryptocurrencyDB(), dataSet.getSomePrice(),
+                dataSet.getSomeUnit(), getUserDB());
 
         assertEquals("Xwf5u5ef", intentionService.transactionInfoToShow(intention));
     }
 
     @Test
-    void getReputationFromUserWhoPostTheIntention() throws ResourceNotFound {
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("SOL");
-        User userToPersist = dataSet.getUserTest();
-        userToPersist.setPoints(50);
-        userToPersist.setNumberOperations(5);
-        User user = userRepo.save(userToPersist);
-        int intentionId = intentionService.create(dataSet.getSomeType(), cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), user).getId();
+    void getReputation10FromUserWhoPostTheIntentionWith50Points5NumbersOperations() throws ResourceNotFound {
+        int intentionId = intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(), dataSet.getSomePrice(),
+                dataSet.getSomeUnit(), getUserWith50Point5NumberOperations()).getId();
 
         assertEquals(10, intentionService.getUserReputation(intentionService.findById(intentionId)));
     }
 
     @Test
-    void getOperationNumberOfUserWhoPostTheIntention() throws ResourceNotFound {
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("SOL");
-        User userToPersist = dataSet.getUserTest();
-        userToPersist.setNumberOperations(5);
-        User user = userRepo.save(userToPersist);
-        int intentionId = intentionService.create(dataSet.getSomeType(), cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), user).getId();
+    void getOperationNumber5FromUserWhoPostTheIntentionWith5NumbersOperations() throws ResourceNotFound {
+        int intentionId = intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(), dataSet.getSomePrice(),
+                dataSet.getSomeUnit(), getUserWith50Point5NumberOperations()).getId();
 
         assertEquals(5, intentionService.getOperationNumberUser(intentionService.findById(intentionId)));
     }

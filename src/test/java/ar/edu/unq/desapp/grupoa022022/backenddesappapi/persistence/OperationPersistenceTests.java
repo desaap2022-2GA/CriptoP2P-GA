@@ -33,43 +33,71 @@ class OperationPersistenceTests {
     IUserRepo userRepo;
     @Autowired
     ICryptocurrencyRepo cryptocurrencyRepo;
-
     @Autowired
     IUserService userService;
-
     @Autowired
     IQuoteService quoteService;
-
     @Autowired
     ICryptocurrencyService cryptocurrencyService;
-
     @Autowired
     IIntentionService intentionService;
 
     @Autowired
     IOperationService operationService;
 
+    public Cryptocurrency getCryptocurrencyDB() {
+        return cryptocurrencyService.create("DAI");
+    }
+
+    public User getUserWhoPostDB() {
+        return userService.saveToDataBase(dataSet.getUserRegister());
+    }
+
+    public User getUserWhoAcceptDB2() {
+        return userService.saveToDataBase(dataSet.getUserRegister2());
+    }
+
+    public User getUserWit30Point3NumberOperationsDB() {
+        User userDB = getUserWhoPostDB();
+        userDB.setPoints(30);
+        userDB.setNumberOperations(3);
+        return userRepo.save(userDB);
+    }
+
+    public Intention getIntentionDB() {
+        return intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(),
+                dataSet.getSomePrice(), dataSet.getSomeUnit(), getUserWhoPostDB());
+    }
+
+    public Intention getSELLTypeIntentionDB() {
+        return intentionService.create(IntentionType.SELL, getCryptocurrencyDB(),
+                dataSet.getSomePrice(), dataSet.getSomeUnit(), getUserWhoPostDB());
+    }
+
+    public Intention getBUYTypeIntentionDB() {
+        return intentionService.create(IntentionType.BUY, getCryptocurrencyDB(),
+                dataSet.getSomePrice(), dataSet.getSomeUnit(), getUserWhoPostDB());
+    }
+
+    public Intention getIntentionWhoUserHas30Points3NumberOperationsDB() {
+        return intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(),
+                dataSet.getSomePrice(), dataSet.getSomeUnit(), getUserWit30Point3NumberOperationsDB());
+    }
+
     //**************** SERVICE - REPOSITORY ****************
 
     @Test
     void recoversPersistenceANewOperation() {
-        User someUserDB = userRepo.save(dataSet.getUserTest());
-        User someUser2DB = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency someCryptocurrencyDB = cryptocurrencyRepo.save(dataSet.getCryptocurrency4());
-        Intention intentionDB = intentionRepo.save(new Intention(dataSet.getSomeType(), someCryptocurrencyDB,
-                dataSet.getSomePrice(), dataSet.getSomeUnit(), someUserDB));
-        Operation saved = operationRepo.save(new Operation(intentionDB, someUser2DB));
+        Intention intentionDB = intentionRepo.save(new Intention(dataSet.getSomeType(), getCryptocurrencyDB(),
+                dataSet.getSomePrice(), dataSet.getSomeUnit(), getUserWhoPostDB()));
+        Operation saved = operationRepo.save(new Operation(intentionDB, getUserWhoAcceptDB2()));
 
         assertEquals(operationRepo.findById(saved.getId()).get().getId(), saved.getId());
     }
 
     @Test
     void getOperationIdFromANewPersistedOperation() throws ResourceNotFound {
-        User userWhoPost = userRepo.save(dataSet.getUserTest());
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(dataSet.getSomeType(), cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        int operationId = operationService.create(intention, userWhoAccept).getId();
+        int operationId = operationService.create(getIntentionDB(), getUserWhoAcceptDB2()).getId();
 
         assertEquals(operationId, operationService.findById(operationId).getId());
     }
@@ -81,11 +109,7 @@ class OperationPersistenceTests {
 
     @Test
     void getOperationStateFromAnOperationThatChangeState() throws ResourceNotFound {
-        User userWhoPost = userRepo.save(dataSet.getUserTest());
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(dataSet.getSomeType(), cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        Operation operation = operationService.create(intention, userWhoAccept);
+        Operation operation = operationService.create(getIntentionDB(), getUserWhoAcceptDB2());
         operation.setState(OperationState.CRYPTOSENDED);
         operationService.update(operation);
 
@@ -94,25 +118,15 @@ class OperationPersistenceTests {
 
     @Test
     void get2OperationsWhenAskForAllOfIt() {
-        User userWhoPost = userRepo.save(dataSet.getUserTest());
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(dataSet.getSomeType(), cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        operationService.create(intention, userWhoAccept);
-        Cryptocurrency cryptocurrency2 = cryptocurrencyService.create("LUNA");
-        Intention intention2 = intentionService.create(dataSet.getSomeType(), cryptocurrency2, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        operationService.create(intention2, userWhoAccept);
+        operationService.create(getBUYTypeIntentionDB(), getUserWhoAcceptDB2());
+        operationService.create(getSELLTypeIntentionDB(), getUserWhoAcceptDB2());
 
         assertEquals(2, operationService.getAll().size());
     }
 
     @Test
     void getResourceNotFoundAfterDeleteTheOnlyOneAndAskForIt() {
-        User userWhoPost = userRepo.save(dataSet.getUserTest());
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(dataSet.getSomeType(), cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        Operation operation = operationService.create(intention, userWhoAccept);
+        Operation operation = operationService.create(getIntentionDB(), getUserWhoAcceptDB2());
         operationService.delete(operation.getId());
 
         assertThrows(ResourceNotFound.class, () -> operationService.findById(operation.getId()));
@@ -120,11 +134,7 @@ class OperationPersistenceTests {
 
     @Test
     void getEmptyAfterDeleteAllOperationAndAskForAllOfIt() {
-        User userWhoPost = userRepo.save(dataSet.getUserTest());
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(dataSet.getSomeType(), cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        operationService.create(intention, userWhoAccept);
+        operationService.create(getIntentionDB(), getUserWhoAcceptDB2());
         operationService.deleteAll();
 
         assertTrue(operationService.getAll().isEmpty());
@@ -132,142 +142,97 @@ class OperationPersistenceTests {
 
     @Test
     void getSellTypeWhenAskForAnOperationTypeMadeWithASellIntentionType() {
-        User userWhoPost = userRepo.save(dataSet.getUserTest());
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(IntentionType.SELL, cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        Operation operation = operationService.create(intention, userWhoAccept);
+        Operation operation = operationService.create(getSELLTypeIntentionDB(), getUserWhoAcceptDB2());
 
         assertEquals(IntentionType.SELL, operationService.getType(operation));
     }
 
     @Test
     void getAddressWalletInfoWhenAskTransactionInfoInABuyIntentionTypeOperation() {
-        User userWhoPost = userRepo.save(dataSet.getUserTest());
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(IntentionType.BUY, cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        Operation operation = operationService.create(intention, userWhoAccept);
+        Operation operation = operationService.create(getBUYTypeIntentionDB(), getUserWhoAcceptDB2());
 
         assertEquals("Xwf5u5ef", operationService.getTransactionInfoToShow(operation));
     }
 
     @Test
     void getMercadoPagoCvuInfoWhenAskTransactionInfoInASellIntentionTypeOperation() {
-        User userWhoPost = userRepo.save(dataSet.getUserTest());
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(IntentionType.SELL, cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        Operation operation = operationService.create(intention, userWhoAccept);
+        Operation operation = operationService.create(getSELLTypeIntentionDB(), getUserWhoAcceptDB2());
 
         assertEquals("6352879863528798635287", operationService.getTransactionInfoToShow(operation));
     }
 
     @Test
     void getUserReputationFromOperation() {
-        User userIntention = dataSet.getUserTest();
-        userIntention.setPoints(30);
-        userIntention.setNumberOperations(3);
-        User userWhoPost = userRepo.save(userIntention);
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(IntentionType.SELL, cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        Operation operation = operationService.create(intention, userWhoAccept);
+        Operation operation = operationService.create(getIntentionWhoUserHas30Points3NumberOperationsDB(),
+                getUserWhoAcceptDB2());
 
         assertEquals(10, operationService.getUserReputation(operation));
     }
 
     @Test
     void getActionToDoMakeTransferFromOperationWithIntentionTypeSELLAndUserUserWhoAccept() {
-        User userIntention = dataSet.getUserTest();
-        userIntention.setPoints(30);
-        userIntention.setNumberOperations(3);
-        User userWhoPost = userRepo.save(userIntention);
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(IntentionType.SELL, cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        Operation operation = operationService.create(intention, userWhoAccept);
+        Operation operation = operationService.create(getSELLTypeIntentionDB(), getUserWhoAcceptDB2());
 
-        assertEquals("Make transfer", operationService.actionToDo(operation, userWhoAccept));
+        assertEquals("Make transfer", operationService.actionToDo(operation, operation.getUserWhoAccepts()));
     }
 
     @Test
     void getActionToDoConfirmReceptionFromOperationWithIntentionTypeSELLAndUserUserWhoPost() {
-        User userIntention = dataSet.getUserTest();
-        userIntention.setPoints(30);
-        userIntention.setNumberOperations(3);
-        User userWhoPost = userRepo.save(userIntention);
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(IntentionType.SELL, cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        Operation operation = operationService.create(intention, userWhoAccept);
+        Intention intention = getSELLTypeIntentionDB();
+        Operation operation = operationService.create(intention, getUserWhoAcceptDB2());
 
-        assertEquals("Confirm reception", operationService.actionToDo(operation, userWhoPost));
+        assertEquals("Confirm reception", operationService.actionToDo(operation, intention.getUser()));
     }
 
     @Test
-    void getActionToDoMakeTransferFromOperationWithIntentionTypeBUYAndUserUserWhoAccept() {
-        User userIntention = dataSet.getUserTest();
-        userIntention.setPoints(30);
-        userIntention.setNumberOperations(3);
-        User userWhoPost = userRepo.save(userIntention);
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(IntentionType.BUY, cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        Operation operation = operationService.create(intention, userWhoAccept);
+    void getActionToDoConfirmReceptionFromOperationWithIntentionTypeBUYAndUserUserWhoAccept() {
+        Operation operation = operationService.create(getBUYTypeIntentionDB(), getUserWhoAcceptDB2());
 
-        assertEquals("Confirm reception", operationService.actionToDo(operation, userWhoAccept));
+        assertEquals("Confirm reception", operationService.actionToDo(operation, operation.getUserWhoAccepts()));
     }
 
     @Test
-    void getActionToDoConfirmReceptionFromOperationWithIntentionTypeBUYAndUserUserWhoPost() {
-        User userIntention = dataSet.getUserTest();
-        userIntention.setPoints(30);
-        userIntention.setNumberOperations(3);
-        User userWhoPost = userRepo.save(userIntention);
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(IntentionType.BUY, cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        Operation operation = operationService.create(intention, userWhoAccept);
+    void getActionToDoMakeTransferFromOperationWithIntentionTypeBUYAndUserUserWhoPost() {
+        Intention intention = getBUYTypeIntentionDB();
+        Operation operation = operationService.create(intention, getUserWhoAcceptDB2());
 
-        assertEquals("Make transfer", operationService.actionToDo(operation, userWhoPost));
+        assertEquals("Make transfer", operationService.actionToDo(operation, intention.getUser()));
     }
 
     @Test
-    void get10WhenAskForPointsFromUserWith30PointsAfterCancelOperation() throws ResourceNotFound {
-        User userIntention = dataSet.getUserTest();
-        userIntention.setPoints(30);
-        User userWhoPost = userRepo.save(userIntention);
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(IntentionType.BUY, cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        Operation operation = operationService.create(intention, userWhoAccept);
-        operationService.cancelOperationByUser(operation, userWhoPost);
+    void get10WhenAskForPointsFromUserWhoPostWith30PointsAfterCancelOperation() throws ResourceNotFound {
+        Intention intention = getIntentionWhoUserHas30Points3NumberOperationsDB();
+        Operation operation = operationService.create(intention, getUserWhoAcceptDB2());
+        operationService.cancelOperationByUser(operation, intention.getUser());
 
-        assertEquals(10, userService.findById(userWhoPost.getId()).getPoints());
+        assertEquals(10, userService.findById(intention.getUser().getId()).getPoints());
+    }
+
+    @Test
+    void get10WhenAskForPointsFromUserWhoAcceptWith30PointsAfterCancelOperation() throws ResourceNotFound {
+        Operation operation = operationService.create(getIntentionDB(), getUserWit30Point3NumberOperationsDB());
+        operationService.cancelOperationByUser(operation, operation.getUserWhoAccepts());
+
+        assertEquals(10, userService.findById(operation.getUserWhoAccepts().getId()).getPoints());
     }
 
     @Test
     void getACTIVEStateFromNewOperation() {
-        User userIntention = dataSet.getUserTest();
-        User userWhoPost = userRepo.save(userIntention);
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(IntentionType.BUY, cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        Operation operation = operationService.create(intention, userWhoAccept);
+        Operation operation = operationService.create(getIntentionDB(), getUserWhoAcceptDB2());
 
         assertEquals(OperationState.ACTIVE, operationService.getState(operation));
     }
 
     @Test
+    void getCANCELLEDStateFromOperationAfterCancel() {
+        Operation operation = operationService.create(getIntentionDB(), getUserWhoAcceptDB2());
+        operationService.cancelOperationByUser(operation, operation.getUserWhoAccepts());
+
+        assertEquals(OperationState.CANCELLED, operationService.getState(operation));
+    }
+    @Test
     void getPAIDStateFromOperationAfterMoneyTransferDone() {
-        User userIntention = dataSet.getUserTest();
-        User userWhoPost = userRepo.save(userIntention);
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(IntentionType.BUY, cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        Operation operation = operationService.create(intention, userWhoAccept);
-        operationService.cancelOperationByUser(operation, userWhoPost);
+        Operation operation = operationService.create(getIntentionDB(), getUserWhoAcceptDB2());
         operationService.moneyTransferDone(operation);
 
         assertEquals(OperationState.PAID, operationService.getState(operation));
@@ -275,13 +240,7 @@ class OperationPersistenceTests {
 
     @Test
     void getCRYPTOSENDEDStateFromOperationAfterCryptoSendDone() {
-        User userIntention = dataSet.getUserTest();
-        User userWhoPost = userRepo.save(userIntention);
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(IntentionType.BUY, cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        Operation operation = operationService.create(intention, userWhoAccept);
-        operationService.cancelOperationByUser(operation, userWhoPost);
+        Operation operation = operationService.create(getIntentionDB(), getUserWhoAcceptDB2());
         operationService.cryptoSendDone(operation);
 
         assertEquals(OperationState.CRYPTOSENDED, operationService.getState(operation));
@@ -289,41 +248,28 @@ class OperationPersistenceTests {
 
     @Test
     void get10WhenAskForPointsOnUsersFromOperationDoneInLess30Minutes() throws ResourceNotFound {
-        User userIntention = dataSet.getUserTest();
-        User userWhoPost = userRepo.save(userIntention);
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(IntentionType.BUY, cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        Operation operation = operationService.create(intention, userWhoAccept);
+        Intention intention = getIntentionDB();
+        Operation operation = operationService.create(intention, getUserWhoAcceptDB2());
         operationService.assignBonusTimeToUsers(operation);
 
-        assertEquals(10, userService.findById(userWhoPost.getId()).getPoints());
-        assertEquals(10, userService.findById(userWhoAccept.getId()).getPoints());
+        assertEquals(10, userService.findById(intention.getUser().getId()).getPoints());
+        assertEquals(10, userService.findById(operation.getUserWhoAccepts().getId()).getPoints());
     }
 
     @Test
     void get5WhenAskForPointsOnUsersFromOperationDoneInMore30Minutes() throws ResourceNotFound {
-        User userIntention = dataSet.getUserTest();
-        User userWhoPost = userRepo.save(userIntention);
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(IntentionType.BUY, cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        Operation operation = operationService.create(intention, userWhoAccept);
+        Intention intention = getIntentionDB();
+        Operation operation = operationService.create(intention, getUserWhoAcceptDB2());
         operation.setDateTime(new DateTimeInMilliseconds().getCurrentTimeMinus30MinutesInMilliseconds());
         operationService.assignBonusTimeToUsers(operation);
 
-        assertEquals(5, userService.findById(userWhoPost.getId()).getPoints());
-        assertEquals(5, userService.findById(userWhoAccept.getId()).getPoints());
+        assertEquals(5, userService.findById(intention.getUser().getId()).getPoints());
+        assertEquals(5, userService.findById(operation.getUserWhoAccepts().getId()).getPoints());
     }
 
     @Test
-    void getAmountInDollars() throws ResourceNotFound {
-        User userIntention = dataSet.getUserTest();
-        User userWhoPost = userRepo.save(userIntention);
-        User userWhoAccept = userRepo.save(dataSet.getUserTest2());
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("ADA");
-        Intention intention = intentionService.create(IntentionType.BUY, cryptocurrency, dataSet.getSomePrice(), dataSet.getSomeUnit(), userWhoPost);
-        Operation operation = operationService.create(intention, userWhoAccept);
+    void getAmountInDollars() {
+        Operation operation = operationService.create(getIntentionDB(), getUserWhoAcceptDB2());
 
         assertEquals(200, operationService.amountInDollars(operation, 30000.00, 150));
     }
