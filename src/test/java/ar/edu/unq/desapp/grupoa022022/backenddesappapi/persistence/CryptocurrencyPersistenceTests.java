@@ -3,7 +3,6 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.ICryptocurrencyService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.IQuoteService;
@@ -32,6 +31,10 @@ class CryptocurrencyPersistenceTests {
     @Autowired
     IQuoteService quoteService;
 
+    public Cryptocurrency getCryptocurrencyDB(){ return cryptocurrencyService.create("DAI");}
+    public Cryptocurrency getCryptocurrencyDB2(){ return cryptocurrencyService.create("BITCOIN");}
+    public Cryptocurrency getCryptocurrencyDB3(){ return cryptocurrencyService.create("LUNA");}
+    public Cryptocurrency getCryptocurrencyDB4(){ return cryptocurrencyService.create("USDT");}
 
     //**************** SERVICE - REPOSITORY ****************
 
@@ -53,18 +56,16 @@ class CryptocurrencyPersistenceTests {
     }
 
     @Test
-    void throwsResourseNotFoundWhenTryToGetADeleteACryptocurrency() {
-        int cryptocurrencyId = cryptocurrencyService.create("USDT").getId();
+    void throwsResourceNotFoundWhenTryToGetADeleteACryptocurrency() {
+        int cryptocurrencyId = getCryptocurrencyDB().getId();
         cryptocurrencyService.delete(cryptocurrencyId);
 
-        assertThrows(ResourceNotFound.class, () -> {
-            cryptocurrencyService.findById(cryptocurrencyId).getId();
-        });
+        assertThrows(ResourceNotFound.class, () -> cryptocurrencyService.findById(cryptocurrencyId));
     }
 
     @Test
     void updateACryptocurrencyCheckFieldModified() throws ResourceNotFound {
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("USDT");
+        Cryptocurrency cryptocurrency = getCryptocurrencyDB();
         cryptocurrency.setName("LUNA");
         cryptocurrencyService.update(cryptocurrency);
 
@@ -73,8 +74,9 @@ class CryptocurrencyPersistenceTests {
 
     @Test
     void getAnEmptySetWhenAllCryptocurrenciesWasDeleted() {
-        cryptocurrencyService.create("USDT");
-        cryptocurrencyService.create("BITCOIN");
+        getCryptocurrencyDB();
+        getCryptocurrencyDB2();
+        getCryptocurrencyDB3();
         cryptocurrencyService.deleteAll();
 
         assertTrue(cryptocurrencyService.getAll().isEmpty());
@@ -82,7 +84,7 @@ class CryptocurrencyPersistenceTests {
 
     @Test
     void getTheLatestQuoteFromCryptocurrency() throws ResourceNotFound {
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("USDT");
+        Cryptocurrency cryptocurrency = getCryptocurrencyDB();
         quoteService.create(cryptocurrency, dataSet.getSomePrice());
         int quote2Id = quoteService.create(cryptocurrency, dataSet.getSomePrice() + 2000).getId();
 
@@ -91,7 +93,7 @@ class CryptocurrencyPersistenceTests {
 
     @Test
     void getTheLast24HoursQuotesFromCryptocurrency() throws ResourceNotFound {
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("USDT");
+        Cryptocurrency cryptocurrency = getCryptocurrencyDB();
         quoteService.create(cryptocurrency, dataSet.getSomePrice());
         quoteService.create(cryptocurrency, dataSet.getSomePrice());
         quoteService.create(cryptocurrency, dataSet.getSomePrice());
@@ -105,17 +107,17 @@ class CryptocurrencyPersistenceTests {
 
     @Test
     void get4CryptocurrenciesWhenAskForAllCryptocurrencies() {
-        cryptocurrencyService.create("USDT");
-        cryptocurrencyService.create("DAI");
-        cryptocurrencyService.create("LUNA");
-        cryptocurrencyService.create("ETHER");
+        getCryptocurrencyDB();
+        getCryptocurrencyDB2();
+        getCryptocurrencyDB3();
+        getCryptocurrencyDB4();
 
         assertEquals(4, cryptocurrencyService.getAll().size());
     }
 
     @Test
     void getQuotesFromACryptocurrency() {
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("USDT");
+        Cryptocurrency cryptocurrency = getCryptocurrencyDB();
         quoteService.create(cryptocurrency, dataSet.getSomePrice());
         quoteService.create(cryptocurrency, dataSet.getSomePrice());
         quoteService.create(cryptocurrency, dataSet.getSomePrice());
@@ -125,7 +127,7 @@ class CryptocurrencyPersistenceTests {
 
     @Test
     void getEmptyIntentionsFromACryptocurrencyWithoutIntentions() {
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create("USDT");
+        Cryptocurrency cryptocurrency = getCryptocurrencyDB();
 
         assertTrue(cryptocurrencyService.getReferencedIntentions(cryptocurrency).isEmpty());
     }

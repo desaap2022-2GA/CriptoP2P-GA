@@ -30,4 +30,8 @@ public interface IUserService {
     public void checkNewUserEmail(String email) throws EmailAlreadyExists;
 
     public void deleteAllUsers();
+
+    public User saveToDataBase(UserRegister userRegister);
+
+    public User getFromDataBase(int userId) throws ResourceNotFound;
 }

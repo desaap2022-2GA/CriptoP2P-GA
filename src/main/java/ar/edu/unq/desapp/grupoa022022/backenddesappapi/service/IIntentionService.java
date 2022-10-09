@@ -28,8 +28,8 @@ public interface IIntentionService {
 
     String transactionInfoToShow(Intention intention);
 
-    int getOperationNumberUser(Intention intention);
+    int getOperationNumberUser(Intention intention) throws ResourceNotFound;
 
-    int getUserReputation(Intention intention);
+    int getUserReputation(Intention intention) throws ResourceNotFound;
 
 }

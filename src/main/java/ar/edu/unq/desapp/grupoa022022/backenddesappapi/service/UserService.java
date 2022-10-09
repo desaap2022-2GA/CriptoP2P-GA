@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class UserService implements IUserService{
+public class UserService implements IUserService {
 
     @Autowired
     private IUserRepo userRepo;
@@ -26,7 +26,7 @@ public class UserService implements IUserService{
 
     public UserView create(UserRegister userRegister) throws EmailAlreadyExists {
         this.checkNewUserEmail(userRegister.getEmail());
-        return helper.usertoUserView(userRepo.save(helper.userRegistertoUser(userRegister)));
+        return helper.usertoUserView(saveToDataBase(userRegister));
     }
 
     public UserView modify(UserModify userModify) throws EmailAlreadyExists, ResourceNotFound, ExceptionsUser {
@@ -49,9 +49,7 @@ public class UserService implements IUserService{
     }
 
     public UserView findById(Integer id) throws ResourceNotFound {
-        return helper.usertoUserView(userRepo.findById(id).orElseThrow(
-                () -> new ResourceNotFound("User not found with userId " + id)
-        ));
+        return helper.usertoUserView(getFromDataBase(id));
     }
 
     public UserView findByEmail(String email) throws ResourceNotFound {
@@ -68,11 +66,21 @@ public class UserService implements IUserService{
 
         if (!findUserByEmail(email).isEmpty()) {
             throw new EmailAlreadyExists("The email is already registered");
-           }
+        }
     }
 
     public void deleteAllUsers() {
         userRepo.deleteAll();
+    }
+
+    public User saveToDataBase(UserRegister userRegister) {
+        return userRepo.save(helper.userRegistertoUser(userRegister));
+    }
+
+    public User getFromDataBase(int userId) throws ResourceNotFound {
+        return userRepo.findById(userId).orElseThrow(
+                () -> new ResourceNotFound("User not found with userId " + userId)
+        );
     }
 }
 
