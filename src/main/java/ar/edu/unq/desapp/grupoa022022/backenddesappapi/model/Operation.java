@@ -51,7 +51,7 @@ public class Operation {
     }
 
     public String getTransactionInfoToShow() {
-        return this.intention.getTransactionInfoToShow();
+        return this.intention.transactionInfoToShow();
     }
 
     public int getUserReputation() {
@@ -72,7 +72,6 @@ public class Operation {
     }
 
     public void cancelOperationBySystem() {
-
         this.setState(OperationState.CANCELLED);
     }
 

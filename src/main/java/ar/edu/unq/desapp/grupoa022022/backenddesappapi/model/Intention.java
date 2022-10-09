@@ -79,7 +79,7 @@ public class Intention {
         return this.user.getReputation();
     }
 
-    public String getTransactionInfoToShow() {
+    public String transactionInfoToShow() {
         return (this.type == IntentionType.SELL) ? this.user.getMercadoPagoCVU()
                 : this.user.getAddressWalletActiveCripto();
     }

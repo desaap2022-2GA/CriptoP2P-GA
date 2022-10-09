@@ -31,7 +31,7 @@ public class Cryptocurrency {
     private Set<Quote> quotes = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "cryptocurrency")
+    @OneToMany(mappedBy = "cryptocurrency",fetch=FetchType.EAGER)
     private Set<Intention> intentions = new HashSet<>();
 
     public Cryptocurrency(String name) {

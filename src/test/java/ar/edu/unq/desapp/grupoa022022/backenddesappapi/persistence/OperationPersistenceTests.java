@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
@@ -52,6 +53,7 @@ class OperationPersistenceTests {
     public Cryptocurrency getCryptocurrencyDB2() {
         return cryptocurrencyService.create("BITCOIN");
     }
+
     public User getUserWhoPostDB() {
         return userService.saveToDataBase(dataSet.getUserRegister());
     }
@@ -60,31 +62,73 @@ class OperationPersistenceTests {
         return userService.saveToDataBase(dataSet.getUserRegister2());
     }
 
-    public User getUserWit30Point3NumberOperationsDB() {
+    public User getUserWith30Point3NumberOperationsDB() {
         User userDB = getUserWhoPostDB();
         userDB.setPoints(30);
         userDB.setNumberOperations(3);
         return userRepo.save(userDB);
     }
 
-    public Intention getIntentionDB() {
-        return intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(),
-                dataSet.getSomePrice(), dataSet.getSomeUnit(), getUserWhoPostDB());
+    public int getUserWhoPostDBId() {
+        return getUserWhoPostDB().getId();
     }
 
-    public Intention getSELLTypeIntentionDB() {
-        return intentionService.create(IntentionType.SELL, getCryptocurrencyDB(),
-                dataSet.getSomePrice(), dataSet.getSomeUnit(), getUserWhoPostDB());
+    public int getUserWhoAcceptDB2Id() {
+        return getUserWhoAcceptDB2().getId();
     }
 
-    public Intention getBUYTypeIntentionDB() {
-        return intentionService.create(IntentionType.BUY, getCryptocurrencyDB2(),
-                dataSet.getSomePrice(), dataSet.getSomeUnit(), getUserWhoPostDB());
+
+    public int getUserWith30Point3NumberOperationsDBId() {
+        return getUserWith30Point3NumberOperationsDB().getId();
     }
 
-    public Intention getIntentionWhoUserHas30Points3NumberOperationsDB() {
-        return intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(),
-                dataSet.getSomePrice(), dataSet.getSomeUnit(), getUserWit30Point3NumberOperationsDB());
+
+    public int getSomeCryptocurrencyDBId() {
+        return getCryptocurrencyDB().getId();
+    }
+    public int getSomeCryptocurrencyDB2Id() {
+        return getCryptocurrencyDB2().getId();
+    }
+
+    public IntentionRegister getSomeIntentionRegister() {
+        return new IntentionRegister(dataSet.getSomeType(),
+                getSomeCryptocurrencyDBId(), dataSet.getSomePrice(), dataSet.getSomeUnit(), getUserWhoPostDBId());
+    }
+
+    public IntentionRegister getIntentionRegisterWithPrice5000Units2() {
+        return new IntentionRegister(dataSet.getSomeType(),
+                getSomeCryptocurrencyDBId(), 5000.00, 2, getUserWhoPostDBId());
+    }
+
+    public IntentionRegister getIntentionRegisterWithUserWhoHas30Point3NumberOperations() {
+        return new IntentionRegister(dataSet.getSomeType(), getSomeCryptocurrencyDBId(), dataSet.getSomePrice(),
+                dataSet.getSomeUnit(), getUserWith30Point3NumberOperationsDBId());
+    }
+
+    public IntentionRegister getIntentionRegisterBUYType() {
+        return new IntentionRegister(IntentionType.BUY,
+                getSomeCryptocurrencyDBId(), dataSet.getSomePrice(), dataSet.getSomeUnit(), getUserWhoPostDBId());
+    }
+
+    public IntentionRegister getIntentionRegisterSELLType() {
+        return new IntentionRegister(IntentionType.SELL,
+                getSomeCryptocurrencyDB2Id(), dataSet.getSomePrice(), dataSet.getSomeUnit(), getUserWhoPostDBId());
+    }
+
+    public Intention getIntentionDB() throws ResourceNotFound {
+        return intentionService.create(getSomeIntentionRegister());
+    }
+
+    public Intention getSELLTypeIntentionDB() throws ResourceNotFound {
+        return intentionService.create(getIntentionRegisterSELLType());
+    }
+
+    public Intention getBUYTypeIntentionDB() throws ResourceNotFound {
+        return intentionService.create(getIntentionRegisterBUYType());
+    }
+
+    public Intention getIntentionWhoUserHas30Points3NumberOperationsDB() throws ResourceNotFound {
+        return intentionService.create(getIntentionRegisterWithUserWhoHas30Point3NumberOperations());
     }
 
     //**************** SERVICE - REPOSITORY ****************
@@ -120,7 +164,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void get2OperationsWhenAskForAllOfIt() {
+    void get2OperationsWhenAskForAllOfIt() throws ResourceNotFound {
         operationService.create(getBUYTypeIntentionDB(), getUserWhoAcceptDB2());
         operationService.create(getSELLTypeIntentionDB(), getUserWhoAcceptDB2());
 
@@ -128,7 +172,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void getResourceNotFoundAfterDeleteTheOnlyOneAndAskForIt() {
+    void getResourceNotFoundAfterDeleteTheOnlyOneAndAskForIt() throws ResourceNotFound {
         Operation operation = operationService.create(getIntentionDB(), getUserWhoAcceptDB2());
         operationService.delete(operation.getId());
 
@@ -136,7 +180,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void getEmptyAfterDeleteAllOperationAndAskForAllOfIt() {
+    void getEmptyAfterDeleteAllOperationAndAskForAllOfIt() throws ResourceNotFound {
         operationService.create(getIntentionDB(), getUserWhoAcceptDB2());
         operationService.deleteAll();
 
@@ -144,28 +188,28 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void getSellTypeWhenAskForAnOperationTypeMadeWithASellIntentionType() {
+    void getSellTypeWhenAskForAnOperationTypeMadeWithASellIntentionType() throws ResourceNotFound {
         Operation operation = operationService.create(getSELLTypeIntentionDB(), getUserWhoAcceptDB2());
 
         assertEquals(IntentionType.SELL, operationService.getType(operation));
     }
 
     @Test
-    void getAddressWalletInfoWhenAskTransactionInfoInABuyIntentionTypeOperation() {
+    void getAddressWalletInfoWhenAskTransactionInfoInABuyIntentionTypeOperation() throws ResourceNotFound {
         Operation operation = operationService.create(getBUYTypeIntentionDB(), getUserWhoAcceptDB2());
 
         assertEquals("Xwf5u5ef", operationService.getTransactionInfoToShow(operation));
     }
 
     @Test
-    void getMercadoPagoCvuInfoWhenAskTransactionInfoInASellIntentionTypeOperation() {
+    void getMercadoPagoCvuInfoWhenAskTransactionInfoInASellIntentionTypeOperation() throws ResourceNotFound {
         Operation operation = operationService.create(getSELLTypeIntentionDB(), getUserWhoAcceptDB2());
 
         assertEquals("6352879863528798635287", operationService.getTransactionInfoToShow(operation));
     }
 
     @Test
-    void getUserReputationFromOperation() {
+    void getUserReputationFromOperation() throws ResourceNotFound {
         Operation operation = operationService.create(getIntentionWhoUserHas30Points3NumberOperationsDB(),
                 getUserWhoAcceptDB2());
 
@@ -173,14 +217,14 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void getActionToDoMakeTransferFromOperationWithIntentionTypeSELLAndUserUserWhoAccept() {
+    void getActionToDoMakeTransferFromOperationWithIntentionTypeSELLAndUserUserWhoAccept() throws ResourceNotFound {
         Operation operation = operationService.create(getSELLTypeIntentionDB(), getUserWhoAcceptDB2());
 
         assertEquals("Make transfer", operationService.actionToDo(operation, operation.getUserWhoAccepts()));
     }
 
     @Test
-    void getActionToDoConfirmReceptionFromOperationWithIntentionTypeSELLAndUserUserWhoPost() {
+    void getActionToDoConfirmReceptionFromOperationWithIntentionTypeSELLAndUserUserWhoPost() throws ResourceNotFound {
         Intention intention = getSELLTypeIntentionDB();
         Operation operation = operationService.create(intention, getUserWhoAcceptDB2());
 
@@ -188,14 +232,14 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void getActionToDoConfirmReceptionFromOperationWithIntentionTypeBUYAndUserUserWhoAccept() {
+    void getActionToDoConfirmReceptionFromOperationWithIntentionTypeBUYAndUserUserWhoAccept() throws ResourceNotFound {
         Operation operation = operationService.create(getBUYTypeIntentionDB(), getUserWhoAcceptDB2());
 
         assertEquals("Confirm reception", operationService.actionToDo(operation, operation.getUserWhoAccepts()));
     }
 
     @Test
-    void getActionToDoMakeTransferFromOperationWithIntentionTypeBUYAndUserUserWhoPost() {
+    void getActionToDoMakeTransferFromOperationWithIntentionTypeBUYAndUserUserWhoPost() throws ResourceNotFound {
         Intention intention = getBUYTypeIntentionDB();
         Operation operation = operationService.create(intention, getUserWhoAcceptDB2());
 
@@ -213,21 +257,21 @@ class OperationPersistenceTests {
 
     @Test
     void get10WhenAskForPointsFromUserWhoAcceptWith30PointsAfterCancelOperation() throws ResourceNotFound {
-        Operation operation = operationService.create(getIntentionDB(), getUserWit30Point3NumberOperationsDB());
+        Operation operation = operationService.create(getIntentionDB(), getUserWith30Point3NumberOperationsDB());
         operationService.cancelOperationByUser(operation, operation.getUserWhoAccepts());
 
         assertEquals(10, userService.findById(operation.getUserWhoAccepts().getId()).getPoints());
     }
 
     @Test
-    void getACTIVEStateFromNewOperation() {
+    void getACTIVEStateFromNewOperation() throws ResourceNotFound {
         Operation operation = operationService.create(getIntentionDB(), getUserWhoAcceptDB2());
 
         assertEquals(OperationState.ACTIVE, operationService.getState(operation));
     }
 
     @Test
-    void getCANCELLEDStateFromOperationAfterCancel() {
+    void getCANCELLEDStateFromOperationAfterCancel() throws ResourceNotFound {
         Operation operation = operationService.create(getIntentionDB(), getUserWhoAcceptDB2());
         operationService.cancelOperationByUser(operation, operation.getUserWhoAccepts());
 
@@ -235,7 +279,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void getPAIDStateFromOperationAfterMoneyTransferDone() {
+    void getPAIDStateFromOperationAfterMoneyTransferDone() throws ResourceNotFound {
         Operation operation = operationService.create(getIntentionDB(), getUserWhoAcceptDB2());
         operationService.moneyTransferDone(operation);
 
@@ -243,7 +287,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void getCRYPTOSENDEDStateFromOperationAfterCryptoSendDone() {
+    void getCRYPTOSENDEDStateFromOperationAfterCryptoSendDone() throws ResourceNotFound {
         Operation operation = operationService.create(getIntentionDB(), getUserWhoAcceptDB2());
         operationService.cryptoSendDone(operation);
 
@@ -272,7 +316,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void getAmountInDollars() {
+    void getAmountInDollars() throws ResourceNotFound {
         Operation operation = operationService.create(getIntentionDB(), getUserWhoAcceptDB2());
 
         assertEquals(200, operationService.amountInDollars(operation, 30000.00, 150));

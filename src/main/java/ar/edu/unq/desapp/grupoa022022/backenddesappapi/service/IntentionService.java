@@ -1,11 +1,11 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IIntentionRepo;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +17,18 @@ public class IntentionService implements IIntentionService {
     @Autowired
     private IIntentionRepo intentionRepo;
 
+    @Autowired
+    private ICryptocurrencyService cryptocurrencyService;
+
+    @Autowired
+    private IUserService userService;
+
     @Override
-    public Intention create(IntentionType type, Cryptocurrency cryptocurrency, Double price, int units, User user) {
-        Intention intention = new Intention(type, cryptocurrency, price, units, user);
+    public Intention create(IntentionRegister intentionRegister) throws ResourceNotFound {
+        Cryptocurrency cryptocurrency = cryptocurrencyService.findById(intentionRegister.getCryptocurrencyId());
+        User user = userService.getFromDataBase(intentionRegister.getUserId());
+        Intention intention = new Intention(intentionRegister.getType(), cryptocurrency, intentionRegister.getPrice(),
+                intentionRegister.getUnits(), user);
         return intentionRepo.save(intention);
     }
 
@@ -62,7 +71,7 @@ public class IntentionService implements IIntentionService {
 
     @Override
     public String transactionInfoToShow(Intention intention) {
-        return intention.getTransactionInfoToShow();
+        return intention.transactionInfoToShow();
     }
 
     @Override
