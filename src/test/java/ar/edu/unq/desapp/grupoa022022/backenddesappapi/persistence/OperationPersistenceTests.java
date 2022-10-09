@@ -49,6 +49,9 @@ class OperationPersistenceTests {
         return cryptocurrencyService.create("DAI");
     }
 
+    public Cryptocurrency getCryptocurrencyDB2() {
+        return cryptocurrencyService.create("BITCOIN");
+    }
     public User getUserWhoPostDB() {
         return userService.saveToDataBase(dataSet.getUserRegister());
     }
@@ -75,7 +78,7 @@ class OperationPersistenceTests {
     }
 
     public Intention getBUYTypeIntentionDB() {
-        return intentionService.create(IntentionType.BUY, getCryptocurrencyDB(),
+        return intentionService.create(IntentionType.BUY, getCryptocurrencyDB2(),
                 dataSet.getSomePrice(), dataSet.getSomeUnit(), getUserWhoPostDB());
     }
 
