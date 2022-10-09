@@ -230,6 +230,7 @@ class OperationPersistenceTests {
 
         assertEquals(OperationState.CANCELLED, operationService.getState(operation));
     }
+
     @Test
     void getPAIDStateFromOperationAfterMoneyTransferDone() {
         Operation operation = operationService.create(getIntentionDB(), getUserWhoAcceptDB2());
