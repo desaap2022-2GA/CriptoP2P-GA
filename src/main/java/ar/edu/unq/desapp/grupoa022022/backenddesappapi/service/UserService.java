@@ -90,7 +90,7 @@ public class UserService implements IUserService{
     public Object login(String email, String password) throws ResourceNotFound {
         UserView user = findByPassword(password);
 
-        return (user.getEmail() == email)? user: new ResourceNotFound("Incorrect email or password");
+        return (user.getEmail().equals(email))? user: new ResourceNotFound("Incorrect email or password");
     }
 
 

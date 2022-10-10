@@ -57,8 +57,9 @@ public class UserController {
         return userService.findByPassword(password);
     }
 
-    @GetMapping(value = "/users/login/{email, password")
-    public Object login(@RequestBody String email, @RequestBody String password) throws ResourceNotFound{
+    @RequestMapping(value = "/users/login")
+    @ResponseBody
+    public Object login(@RequestParam String email, @RequestParam String password) throws ResourceNotFound{
         return userService.login(email, password);
     }
 
