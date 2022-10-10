@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
@@ -60,6 +61,25 @@ class IntentionPersistenceTests {
         userDB.setNumberOperations(5);
         return userRepo.save(userDB);
     }
+    public int getSomeUserDBId(){return getUserDB().getId();}
+
+    public int getUserWith50Point5NumberOperationsId(){return getUserWith50Point5NumberOperations().getId();}
+
+    public int getSomeCryptocurrencyDBId(){return getCryptocurrencyDB().getId();}
+
+    public int getSomeCryptocurrencyDB2Id(){return getCryptocurrencyDB2().getId();}
+    public IntentionRegister getSomeIntentionRegister() { return new IntentionRegister(dataSet.getSomeType(),
+            getSomeCryptocurrencyDBId(), dataSet.getSomePrice(), dataSet.getSomeUnit(), getSomeUserDBId());}
+    public IntentionRegister getSomeIntentionRegister2() { return new IntentionRegister(dataSet.getSomeType(),
+            getSomeCryptocurrencyDB2Id(), dataSet.getSomePrice(), dataSet.getSomeUnit(), getSomeUserDBId());}
+    public IntentionRegister getIntentionRegisterWithPrice5000Units2() { return new IntentionRegister(dataSet.getSomeType(),
+            getSomeCryptocurrencyDBId(), 5000.00, 2, getSomeUserDBId());}
+    public IntentionRegister getIntentionRegisterWithUserWhoHas50Point5NumberOperations() { return new IntentionRegister(dataSet.getSomeType(),
+            getSomeCryptocurrencyDBId(), dataSet.getSomePrice(), dataSet.getSomeUnit(), getUserWith50Point5NumberOperationsId());}
+    public IntentionRegister getIntentionRegisterBUYType() { return new IntentionRegister(IntentionType.BUY,
+            getSomeCryptocurrencyDBId(), dataSet.getSomePrice(), dataSet.getSomeUnit(), getSomeUserDBId());}
+    public IntentionRegister getIntentionRegisterSELLType() { return new IntentionRegister(IntentionType.SELL,
+            getSomeCryptocurrencyDBId(), dataSet.getSomePrice(), dataSet.getSomeUnit(), getSomeUserDBId());}
 
     //**************** SERVICE - REPOSITORY ****************
 
@@ -76,16 +96,14 @@ class IntentionPersistenceTests {
 
     @Test
     void getAIntentionCreated() throws ResourceNotFound {
-        Intention intention = intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(),
-                dataSet.getSomePrice(), dataSet.getSomeUnit(), getUserDB());
+        Intention intention = intentionService.create(getSomeIntentionRegister());
 
         assertEquals(intention.getId(), intentionService.findById(intention.getId()).getId());
     }
 
     @Test
     void getPriceOfAIntentionUpdated() throws ResourceNotFound {
-        Intention intention = intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(), 1500.00,
-                dataSet.getSomeUnit(), getUserDB());
+        Intention intention = intentionService.create(getSomeIntentionRegister());
         intention.setPrice(2000.00);
         intentionService.update(intention);
 
@@ -98,68 +116,67 @@ class IntentionPersistenceTests {
     }
 
     @Test
-    void getNoIntentionsWhenAskForIntentionsAfterDeleteAll() {
-        intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(), dataSet.getSomePrice(),
-                dataSet.getSomeUnit(), getUserDB());
+    void getNoIntentionsWhenAskForIntentionsAfterDeleteAll() throws ResourceNotFound {
+        intentionService.create(getSomeIntentionRegister());
         intentionService.deleteAll();
 
         assertTrue(intentionService.getAll().isEmpty());
     }
 
     @Test
-    void get2IntentionsWhenAskForAllIntentions() {
+    void get2IntentionsWhenAskForAllIntentions() throws ResourceNotFound {
         User user = userRepo.save(dataSet.getUserTest());
-        intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(), dataSet.getSomePrice(), dataSet.getSomeUnit(), user);
-        intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB2(), dataSet.getSomePrice(), dataSet.getSomeUnit(), user);
-
+        intentionService.create(getSomeIntentionRegister());
+        intentionService.create(getSomeIntentionRegister2());
         assertEquals(2, intentionService.getAll().size());
     }
 
     @Test
-    void getResourceNotFoundWhenAskForIntentionDeleted() {
-        int intentionId = intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(), dataSet.getSomePrice(),
-                dataSet.getSomeUnit(), getUserDB()).getId();
+    void getResourceNotFoundWhenAskForIntentionDeleted() throws ResourceNotFound {
+        int intentionId = intentionService.create(getSomeIntentionRegister()).getId();
         intentionService.delete(intentionId);
 
         assertThrows(ResourceNotFound.class, () -> intentionService.findById(intentionId));
     }
 
     @Test
-    void getAmountPriceInDollars() {
-        Intention intention = intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(), 5000.00,
-                2, getUserDB());
+    void getAmountPriceInDollarsFromAnIntentionWithPrice5000Units2() throws ResourceNotFound {
+        Intention intention = intentionService.create(getIntentionRegisterWithPrice5000Units2());
 
         assertEquals(10000.00 / 149.00, intentionService.amountPriceInDollars(149.00, intention));
     }
 
     @Test
-    void getAmountPriceInPesos() {
-        Intention intention = intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(), 5000.00,
-                2, getUserDB());
+    void getAmountPriceInPesosFromAnIntentionWithPrice5000Units2() throws ResourceNotFound {
+        Intention intention = intentionService.create(getIntentionRegisterWithPrice5000Units2());
 
         assertEquals(10000, intentionService.amountPriceInPesos(intention));
     }
 
     @Test
-    void getAddressCryptoWhenAskForInfoToShowOnBuyTypeIntention() {
-        Intention intention = intentionService.create(IntentionType.BUY, getCryptocurrencyDB(), dataSet.getSomePrice(),
-                dataSet.getSomeUnit(), getUserDB());
+    void getAddressCryptoWhenAskForInfoToShowOnBuyTypeIntention() throws ResourceNotFound {
+        Intention intention = intentionService.create(getIntentionRegisterBUYType());
 
         assertEquals("Xwf5u5ef", intentionService.transactionInfoToShow(intention));
     }
 
     @Test
+    void getmercadoPagoCVUWhenAskForInfoToShowOnSELLTypeIntention() throws ResourceNotFound {
+        Intention intention = intentionService.create(getIntentionRegisterSELLType());
+
+        assertEquals("6352879863528798635287", intentionService.transactionInfoToShow(intention));
+    }
+
+    @Test
     void getReputation10FromUserWhoPostTheIntentionWith50Points5NumbersOperations() throws ResourceNotFound {
-        int intentionId = intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(), dataSet.getSomePrice(),
-                dataSet.getSomeUnit(), getUserWith50Point5NumberOperations()).getId();
+        int intentionId = intentionService.create(getIntentionRegisterWithUserWhoHas50Point5NumberOperations()).getId();
 
         assertEquals(10, intentionService.getUserReputation(intentionService.findById(intentionId)));
     }
 
     @Test
     void getOperationNumber5FromUserWhoPostTheIntentionWith5NumbersOperations() throws ResourceNotFound {
-        int intentionId = intentionService.create(dataSet.getSomeType(), getCryptocurrencyDB(), dataSet.getSomePrice(),
-                dataSet.getSomeUnit(), getUserWith50Point5NumberOperations()).getId();
+        int intentionId = intentionService.create(getIntentionRegisterWithUserWhoHas50Point5NumberOperations()).getId();
 
         assertEquals(5, intentionService.getOperationNumberUser(intentionService.findById(intentionId)));
     }
