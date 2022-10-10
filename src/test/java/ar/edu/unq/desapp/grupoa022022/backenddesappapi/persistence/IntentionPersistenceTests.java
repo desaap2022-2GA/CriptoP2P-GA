@@ -61,11 +61,9 @@ class IntentionPersistenceTests {
         userDB.setNumberOperations(5);
         return userRepo.save(userDB);
     }
-
     public int getSomeUserDBId(){return getUserDB().getId();}
 
     public int getUserWith50Point5NumberOperationsId(){return getUserWith50Point5NumberOperations().getId();}
-
 
     public int getSomeCryptocurrencyDBId(){return getCryptocurrencyDB().getId();}
 
@@ -130,7 +128,6 @@ class IntentionPersistenceTests {
         User user = userRepo.save(dataSet.getUserTest());
         intentionService.create(getSomeIntentionRegister());
         intentionService.create(getSomeIntentionRegister2());
-
         assertEquals(2, intentionService.getAll().size());
     }
 

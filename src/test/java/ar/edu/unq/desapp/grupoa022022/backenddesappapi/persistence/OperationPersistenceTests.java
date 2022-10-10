@@ -42,7 +42,6 @@ class OperationPersistenceTests {
     ICryptocurrencyService cryptocurrencyService;
     @Autowired
     IIntentionService intentionService;
-
     @Autowired
     IOperationService operationService;
 
@@ -77,11 +76,9 @@ class OperationPersistenceTests {
         return getUserWhoAcceptDB2().getId();
     }
 
-
     public int getUserWith30Point3NumberOperationsDBId() {
         return getUserWith30Point3NumberOperationsDB().getId();
     }
-
 
     public int getSomeCryptocurrencyDBId() {
         return getCryptocurrencyDB().getId();
