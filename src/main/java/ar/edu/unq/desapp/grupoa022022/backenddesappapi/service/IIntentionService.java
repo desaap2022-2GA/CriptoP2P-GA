@@ -1,17 +1,12 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 
 import java.util.List;
 
 public interface IIntentionService {
-
-//    Intention create(IntentionType type, Cryptocurrency cryptocurrency, Double price, int units, User user);
 
     Intention create(IntentionRegister intentionRegister) throws ResourceNotFound;
 
@@ -34,5 +29,4 @@ public interface IIntentionService {
     int getOperationNumberUser(Intention intention) throws ResourceNotFound;
 
     int getUserReputation(Intention intention) throws ResourceNotFound;
-
 }

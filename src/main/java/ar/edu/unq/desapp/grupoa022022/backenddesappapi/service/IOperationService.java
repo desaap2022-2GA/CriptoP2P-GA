@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface IOperationService {
 
-    Operation create(Intention intention, User userWhoAccepts);
+    Operation create(OperationRegister operationRegister) throws ResourceNotFound;
 
     void update(Operation operation);
 
