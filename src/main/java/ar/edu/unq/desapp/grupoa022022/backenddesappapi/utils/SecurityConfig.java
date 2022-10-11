@@ -15,7 +15,7 @@ public class SecurityConfig {
     }
 
      */
-    public BCryptPasswordEncoder BCryptPasswordEncoder(){
+    public BCryptPasswordEncoder passwordEncoder(){
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         return bCryptPasswordEncoder;
     }
