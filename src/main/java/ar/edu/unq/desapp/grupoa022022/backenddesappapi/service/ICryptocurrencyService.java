@@ -28,5 +28,6 @@ public interface ICryptocurrencyService {
 
     Cryptocurrency findById(int id) throws ResourceNotFound;
 
+
     Set<Quote> getQuotes(Cryptocurrency cryptocurrency);
 }

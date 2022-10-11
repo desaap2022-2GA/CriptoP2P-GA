@@ -1,11 +1,13 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
+
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IIntentionRepo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,7 @@ public class IntentionService implements IIntentionService {
         User user = userService.getFromDataBase(intentionRegister.getUserId());
         Intention intention = new Intention(intentionRegister.getType(), cryptocurrency, intentionRegister.getPrice(),
                 intentionRegister.getUnits(), user);
+
         return intentionRepo.save(intention);
     }
 

@@ -27,7 +27,11 @@ public class Cryptocurrency {
     private String name;
 
     @JsonIgnore
+<<<<<<< HEAD
     @OneToMany(mappedBy = "cryptocurrency", fetch = FetchType.EAGER)
+=======
+    @OneToMany(mappedBy = "cryptocurrency",fetch=FetchType.EAGER)
+>>>>>>> login
     private Set<Quote> quotes = new HashSet<>();
 
     @JsonIgnore

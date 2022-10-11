@@ -78,7 +78,7 @@ class UserModelTests {
         String password = "Desarrollo1!";
         user.setPassword(password);
 
-        assertEquals(user.getPassword(), "Desarrollo1!");
+        assertEquals("Desarrollo1!", user.getPassword());
     }
 
     @Test
