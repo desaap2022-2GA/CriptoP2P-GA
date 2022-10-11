@@ -84,6 +84,7 @@ class OperationPersistenceTests {
     public int getSomeCryptocurrencyDBId() {
         return getCryptocurrencyDB().getId();
     }
+
     public int getSomeCryptocurrencyDB2Id() {
         return getCryptocurrencyDB2().getId();
     }
@@ -128,15 +129,19 @@ class OperationPersistenceTests {
     public Intention getIntentionWhoUserHas30Points3NumberOperationsDB() throws ResourceNotFound {
         return intentionService.create(getIntentionRegisterWithUserWhoHas30Point3NumberOperations());
     }
+
     public int getIntentionDBId() throws ResourceNotFound {
         return getIntentionDB().getId();
     }
+
     public int getSELLIntentionDBId() throws ResourceNotFound {
         return getSELLTypeIntentionDB().getId();
     }
+
     public int getBUYIntentionDBId() throws ResourceNotFound {
         return getBUYTypeIntentionDB().getId();
     }
+
     public OperationRegister getOperationRegisterWithUserPostWhoHas30Point3NumberOperations() throws ResourceNotFound {
         return new OperationRegister(getIntentionWhoUserHas30Points3NumberOperationsDB().getId(), getUserWhoAcceptDB2Id());
     }
@@ -156,7 +161,6 @@ class OperationPersistenceTests {
     public OperationRegister getOperationRegisterWithUserAcceptWhoHas30Point3NumberOperations() throws ResourceNotFound {
         return new OperationRegister(getIntentionDBId(), getUserWith30Point3NumberOperationsDBId());
     }
-
 
     //**************** SERVICE - REPOSITORY ****************
 
@@ -217,7 +221,6 @@ class OperationPersistenceTests {
     @Test
     void getSellTypeWhenAskForAnOperationTypeMadeWithASellIntentionType() throws ResourceNotFound {
         Operation operation = operationService.create(getSELLOperationRegister());
-
         assertEquals(IntentionType.SELL, operationService.getType(operation));
     }
 
@@ -289,7 +292,6 @@ class OperationPersistenceTests {
     @Test
     void getACTIVEStateFromNewOperation() throws ResourceNotFound {
         Operation operation = operationService.create(getSomeOperationRegister());
-
         assertEquals(OperationState.ACTIVE, operationService.getState(operation));
     }
 
