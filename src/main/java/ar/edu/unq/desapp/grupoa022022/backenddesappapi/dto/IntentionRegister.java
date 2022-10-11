@@ -1,8 +1,5 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

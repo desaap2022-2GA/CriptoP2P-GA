@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
@@ -18,9 +19,17 @@ public class OperationService implements IOperationService {
     @Autowired
     IOperationRepo operationRepo;
 
+    @Autowired
+    IUserService userService;
+
+    @Autowired
+    IIntentionService intentionService;
+
     @Override
-    public Operation create(Intention intention, User userWhoAccepts) {
-        Operation operation = new Operation(intention, userWhoAccepts);
+    public Operation create(OperationRegister operationRegister) throws ResourceNotFound {
+        User user = userService.getFromDataBase(operationRegister.getUserId());
+        Intention intention = intentionService.findById(operationRegister.getIntentionId());
+        Operation operation = new Operation(intention, user);
         return operationRepo.save(operation);
     }
 
