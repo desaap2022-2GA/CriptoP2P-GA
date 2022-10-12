@@ -2,15 +2,17 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 import java.util.Objects;
 
 public class HelperDTO {
-
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     public User userRegistertoUser(UserRegister userRegister) {
         return new User(userRegister.getName(), userRegister.getLastname(), userRegister.getEmail()
-                , userRegister.getAddress(), userRegister.getPassword(), userRegister.getMercadoPagoCVU()
+                , userRegister.getAddress(), encoder.encode(userRegister.getPassword()), userRegister.getMercadoPagoCVU()
                 , userRegister.getAddressWalletActiveCripto());
     }
 
@@ -31,7 +33,7 @@ public class HelperDTO {
             userToModify.setAddress(userModify.getAddress());
         }
         if (userModify.getPassword() != null && !Objects.equals(userModify.getPassword(), userToModify.getPassword())) {
-            userToModify.setPassword(userModify.getPassword());
+            userToModify.setPassword(encoder.encode(userModify.getPassword()));
         }
         if (userModify.getMercadoPagoCVU() != null && !Objects.equals(userModify.getMercadoPagoCVU(), userToModify.getMercadoPagoCVU())) {
             userToModify.setMercadoPagoCVU(userModify.getMercadoPagoCVU());
