@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
@@ -90,5 +91,16 @@ public class DataSet {
     public Cryptocurrency getCryptocurrency2() {
         new Quote(cryptocurrency2, 5607166.15);
         return cryptocurrency2;
+    }
+
+    public CryptocurrencyRegister cryptocurrencyRegisterDAI = new CryptocurrencyRegister("DAI", 320.38);
+    public CryptocurrencyRegister cryptocurrencyRegisterBITCOIN = new CryptocurrencyRegister("BITCOIN", 5840798.98);
+
+    public CryptocurrencyRegister getCryptocurrencyRegisterDAI() {
+        return cryptocurrencyRegisterDAI;
+    }
+
+    public CryptocurrencyRegister getCryptocurrencyRegisterBITCOIN() {
+        return cryptocurrencyRegisterBITCOIN;
     }
 }
