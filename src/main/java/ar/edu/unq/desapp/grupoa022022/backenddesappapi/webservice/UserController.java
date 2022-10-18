@@ -6,7 +6,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.UserService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +48,17 @@ public class UserController {
     @GetMapping(value = "/users/{id}")
     public UserView getUserById(@PathVariable("id") Integer id) throws ResourceNotFound {
         return userService.findById(id);
+    }
+
+    @GetMapping(value = "users/password/{password}")
+    public UserView getUserByPassword(@PathVariable("password") String password) throws ResourceNotFound {
+        return userService.findByPassword(password);
+    }
+
+    @GetMapping(value = "/users/login")
+    @ResponseBody
+    public Object login(@RequestParam String email, @RequestParam String password) throws ResourceNotFound{
+        return userService.login(email, password);
     }
 
     @DeleteMapping(value = "/users/all")

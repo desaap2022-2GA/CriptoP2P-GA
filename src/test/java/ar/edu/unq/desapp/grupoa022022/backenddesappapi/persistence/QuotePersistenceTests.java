@@ -4,8 +4,8 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.ICryptocurrencyService;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.IQuoteService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IQuoteService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -49,6 +49,7 @@ class QuotePersistenceTests {
         int quoteId = quoteService.create(getCryptocurrencyDB(), dataSet.getSomePrice()).getId();
 
         assertEquals(quoteId, quoteService.findById(quoteId).getId());
+
     }
 
     @Test

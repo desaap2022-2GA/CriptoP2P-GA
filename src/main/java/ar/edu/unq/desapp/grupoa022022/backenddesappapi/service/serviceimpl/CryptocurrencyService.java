@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service;
+package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
@@ -6,6 +6,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.ICryptocurrencyRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IQuoteRepo;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class CrytocurrencyService implements ICryptocurrencyService {
+public class CryptocurrencyService implements ICryptocurrencyService {
 
     @Autowired
     private ICryptocurrencyRepo cryptocurrencyRepo;

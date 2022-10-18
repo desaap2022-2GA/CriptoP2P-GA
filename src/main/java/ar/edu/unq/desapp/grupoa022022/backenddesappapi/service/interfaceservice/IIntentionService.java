@@ -1,4 +1,5 @@
-package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service;
+package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice;
+
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
@@ -7,7 +8,6 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.Resource
 import java.util.List;
 
 public interface IIntentionService {
-
     Intention create(IntentionRegister intentionRegister) throws ResourceNotFound;
 
     void update(Intention intention);

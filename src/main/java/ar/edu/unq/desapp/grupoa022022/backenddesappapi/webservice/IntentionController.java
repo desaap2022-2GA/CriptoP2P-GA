@@ -3,7 +3,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.IIntentionService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

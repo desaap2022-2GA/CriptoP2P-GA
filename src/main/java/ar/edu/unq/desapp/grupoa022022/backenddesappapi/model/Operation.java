@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,6 +30,7 @@ public class Operation {
 
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "intention_id", referencedColumnName = "id")
+    @JsonManagedReference
     private Intention intention;
 
     @NotNull

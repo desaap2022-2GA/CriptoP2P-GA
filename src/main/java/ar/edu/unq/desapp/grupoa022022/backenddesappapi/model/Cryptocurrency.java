@@ -28,6 +28,7 @@ public class Cryptocurrency {
 
     @JsonIgnore
     @OneToMany(mappedBy = "cryptocurrency", fetch = FetchType.EAGER)
+
     private Set<Quote> quotes = new HashSet<>();
 
     @JsonIgnore

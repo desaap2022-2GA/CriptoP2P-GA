@@ -1,11 +1,16 @@
-package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service;
+package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationModify;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.IntentionAlreadyTaken;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IOperationRepo;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IOperationService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IUserService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +31,15 @@ public class OperationService implements IOperationService {
     IIntentionService intentionService;
 
     @Override
-    public Operation create(OperationRegister operationRegister) throws ResourceNotFound {
+    public Operation create(OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken {
         User user = userService.getFromDataBase(operationRegister.getUserId());
         Intention intention = intentionService.findById(operationRegister.getIntentionId());
-        Operation operation = new Operation(intention, user);
-        return operationRepo.save(operation);
+        if (!intention.isTaken()) {
+            Operation operation = new Operation(intention, user);
+            intention.setTaken(true);
+            return operationRepo.save(operation);
+        }
+        throw new IntentionAlreadyTaken("The intention is already taken");
     }
 
     @Override
@@ -95,6 +104,7 @@ public class OperationService implements IOperationService {
     @Override
     public void cryptoSendDone(Operation operation) {
         operation.cryptoSendDone();
+        this.update(operation);
     }
 
     @Override
@@ -111,5 +121,25 @@ public class OperationService implements IOperationService {
     @Override
     public OperationState getState(Operation operation) {
         return operation.getState();
+    }
+
+    @Override
+    public void modify(OperationModify operationModify) throws ResourceNotFound {
+        Operation operation = findById(operationModify.getOperationId());
+        User user = userService.getFromDataBase(operationModify.getUserId());
+
+        switch (operationModify.getState()) {
+            case PAID:
+                moneyTransferDone(operation);
+                break;
+            case CRYPTOSENDED:
+                cryptoSendDone(operation);
+                break;
+            case CANCELLED:
+                cancelOperationByUser(operation, user);
+                break;
+            default:
+                throw new ResourceNotFound("You must provide a valid State");
+        }
     }
 }

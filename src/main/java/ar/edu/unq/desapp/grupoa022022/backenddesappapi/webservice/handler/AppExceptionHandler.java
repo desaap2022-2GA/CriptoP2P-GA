@@ -1,8 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice.handler;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.*;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -54,6 +52,22 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ExceptionsUser.class)
     public Map<String, String> handleBusinessException(ExceptionsUser ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put(ERROR_MESSAGE, ex.getMessage());
+        return errorMap;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IntentionAlreadyTaken.class)
+    public Map<String, String> handleBusinessException(IntentionAlreadyTaken ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put(ERROR_MESSAGE, ex.getMessage());
+        return errorMap;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidState.class)
+    public Map<String, String> handleBusinessException(InvalidState ex) {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put(ERROR_MESSAGE, ex.getMessage());
         return errorMap;
