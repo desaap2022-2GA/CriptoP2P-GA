@@ -48,13 +48,12 @@ public class IntentionService implements IIntentionService {
 
     @Override
     public void delete(int id) {
-        if (intentionRepo.findById(id).isPresent()) {
-            Intention intention = intentionRepo.findById(id).get();
+        intentionRepo.findById(id).ifPresent(intention -> {
             Cryptocurrency cryptocurrency = intention.getCryptocurrency();
             cryptocurrency.removeIntention(intention);
             cryptocurrencyService.update(cryptocurrency);
             intentionRepo.deleteById(id);
-        }
+        });
     }
 
     @Override
