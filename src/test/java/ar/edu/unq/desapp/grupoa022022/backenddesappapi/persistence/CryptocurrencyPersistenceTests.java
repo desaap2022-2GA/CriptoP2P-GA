@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
@@ -31,10 +32,14 @@ class CryptocurrencyPersistenceTests {
     @Autowired
     IQuoteService quoteService;
 
-    public Cryptocurrency getCryptocurrencyDB(){ return cryptocurrencyService.create("DAI");}
-    public Cryptocurrency getCryptocurrencyDB2(){ return cryptocurrencyService.create("BITCOIN");}
-    public Cryptocurrency getCryptocurrencyDB3(){ return cryptocurrencyService.create("LUNA");}
-    public Cryptocurrency getCryptocurrencyDB4(){ return cryptocurrencyService.create("USDT");}
+    public CryptocurrencyRegister cryptocurrencyRegisterDAI = new CryptocurrencyRegister("DAI", 320.38);
+    public CryptocurrencyRegister cryptocurrencyRegisterBITCOIN = new CryptocurrencyRegister("BITCOIN", 5840798.98);
+    public CryptocurrencyRegister cryptocurrencyRegisterLUNA = new CryptocurrencyRegister("LUNA", 399.08);
+    public CryptocurrencyRegister cryptocurrencyRegisterUSDT = new CryptocurrencyRegister("USDT", 152.50);
+    public Cryptocurrency getCryptocurrencyDB(){ return cryptocurrencyService.create(cryptocurrencyRegisterDAI);}
+    public Cryptocurrency getCryptocurrencyDB2(){ return cryptocurrencyService.create(cryptocurrencyRegisterBITCOIN);}
+    public Cryptocurrency getCryptocurrencyDB3(){ return cryptocurrencyService.create(cryptocurrencyRegisterLUNA);}
+    public Cryptocurrency getCryptocurrencyDB4(){ return cryptocurrencyService.create(cryptocurrencyRegisterUSDT);}
 
     //**************** SERVICE - REPOSITORY ****************
 
@@ -42,15 +47,15 @@ class CryptocurrencyPersistenceTests {
     void recoversPersistenceANewCryptocurrency() throws ResourceNotFound {
         Cryptocurrency saved = cryptocurrencyRepo.save(new Cryptocurrency("DAI"));
         int idSaved = saved.getId();
-        Cryptocurrency finded = cryptocurrencyRepo.findById(idSaved).orElseThrow(() -> new ResourceNotFound
+        Cryptocurrency found = cryptocurrencyRepo.findById(idSaved).orElseThrow(() -> new ResourceNotFound
                 ("nonexistent cryptocurrency"));
 
-        assertEquals(finded.getId(), idSaved);
+        assertEquals(found.getId(), idSaved);
     }
 
     @Test
     void createACryptocurrencyCheckId() throws ResourceNotFound {
-        int cryptocurrencyId = cryptocurrencyService.create("USDT").getId();
+        int cryptocurrencyId = cryptocurrencyService.create(cryptocurrencyRegisterDAI).getId();
 
         assertEquals(cryptocurrencyId, cryptocurrencyService.findById(cryptocurrencyId).getId());
     }
@@ -85,28 +90,28 @@ class CryptocurrencyPersistenceTests {
     @Test
     void getTheLatestQuoteFromCryptocurrency() throws ResourceNotFound {
         Cryptocurrency cryptocurrency = getCryptocurrencyDB();
-        quoteService.create(cryptocurrency, dataSet.getSomePrice());
-        int quote2Id = quoteService.create(cryptocurrency, dataSet.getSomePrice() + 2000).getId();
+        quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI());
+        int quote2Id = quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI() + 2000).getId();
 
         assertEquals(quote2Id, cryptocurrencyService.getLatestQuote(cryptocurrencyService.findById(cryptocurrency.getId())).getId());
     }
 
     @Test
-    void getTheLast24HoursQuotesFromCryptocurrency() throws ResourceNotFound {
+    void obtain5WhenGetTheLast24HoursQuotesFromCryptocurrency() throws ResourceNotFound {
         Cryptocurrency cryptocurrency = getCryptocurrencyDB();
-        quoteService.create(cryptocurrency, dataSet.getSomePrice());
-        quoteService.create(cryptocurrency, dataSet.getSomePrice());
-        quoteService.create(cryptocurrency, dataSet.getSomePrice());
-        quoteService.create(cryptocurrency, dataSet.getSomePrice());
-        Quote oldQuote = quoteService.create(cryptocurrency, dataSet.getSomePrice());
+        quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI());
+        quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI());
+        quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI());
+        quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI());
+        Quote oldQuote = quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI());
         oldQuote.setDateTime(new DateTimeInMilliseconds().getCurrentTimeMinusOneDayInMilliseconds());
         quoteService.update(oldQuote);
 
-        assertEquals(4, cryptocurrencyService.last24hoursQuotes(cryptocurrencyService.findById(cryptocurrency.getId())).size());
+        assertEquals(5, cryptocurrencyService.last24hoursQuotes(cryptocurrencyService.findById(cryptocurrency.getId())).size());
     }
 
     @Test
-    void get4CryptocurrenciesWhenAskForAllCryptocurrencies() {
+    void obtain4WhenGetCryptocurrenciesWhenAskForAllCryptocurrencies() {
         getCryptocurrencyDB();
         getCryptocurrencyDB2();
         getCryptocurrencyDB3();
@@ -116,13 +121,13 @@ class CryptocurrencyPersistenceTests {
     }
 
     @Test
-    void getQuotesFromACryptocurrency() {
+    void get4QuotesFromACryptocurrency() {
         Cryptocurrency cryptocurrency = getCryptocurrencyDB();
-        quoteService.create(cryptocurrency, dataSet.getSomePrice());
-        quoteService.create(cryptocurrency, dataSet.getSomePrice());
-        quoteService.create(cryptocurrency, dataSet.getSomePrice());
+        quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI());
+        quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI());
+        quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI());
 
-        assertEquals(3, cryptocurrencyService.getQuotes(cryptocurrency).size());
+        assertEquals(4, cryptocurrencyService.getQuotes(cryptocurrency).size());
     }
 
     @Test

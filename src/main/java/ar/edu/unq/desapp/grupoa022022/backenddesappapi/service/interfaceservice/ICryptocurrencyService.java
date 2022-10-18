@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
@@ -9,8 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface ICryptocurrencyService {
-
-    Cryptocurrency create(String name);
+    Cryptocurrency create(CryptocurrencyRegister cryptocurrencyRegister);
 
     void delete(int id);
 
@@ -27,7 +27,6 @@ public interface ICryptocurrencyService {
     List<Cryptocurrency> getAll();
 
     Cryptocurrency findById(int id) throws ResourceNotFound;
-
 
     Set<Quote> getQuotes(Cryptocurrency cryptocurrency);
 }

@@ -26,7 +26,7 @@ class IntentionModelTests {
 
     @Test
     void ObtainPriceFromNewIntentionWithAPriceOf1000() {
-        Intention intention = new Intention(dataSet.getSomeType(), dataSet.getCryptocurrency(), 1000.00,
+        Intention intention = new Intention(dataSet.getSomeTypeBUY(), dataSet.getCryptocurrency(), 1000.00,
                 dataSet.getSomeUnit(), dataSet.getUserTest());
 
         assertEquals(1000.00, intention.getPrice());
@@ -34,7 +34,7 @@ class IntentionModelTests {
 
     @Test
     void ObtainUnitsFromNewIntentionWithUnits5() {
-        Intention intention = new Intention(dataSet.getSomeType(), dataSet.getCryptocurrency(), dataSet.getSomePrice(),
+        Intention intention = new Intention(dataSet.getSomeTypeBUY(), dataSet.getCryptocurrency(), dataSet.getSomePriceInRangeDAI(),
                 5, dataSet.getUserTest());
 
         assertEquals(5, intention.getUnits());
@@ -42,7 +42,7 @@ class IntentionModelTests {
 
     @Test
     void ObtainCryptocurrencyNameFromNewIntentionWithCryptocurrencyDAI() {
-        Intention intention = new Intention(dataSet.getSomeType(), new Cryptocurrency("DAI"), dataSet.getSomePrice(),
+        Intention intention = new Intention(dataSet.getSomeTypeBUY(), new Cryptocurrency("DAI"), dataSet.getSomePriceInRangeDAI(),
                 dataSet.getSomeUnit(), dataSet.getUserTest());
 
         assertEquals("DAI", intention.getCryptocurrency().getName());
@@ -50,7 +50,7 @@ class IntentionModelTests {
 
     @Test
     void ObtainTypeFromNewIntentionWithBuyType() {
-        Intention intention = new Intention(IntentionType.BUY, dataSet.getCryptocurrency(), dataSet.getSomePrice(),
+        Intention intention = new Intention(IntentionType.BUY, dataSet.getCryptocurrency(), dataSet.getSomePriceInRangeDAI(),
                 dataSet.getSomeUnit(), dataSet.getUserTest());
 
         assertEquals(IntentionType.BUY, intention.getType());
@@ -58,7 +58,7 @@ class IntentionModelTests {
 
     @Test
     void ObtainEmailUserFromNewIntentionWithEmailUserFierro() {
-        Intention intention = new Intention(dataSet.getSomeType(), dataSet.getCryptocurrency(), dataSet.getSomePrice(),
+        Intention intention = new Intention(dataSet.getSomeTypeBUY(), dataSet.getCryptocurrency(), dataSet.getSomePriceInRangeDAI(),
                 dataSet.getSomeUnit(), dataSet.getUserTest2());
 
         assertEquals("fierro@gmail.com", intention.getUser().getEmail());
@@ -91,16 +91,16 @@ class IntentionModelTests {
 
     @Test
     void IntentionExistInCryptocurrencyIntentionsWhenCreateAnIntentionWithThatCryptocurrency() {
-        Intention intention = new Intention(dataSet.getSomeType(), dataSet.getCryptocurrency(),
-                dataSet.getSomePrice(), dataSet.getSomeUnit(), dataSet.getUserTest());
+        Intention intention = new Intention(dataSet.getSomeTypeBUY(), dataSet.getCryptocurrency(),
+                dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), dataSet.getUserTest());
 
         assertTrue(dataSet.getCryptocurrency().getIntentions().contains(intention));
     }
 
     @Test
     void IntentionExistInUserIntentionsWhenCreateAnIntentionWithThatUser() {
-        Intention intention = new Intention(dataSet.getSomeType(), dataSet.getCryptocurrency(),
-                dataSet.getSomePrice(), dataSet.getSomeUnit(), dataSet.getUserTest());
+        Intention intention = new Intention(dataSet.getSomeTypeBUY(), dataSet.getCryptocurrency(),
+                dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), dataSet.getUserTest());
 
         assertTrue(dataSet.getUserTest().getIntentions().contains(intention));
     }

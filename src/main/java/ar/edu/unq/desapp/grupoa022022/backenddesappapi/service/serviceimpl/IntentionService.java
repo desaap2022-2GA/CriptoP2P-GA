@@ -1,13 +1,12 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
-
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRange;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IIntentionRepo;
-
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IUserService;
@@ -29,13 +28,17 @@ public class IntentionService implements IIntentionService {
     private IUserService userService;
 
     @Override
-    public Intention create(IntentionRegister intentionRegister) throws ResourceNotFound {
+    public Intention create(IntentionRegister intentionRegister) throws ResourceNotFound, PriceNotInAValidRange {
         Cryptocurrency cryptocurrency = cryptocurrencyService.findById(intentionRegister.getCryptocurrencyId());
         User user = userService.getFromDataBase(intentionRegister.getUserId());
-        Intention intention = new Intention(intentionRegister.getType(), cryptocurrency, intentionRegister.getPrice(),
-                intentionRegister.getUnits(), user);
-
-        return intentionRepo.save(intention);
+        if (cryptocurrency.latestQuote().intentionPriceInARangeOfFiveUpAndDown(intentionRegister.getPrice())) {
+            Intention intention = new Intention(intentionRegister.getType(), cryptocurrency, intentionRegister.getPrice(),
+                    intentionRegister.getUnits(), user);
+            return intentionRepo.save(intention);
+        } else {
+            throw new PriceNotInAValidRange("Price exceed five percent with respect to latest quote, price selected: " + intentionRegister.getPrice()
+                    + " ,price latest quote: " + cryptocurrency.latestQuote().getPrice());
+        }
     }
 
     @Override
@@ -45,12 +48,18 @@ public class IntentionService implements IIntentionService {
 
     @Override
     public void delete(int id) {
-        intentionRepo.deleteById(id);
+        if (intentionRepo.findById(id).isPresent()) {
+            Intention intention = intentionRepo.findById(id).get();
+            Cryptocurrency cryptocurrency = intention.getCryptocurrency();
+            cryptocurrency.removeIntention(intention);
+            cryptocurrencyService.update(cryptocurrency);
+            intentionRepo.deleteById(id);
+        }
     }
 
     @Override
     public void deleteAll() {
-        intentionRepo.deleteAll();
+        intentionRepo.findAll().forEach(intention -> this.delete(intention.getId()));
     }
 
     @Override

@@ -27,7 +27,6 @@ public class Cryptocurrency {
     private String name;
 
     @JsonIgnore
-
     @OneToMany(mappedBy = "cryptocurrency", fetch = FetchType.EAGER)
 
     private Set<Quote> quotes = new HashSet<>();
@@ -57,6 +56,7 @@ public class Cryptocurrency {
         this.intentions.add(intention);
     }
 
+    public void removeIntention(Intention intention) { this.intentions.remove(intention);}
     public Set<Quote> last24HoursQuotes() {
         long nowMinusOneDay = new DateTimeInMilliseconds().getCurrentTimeMinusOneDayInMilliseconds();
         return this.quotes.stream().filter(q -> q.getDateTime() > nowMinusOneDay).collect(Collectors.toSet());

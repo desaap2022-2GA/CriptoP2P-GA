@@ -1,10 +1,12 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
 
-
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationModify;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.IntentionAlreadyTaken;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceExceedVariationWithRespectIntentionTypeLimits;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IOperationRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
@@ -14,6 +16,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -29,11 +32,23 @@ public class OperationService implements IOperationService {
     IIntentionService intentionService;
 
     @Override
-    public Operation create(OperationRegister operationRegister) throws ResourceNotFound {
+    public Operation create(OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         User user = userService.getFromDataBase(operationRegister.getUserId());
         Intention intention = intentionService.findById(operationRegister.getIntentionId());
-        Operation operation = new Operation(intention, user);
-        return operationRepo.save(operation);
+        if (!intention.isTaken()) {
+            Operation operation = new Operation(intention, user);
+            intention.setTaken(true);
+            if (intention.getCryptocurrency().latestQuote()
+                    .priceExceedVariationWithRespectTheIntentionPriceAccordingIntentionTypeLimits(intention.getPrice(),
+                            intention.getType())) {
+                operation.cancelOperationBySystem();
+                operationRepo.save(operation);
+                throw new PriceExceedVariationWithRespectIntentionTypeLimits("Price exceeds variation according the intention type limits");
+            }
+            return operationRepo.save(operation);
+        } else {
+            throw new IntentionAlreadyTaken("The intention is already taken");
+        }
     }
 
     @Override
@@ -91,18 +106,24 @@ public class OperationService implements IOperationService {
 
     @Override
     public void moneyTransferDone(Operation operation) {
-        operation.moneyTranferedDone();
+        operation.moneyTransferredDone();
         this.update(operation);
     }
 
     @Override
     public void cryptoSendDone(Operation operation) {
         operation.cryptoSendDone();
+        this.update(operation);
     }
 
     @Override
     public void assignBonusTimeToUsers(Operation operation) {
         operation.bonusTimeOperationAssign();
+        this.update(operation);
+    }
+
+    public void addAnOperationToUsers(Operation operation) {
+        operation.addAnOperationToUsers();
         this.update(operation);
     }
 
@@ -114,5 +135,22 @@ public class OperationService implements IOperationService {
     @Override
     public OperationState getState(Operation operation) {
         return operation.getState();
+    }
+
+    @Override
+    public void modify(OperationModify operationModify) throws ResourceNotFound {
+        Operation operation = findById(operationModify.getOperationId());
+        User user = userService.getFromDataBase(operationModify.getUserId());
+
+        switch (operationModify.getState()) {
+            case PAID -> moneyTransferDone(operation);
+            case CRYPTOSENT -> {
+                cryptoSendDone(operation);
+                assignBonusTimeToUsers(operation);
+                addAnOperationToUsers(operation);
+            }
+            case CANCELLED -> cancelOperationByUser(operation, user);
+            default -> throw new ResourceNotFound("You must provide a valid State");
+        }
     }
 }

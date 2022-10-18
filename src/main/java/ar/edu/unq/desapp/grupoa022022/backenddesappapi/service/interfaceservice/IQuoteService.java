@@ -13,7 +13,6 @@ public interface IQuoteService {
 
     void delete(int id) throws ResourceNotFound;
 
-
     void deleteAll();
 
     List<Quote> getAll();

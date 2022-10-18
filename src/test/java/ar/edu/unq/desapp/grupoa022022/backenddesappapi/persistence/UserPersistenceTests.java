@@ -135,9 +135,7 @@ class UserPersistenceTests {
         User newUser = new User();
         newUser.setEmail("milonina@gmail.com");
 
-        assertThrows(ResourceNotFound.class, () -> {
-            userService.findByEmail(newUser.getEmail());
-        });
+        assertThrows(ResourceNotFound.class, () -> userService.findByEmail(newUser.getEmail()));
     }
 
     //POST  -  ADD NEW USER ************
