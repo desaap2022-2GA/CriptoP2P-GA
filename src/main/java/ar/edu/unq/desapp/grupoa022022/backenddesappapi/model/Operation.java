@@ -60,8 +60,6 @@ public class Operation {
         return this.intention.getUserReputation();
     }
 
-    //cambia el precio de la intencion por el de la cotizacion del momento
-
     public String actionToDo(User user) {
         return ((this.intention.getType().equals(IntentionType.SELL) && Objects.equals(userWhoAccepts.getId(), user.getId()))
                 || (this.intention.getType().equals(IntentionType.BUY) && !Objects.equals(userWhoAccepts.getId(), user.getId())))
@@ -78,12 +76,10 @@ public class Operation {
     }
 
     public void moneyTranferedDone() {
-
         this.setState(OperationState.PAID);
     }
 
     public void cryptoSendDone() {
-
         this.setState(OperationState.CRYPTOSENDED);
     }
 
@@ -103,7 +99,6 @@ public class Operation {
     }
 
     public double amountInDollars(double amount, double dollarQuote) {
-
         return amount / dollarQuote;
     }
 }

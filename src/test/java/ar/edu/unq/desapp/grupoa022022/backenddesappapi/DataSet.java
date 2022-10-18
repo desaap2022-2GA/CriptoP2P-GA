@@ -21,7 +21,6 @@ public class DataSet {
             "Av Libertador 5000, CABA", "1111", "6352879863528798635287",
             "Xwf5u5ef");
 
-
     private final UserRegister userRegister2 = new UserRegister("Martin", "Fierro", "fierro@gmail.com",
             "Av Cordoba 3000, CABA", "1111", "6352879863528798635287",
             "Xwf5u5ef");
@@ -30,9 +29,14 @@ public class DataSet {
     private final Cryptocurrency cryptocurrency3 = new Cryptocurrency("BITCOIN");
 
     private final Cryptocurrency cryptocurrency4 = new Cryptocurrency("ETHER");
-    private final IntentionType someType = IntentionType.SELL;
 
-    private final Double somePrice = 1000.00;
+    private final IntentionType someTypeBUY = IntentionType.BUY;
+
+    private final IntentionType someTypeSELL = IntentionType.SELL;
+
+    private final Double somePriceInRangeDAI = 305.00;
+
+    private final Double somePriceInRangeBITCOIN = 6132838.92;
 
     private final int someUnit = 3;
 
@@ -63,10 +67,10 @@ public class DataSet {
     }
 
     private final Intention intentionSell = new Intention(IntentionType.SELL, cryptocurrency,
-            somePrice, someUnit, userTest);
+            somePriceInRangeDAI, someUnit, userTest);
 
     private final Intention intentionBuy = new Intention(IntentionType.BUY, cryptocurrency,
-            somePrice, someUnit, userTest);
+            somePriceInRangeDAI, someUnit, userTest);
 
     public User getUserTest() {
         return userTest;
@@ -85,15 +89,24 @@ public class DataSet {
     }
 
     public Cryptocurrency getCryptocurrency() {
+        new Quote(cryptocurrency, 305.00);
         return cryptocurrency;
     }
 
-    public IntentionType getSomeType() {
-        return someType;
+    public IntentionType getSomeTypeBUY() {
+        return someTypeBUY;
     }
 
-    public Double getSomePrice() {
-        return somePrice;
+    public IntentionType getSomeTypeSELL() {
+        return someTypeSELL;
+    }
+
+    public Double getSomePriceInRangeDAI() {
+        return somePriceInRangeDAI;
+    }
+
+    public Double getSomePriceInRangeBITCOIN() {
+        return somePriceInRangeBITCOIN;
     }
 
     public int getSomeUnit() {
@@ -101,12 +114,14 @@ public class DataSet {
     }
 
     public Cryptocurrency getCryptocurrency2() {
+        new Quote(cryptocurrency2, 5607166.15);
         return cryptocurrency2;
     }
 
     public Cryptocurrency getCryptocurrency3() {
         return cryptocurrency3;
     }
+
     public Cryptocurrency getCryptocurrency4() {
         return cryptocurrency4;
     }

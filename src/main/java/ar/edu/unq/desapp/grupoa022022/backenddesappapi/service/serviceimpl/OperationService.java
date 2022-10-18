@@ -6,6 +6,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.IntentionAlreadyTaken;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceExceedVariationWithRespectIntentionTypeLimits;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IOperationRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
@@ -31,15 +32,23 @@ public class OperationService implements IOperationService {
     IIntentionService intentionService;
 
     @Override
-    public Operation create(OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken {
+    public Operation create(OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         User user = userService.getFromDataBase(operationRegister.getUserId());
         Intention intention = intentionService.findById(operationRegister.getIntentionId());
         if (!intention.isTaken()) {
             Operation operation = new Operation(intention, user);
             intention.setTaken(true);
+            if (intention.getCryptocurrency().latestQuote()
+                    .priceExceedVariationWithRespectTheIntentionPriceAccordingIntentionTypeLimits(intention.getPrice(),
+                            intention.getType())) {
+                operation.cancelOperationBySystem();
+                operationRepo.save(operation);
+                throw new PriceExceedVariationWithRespectIntentionTypeLimits("Price exceeds variation according the intention type limits");
+            }
             return operationRepo.save(operation);
+        } else {
+            throw new IntentionAlreadyTaken("The intention is already taken");
         }
-        throw new IntentionAlreadyTaken("The intention is already taken");
     }
 
     @Override
@@ -134,6 +143,7 @@ public class OperationService implements IOperationService {
                 break;
             case CRYPTOSENDED:
                 cryptoSendDone(operation);
+                operation.bonusTimeOperationAssign();
                 break;
             case CANCELLED:
                 cancelOperationByUser(operation, user);
