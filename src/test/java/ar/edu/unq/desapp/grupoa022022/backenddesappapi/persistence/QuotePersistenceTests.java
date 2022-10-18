@@ -79,7 +79,7 @@ class QuotePersistenceTests {
         quoteService.delete(quote.getId());
         Cryptocurrency updatedCryptocurrency = cryptocurrencyService.findById(cryptocurrency.getId());
 
-        assertTrue(!updatedCryptocurrency.getQuotes().contains(quote));
+        assertFalse(updatedCryptocurrency.getQuotes().contains(quote));
     }
 
     @Test

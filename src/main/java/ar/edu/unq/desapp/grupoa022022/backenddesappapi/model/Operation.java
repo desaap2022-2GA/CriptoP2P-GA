@@ -75,17 +75,17 @@ public class Operation {
         this.setState(OperationState.CANCELLED);
     }
 
-    public void moneyTranferedDone() {
+    public void moneyTransferredDone() {
         this.setState(OperationState.PAID);
     }
 
     public void cryptoSendDone() {
-        this.setState(OperationState.CRYPTOSENDED);
+        this.setState(OperationState.CRYPTOSENT);
     }
 
     public void bonusTimeOperationAssign() {
-        long thirtyminutesago = new DateTimeInMilliseconds().getCurrentTimeMinus30MinutesInMilliseconds();
-        int points = (this.getDateTime() > thirtyminutesago) ? 10 : 5;
+        long thirtyMinutesAgo = new DateTimeInMilliseconds().getCurrentTimeMinus30MinutesInMilliseconds();
+        int points = (this.getDateTime() > thirtyMinutesAgo) ? 10 : 5;
         addPointsToUsers(points);
     }
 
@@ -100,5 +100,10 @@ public class Operation {
 
     public double amountInDollars(double amount, double dollarQuote) {
         return amount / dollarQuote;
+    }
+
+    public void addAnOperationToUsers() {
+        this.userWhoAccepts.oneMoreOperation();
+        this.intention.getUser().oneMoreOperation();
     }
 }

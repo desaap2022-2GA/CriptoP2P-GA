@@ -26,6 +26,6 @@ public class UserAPI {
     @Size(min = 22, max = 22, message = "MercadoPagoCVU: must be 22 characters")
     private String mercadoPagoCVU;
     @NotBlank
-    @Size(min = 8, max = 8, message = "AdressWalleActiveCryptot: must be 8 characters")
-    private String addressWalletActiveCripto;
+    @Size(min = 8, max = 8, message = "AddressWalletActiveCrypto: must be 8 characters")
+    private String addressWalletActiveCrypto;
 }

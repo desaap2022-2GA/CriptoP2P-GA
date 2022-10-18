@@ -35,9 +35,7 @@ public class CryptocurrencyService implements ICryptocurrencyService {
     @Override
     public void delete(int id) {
         if (cryptocurrencyRepo.findById(id).isPresent()) {
-            cryptocurrencyRepo.findById(id).get().getQuotes().forEach(quote -> {
-                quoteRepo.deleteById(quote.getId());
-            });
+            cryptocurrencyRepo.findById(id).get().getQuotes().forEach(quote -> quoteRepo.deleteById(quote.getId()));
             cryptocurrencyRepo.deleteById(id);
         }
     }
@@ -49,9 +47,7 @@ public class CryptocurrencyService implements ICryptocurrencyService {
 
     @Override
     public void deleteAll() {
-        cryptocurrencyRepo.findAll().forEach(cryptocurrency -> {
-            this.delete(cryptocurrency.getId());
-        });
+        cryptocurrencyRepo.findAll().forEach(cryptocurrency -> this.delete(cryptocurrency.getId()));
     }
 
     @Override

@@ -106,7 +106,7 @@ public class OperationService implements IOperationService {
 
     @Override
     public void moneyTransferDone(Operation operation) {
-        operation.moneyTranferedDone();
+        operation.moneyTransferredDone();
         this.update(operation);
     }
 
@@ -119,6 +119,11 @@ public class OperationService implements IOperationService {
     @Override
     public void assignBonusTimeToUsers(Operation operation) {
         operation.bonusTimeOperationAssign();
+        this.update(operation);
+    }
+
+    public void addAnOperationToUsers(Operation operation) {
+        operation.addAnOperationToUsers();
         this.update(operation);
     }
 
@@ -138,18 +143,14 @@ public class OperationService implements IOperationService {
         User user = userService.getFromDataBase(operationModify.getUserId());
 
         switch (operationModify.getState()) {
-            case PAID:
-                moneyTransferDone(operation);
-                break;
-            case CRYPTOSENDED:
+            case PAID -> moneyTransferDone(operation);
+            case CRYPTOSENT -> {
                 cryptoSendDone(operation);
-                operation.bonusTimeOperationAssign();
-                break;
-            case CANCELLED:
-                cancelOperationByUser(operation, user);
-                break;
-            default:
-                throw new ResourceNotFound("You must provide a valid State");
+                assignBonusTimeToUsers(operation);
+                addAnOperationToUsers(operation);
+            }
+            case CANCELLED -> cancelOperationByUser(operation, user);
+            default -> throw new ResourceNotFound("You must provide a valid State");
         }
     }
 }

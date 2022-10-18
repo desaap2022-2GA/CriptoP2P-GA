@@ -47,10 +47,10 @@ class CryptocurrencyPersistenceTests {
     void recoversPersistenceANewCryptocurrency() throws ResourceNotFound {
         Cryptocurrency saved = cryptocurrencyRepo.save(new Cryptocurrency("DAI"));
         int idSaved = saved.getId();
-        Cryptocurrency finded = cryptocurrencyRepo.findById(idSaved).orElseThrow(() -> new ResourceNotFound
+        Cryptocurrency found = cryptocurrencyRepo.findById(idSaved).orElseThrow(() -> new ResourceNotFound
                 ("nonexistent cryptocurrency"));
 
-        assertEquals(finded.getId(), idSaved);
+        assertEquals(found.getId(), idSaved);
     }
 
     @Test

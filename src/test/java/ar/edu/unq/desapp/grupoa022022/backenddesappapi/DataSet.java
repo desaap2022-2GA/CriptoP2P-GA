@@ -25,38 +25,16 @@ public class DataSet {
             "Av Cordoba 3000, CABA", "1111", "6352879863528798635287",
             "Xwf5u5ef");
     private final Cryptocurrency cryptocurrency = new Cryptocurrency("DAI");
-    private final Cryptocurrency cryptocurrency2 = new Cryptocurrency("USDT");
-    private final Cryptocurrency cryptocurrency3 = new Cryptocurrency("BITCOIN");
 
-    private final Cryptocurrency cryptocurrency4 = new Cryptocurrency("ETHER");
+    private final Cryptocurrency cryptocurrency2 = new Cryptocurrency("USDT");
 
     private final IntentionType someTypeBUY = IntentionType.BUY;
-
-    private final IntentionType someTypeSELL = IntentionType.SELL;
 
     private final Double somePriceInRangeDAI = 305.00;
 
     private final Double somePriceInRangeBITCOIN = 6132838.92;
 
     private final int someUnit = 3;
-
-    private final Quote someQuote = new Quote();
-
-    private final Quote quote100 = new Quote(cryptocurrency, 100.00);
-
-    private final Quote quote200 = new Quote(cryptocurrency, 200.00);
-
-    public Quote getQuote100() {
-        return quote100;
-    }
-
-    public Quote getQuote200() {
-        return quote200;
-    }
-
-    public Quote getSomeQuote() {
-        return someQuote;
-    }
 
     public Intention getIntentionSell() {
         return intentionSell;
@@ -97,10 +75,6 @@ public class DataSet {
         return someTypeBUY;
     }
 
-    public IntentionType getSomeTypeSELL() {
-        return someTypeSELL;
-    }
-
     public Double getSomePriceInRangeDAI() {
         return somePriceInRangeDAI;
     }
@@ -116,13 +90,5 @@ public class DataSet {
     public Cryptocurrency getCryptocurrency2() {
         new Quote(cryptocurrency2, 5607166.15);
         return cryptocurrency2;
-    }
-
-    public Cryptocurrency getCryptocurrency3() {
-        return cryptocurrency3;
-    }
-
-    public Cryptocurrency getCryptocurrency4() {
-        return cryptocurrency4;
     }
 }

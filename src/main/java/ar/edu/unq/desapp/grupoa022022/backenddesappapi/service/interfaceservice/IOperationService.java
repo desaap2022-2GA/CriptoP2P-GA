@@ -40,6 +40,8 @@ public interface IOperationService {
 
     void assignBonusTimeToUsers(Operation operation);
 
+    void addAnOperationToUsers(Operation operation);
+
     double amountInDollars(Operation operation, double amount, double dollarQuote);
 
     OperationState  getState(Operation operation);

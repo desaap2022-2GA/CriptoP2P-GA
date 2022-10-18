@@ -22,12 +22,12 @@ public class UserService implements IUserService {
     @Autowired
     private IUserRepo userRepo;
 
-    private HelperDTO helper = new HelperDTO();
+    private final HelperDTO helper = new HelperDTO();
 
     @Override
     public UserView create(UserRegister userRegister) throws EmailAlreadyExists {
         this.checkNewUserEmail(userRegister.getEmail());
-        return helper.usertoUserView(saveToDataBase(userRegister));
+        return helper.userToUserView(saveToDataBase(userRegister));
     }
 
     @Override
@@ -38,12 +38,12 @@ public class UserService implements IUserService {
         if (!Objects.equals(originalUser.getEmail(), userModify.getEmail())) {
             this.checkNewUserEmail(userModify.getEmail());
         }
-        return helper.usertoUserView(userRepo.save(helper.userModifytoUser(userModify, originalUser)));
+        return helper.userToUserView(userRepo.save(helper.userModifyToUser(userModify, originalUser)));
     }
 
     @Override
     public List<UserView> getAllUsers() {
-        return helper.userstoUsersView(userRepo.findAll());
+        return helper.usersToUsersView(userRepo.findAll());
     }
 
     @Override
@@ -54,12 +54,12 @@ public class UserService implements IUserService {
 
     @Override
     public UserView findById(Integer id) throws ResourceNotFound {
-        return helper.usertoUserView(getFromDataBase(id));
+        return helper.userToUserView(getFromDataBase(id));
     }
 
     @Override
     public UserView findByEmail(String email) throws ResourceNotFound {
-        return helper.usertoUserView(userRepo.findByEmail(email).orElseThrow(
+        return helper.userToUserView(userRepo.findByEmail(email).orElseThrow(
                 () -> new ResourceNotFound("User not found with user email")
         ));
     }
@@ -71,13 +71,13 @@ public class UserService implements IUserService {
 
     @Override
     public void checkNewUserEmail(String email) throws EmailAlreadyExists {
-        if (!findUserByEmail(email).isEmpty()) {
+        if (findUserByEmail(email).isPresent()) {
             throw new EmailAlreadyExists("The email is already registered");
         }
     }
     @Override
     public UserView findByPassword(String password) throws ResourceNotFound {
-        return helper.usertoUserView(userRepo.findByPassword(password).orElseThrow(
+        return helper.userToUserView(userRepo.findByPassword(password).orElseThrow(
                 () -> new ResourceNotFound("User not found with user password")
         ));
     }
@@ -94,7 +94,7 @@ public class UserService implements IUserService {
     }
 
     public User saveToDataBase(UserRegister userRegister) {
-        return userRepo.save(helper.userRegistertoUser(userRegister));
+        return userRepo.save(helper.userRegisterToUser(userRegister));
     }
 
     public User getFromDataBase(int userId) throws ResourceNotFound {

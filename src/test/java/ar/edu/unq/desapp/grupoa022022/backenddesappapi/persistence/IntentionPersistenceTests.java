@@ -166,7 +166,7 @@ class IntentionPersistenceTests {
     }
 
     @Test
-    void getmercadoPagoCVUWhenAskForInfoToShowOnSELLTypeIntention() throws ResourceNotFound, PriceNotInAValidRange {
+    void getMercadoPagoCVUWhenAskForInfoToShowOnSELLTypeIntention() throws ResourceNotFound, PriceNotInAValidRange {
         Intention intention = intentionService.create(getIntentionRegisterSELLType());
 
         assertEquals("6352879863528798635287", intentionService.transactionInfoToShow(intention));

@@ -59,9 +59,7 @@ public class IntentionService implements IIntentionService {
 
     @Override
     public void deleteAll() {
-        intentionRepo.findAll().forEach(intention -> {
-            this.delete(intention.getId());
-        });
+        intentionRepo.findAll().forEach(intention -> this.delete(intention.getId()));
     }
 
     @Override

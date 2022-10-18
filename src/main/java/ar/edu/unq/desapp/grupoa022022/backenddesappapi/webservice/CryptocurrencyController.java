@@ -17,12 +17,12 @@ public class CryptocurrencyController {
     @Autowired
     ICryptocurrencyService cryptocurrencyService;
 
-    @PostMapping("/{cryptocurrencyName}")
+    @PostMapping
     public Cryptocurrency createCryptocurrency(@RequestBody @Valid CryptocurrencyRegister cryptocurrencyRegister) throws ResourceNotFound {
         return cryptocurrencyService.create(cryptocurrencyRegister);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Cryptocurrency> listAllCryptocurrencies() {
         return cryptocurrencyService.getAll();
     }

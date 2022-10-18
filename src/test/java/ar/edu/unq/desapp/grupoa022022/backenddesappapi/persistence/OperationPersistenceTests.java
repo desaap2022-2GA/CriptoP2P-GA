@@ -195,10 +195,10 @@ class OperationPersistenceTests {
     @Test
     void getOperationStateFromAnOperationThatChangeState() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         Operation operation = operationService.create(getSomeOperationRegister());
-        operation.setState(OperationState.CRYPTOSENDED);
+        operation.setState(OperationState.CRYPTOSENT);
         operationService.update(operation);
 
-        assertEquals(OperationState.CRYPTOSENDED, operationService.findById(operation.getId()).getState());
+        assertEquals(OperationState.CRYPTOSENT, operationService.findById(operation.getId()).getState());
     }
 
     @Test
@@ -323,7 +323,7 @@ class OperationPersistenceTests {
         Operation operation = operationService.create(getSomeOperationRegister());
         operationService.cryptoSendDone(operation);
 
-        assertEquals(OperationState.CRYPTOSENDED, operationService.getState(operation));
+        assertEquals(OperationState.CRYPTOSENT, operationService.getState(operation));
     }
 
     @Test

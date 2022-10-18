@@ -1,6 +1,5 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
