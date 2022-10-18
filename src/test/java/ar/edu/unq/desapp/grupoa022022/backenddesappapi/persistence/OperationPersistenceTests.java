@@ -50,15 +50,12 @@ class OperationPersistenceTests {
     @Autowired
     IOperationService operationService;
 
-    public CryptocurrencyRegister cryptocurrencyRegisterDAI = new CryptocurrencyRegister("DAI", 320.38);
-    public CryptocurrencyRegister cryptocurrencyRegisterBITCOIN = new CryptocurrencyRegister("BITCOIN", 5840798.98);
-
     public Cryptocurrency getCryptocurrencyDB() {
-        return cryptocurrencyService.create(cryptocurrencyRegisterDAI);
+        return cryptocurrencyService.create(dataSet.getCryptocurrencyRegisterDAI());
     }
 
     public Cryptocurrency getCryptocurrencyDB2() {
-        return cryptocurrencyService.create(cryptocurrencyRegisterBITCOIN);
+        return cryptocurrencyService.create(dataSet.getCryptocurrencyRegisterBITCOIN());
     }
 
     public User getUserWhoPostDB() {
