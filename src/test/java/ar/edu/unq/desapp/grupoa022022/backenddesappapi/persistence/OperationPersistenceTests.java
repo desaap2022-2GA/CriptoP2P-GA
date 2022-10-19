@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationModify;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
@@ -347,5 +348,39 @@ class OperationPersistenceTests {
         Operation operation = operationService.create(getSomeOperationRegister());
 
         assertEquals(200, operationService.amountInDollars(operation, 30000.00, 150));
+    }
+
+    @Test
+    void modifyAnOperationWithPaidState() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+        Operation operation = operationService.create(getSELLOperationRegister());
+        OperationModify operationModify = new OperationModify(operation.getId(), OperationState.PAID, operation.getUserWhoAccepts().getId());
+        operationService.modify(operationModify);
+
+        assertEquals(OperationState.PAID, operationService.findById(operation.getId()).getState());
+    }
+
+    @Test
+    void modifyAnOperationWithCryptoSentState() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+        Operation operation = operationService.create(getSELLOperationRegister());
+        OperationModify operationModify = new OperationModify(operation.getId(), OperationState.CRYPTOSENT, operation.getUserWhoAccepts().getId());
+        operationService.modify(operationModify);
+
+        assertEquals(OperationState.CRYPTOSENT, operationService.findById(operation.getId()).getState());
+    }
+
+    @Test
+    void modifyAnOperationWithCancelledState() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+        Operation operation = operationService.create(getSELLOperationRegister());
+        OperationModify operationModify = new OperationModify(operation.getId(), OperationState.CANCELLED, operation.getUserWhoAccepts().getId());
+        operationService.modify(operationModify);
+
+        assertEquals(OperationState.CANCELLED, operationService.findById(operation.getId()).getState());
+    }
+    @Test
+    void resourceNotFoundWhenModifyAnOperationToActiveState() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+        Operation operation = operationService.create(getSELLOperationRegister());
+        OperationModify operationModify = new OperationModify(operation.getId(), OperationState.ACTIVE, operation.getUserWhoAccepts().getId());
+
+        assertThrows(ResourceNotFound.class, () -> operationService.modify(operationModify));
     }
 }
