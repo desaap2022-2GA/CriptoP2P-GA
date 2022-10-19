@@ -30,4 +30,6 @@ public interface IIntentionService {
     int getOperationNumberUser(Intention intention) throws ResourceNotFound;
 
     int getUserReputation(Intention intention) throws ResourceNotFound;
+
+    List<Intention> getIntentionActive();
 }
