@@ -12,6 +12,8 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -101,5 +103,26 @@ public class UserService implements IUserService {
         return userRepo.findById(userId).orElseThrow(
                 () -> new ResourceNotFound("User not found with userId " + userId)
         );
+    }
+
+    /*public List<User> getListUsers() {
+        return userRepo.listUsers();
+    }
+     */
+
+    public List getListUsers() throws ExceptionsUser {
+
+        List userList = Collections.emptyList();
+        List<User> users = userRepo.findAll();
+        for (User us:users){
+            User user = new User();
+            user.setName(us.getName());
+            user.setLastname(us.getLastname());
+            user.setNumberOperations(us.getNumberOperations());
+
+            userList.add(user);
+
+        }
+        return userList;
     }
 }

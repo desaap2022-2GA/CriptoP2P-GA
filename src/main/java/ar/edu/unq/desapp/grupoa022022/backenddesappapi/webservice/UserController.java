@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserModify;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
@@ -60,6 +61,12 @@ public class UserController {
     public Object login(@RequestParam String email, @RequestParam String password) throws ResourceNotFound{
         return userService.login(email, password);
     }
+
+    @GetMapping(value = "/users/users")
+    public List<User> listUsers() throws ExceptionsUser {
+        return userService.getListUsers();
+    }
+
 
     @DeleteMapping(value = "/users/all")
     public void deleteAllUsers() {

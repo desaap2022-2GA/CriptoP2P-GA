@@ -97,4 +97,13 @@ public class IntentionService implements IIntentionService {
     public int getUserReputation(Intention intention) {
         return intention.getUserReputation();
     }
+
+    @Override
+    public List<Intention> getIntentionActive(){
+        return intentionRepo.getIntentionActive();
+    };
+
+    public Intention getIntentionById(int id){
+        return intentionRepo.getIntetnionById(id);
+    }
 }
