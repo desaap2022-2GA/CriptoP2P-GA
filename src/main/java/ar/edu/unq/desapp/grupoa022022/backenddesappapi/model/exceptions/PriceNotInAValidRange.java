@@ -1,8 +1,8 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions;
 
-public class EmailAlreadyExists extends Throwable {
+public class PriceNotInAValidRange extends Throwable {
 
-    public EmailAlreadyExists(String message) {
+    public PriceNotInAValidRange(String message) {
         super(message);
     }
 }

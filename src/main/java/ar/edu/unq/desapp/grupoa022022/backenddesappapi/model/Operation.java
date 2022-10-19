@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,6 +30,7 @@ public class Operation {
 
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "intention_id", referencedColumnName = "id")
+    @JsonManagedReference
     private Intention intention;
 
     @NotNull
@@ -51,19 +53,17 @@ public class Operation {
     }
 
     public String getTransactionInfoToShow() {
-        return this.intention.getTransactionInfoToShow();
+        return this.intention.transactionInfoToShow();
     }
 
     public int getUserReputation() {
         return this.intention.getUserReputation();
     }
 
-    //cambia el precio de la intencion por el de la cotizacion del momento
-
     public String actionToDo(User user) {
         return ((this.intention.getType().equals(IntentionType.SELL) && Objects.equals(userWhoAccepts.getId(), user.getId()))
                 || (this.intention.getType().equals(IntentionType.BUY) && !Objects.equals(userWhoAccepts.getId(), user.getId())))
-                ? "Realice la transferencia" : "Confirmar recepcion";
+                ? "Make transfer" : "Confirm reception";
     }
 
     public void cancelOperationByUser(User user) {
@@ -72,23 +72,20 @@ public class Operation {
     }
 
     public void cancelOperationBySystem() {
-
         this.setState(OperationState.CANCELLED);
     }
 
-    public void moneyTranferedDone() {
-
+    public void moneyTransferredDone() {
         this.setState(OperationState.PAID);
     }
 
     public void cryptoSendDone() {
-
-        this.setState(OperationState.CRYPTOSENDED);
+        this.setState(OperationState.CRYPTOSENT);
     }
 
     public void bonusTimeOperationAssign() {
-        long thirtyminutesago = new DateTimeInMilliseconds().getCurrentTimeMinus30MinutesInMilliseconds();
-        int points = (this.getDateTime() > thirtyminutesago) ? 10 : 5;
+        long thirtyMinutesAgo = new DateTimeInMilliseconds().getCurrentTimeMinus30MinutesInMilliseconds();
+        int points = (this.getDateTime() > thirtyMinutesAgo) ? 10 : 5;
         addPointsToUsers(points);
     }
 
@@ -102,7 +99,11 @@ public class Operation {
     }
 
     public double amountInDollars(double amount, double dollarQuote) {
+        return amount / dollarQuote;
+    }
 
-        return amount * dollarQuote;
+    public void addAnOperationToUsers() {
+        this.userWhoAccepts.oneMoreOperation();
+        this.intention.getUser().oneMoreOperation();
     }
 }

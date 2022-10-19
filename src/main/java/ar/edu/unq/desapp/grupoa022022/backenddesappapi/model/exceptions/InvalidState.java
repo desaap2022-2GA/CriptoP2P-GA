@@ -1,8 +1,8 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions;
 
-public class ExceptionsUser extends Throwable {
+public class InvalidState extends Throwable {
 
-    public ExceptionsUser(String message){
+    public InvalidState(String message) {
         super(message);
     }
 }

@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -47,16 +48,25 @@ public class Quote {
     }
 
     public boolean intentionPriceInARangeOfFiveUpAndDown(Double intentionPrice) {
-        return fivePercentDown() < intentionPrice && intentionPrice < fivePercentUp();
+        return fivePercentDown() <= intentionPrice && intentionPrice <= fivePercentUp();
     }
 
-    public boolean intentionPriceMoreThanQuotePrice(Double intentionPrice) {
+    public boolean intentionPriceHigherThanQuotePrice(Double intentionPrice) {
 
         return intentionPrice > this.price;
     }
 
-    public boolean intentionPriceLessThanQuotePrice(Double intentionPrice) {
+    public boolean intentionPriceLowerThanQuotePrice(Double intentionPrice) {
 
         return intentionPrice < this.price;
+    }
+
+    public boolean priceExceedVariationWithRespectTheIntentionPriceAccordingIntentionTypeLimits(Double intentionPrice
+            , IntentionType intentionType) {
+        if (intentionType.equals(IntentionType.SELL)) {
+            return intentionPriceLowerThanQuotePrice(intentionPrice);
+        } else {
+            return intentionPriceHigherThanQuotePrice(intentionPrice);
+        }
     }
 }

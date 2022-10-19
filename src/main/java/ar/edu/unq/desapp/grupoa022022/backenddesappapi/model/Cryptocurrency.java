@@ -27,11 +27,12 @@ public class Cryptocurrency {
     private String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "cryptocurrency",fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "cryptocurrency", fetch = FetchType.EAGER)
+
     private Set<Quote> quotes = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "cryptocurrency")
+    @OneToMany(mappedBy = "cryptocurrency", fetch = FetchType.EAGER)
     private Set<Intention> intentions = new HashSet<>();
 
     public Cryptocurrency(String name) {
@@ -39,11 +40,11 @@ public class Cryptocurrency {
     }
 
     public Quote latestQuote() throws ResourceNotFound {
-        if (!this.quotes.isEmpty()) {
-            return this.quotes.stream()
-                    .max(Comparator.comparing(Quote::getDateTime)).get();
+        Optional<Quote> quote = this.quotes.stream().reduce((q1, q2) -> q1.getDateTime() > q2.getDateTime() ? q1 : q2);
+        if (quote.isPresent()) {
+            return quote.get();
         } else {
-            throw new ResourceNotFound("does not exist quote for the cryptocurrency");
+            throw new ResourceNotFound("does not exists quote for cryptocurrency");
         }
     }
 
@@ -55,6 +56,7 @@ public class Cryptocurrency {
         this.intentions.add(intention);
     }
 
+    public void removeIntention(Intention intention) { this.intentions.remove(intention);}
     public Set<Quote> last24HoursQuotes() {
         long nowMinusOneDay = new DateTimeInMilliseconds().getCurrentTimeMinusOneDayInMilliseconds();
         return this.quotes.stream().filter(q -> q.getDateTime() > nowMinusOneDay).collect(Collectors.toSet());

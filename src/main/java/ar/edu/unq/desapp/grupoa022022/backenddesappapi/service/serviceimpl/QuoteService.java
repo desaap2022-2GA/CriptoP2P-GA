@@ -1,10 +1,11 @@
-package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service;
+package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.ICryptocurrencyRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IQuoteRepo;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IQuoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +32,8 @@ public class QuoteService implements IQuoteService {
     }
 
     @Override
-    public void delete(int id) {
-        Quote quote = quoteRepo.findById(id).get();
+    public void delete(int id) throws ResourceNotFound {
+        Quote quote = this.findById(id);
         Cryptocurrency cryptocurrency = quote.getCryptocurrency();
         Set<Quote> quotes = cryptocurrency.getQuotes();
         quotes.remove(quote);
@@ -64,12 +65,12 @@ public class QuoteService implements IQuoteService {
     }
 
     @Override
-    public boolean intentionPriceMoreThanQuotePrice(double intentionPrice, Quote quote) {
-        return quote.intentionPriceMoreThanQuotePrice(intentionPrice);
+    public boolean intentionPriceHigherThanQuotePrice(double intentionPrice, Quote quote) {
+        return quote.intentionPriceHigherThanQuotePrice(intentionPrice);
     }
 
     @Override
-    public boolean intentionPriceLessThanQuotePrice(double intentionPrice, Quote quote) {
-        return quote.intentionPriceLessThanQuotePrice(intentionPrice);
+    public boolean intentionPriceLowerThanQuotePrice(double intentionPrice, Quote quote) {
+        return quote.intentionPriceLowerThanQuotePrice(intentionPrice);
     }
 }

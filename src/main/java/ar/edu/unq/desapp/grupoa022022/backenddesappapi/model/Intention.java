@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -47,6 +48,7 @@ public class Intention {
     private User user;
 
     @OneToOne(mappedBy = "intention")
+    @JsonBackReference
     private Operation operation;
 
     @NotNull
@@ -79,7 +81,7 @@ public class Intention {
         return this.user.getReputation();
     }
 
-    public String getTransactionInfoToShow() {
+    public String transactionInfoToShow() {
         return (this.type == IntentionType.SELL) ? this.user.getMercadoPagoCVU()
                 : this.user.getAddressWalletActiveCripto();
     }
