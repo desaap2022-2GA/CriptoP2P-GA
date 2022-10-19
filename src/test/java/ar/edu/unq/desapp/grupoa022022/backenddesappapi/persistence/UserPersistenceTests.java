@@ -15,8 +15,7 @@ import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
@@ -153,4 +152,18 @@ class UserPersistenceTests {
 
         assertEquals(2, users.toArray().length);
     }
+
+    @Test
+    void checkIfAnUserIsInTheDatabaseAndCanNotFindIt() throws ExceptionsUser, ResourceNotFound {
+
+        assertThrows(ResourceNotFound.class, () -> userService.getFromDataBase(1));
+    }
+
+    @Test
+    void numberOfUserAreZeroWhenGetAllUsersFromATableWhereWasAllDeleted() throws ExceptionsUser, ResourceNotFound {
+        userService.deleteAllUsers();
+
+        assertEquals(0, userService.getAllUsers().size());
+    }
+
 }
