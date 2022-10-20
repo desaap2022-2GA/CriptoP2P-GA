@@ -19,38 +19,38 @@ repositories {
 
 dependencies {
 
-	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
 
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 
-	implementation 'org.testng:testng:7.1.0'
-	implementation 'org.testng:testng:7.1.0'
+    implementation 'org.testng:testng:7.1.0'
+    implementation 'org.testng:testng:7.1.0'
 
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
-	runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.h2database:h2'
 
-	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 
-	implementation 'org.postgresql:postgresql:42.5.0'
+    implementation 'org.postgresql:postgresql:42.5.0'
 
-	implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
 
-	compileOnly 'org.projectlombok:lombok:1.18.24'
-	annotationProcessor 'org.projectlombok:lombok:1.18.24'
-	testCompileOnly 'org.projectlombok:lombok:1.18.24'
-	testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 
-	implementation 'org.mapstruct:mapstruct:1.5.2.Final'
+    implementation 'org.mapstruct:mapstruct:1.5.2.Final'
 }
 
 test {
@@ -62,10 +62,12 @@ test {
 }
 
 jacocoTestReport {
-	dependsOn test
-	reports {
-		xml.enabled true
-	}
+    dependsOn test
+    reports {
+        xml.required.set(false)
+        csv.required.set(false)
+        html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+    }
 }
 
 test.finalizedBy jacocoTestReport
@@ -74,11 +76,11 @@ tasks.named('sonarqube').configure {
 }
 
 sonarqube {
-	properties {
-		property "sonar.projectKey", "desaap2022-2GA_CriptoP2P-GA"
-		property "sonar.organization", "desaap2022-2ga"
-		property "sonar.host.url", "https://sonarcloud.io"
-	}
+    properties {
+        property "sonar.projectKey", "desaap2022-2GA_CriptoP2P-GA"
+        property "sonar.organization", "desaap2022-2ga"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
 }
 
 task stage(dependsOn: ['build', 'clean'])
