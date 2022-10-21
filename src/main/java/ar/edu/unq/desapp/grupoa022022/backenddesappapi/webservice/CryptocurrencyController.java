@@ -22,7 +22,7 @@ public class CryptocurrencyController {
         return cryptocurrencyService.create(cryptocurrencyRegister);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<Cryptocurrency> listAllCryptocurrencies() {
         return cryptocurrencyService.getAll();
     }
