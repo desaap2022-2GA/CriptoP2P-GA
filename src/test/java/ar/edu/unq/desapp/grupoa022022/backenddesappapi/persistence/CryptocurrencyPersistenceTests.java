@@ -138,12 +138,12 @@ class CryptocurrencyPersistenceTests {
 
     @Test
     void get4QuotesFromACryptocurrency() throws ResourceNotFound {
-        Cryptocurrency cryptocurrency = getCryptocurrencyDB();
-        quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
-        quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
-        quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
+        int cryptocurrencyId = getCryptocurrencyDB().getId();
+        quoteService.create(cryptocurrencyId, dataSet.getSomePriceInRangeDAI());
+        quoteService.create(cryptocurrencyId, dataSet.getSomePriceInRangeDAI());
+        quoteService.create(cryptocurrencyId, dataSet.getSomePriceInRangeDAI());
 
-        assertEquals(4, cryptocurrencyService.getQuotes(cryptocurrency).size());
+        assertEquals(4, cryptocurrencyService.findById(cryptocurrencyId).getQuotes().size());
     }
 
     @Test

@@ -76,8 +76,8 @@ class QuotePersistenceTests {
         Cryptocurrency cryptocurrency = getCryptocurrencyDB();
         Quote quote = quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
 
-        assertEquals(cryptocurrency, quote.getCryptocurrency());
-        assertTrue(cryptocurrency.getQuotes().contains(quote));
+        assertEquals(cryptocurrency.getName(), quote.getCryptocurrency().getName());
+        assertTrue(cryptocurrencyService.findById(cryptocurrency.getId()).getQuotes().stream().anyMatch(q -> q.getDateTime() == quote.getDateTime()));
     }
 
     @Test
