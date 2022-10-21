@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationModify;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.IntentionAlreadyTaken;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceExceedVariationWithRespectIntentionTypeLimits;
@@ -27,6 +28,11 @@ public class OperationController {
     @PutMapping
     public void modifyOperation(@RequestBody OperationModify operationModify) throws ResourceNotFound {
         operationService.modify(operationModify);
+    }
+
+    @GetMapping(value = "/{id}")
+    public Operation getOperationById(@PathVariable("id") Integer id) throws ResourceNotFound {
+        return operationService.findById(id);
     }
 
     @GetMapping

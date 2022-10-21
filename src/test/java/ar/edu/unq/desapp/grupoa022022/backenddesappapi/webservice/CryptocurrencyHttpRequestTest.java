@@ -12,7 +12,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class CryptocurrencyHttpRequestTest {
+class CryptocurrencyHttpRequestTest {
 
     @Value("${local.server.port}")
     private int port;
@@ -24,19 +24,19 @@ public class CryptocurrencyHttpRequestTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void contextLoads() throws Exception {
+    void contextLoads() throws Exception {
         assertThat(controller).isNotNull();
     }
 
     @Test
-    public void gettingCryptocurrenciesShouldReturnAListThatIncludesDAI() throws Exception {
+    void gettingCryptocurrenciesShouldReturnAListThatIncludesDAI() throws Exception {
 
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/cryptocurrencies",
                 String.class)).contains("DAI");
     }
 
     @Test
-    public void postingACryptocurrencyNamedBITCOINShouldReturnAListThatIncludesIt() throws Exception {
+    void postingACryptocurrencyNamedBITCOINShouldReturnAListThatIncludesIt() throws Exception {
 
         CryptocurrencyRegister cryptocurrencyRegister = new CryptocurrencyRegister("USDT", 152.50);
 

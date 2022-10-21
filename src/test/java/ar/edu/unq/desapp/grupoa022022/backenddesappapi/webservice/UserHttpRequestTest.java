@@ -10,7 +10,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UserHttpRequestTest {
+class UserHttpRequestTest {
 
     @Value("${local.server.port}")
     private int port;
@@ -22,7 +22,7 @@ public class UserHttpRequestTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void contextLoads() throws Exception {
+    void contextLoads() throws Exception {
         assertThat(controller).isNotNull();
     }
 /*

@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRange;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
@@ -21,6 +22,11 @@ public class IntentionController {
     @PostMapping
     public Intention createIntention(@RequestBody @Valid IntentionRegister intentionRegister) throws ResourceNotFound, PriceNotInAValidRange {
         return intentionService.create(intentionRegister);
+    }
+
+    @GetMapping(value = "/{id}")
+    public Intention getIntentionById(@PathVariable("id") Integer id) throws ResourceNotFound {
+        return intentionService.findById(id);
     }
 
     @GetMapping
