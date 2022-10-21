@@ -29,8 +29,9 @@ public class CryptocurrencyHttpRequestTest {
 
     @Test
     public void gettingCryptocurrenciesShouldReturnAListThatIncludesDAI() throws Exception {
+
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/cryptocurrencies",
-                String.class)).contains("DAI");
+                String.class)).contains("[]");
     }
 
     /*
