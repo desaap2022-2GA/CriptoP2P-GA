@@ -67,9 +67,9 @@ public class BackendDesappApiApplication {
         Cryptocurrency cryptocurrency2 = cryptocurrencyService.create(new CryptocurrencyRegister("BITCOIN", 5840798.98));
 
         //QUOTES
-        quoteService.create(cryptocurrency, 305.00);
+        quoteService.create(cryptocurrency.getId(), 305.00);
 
-        quoteService.create(cryptocurrency2, 5607166.15);
+        quoteService.create(cryptocurrency2.getId(), 5607166.15);
 
         //INTENTIONS
         Intention intention = intentionService.create(new IntentionRegister(IntentionType.BUY, cryptocurrency.getId(),

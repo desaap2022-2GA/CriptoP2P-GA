@@ -106,8 +106,8 @@ class CryptocurrencyPersistenceTests {
     @Test
     void getTheLatestQuoteFromCryptocurrency() throws ResourceNotFound {
         Cryptocurrency cryptocurrency = getCryptocurrencyDB();
-        quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI());
-        int quote2Id = quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI() + 2000).getId();
+        quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
+        int quote2Id = quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI() + 2000).getId();
 
         assertEquals(quote2Id, cryptocurrencyService.getLatestQuote(cryptocurrencyService.findById(cryptocurrency.getId())).getId());
     }
@@ -115,11 +115,11 @@ class CryptocurrencyPersistenceTests {
     @Test
     void obtain5WhenGetTheLast24HoursQuotesFromCryptocurrency() throws ResourceNotFound {
         Cryptocurrency cryptocurrency = getCryptocurrencyDB();
-        quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI());
-        quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI());
-        quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI());
-        quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI());
-        Quote oldQuote = quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI());
+        quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
+        quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
+        quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
+        quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
+        Quote oldQuote = quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
         oldQuote.setDateTime(new DateTimeInMilliseconds().getCurrentTimeMinusOneDayInMilliseconds());
         quoteService.update(oldQuote);
 
@@ -137,11 +137,11 @@ class CryptocurrencyPersistenceTests {
     }
 
     @Test
-    void get4QuotesFromACryptocurrency() {
+    void get4QuotesFromACryptocurrency() throws ResourceNotFound {
         Cryptocurrency cryptocurrency = getCryptocurrencyDB();
-        quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI());
-        quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI());
-        quoteService.create(cryptocurrency, dataSet.getSomePriceInRangeDAI());
+        quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
+        quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
+        quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
 
         assertEquals(4, cryptocurrencyService.getQuotes(cryptocurrency).size());
     }

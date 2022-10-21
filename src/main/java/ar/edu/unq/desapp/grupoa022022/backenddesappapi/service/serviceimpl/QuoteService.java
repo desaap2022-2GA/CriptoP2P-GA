@@ -5,6 +5,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.ICryptocurrencyRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IQuoteRepo;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IQuoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,12 @@ public class QuoteService implements IQuoteService {
     @Autowired
     private ICryptocurrencyRepo cryptocurrencyRepo;
 
+    @Autowired
+    private ICryptocurrencyService cryptocurrencyService;
+
     @Override
-    public Quote create(Cryptocurrency cryptocurrency, Double price) {
+    public Quote create(int cryptocurrencyId, Double price) throws ResourceNotFound {
+        Cryptocurrency cryptocurrency = cryptocurrencyService.findById(cryptocurrencyId);
         Quote quote = new Quote(cryptocurrency, price);
         return quoteRepo.save(quote);
     }

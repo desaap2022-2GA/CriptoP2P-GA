@@ -1,5 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.QuoteRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,10 +27,25 @@ public class QuoteHttpRequestTest {
     public void contextLoads() throws Exception {
         assertThat(controller).isNotNull();
     }
-/*
+
     @Test
-    public void gettingCryptocurrenciesShouldReturnAListThatIncludesDAI() throws Exception {
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/cryptocurrencies",
-                String.class)).contains("DAI");
-    }*/
+    public void gettingQuotesShouldReturnAListThatIncludesOneWith560716615Price() throws Exception {
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/quotes",
+                String.class)).contains("5607166.15");
+    }
+
+    @Test
+    public void gettingQuotes1ShouldReturnAQuoteWith32038Price() throws Exception {
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/quotes/1",
+                String.class)).contains("320.38");
+    }
+
+    @Test
+    public void postingAQuoteNamedBITCOINShouldReturnAListThatIncludesIt() throws Exception {
+
+        QuoteRegister quoteRegister = new QuoteRegister(1, 152.50);
+
+        assertThat(this.restTemplate.postForEntity("http://localhost:" + port + "/quotes",
+                quoteRegister, QuoteRegister.class)).toString().contains("152.50");
+    }
 }

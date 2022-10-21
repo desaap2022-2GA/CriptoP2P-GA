@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IQuoteService {
 
-    Quote create(Cryptocurrency cryptocurrency, Double price);
+    Quote create(int cryptocurrencyId, Double price) throws ResourceNotFound;
 
     void update(Quote quote);
 
