@@ -1,7 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationModify;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegister;
@@ -17,17 +16,17 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class OperationPersistenceTests {
 
     DataSet dataSet = new DataSet();
@@ -165,6 +164,15 @@ class OperationPersistenceTests {
 
     public OperationRegister getOperationRegisterWithUserAcceptWhoHas30Point3NumberOperations() throws ResourceNotFound, PriceNotInAValidRange {
         return new OperationRegister(getIntentionDBId(), getUserWith30Point3NumberOperationsDBId());
+    }
+
+    @BeforeEach
+    public void init() {
+        //       LOG.info("startup");
+        operationService.deleteAll();
+        intentionService.deleteAll();
+        cryptocurrencyService.deleteAll();
+        userService.deleteAllUsers();
     }
 
     //**************** SERVICE - REPOSITORY ****************

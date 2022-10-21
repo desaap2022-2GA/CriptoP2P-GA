@@ -1,22 +1,21 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRange;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IUserService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.*;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -24,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class IntentionPersistenceTests {
 
     DataSet dataSet = new DataSet();
@@ -37,13 +35,15 @@ class IntentionPersistenceTests {
     ICryptocurrencyRepo cryptocurrencyRepo;
 
     @Autowired
-    IIntentionService intentionService;
-
+    UserService userService;
+    @Autowired
+    IQuoteService quoteService;
     @Autowired
     ICryptocurrencyService cryptocurrencyService;
-
     @Autowired
-    IUserService userService;
+    IIntentionService intentionService;
+    @Autowired
+    IOperationService operationService;
 
     public Cryptocurrency getCryptocurrencyDB() {
         return cryptocurrencyService.create(dataSet.getCryptocurrencyRegisterDAI());
@@ -82,6 +82,15 @@ class IntentionPersistenceTests {
             getSomeCryptocurrencyDBId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), getSomeUserDBId());}
     public IntentionRegister getIntentionRegisterSELLType() { return new IntentionRegister(IntentionType.SELL,
             getSomeCryptocurrencyDBId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), getSomeUserDBId());}
+
+    @BeforeEach
+    public void init() {
+        //       LOG.info("startup");
+        operationService.deleteAll();
+        intentionService.deleteAll();
+        cryptocurrencyService.deleteAll();
+        userService.deleteAllUsers();
+    }
 
     //**************** SERVICE - REPOSITORY ****************
 
@@ -127,7 +136,7 @@ class IntentionPersistenceTests {
 
     @Test
     void get2IntentionsWhenAskForAllIntentions() throws ResourceNotFound, PriceNotInAValidRange {
-        User user = userRepo.save(dataSet.getUserTest());
+        userRepo.save(dataSet.getUserTest());
         intentionService.create(getSomeIntentionRegister());
         intentionService.create(getSomeIntentionRegister2());
         assertEquals(2, intentionService.getAll().size());

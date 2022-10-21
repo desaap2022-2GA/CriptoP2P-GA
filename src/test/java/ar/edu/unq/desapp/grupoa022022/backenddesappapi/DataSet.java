@@ -18,9 +18,9 @@ public class DataSet {
             "Av Cordoba 3000, CABA", "1111", "6352879863528798635287",
             "Xwf5u5ef");
 
-    private final UserRegister userRegister = new UserRegister("Gaston", "Gaudio", "gaudio@yahoo.com",
-            "Av Libertador 5000, CABA", "1111", "6352879863528798635287",
-            "Xwf5u5ef");
+        private final UserRegister userRegister = new UserRegister("Gaston", "Gaudio", "gaudio@yahoo.com",
+                "Av Libertador 5000, CABA", "1111", "6352879863528798635287",
+                "Xwf5u5ef");
 
     private final UserRegister userRegister2 = new UserRegister("Martin", "Fierro", "fierro@gmail.com",
             "Av Cordoba 3000, CABA", "1111", "6352879863528798635287",

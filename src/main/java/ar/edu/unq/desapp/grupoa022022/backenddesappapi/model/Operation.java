@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "operation_des_CG")
+@Table(name = "operations")
 public class Operation {
 
     @Id

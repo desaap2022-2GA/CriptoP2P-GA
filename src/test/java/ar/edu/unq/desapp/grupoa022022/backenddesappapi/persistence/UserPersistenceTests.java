@@ -5,13 +5,18 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IOperationService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IQuoteService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 
@@ -19,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class UserPersistenceTests {
 
     @Autowired
@@ -27,6 +31,15 @@ class UserPersistenceTests {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    IQuoteService quoteService;
+    @Autowired
+    ICryptocurrencyService cryptocurrencyService;
+    @Autowired
+    IIntentionService intentionService;
+    @Autowired
+    IOperationService operationService;
 
     @Autowired
     private BCryptPasswordEncoder encoder;
@@ -43,6 +56,15 @@ class UserPersistenceTests {
     final private User prueUser3 = new User("Juan", "Delpo", "delpo@yahoo.com",
             "Av Libertador 5000, CABA", "", "5469875465852365478952",
             "pup3oi5e");
+
+    @BeforeEach
+    public void init() {
+ //       LOG.info("startup");
+        operationService.deleteAll();
+        intentionService.deleteAll();
+        cryptocurrencyService.deleteAll();
+        userService.deleteAllUsers();
+    }
 
 //**************** SERVICE - PERSISTANCE ****************
 

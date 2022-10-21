@@ -18,7 +18,7 @@ import static ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.Verify.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "desappcriptp2p_10")
+@Table(name = "users")
 /*@ConstructorBinding()*/
 public class User {
     @Id

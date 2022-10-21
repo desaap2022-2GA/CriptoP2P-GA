@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "cryptocurrencyp2p_des_CG")
+@Table(name = "cryptocurrencies")
 public class Cryptocurrency {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

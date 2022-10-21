@@ -6,31 +6,38 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IOperationService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IQuoteService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class CryptocurrencyPersistenceTests {
 
     DataSet dataSet = new DataSet();
 
     @Autowired
     ICryptocurrencyRepo cryptocurrencyRepo;
-
     @Autowired
-    ICryptocurrencyService cryptocurrencyService;
-
+    UserService userService;
     @Autowired
     IQuoteService quoteService;
+    @Autowired
+    ICryptocurrencyService cryptocurrencyService;
+    @Autowired
+    IIntentionService intentionService;
+    @Autowired
+    IOperationService operationService;
 
     public CryptocurrencyRegister cryptocurrencyRegisterDAI = new CryptocurrencyRegister("DAI", 320.38);
     public CryptocurrencyRegister cryptocurrencyRegisterBITCOIN = new CryptocurrencyRegister("BITCOIN", 5840798.98);
@@ -40,6 +47,15 @@ class CryptocurrencyPersistenceTests {
     public Cryptocurrency getCryptocurrencyDB2(){ return cryptocurrencyService.create(cryptocurrencyRegisterBITCOIN);}
     public Cryptocurrency getCryptocurrencyDB3(){ return cryptocurrencyService.create(cryptocurrencyRegisterLUNA);}
     public Cryptocurrency getCryptocurrencyDB4(){ return cryptocurrencyService.create(cryptocurrencyRegisterUSDT);}
+
+    @BeforeEach
+    public void init() {
+        //       LOG.info("startup");
+        operationService.deleteAll();
+        intentionService.deleteAll();
+        cryptocurrencyService.deleteAll();
+        userService.deleteAllUsers();
+    }
 
     //**************** SERVICE - REPOSITORY ****************
 

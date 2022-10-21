@@ -6,7 +6,12 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IOperationService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IQuoteService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -19,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class QuotePersistenceTests {
 
     DataSet dataSet = new DataSet();
@@ -29,12 +33,27 @@ class QuotePersistenceTests {
     @Autowired
     IQuoteService quoteService;
     @Autowired
+    UserService userService;
+    @Autowired
     ICryptocurrencyRepo cryptocurrencyRepo;
     @Autowired
     ICryptocurrencyService cryptocurrencyService;
+    @Autowired
+    IIntentionService intentionService;
+    @Autowired
+    IOperationService operationService;
 
     public CryptocurrencyRegister cryptocurrencyRegister = new CryptocurrencyRegister("DAI", 200.00);
     public Cryptocurrency getCryptocurrencyDB(){ return cryptocurrencyService.create(cryptocurrencyRegister);}
+
+    @BeforeEach
+    public void init() {
+        //       LOG.info("startup");
+        operationService.deleteAll();
+        intentionService.deleteAll();
+        cryptocurrencyService.deleteAll();
+        userService.deleteAllUsers();
+    }
 
     //**************** SERVICE - REPOSITORY ****************
 

@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "intentionp2p_des_CG")
+@Table(name = "intentions")
 public class Intention {
 
     @Id
