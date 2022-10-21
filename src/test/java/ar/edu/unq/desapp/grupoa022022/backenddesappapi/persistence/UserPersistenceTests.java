@@ -121,11 +121,11 @@ class UserPersistenceTests {
         prueUser2.setPassword(encoder.encode("123NadalChampion"));
         prueUser3.setPassword(encoder.encode("321Martin"));
         userRepo.save(prueUser1);
-        userRepo.save(prueUser2);
+        int id2 = userRepo.save(prueUser2).getId();
         userRepo.save(prueUser3);
 
         int cantUsers = userService.getAllUsers().toArray().length;
-        userService.delete(2);
+        userService.delete(id2);
         List<UserView> users = userService.getAllUsers();
 
         assertEquals(cantUsers - 1, users.toArray().length);
