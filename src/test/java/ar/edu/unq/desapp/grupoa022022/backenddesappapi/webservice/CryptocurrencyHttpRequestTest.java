@@ -32,7 +32,7 @@ public class CryptocurrencyHttpRequestTest {
     public void gettingCryptocurrenciesShouldReturnAListThatIncludesDAI() throws Exception {
 
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/cryptocurrencies",
-                String.class)).contains("[]");
+                String.class)).contains("DAI");
     }
 
     /*
