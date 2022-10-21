@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -35,10 +35,12 @@ public class CryptocurrencyHttpRequestTest {
                 String.class)).contains("DAI");
     }
 
-    /*
+    @Test
+    public void postingACryptocurrencyNamedBITCOINShouldReturnAListThatIncludesIt() throws Exception {
 
-        @PostMapping
-    public Cryptocurrency createCryptocurrency(@RequestBody @Valid CryptocurrencyRegister cryptocurrencyRegister) throws ResourceNotFound {
-        return cryptocurrencyService.create(cryptocurrencyRegister);
-    } */
+        CryptocurrencyRegister cryptocurrencyRegister = new CryptocurrencyRegister("USDT", 152.50);
+
+        assertThat(this.restTemplate.postForEntity("http://localhost:" + port + "/cryptocurrencies",
+                cryptocurrencyRegister, CryptocurrencyRegister.class)).toString().contains("DAI");
+    }
 }
