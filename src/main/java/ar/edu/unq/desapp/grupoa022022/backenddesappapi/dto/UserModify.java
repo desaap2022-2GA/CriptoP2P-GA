@@ -14,4 +14,9 @@ public class UserModify extends UserAPI {
 
     @NotBlank(message = "Password: it can not be null")
     private String password;
+
+    public UserModify(String name, String lastname, String email, String address, String password, String mercadoPago, String wallet) {
+        super(name,lastname,email,address, mercadoPago,wallet);
+        this.password = password;
+    }
 }

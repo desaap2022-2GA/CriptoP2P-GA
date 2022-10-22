@@ -1,7 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,25 +28,59 @@ class UserHttpRequestTest {
     void contextLoads() throws Exception {
         assertThat(controller).isNotNull();
     }
+
     @Test
-    void gettingUsersShouldReturnAListThatIncludesOneWithNameMartin() throws Exception {
+    void gettingUsersShouldReturnAListWithSizeEquals2() throws Exception {
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/users",
-                String.class)).contains("Martin");
+                UserView[].class)).hasSize(2);
     }
 
     @Test
     void gettingUser1ShouldReturnAnUserWithLastnameGaudio() throws Exception {
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/users/1",
-                String.class)).contains("Gaudio");
+                UserView.class)).toString().contains("Gaudio");
+    }
+
+    @Test
+    void gettingUserWithEmailGaudioYahooShouldReturnAnUserWithLastnameGaudio() throws Exception {
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/email/gaudio@yahoo.com",
+                UserView.class)).toString().contains("Gaudio");
     }
 
     @Test
     void postingAnUserWithNameRogerShouldReturnAListThatIncludesIt() throws Exception {
 
-        UserRegister userRegister = new UserRegister("Roger","Federer","federer@gmail.com"
-                , "Av Libertador 5000","1234","1236549877412589632145","Zs59f4lo");
+        UserRegister userRegister = new UserRegister("Roger", "Federer", "federer@gmail.com"
+                , "Av Libertador 5000", "1234", "1236549877412589632145", "Zs59f4lo");
 
         assertThat(this.restTemplate.postForEntity("http://localhost:" + port + "/users",
                 userRegister, UserRegister.class)).toString().contains("federer@gmail.com");
+    }
+
+    @Test
+    void deletingAnUserShouldReturn200OkStatusCode() throws Exception {
+
+        assertThat(this.restTemplate.exchange("http://localhost:" + port + "/users/{id}",
+                HttpMethod.DELETE,
+                null,
+                Void.class, 1).getStatusCode()).toString().contains("200");
+    }
+
+    @Test
+    void puttingUser1WithAddressHusaresShouldReturnThatChange() throws Exception {
+
+        UserModify userModify = new UserModify("Roger", "Federer", "federer@gmail.com"
+                , "Av Libertador 5000","1234", "1236549877412589632145", "Zs59f4lo");
+
+        assertThat(this.restTemplate.exchange("http://localhost:" + port + "/users/{id}",
+                HttpMethod.PUT,
+                new HttpEntity<>(userModify, createJsonHeader()),
+                Void.class, 2)).toString().contains("lolala");
+    }
+
+    private static HttpHeaders createJsonHeader() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        return httpHeaders;
     }
 }
