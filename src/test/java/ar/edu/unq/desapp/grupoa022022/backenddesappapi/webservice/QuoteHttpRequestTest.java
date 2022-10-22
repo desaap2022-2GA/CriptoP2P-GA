@@ -10,7 +10,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class QuoteHttpRequestTest {
+class QuoteHttpRequestTest {
 
     @Value("${local.server.port}")
     private int port;
@@ -22,24 +22,24 @@ public class QuoteHttpRequestTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void contextLoads() throws Exception {
+    void contextLoads() throws Exception {
         assertThat(controller).isNotNull();
     }
 
     @Test
-    public void gettingQuotesShouldReturnAListThatIncludesOneWith560716615Price() throws Exception {
+    void gettingQuotesShouldReturnAListThatIncludesOneWith560716615Price() throws Exception {
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/quotes",
                 String.class)).contains("5607166.15");
     }
 
     @Test
-    public void gettingQuotes1ShouldReturnAQuoteWith32038Price() throws Exception {
+    void gettingQuotes1ShouldReturnAQuoteWith32038Price() throws Exception {
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/quotes/1",
                 String.class)).contains("320.38");
     }
 
     @Test
-    public void postingAQuoteNamedBITCOINShouldReturnAListThatIncludesIt() throws Exception {
+    void postingAQuoteNamedBITCOINShouldReturnAListThatIncludesIt() throws Exception {
 
         QuoteRegister quoteRegister = new QuoteRegister(1, 152.50);
 
