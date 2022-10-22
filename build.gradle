@@ -26,15 +26,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 
+
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
 	implementation 'org.testng:testng:7.1.0'
-	implementation 'org.testng:testng:7.1.0'
-
-	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	runtimeOnly 'com.h2database:h2'
 
