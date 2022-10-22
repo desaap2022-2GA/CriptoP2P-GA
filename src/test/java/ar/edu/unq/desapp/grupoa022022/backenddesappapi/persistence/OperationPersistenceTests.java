@@ -95,9 +95,14 @@ class OperationPersistenceTests {
                 getSomeCryptocurrencyDBId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), getUserWhoPostDBId());
     }
 
-    public IntentionRegister getIntentionRegisterWithPrice5000Units2() {
-        return new IntentionRegister(dataSet.getSomeTypeBUY(),
-                getSomeCryptocurrencyDBId(), 5000.00, 2, getUserWhoPostDBId());
+    public IntentionRegister getIntentionRegisterWithPrice320Units2() {
+        return new IntentionRegister(IntentionType.SELL,
+                getSomeCryptocurrencyDBId(), 320.00, 2, getUserWhoPostDBId());
+    }
+
+    public IntentionRegister getIntentionRegisterWithPrice330Units2() {
+        return new IntentionRegister(IntentionType.BUY,
+                getSomeCryptocurrencyDBId(), 330.00, 2, getUserWhoPostDBId());
     }
 
     public IntentionRegister getIntentionRegisterWithUserWhoHas30Point3NumberOperations() {
@@ -115,8 +120,13 @@ class OperationPersistenceTests {
                 getSomeCryptocurrencyDB2Id(), dataSet.getSomePriceInRangeBITCOIN(), dataSet.getSomeUnit(), getUserWhoPostDBId());
     }
 
-    public Intention getIntentionDB() throws ResourceNotFound, PriceNotInAValidRange {
-        return intentionService.create(getSomeIntentionRegister());
+    public Intention getIntentionRegisterWithPrice320Units2DB() throws ResourceNotFound, PriceNotInAValidRange {
+        return intentionService.create(getIntentionRegisterWithPrice320Units2());
+    }
+
+
+    public Intention getIntentionRegisterWithPrice330Units2DB() throws ResourceNotFound, PriceNotInAValidRange {
+        return intentionService.create(getIntentionRegisterWithPrice330Units2());
     }
 
     public Intention getSELLTypeIntentionDB() throws ResourceNotFound, PriceNotInAValidRange {
@@ -127,6 +137,9 @@ class OperationPersistenceTests {
         return intentionService.create(getIntentionRegisterBUYType());
     }
 
+    public Intention getIntentionDB() throws ResourceNotFound, PriceNotInAValidRange {
+        return intentionService.create(getSomeIntentionRegister());
+    }
     public Intention getIntentionWhoUserHas30Points3NumberOperationsDB() throws ResourceNotFound, PriceNotInAValidRange {
         return intentionService.create(getIntentionRegisterWithUserWhoHas30Point3NumberOperations());
     }
@@ -387,5 +400,19 @@ class OperationPersistenceTests {
         int operationId = operationService.create(getSELLOperationRegister()).getId();
 
         assertThrows(InvalidState.class, () -> operationService.modify(new OperationModify(operationId, OperationState.ACTIVE, getUserWhoAcceptDB2Id())));
+    }
+
+    @Test
+    void getPriceExceedVariationWithRespectIntentionSELLTypeLimitsPriceLowerThanQuoteOfCryptocurrency() throws ResourceNotFound, PriceNotInAValidRange {
+        int intentionId = getIntentionRegisterWithPrice320Units2DB().getId();
+
+        assertThrows(PriceExceedVariationWithRespectIntentionTypeLimits.class, () -> operationService.create(new OperationRegister(intentionId, getUserWhoAcceptDB2Id())));
+    }
+
+    @Test
+    void getPriceExceedVariationWithRespectIntentionBUYTypeLimitsPriceHigherThanQuoteOfCryptocurrency() throws ResourceNotFound, PriceNotInAValidRange {
+        int intentionId = getIntentionRegisterWithPrice330Units2DB().getId();
+
+        assertThrows(PriceExceedVariationWithRespectIntentionTypeLimits.class, () -> operationService.create(new OperationRegister(intentionId, getUserWhoAcceptDB2Id())));
     }
 }
