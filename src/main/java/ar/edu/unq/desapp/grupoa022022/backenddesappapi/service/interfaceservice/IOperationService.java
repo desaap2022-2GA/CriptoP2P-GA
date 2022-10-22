@@ -5,6 +5,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.IntentionAlreadyTaken;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.InvalidState;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceExceedVariationWithRespectIntentionTypeLimits;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
@@ -46,5 +47,5 @@ public interface IOperationService {
 
     OperationState  getState(Operation operation);
 
-    void modify(OperationModify operationModify) throws ResourceNotFound;
+    void modify(OperationModify operationModify) throws ResourceNotFound, InvalidState;
 }

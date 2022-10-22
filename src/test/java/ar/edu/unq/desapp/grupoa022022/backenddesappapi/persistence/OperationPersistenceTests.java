@@ -8,10 +8,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.IntentionAlreadyTaken;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceExceedVariationWithRespectIntentionTypeLimits;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRange;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
@@ -359,7 +356,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void modifyAnOperationWithPaidState() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void modifyAnOperationWithPaidState() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState {
         Operation operation = operationService.create(getSELLOperationRegister());
         OperationModify operationModify = new OperationModify(operation.getId(), OperationState.PAID, operation.getUserWhoAccepts().getId());
         operationService.modify(operationModify);
@@ -368,7 +365,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void modifyAnOperationWithCryptoSentState() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void modifyAnOperationWithCryptoSentState() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState {
         Operation operation = operationService.create(getSELLOperationRegister());
         OperationModify operationModify = new OperationModify(operation.getId(), OperationState.CRYPTOSENT, operation.getUserWhoAccepts().getId());
         operationService.modify(operationModify);
@@ -377,18 +374,18 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void modifyAnOperationWithCancelledState() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void modifyAnOperationWithCancelledState() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState {
         Operation operation = operationService.create(getSELLOperationRegister());
         OperationModify operationModify = new OperationModify(operation.getId(), OperationState.CANCELLED, operation.getUserWhoAccepts().getId());
         operationService.modify(operationModify);
 
         assertEquals(OperationState.CANCELLED, operationService.findById(operation.getId()).getState());
     }
-    @Test
-    void resourceNotFoundWhenModifyAnOperationToActiveState() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
-        Operation operation = operationService.create(getSELLOperationRegister());
-        OperationModify operationModify = new OperationModify(operation.getId(), OperationState.ACTIVE, operation.getUserWhoAccepts().getId());
 
-        assertThrows(ResourceNotFound.class, () -> operationService.modify(operationModify));
+    @Test
+    void whenTryToSetAStateInvalidThrowsException() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+        int operationId = operationService.create(getSELLOperationRegister()).getId();
+
+        assertThrows(InvalidState.class, () -> operationService.modify(new OperationModify(operationId, OperationState.ACTIVE, getUserWhoAcceptDB2Id())));
     }
 }

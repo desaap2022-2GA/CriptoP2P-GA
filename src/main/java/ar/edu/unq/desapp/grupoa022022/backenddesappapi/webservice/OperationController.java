@@ -4,6 +4,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationModify;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.IntentionAlreadyTaken;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.InvalidState;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceExceedVariationWithRespectIntentionTypeLimits;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IOperationService;
@@ -25,7 +26,7 @@ public class OperationController {
     }
 
     @PutMapping
-    public void modifyOperation(@RequestBody OperationModify operationModify) throws ResourceNotFound {
+    public void modifyOperation(@RequestBody OperationModify operationModify) throws ResourceNotFound, InvalidState {
         operationService.modify(operationModify);
     }
 

@@ -6,6 +6,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.IntentionAlreadyTaken;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.InvalidState;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceExceedVariationWithRespectIntentionTypeLimits;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IOperationRepo;
@@ -36,8 +37,8 @@ public class OperationService implements IOperationService {
         User user = userService.getFromDataBase(operationRegister.getUserId());
         Intention intention = intentionService.findById(operationRegister.getIntentionId());
         if (!intention.isTaken()) {
-            Operation operation = new Operation(intention, user);
             intention.setTaken(true);
+            Operation operation = new Operation(intention, user);
             if (intention.getCryptocurrency().latestQuote()
                     .priceExceedVariationWithRespectTheIntentionPriceAccordingIntentionTypeLimits(intention.getPrice(),
                             intention.getType())) {
@@ -138,7 +139,7 @@ public class OperationService implements IOperationService {
     }
 
     @Override
-    public void modify(OperationModify operationModify) throws ResourceNotFound {
+    public void modify(OperationModify operationModify) throws ResourceNotFound, InvalidState {
         Operation operation = findById(operationModify.getOperationId());
         User user = userService.getFromDataBase(operationModify.getUserId());
 
@@ -150,7 +151,7 @@ public class OperationService implements IOperationService {
                 addAnOperationToUsers(operation);
             }
             case CANCELLED -> cancelOperationByUser(operation, user);
-            default -> throw new ResourceNotFound("You must provide a valid State");
+            default -> throw new InvalidState("You must provide a valid State");
         }
     }
 }
