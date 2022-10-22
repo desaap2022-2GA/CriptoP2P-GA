@@ -12,7 +12,7 @@ public class UserRepoImpl {
     @Autowired
     private IUserRepo userRepo;
 
-
+/*
     public List listUsers() throws ExceptionsUser {
 
         List userList = null;
@@ -34,4 +34,6 @@ public class UserRepoImpl {
 
 
     }
+
+ */
 }

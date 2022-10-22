@@ -1,22 +1,16 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IUserRepo;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.HelperDTO;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserModify;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService implements IUserService {
@@ -105,24 +99,18 @@ public class UserService implements IUserService {
         );
     }
 
-    /*public List<User> getListUsers() {
-        return userRepo.listUsers();
-    }
-     */
 
-    public List getListUsers() throws ExceptionsUser {
+    @Override
+    public List<UserQuery> getListUsers() throws ExceptionsUser {
 
-        List userList = Collections.emptyList();
+        ArrayList userList = new ArrayList();
         List<User> users = userRepo.findAll();
         for (User us:users){
-            User user = new User();
-            user.setName(us.getName());
-            user.setLastname(us.getLastname());
-            user.setNumberOperations(us.getNumberOperations());
+            UserQuery user = new UserQuery(us.getName(),us.getLastname(), us.getNumberOperations(),
+                    us.getReputation());
 
             userList.add(user);
-
         }
-        return userList;
+        return userList.stream().toList();
     }
 }

@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserModify;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserQuery;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
@@ -63,8 +64,9 @@ public class UserController {
     }
 
     @GetMapping(value = "/users/users")
-    public List<User> listUsers() throws ExceptionsUser {
+    public List<UserQuery> listUsers() throws ExceptionsUser {
         return userService.getListUsers();
+        //return userService.getListUsersQuery();
     }
 
 

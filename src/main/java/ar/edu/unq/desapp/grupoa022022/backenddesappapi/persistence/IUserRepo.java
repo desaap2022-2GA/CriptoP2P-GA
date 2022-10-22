@@ -15,7 +15,7 @@ public interface IUserRepo extends JpaRepository<User, Integer> {
 
     Optional<User> findByPassword(String password);
 
-    @Query(value = "SELECT name, lastname, numberOperations, reputation FROM desappcriptp2p_10", nativeQuery = true)
+    /*@Query(value = "SELECT name, lastname, numberOperations, reputation FROM desappcriptp2p_10", nativeQuery = true)
     List<User> listUsers();
-
+*/
 }
