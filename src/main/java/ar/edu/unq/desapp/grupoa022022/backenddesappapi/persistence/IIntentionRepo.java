@@ -9,8 +9,11 @@ import java.util.List;
 public interface IIntentionRepo extends JpaRepository<Intention, Integer> {
 
 
+    /*
     @Query(value = "SELECT * FROM intentionp2p_des_CG intention WHERE intention.taken := 'false'", nativeQuery = true)
     List<Intention> getIntentionActive();
-
+*/
     public Intention getIntetnionById(int id);
+
+
 }

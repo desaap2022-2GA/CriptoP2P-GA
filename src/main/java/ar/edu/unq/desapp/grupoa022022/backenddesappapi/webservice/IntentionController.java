@@ -37,4 +37,6 @@ public class IntentionController {
     public Intention getIntentionById(int id) throws ResourceNotFound {
         return intentionService.findById(id);
     }
+
+
 }
