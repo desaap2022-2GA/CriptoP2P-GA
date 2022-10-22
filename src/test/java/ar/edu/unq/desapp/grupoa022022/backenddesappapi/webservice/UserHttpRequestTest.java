@@ -46,7 +46,6 @@ class UserHttpRequestTest {
         UserRegister userRegister = new UserRegister("Roger","Federer","federer@gmail.com"
                 , "Av Libertador 5000","1234","1236549877412589632145","Zs59f4lo");
 
-
         assertThat(this.restTemplate.postForEntity("http://localhost:" + port + "/users",
                 userRegister, UserRegister.class)).toString().contains("federer@gmail.com");
     }

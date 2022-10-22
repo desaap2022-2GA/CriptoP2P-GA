@@ -27,11 +27,6 @@ public class QuoteController {
         quoteService.delete(id);
     }
 
-    @DeleteMapping(value = "/all")
-    public void deleteAllQuotes() {
-        quoteService.deleteAll();
-    }
-
     @GetMapping
     public List<Quote> listAllQuotes() {
         return quoteService.getAll();

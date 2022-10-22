@@ -60,9 +60,4 @@ public class UserController {
     public Object login(@RequestParam String email, @RequestParam String password) throws ResourceNotFound{
         return userService.login(email, password);
     }
-
-    @DeleteMapping(value = "/users/all")
-    public void deleteAllUsers() {
-        userService.deleteAllUsers();
-    }
 }

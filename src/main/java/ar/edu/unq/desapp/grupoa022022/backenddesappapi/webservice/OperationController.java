@@ -40,8 +40,4 @@ public class OperationController {
         return operationService.getAll();
     }
 
-    @DeleteMapping(value = "/all")
-    public void deleteAllOperations() {
-        operationService.deleteAll();
-    }
 }
