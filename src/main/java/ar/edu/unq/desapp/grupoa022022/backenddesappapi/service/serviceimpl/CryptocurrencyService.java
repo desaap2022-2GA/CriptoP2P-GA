@@ -76,9 +76,9 @@ public class CryptocurrencyService implements ICryptocurrencyService {
                 () -> new ResourceNotFound("Cryptocurrency not found with id " + id)
         );
     }
-
+/*
     @Override
     public Set<Quote> getQuotes(Cryptocurrency cryptocurrency) {
         return cryptocurrency.getQuotes();
-    }
+    }*/
 }

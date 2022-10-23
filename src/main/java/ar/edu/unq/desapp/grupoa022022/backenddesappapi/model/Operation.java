@@ -11,7 +11,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -48,8 +47,6 @@ public class Operation {
         intention.setOperation(this);
         this.userWhoAccepts = userWhoAccepts;
         userWhoAccepts.addOperation(this);
-        intention.getUser().addOperation(this);
-        System.out.println("cantoperacionesusuario1"+intention.getUser().toString());
     }
 
     public IntentionType getType() {

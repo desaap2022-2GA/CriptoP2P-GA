@@ -10,7 +10,6 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IOperationService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IQuoteService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +95,7 @@ class UserPersistenceTests {
 
     //PUT
     @Test
-    void modifyAnUserWithId1() throws ResourceNotFound, ExceptionsUser {
+    void modifyAnUserWithId1() throws ExceptionsUser {
         //    userRepo.deleteAll();
 
         prueUser1.setPassword(encoder.encode("3546DelpoWinner"));
@@ -149,7 +148,7 @@ class UserPersistenceTests {
 
     //EXISTS EMAIL EXCEPTION *********
     @Test
-    void checkIfAnEmailIsInTheDatabaseAndCanNotFindIt() throws ExceptionsUser, ResourceNotFound {
+    void checkIfAnEmailIsInTheDatabaseAndCanNotFindIt() throws ExceptionsUser {
         // userRepo.deleteAll();
         prueUser1.setPassword(encoder.encode("3546DelpoWinner"));
         userRepo.save(prueUser1);
@@ -176,13 +175,13 @@ class UserPersistenceTests {
     }
 
     @Test
-    void checkIfAnUserIsInTheDatabaseAndCanNotFindIt() throws ExceptionsUser, ResourceNotFound {
+    void checkIfAnUserIsInTheDatabaseAndCanNotFindIt() {
 
         assertThrows(ResourceNotFound.class, () -> userService.getFromDataBase(1));
     }
 
     @Test
-    void numberOfUserAreZeroWhenGetAllUsersFromATableWhereWasAllDeleted() throws ExceptionsUser, ResourceNotFound {
+    void numberOfUserAreZeroWhenGetAllUsersFromATableWhereWasAllDeleted() {
         userService.deleteAllUsers();
 
         assertEquals(0, userService.getAllUsers().size());

@@ -21,8 +21,6 @@ public interface IIntentionService {
 
     List<Intention> getAll();
 
-    double amountPriceInDollars(Double dollarPrice, Intention intention);
-
     double amountPriceInPesos(Intention intention);
 
     String transactionInfoToShow(Intention intention);

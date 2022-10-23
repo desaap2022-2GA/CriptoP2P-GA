@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationModify;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.IntentionAlreadyTaken;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.InvalidState;
@@ -21,8 +22,8 @@ public class OperationController {
     private IOperationService operationService;
 
     @PostMapping
-    public Operation openOperation(@RequestBody OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
-        return operationService.create(operationRegister);
+    public OperationView openOperation(@RequestBody OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+        return operationService.open(operationRegister);
     }
 
     @PutMapping
@@ -39,5 +40,4 @@ public class OperationController {
     public List<Operation> listAllOperations() {
         return operationService.getAll();
     }
-
 }

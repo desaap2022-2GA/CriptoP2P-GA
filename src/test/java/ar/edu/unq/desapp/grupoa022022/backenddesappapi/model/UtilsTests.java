@@ -4,7 +4,6 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptoDetails;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.HelperDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRange;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.CryptocurrencyService;
@@ -74,7 +73,7 @@ public class UtilsTests {
     //SERVICE
 
     @Test
-    void getACryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFound, EmailAlreadyExists, PriceNotInAValidRange {
+    void getACryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFound, PriceNotInAValidRange {
         Cryptocurrency cryptocurrency = cryptocurrencyService.create(dataSet.getCryptocurrencyRegisterDAI());
         User user = userService.saveToDataBase(dataSet.getUserRegister());
         Intention intention = intentionService.create(new IntentionRegister(dataSet.getSomeTypeBUY()
@@ -84,7 +83,7 @@ public class UtilsTests {
     }
 
     @Test
-    void getStringCryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFound, EmailAlreadyExists, PriceNotInAValidRange {
+    void getStringCryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFound, PriceNotInAValidRange {
         Cryptocurrency cryptocurrency = cryptocurrencyService.create(dataSet.getCryptocurrencyRegisterDAI());
         User user = userService.saveToDataBase(dataSet.getUserRegister());
         Intention intention = intentionService.create(new IntentionRegister(dataSet.getSomeTypeBUY()

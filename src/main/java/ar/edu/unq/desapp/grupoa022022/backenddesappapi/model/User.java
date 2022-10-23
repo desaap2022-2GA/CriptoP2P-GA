@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -158,7 +159,11 @@ public class User {
     }
 
     public Set<Operation> operationsBetweenDates(long firstDate, long secondDate) {
-        return this.operations.stream().filter(o -> o.getState().equals(OperationState.CRYPTOSENT)
+        Set<Operation> totalOperations = new HashSet<>();
+        Set<Operation> operationsFromIntentions = this.intentions.stream().map(Intention::getOperation).filter(Objects::nonNull).collect(Collectors.toSet());
+        totalOperations.addAll(operationsFromIntentions);
+        totalOperations.addAll(this.operations);
+        return totalOperations.stream().filter(o -> o.getState().equals(OperationState.CRYPTOSENT)
                 && o.getDateTime() > firstDate
                 && o.getDateTime() < secondDate).collect(Collectors.toSet());
     }

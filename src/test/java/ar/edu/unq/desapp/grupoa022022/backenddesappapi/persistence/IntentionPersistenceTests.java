@@ -10,7 +10,6 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.Resource
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,10 +150,10 @@ class IntentionPersistenceTests {
     }
 
     @Test
-    void getAmountPriceInDollarsFromAnIntentionWithPrice335Units2() throws ResourceNotFound, PriceNotInAValidRange {
+    void getAmountPriceInDollarsFromAnIntentionWithPrice335Units2AndActualQuotePrice320_38() throws ResourceNotFound, PriceNotInAValidRange {
         Intention intention = intentionService.create(getIntentionRegisterWithPrice335Units2());
 
-        assertEquals(670.00 / 149.00, intentionService.amountPriceInDollars(149.00, intention));
+        assertEquals(640.76 / 149.00, intention.actualAmountPriceInDollars(149.00));
     }
 
     @Test

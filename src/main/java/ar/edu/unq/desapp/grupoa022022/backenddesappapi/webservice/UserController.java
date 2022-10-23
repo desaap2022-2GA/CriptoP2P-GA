@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -29,11 +28,6 @@ public class UserController {
     @PostMapping(value = "/users")
     public UserView createUser(@RequestBody @Valid UserRegister userRegister) throws EmailAlreadyExists {
         return userService.create(userRegister);
-    }
-
-    @DeleteMapping(value = "/users/{id}")
-    public void deleteUser(@PathVariable("id") int id) throws ResourceNotFound {
-        userService.delete(id);
     }
 
     @PutMapping(value = "/users/{id}")
@@ -67,6 +61,4 @@ public class UserController {
     public Object getOperationsBetweenDates(@PathVariable int id, @PathVariable long firstdate, @PathVariable long seconddate) throws ResourceNotFound{
         return userService.operationsBetweenDates(id, firstdate, seconddate);
     }
-
-
 }

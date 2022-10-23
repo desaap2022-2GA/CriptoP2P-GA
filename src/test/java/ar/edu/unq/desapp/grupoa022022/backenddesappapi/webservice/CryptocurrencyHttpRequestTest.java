@@ -24,19 +24,19 @@ class CryptocurrencyHttpRequestTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    void contextLoads() throws Exception {
+    void contextLoads() {
         assertThat(controller).isNotNull();
     }
 
     @Test
-    void gettingCryptocurrenciesShouldReturnAListThatIncludesDAI() throws Exception {
+    void gettingCryptocurrenciesShouldReturnAListThatIncludesDAI() {
 
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/cryptocurrencies",
                 String.class)).contains("DAI");
     }
 
     @Test
-    void postingACryptocurrencyNamedBITCOINShouldReturnAListThatIncludesIt() throws Exception {
+    void postingACryptocurrencyNamedBITCOINShouldReturnAListThatIncludesIt() {
 
         CryptocurrencyRegister cryptocurrencyRegister = new CryptocurrencyRegister("USDT", 152.50);
 

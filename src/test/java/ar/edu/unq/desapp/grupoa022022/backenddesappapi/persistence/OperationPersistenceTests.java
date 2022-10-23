@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationModify;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegister;
@@ -11,7 +12,6 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DollarConvert;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 import org.junit.jupiter.api.BeforeEach;
@@ -140,6 +140,7 @@ class OperationPersistenceTests {
     public Intention getIntentionDB() throws ResourceNotFound, PriceNotInAValidRange {
         return intentionService.create(getSomeIntentionRegister());
     }
+
     public Intention getIntentionWhoUserHas30Points3NumberOperationsDB() throws ResourceNotFound, PriceNotInAValidRange {
         return intentionService.create(getIntentionRegisterWithUserWhoHas30Point3NumberOperations());
     }
@@ -411,9 +412,13 @@ class OperationPersistenceTests {
 
     @Test
     void whenTryToTakeAnIntentionAlreadyTakenThrowsException() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
-        int intentionAlreadyTakenId = operationService.create(getSELLOperationRegister()).getIntention().getId();
+        Cryptocurrency cryptocurrency = cryptocurrencyService.create(new CryptocurrencyRegister("DOGCOIN", 320.38));
+        int intentionId = intentionService.create(new IntentionRegister(IntentionType.BUY,
+                cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), getUserWhoPostDBId())).getId();
 
-        assertThrows(IntentionAlreadyTaken.class, () -> operationService.create(new OperationRegister(intentionAlreadyTakenId, getIntentionDBId())));
+        operationService.create(new OperationRegister(intentionId, getUserWhoAcceptDB2Id()));
+
+        assertThrows(IntentionAlreadyTaken.class, () -> operationService.create(new OperationRegister(intentionId, getUserWhoAcceptDB2Id())));
     }
 
     @Test
@@ -421,16 +426,6 @@ class OperationPersistenceTests {
         Operation operation = operationService.create(getSomeOperationRegister());
         operationService.cryptoSendDone(operation);
 
-        assertTrue(userService.getFromDataBase(operation.getUserWhoAccepts().getId()).getOperations().stream().anyMatch(o -> o.getId()==operation.getId()));
+        assertTrue(userService.getFromDataBase(operation.getUserWhoAccepts().getId()).getOperations().stream().anyMatch(o -> o.getId() == operation.getId()));
     }
-
-    @Test
-    void operationIsOnSetOperationOfUserWhoPostAfterCryptoSentDone() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
-        Operation operation = operationService.create(getSomeOperationRegister());
-        operationService.cryptoSendDone(operation);
-
-        System.out.println("acaestamos"+userService.getFromDataBase(operation.getIntention().getUser().getId()).toString());
-        assertTrue(userService.getFromDataBase(operation.getIntention().getUser().getId()).getOperations().stream().anyMatch(o -> o.getId()==operation.getId()));
-    }
-
 }

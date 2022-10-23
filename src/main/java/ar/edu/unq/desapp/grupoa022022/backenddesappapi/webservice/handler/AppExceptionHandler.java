@@ -72,4 +72,21 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         errorMap.put(ERROR_MESSAGE, ex.getMessage());
         return errorMap;
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(PriceExceedVariationWithRespectIntentionTypeLimits.class)
+    public Map<String, String> handleBusinessException(PriceExceedVariationWithRespectIntentionTypeLimits ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put(ERROR_MESSAGE, ex.getMessage());
+        return errorMap;
+    }
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(PriceNotInAValidRange.class)
+    public Map<String, String> handleBusinessException(PriceNotInAValidRange ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put(ERROR_MESSAGE, ex.getMessage());
+        return errorMap;
+    }
 }

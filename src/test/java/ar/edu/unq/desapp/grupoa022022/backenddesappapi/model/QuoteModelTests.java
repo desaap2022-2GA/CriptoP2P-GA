@@ -38,7 +38,7 @@ class QuoteModelTests {
     }
 
     @Test
-    void ObtainDateTimeFromNewQuoteBetweenARangeOfDates() throws InterruptedException {
+    void ObtainDateTimeFromNewQuoteBetweenARangeOfDates() {
         long beforeTime = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds() - 1;
         Quote quote = new Quote(dataSet.getCryptocurrency(), dataSet.getSomePriceInRangeDAI());
         long afterTime = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds() + 1;

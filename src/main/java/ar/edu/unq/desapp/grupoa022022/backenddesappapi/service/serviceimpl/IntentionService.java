@@ -74,11 +74,6 @@ public class IntentionService implements IIntentionService {
     }
 
     @Override
-    public double amountPriceInDollars(Double dollarPrice, Intention intention) {
-        return intention.amountPriceInDollars(dollarPrice);
-    }
-
-    @Override
     public double amountPriceInPesos(Intention intention) {
         return intention.amountPriceInPesos();
     }

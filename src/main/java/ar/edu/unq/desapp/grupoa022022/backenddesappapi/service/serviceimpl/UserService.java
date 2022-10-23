@@ -9,7 +9,6 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.Exceptio
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IUserRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IUserService;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DollarConvert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -95,6 +94,7 @@ public class UserService implements IUserService {
     public Object operationsBetweenDates(int userId, long firstDate, long secondDate) throws ResourceNotFound {
         User user = this.getFromDataBase(userId);
         Set<Operation> operations = user.operationsBetweenDates(firstDate, secondDate);
+
         double amountInPesos = user.volumeTraded(operations);
         double amountInDollars = new DollarConvert().amountInDollars(amountInPesos) ;
         TradedBetweenDates tradedBetweenDates = new TradedBetweenDates(amountInDollars, amountInPesos);
@@ -126,6 +126,4 @@ public class UserService implements IUserService {
     public void update(User user){
         userRepo.save(user);
     }
-
-
 }

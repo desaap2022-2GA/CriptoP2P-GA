@@ -2,7 +2,6 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +17,7 @@ public class CryptocurrencyController {
     ICryptocurrencyService cryptocurrencyService;
 
     @PostMapping
-    public Cryptocurrency createCryptocurrency(@RequestBody @Valid CryptocurrencyRegister cryptocurrencyRegister) throws ResourceNotFound {
+    public Cryptocurrency createCryptocurrency(@RequestBody @Valid CryptocurrencyRegister cryptocurrencyRegister) {
         return cryptocurrencyService.create(cryptocurrencyRegister);
     }
 

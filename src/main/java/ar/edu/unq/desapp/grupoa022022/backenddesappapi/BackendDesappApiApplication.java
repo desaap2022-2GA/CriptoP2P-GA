@@ -41,14 +41,14 @@ public class BackendDesappApiApplication {
     private String className;
 
     @PostConstruct
-    public void initialize() throws EmailAlreadyExists, PriceNotInAValidRange, IntentionAlreadyTaken, ResourceNotFound, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState {
+    public void initialize() throws PriceNotInAValidRange, IntentionAlreadyTaken, ResourceNotFound, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState {
         if (className.equals("org.h2.Driver")) {
 //			logger.info("Init Data Using H2 DB");
             fireInitialData();
         }
     }
 
-    private void fireInitialData() throws EmailAlreadyExists, PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState {
+    private void fireInitialData() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState {
 
         //USERS
         User user = userService.saveToDataBase(new UserRegister("Paston", "Gaudio", "gaudio@yahoo.com",

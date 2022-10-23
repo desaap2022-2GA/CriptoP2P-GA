@@ -22,11 +22,6 @@ public class QuoteController {
         return quoteService.create(quoteRegister.getCryptocurrencyId(), quoteRegister.getPrice());
     }
 
-    @DeleteMapping(value = "/quotes/{id}")
-    public void deleteQuote(@PathVariable("id") int id) throws ResourceNotFound {
-        quoteService.delete(id);
-    }
-
     @GetMapping
     public List<Quote> listAllQuotes() {
         return quoteService.getAll();

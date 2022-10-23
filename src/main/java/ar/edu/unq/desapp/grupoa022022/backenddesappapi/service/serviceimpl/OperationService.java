@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.HelperDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationModify;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
@@ -41,20 +42,26 @@ public class OperationService implements IOperationService {
         if (!intention.isTaken()) {
             intention.setTaken(true);
             intentionService.update(intention);
-            Operation operation = new Operation(intention, user);//usuarioQueAceptaLaIntencion
+            Operation operation = new Operation(intention, user);//usuario Que Acepta La Intencion
             if (intention.getCryptocurrency().latestQuote()
                     .priceExceedVariationWithRespectTheIntentionPriceAccordingIntentionTypeLimits(intention.getPrice(),
                             intention.getType())) {
                 operation.cancelOperationBySystem();
                 operationRepo.save(operation);
-                throw new PriceExceedVariationWithRespectIntentionTypeLimits("Price exceeds variation according the intention type limits");
+                throw new PriceExceedVariationWithRespectIntentionTypeLimits("Price exceeds variation according the " +
+                        "intention type limits, price of intention: " + intention.getPrice() + " ,price latest quote: " +
+                        intention.getCryptocurrency().latestQuote().getPrice());
             }
-           // userService.update(operation.getIntention().getUser());
-           // intentionService.update(intention);
             return operationRepo.save(operation);
         } else {
             throw new IntentionAlreadyTaken("The intention is already taken");
         }
+    }
+
+    @Override
+    public OperationView open(OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+        Operation operation = this.create(operationRegister);
+        return helper.operationToOperationView(operation, operation.getUserWhoAccepts());
     }
 
     @Override
@@ -105,24 +112,21 @@ public class OperationService implements IOperationService {
     }
 
     @Override
-    public void cancelOperationByUser(Operation operation, User user) throws ResourceNotFound {
+    public void cancelOperationByUser(Operation operation, User user) {
         operation.cancelOperationByUser(user);
-        Operation originalOperation = findById(operation.getId());
-        operationRepo.save(helper.operationUpdate(originalOperation, operation));
+        operationRepo.save(operation);
     }
 
     @Override
-    public void moneyTransferDone(Operation operation) throws ResourceNotFound {
-        Operation originalOperation = operation;
+    public void moneyTransferDone(Operation operation) {
         operation.moneyTransferredDone();
-        operationRepo.save(helper.operationUpdate(originalOperation, operation));
+        operationRepo.save(operation);
     }
 
     @Override
-    public void cryptoSendDone(Operation operation) throws ResourceNotFound {
-        Operation originalOperation = operation;
+    public void cryptoSendDone(Operation operation) {
         operation.cryptoSendDone();
-       operationRepo.save(helper.operationUpdate(originalOperation, operation));
+        operationRepo.save(operation);
     }
 
     @Override

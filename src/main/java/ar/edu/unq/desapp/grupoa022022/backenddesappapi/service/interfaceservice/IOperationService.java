@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationModify;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.IntentionAlreadyTaken;
@@ -14,6 +15,8 @@ import java.util.List;
 
 public interface IOperationService {
     Operation create(OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits;
+
+    OperationView open(OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits;
 
     void update(Operation operation);
 
@@ -43,7 +46,7 @@ public interface IOperationService {
 
     void addAnOperationToUsers(Operation operation);
 
-    OperationState  getState(Operation operation);
+    OperationState getState(Operation operation);
 
     void modify(OperationModify operationModify) throws ResourceNotFound, InvalidState;
 }

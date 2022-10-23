@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
@@ -45,21 +46,9 @@ public class HelperDTO {
         return userOriginal;
     }
 
-    public Operation operationUpdate(Operation originalOperation, Operation operation) {
-
-        if (operation.getIntention() != null  && !operation.getIntention().equals(originalOperation.getIntention())) {
-            originalOperation.setIntention(operation.getIntention());
-        }
-        if (operation.getUserWhoAccepts() != null  && !operation.getUserWhoAccepts().equals(originalOperation.getUserWhoAccepts())) {
-            originalOperation.setUserWhoAccepts(operation.getUserWhoAccepts());
-        }
-        return originalOperation;
-    }
-
     public boolean firstNotNullAndFirstAndSecondNotEquals(String firstCheck, String secondCheck) {
         return firstCheck != null && !Objects.equals(firstCheck, secondCheck);
     }
-
 
     public UserView userToUserView(User user) {
         return new UserView(user.getId(), user.getName(), user.getLastname(), user.getEmail(), user.getAddress(),
@@ -74,5 +63,15 @@ public class HelperDTO {
     public CryptoDetails intentionToCryptoDetails(Intention intention) throws ResourceNotFound {
         return new CryptoDetails(intention.getCryptocurrency().getName(), intention.getUnits()
                 , intention.getCryptocurrency().latestQuote().getPrice(), intention.amountPriceInPesos());
+    }
+
+    public OperationView operationToOperationView(Operation operation, User userWhoAsk) throws ResourceNotFound {
+        Intention intention = operation.getIntention();
+        Cryptocurrency cryptocurrency = intention.getCryptocurrency();
+        User user = intention.getUser();
+        String completeName = user.getName() + " " + user.getLastname();
+        return new OperationView(intention.getCryptocurrency().getName(), intention.actualAmountPriceInPesos()
+                , cryptocurrency.latestQuote().getPrice(), completeName, user.getNumberOperations(), user.getReputation()
+                , intention.transactionInfoToShow(), operation.actionToDo(userWhoAsk));
     }
 }
