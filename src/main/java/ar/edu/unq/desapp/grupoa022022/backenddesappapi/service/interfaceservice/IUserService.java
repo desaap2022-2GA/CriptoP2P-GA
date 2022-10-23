@@ -28,6 +28,8 @@ public interface IUserService {
 
     void checkNewUserEmail(String email) throws EmailAlreadyExists;
 
+    Object operationsBetweenDates(int userId, long firstDate, long secondDate) throws ResourceNotFound;
+
     void deleteAllUsers();
 
     User saveToDataBase(UserRegister userRegister);
@@ -37,4 +39,6 @@ public interface IUserService {
     UserView findByPassword(String password) throws ResourceNotFound;
 
     Object login(String email, String password) throws ResourceNotFound;
+
+    void update(User user);
 }

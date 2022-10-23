@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.HelperDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationModify;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
@@ -23,6 +24,7 @@ import java.util.List;
 @Service
 public class OperationService implements IOperationService {
 
+    private final HelperDTO helper = new HelperDTO();
     @Autowired
     IOperationRepo operationRepo;
 
@@ -38,7 +40,8 @@ public class OperationService implements IOperationService {
         Intention intention = intentionService.findById(operationRegister.getIntentionId());
         if (!intention.isTaken()) {
             intention.setTaken(true);
-            Operation operation = new Operation(intention, user);
+            intentionService.update(intention);
+            Operation operation = new Operation(intention, user);//usuarioQueAceptaLaIntencion
             if (intention.getCryptocurrency().latestQuote()
                     .priceExceedVariationWithRespectTheIntentionPriceAccordingIntentionTypeLimits(intention.getPrice(),
                             intention.getType())) {
@@ -46,6 +49,8 @@ public class OperationService implements IOperationService {
                 operationRepo.save(operation);
                 throw new PriceExceedVariationWithRespectIntentionTypeLimits("Price exceeds variation according the intention type limits");
             }
+           // userService.update(operation.getIntention().getUser());
+           // intentionService.update(intention);
             return operationRepo.save(operation);
         } else {
             throw new IntentionAlreadyTaken("The intention is already taken");
@@ -100,21 +105,24 @@ public class OperationService implements IOperationService {
     }
 
     @Override
-    public void cancelOperationByUser(Operation operation, User user) {
+    public void cancelOperationByUser(Operation operation, User user) throws ResourceNotFound {
         operation.cancelOperationByUser(user);
-        this.update(operation);
+        Operation originalOperation = findById(operation.getId());
+        operationRepo.save(helper.operationUpdate(originalOperation, operation));
     }
 
     @Override
-    public void moneyTransferDone(Operation operation) {
+    public void moneyTransferDone(Operation operation) throws ResourceNotFound {
+        Operation originalOperation = operation;
         operation.moneyTransferredDone();
-        this.update(operation);
+        operationRepo.save(helper.operationUpdate(originalOperation, operation));
     }
 
     @Override
-    public void cryptoSendDone(Operation operation) {
+    public void cryptoSendDone(Operation operation) throws ResourceNotFound {
+        Operation originalOperation = operation;
         operation.cryptoSendDone();
-        this.update(operation);
+       operationRepo.save(helper.operationUpdate(originalOperation, operation));
     }
 
     @Override
@@ -126,11 +134,6 @@ public class OperationService implements IOperationService {
     public void addAnOperationToUsers(Operation operation) {
         operation.addAnOperationToUsers();
         this.update(operation);
-    }
-
-    @Override
-    public double amountInDollars(Operation operation, double amount, double dollarQuote) {
-        return operation.amountInDollars(amount, dollarQuote);
     }
 
     @Override

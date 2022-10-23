@@ -1,13 +1,11 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -43,14 +41,14 @@ public class BackendDesappApiApplication {
     private String className;
 
     @PostConstruct
-    public void initialize() throws EmailAlreadyExists, PriceNotInAValidRange, IntentionAlreadyTaken, ResourceNotFound, PriceExceedVariationWithRespectIntentionTypeLimits {
+    public void initialize() throws EmailAlreadyExists, PriceNotInAValidRange, IntentionAlreadyTaken, ResourceNotFound, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState {
         if (className.equals("org.h2.Driver")) {
 //			logger.info("Init Data Using H2 DB");
             fireInitialData();
         }
     }
 
-    private void fireInitialData() throws EmailAlreadyExists, PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    private void fireInitialData() throws EmailAlreadyExists, PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState {
 
         //USERS
         User user = userService.saveToDataBase(new UserRegister("Paston", "Gaudio", "gaudio@yahoo.com",
@@ -78,7 +76,13 @@ public class BackendDesappApiApplication {
         intentionService.create(new IntentionRegister(IntentionType.SELL, cryptocurrency2.getId(),
                 5326807.85, 2, user.getId()));
 
-        //OPERATIONS
-        operationService.create(new OperationRegister(intention.getId(), user2.getId()));
+        //OPERATION
+        Operation operation = operationService.create(new OperationRegister(intention.getId(), user2.getId()));
+
+        //OPERATION PAID
+        operationService.modify(new OperationModify(operation.getId(), OperationState.PAID, user.getId()));
+
+        //OPERATION CRYPTOSENT (TERMINATED)
+        operationService.modify(new OperationModify(operation.getId(), OperationState.CRYPTOSENT, user2.getId()));
     }
 }

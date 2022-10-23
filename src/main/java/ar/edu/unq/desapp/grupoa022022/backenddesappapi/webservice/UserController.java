@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -60,4 +61,12 @@ public class UserController {
     public Object login(@RequestParam String email, @RequestParam String password) throws ResourceNotFound{
         return userService.login(email, password);
     }
+
+    @GetMapping(value = "/operations-between-dates/{id}/{firstdate}/{seconddate}")
+    @ResponseBody
+    public Object getOperationsBetweenDates(@PathVariable int id, @PathVariable long firstdate, @PathVariable long seconddate) throws ResourceNotFound{
+        return userService.operationsBetweenDates(id, firstdate, seconddate);
+    }
+
+
 }

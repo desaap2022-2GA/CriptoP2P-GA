@@ -10,7 +10,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 
 public class DataSet {
 
-    private final User userTest = new User("Gaston", "Gaudio", "gaudio@yahoo.com",
+    private final User userTest = new User("Paston", "Gaudio", "gaudio@yahoo.com",
             "Av Libertador 5000, CABA", "1111", "6352879863528798635287",
             "Xwf5u5ef");
 
@@ -18,7 +18,7 @@ public class DataSet {
             "Av Cordoba 3000, CABA", "1111", "6352879863528798635287",
             "Xwf5u5ef");
 
-        private final UserRegister userRegister = new UserRegister("Gaston", "Gaudio", "gaudio@yahoo.com",
+        private final UserRegister userRegister = new UserRegister("Paston", "Gaudio", "gaudio@yahoo.com",
                 "Av Libertador 5000, CABA", "1111", "6352879863528798635287",
                 "Xwf5u5ef");
 

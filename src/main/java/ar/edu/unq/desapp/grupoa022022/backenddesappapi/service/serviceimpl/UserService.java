@@ -1,20 +1,22 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IUserRepo;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.HelperDTO;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserModify;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IUserService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DollarConvert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService implements IUserService {
@@ -89,6 +91,24 @@ public class UserService implements IUserService {
         return (user.getEmail().equals(email))? user: new ResourceNotFound("Incorrect email or password");
     }
 
+    @Override
+    public Object operationsBetweenDates(int userId, long firstDate, long secondDate) throws ResourceNotFound {
+        User user = this.getFromDataBase(userId);
+        Set<Operation> operations = user.operationsBetweenDates(firstDate, secondDate);
+        double amountInPesos = user.volumeTraded(operations);
+        double amountInDollars = new DollarConvert().amountInDollars(amountInPesos) ;
+        TradedBetweenDates tradedBetweenDates = new TradedBetweenDates(amountInDollars, amountInPesos);
+        operations.forEach(operation -> {
+            Intention intention = operation.getIntention();
+            try {
+                tradedBetweenDates.addCryptoDetails(helper.intentionToCryptoDetails(intention));
+            } catch (ResourceNotFound e) {
+                throw new RuntimeException(e);
+            }
+        });
+        return tradedBetweenDates;
+    }
+
     public void deleteAllUsers() {
         userRepo.deleteAll();
     }
@@ -102,4 +122,10 @@ public class UserService implements IUserService {
                 () -> new ResourceNotFound("User not found with userId " + userId)
         );
     }
+
+    public void update(User user){
+        userRepo.save(user);
+    }
+
+
 }

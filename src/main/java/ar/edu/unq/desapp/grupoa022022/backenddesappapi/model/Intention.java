@@ -47,7 +47,7 @@ public class Intention {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToOne(mappedBy = "intention")
+    @OneToOne(mappedBy = "intention", cascade = CascadeType.MERGE)
     @JsonBackReference
     private Operation operation;
 

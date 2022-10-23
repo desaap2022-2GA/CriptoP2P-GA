@@ -59,7 +59,7 @@ public class User {
     private Set<Intention> intentions = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "userWhoAccepts")
+    @OneToMany(mappedBy = "userWhoAccepts",fetch=FetchType.EAGER)
     private Set<Operation> operations = new HashSet<>();
 
     public User(String name, String lastname, String email, String address, String password, String mercadoPagoCVU, String addressWalletActiveCripto) {
@@ -141,6 +141,10 @@ public class User {
         this.intentions.add(intention);
     }
 
+    public void addOperation(Operation operation) {
+        this.operations.add(operation);
+    }
+
     public void addPoints(int pointsToAdd) {
         this.setPoints(this.getPoints() + pointsToAdd);
     }
@@ -158,4 +162,9 @@ public class User {
                 && o.getDateTime() > firstDate
                 && o.getDateTime() < secondDate).collect(Collectors.toSet());
     }
+
+    public double volumeTraded(Set<Operation> operations) {
+        return operations.stream().mapToDouble(o -> o.getIntention().amountPriceInPesos()).sum();
+    }
+
 }

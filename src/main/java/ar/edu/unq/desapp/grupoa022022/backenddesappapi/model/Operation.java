@@ -45,7 +45,11 @@ public class Operation {
     public Operation(Intention intention, User userWhoAccepts) {
         this.dateTime = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds();
         this.intention = intention;
+        intention.setOperation(this);
         this.userWhoAccepts = userWhoAccepts;
+        userWhoAccepts.addOperation(this);
+        intention.getUser().addOperation(this);
+        System.out.println("cantoperacionesusuario1"+intention.getUser().toString());
     }
 
     public IntentionType getType() {
@@ -92,14 +96,6 @@ public class Operation {
     private void addPointsToUsers(int points) {
         this.userWhoAccepts.addPoints(points);
         this.intention.getUser().addPoints(points);
-    }
-
-    public double volumeTraded(Set<Operation> operations) {
-        return operations.stream().mapToDouble(o -> o.getIntention().amountPriceInPesos()).sum();
-    }
-
-    public double amountInDollars(double amount, double dollarQuote) {
-        return amount / dollarQuote;
     }
 
     public void addAnOperationToUsers() {

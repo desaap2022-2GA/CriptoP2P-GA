@@ -11,9 +11,9 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DollarConvert;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -362,13 +362,6 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void getAmountInDollars() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
-        Operation operation = operationService.create(getSomeOperationRegister());
-
-        assertEquals(200, operationService.amountInDollars(operation, 30000.00, 150));
-    }
-
-    @Test
     void modifyAnOperationWithPaidState() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState {
         Operation operation = operationService.create(getSELLOperationRegister());
         OperationModify operationModify = new OperationModify(operation.getId(), OperationState.PAID, operation.getUserWhoAccepts().getId());
@@ -415,4 +408,29 @@ class OperationPersistenceTests {
 
         assertThrows(PriceExceedVariationWithRespectIntentionTypeLimits.class, () -> operationService.create(new OperationRegister(intentionId, getUserWhoAcceptDB2Id())));
     }
+
+    @Test
+    void whenTryToTakeAnIntentionAlreadyTakenThrowsException() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+        int intentionAlreadyTakenId = operationService.create(getSELLOperationRegister()).getIntention().getId();
+
+        assertThrows(IntentionAlreadyTaken.class, () -> operationService.create(new OperationRegister(intentionAlreadyTakenId, getIntentionDBId())));
+    }
+
+    @Test
+    void operationIsOnSetOperationOfUserWhoAcceptsAfterCryptoSentDone() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+        Operation operation = operationService.create(getSomeOperationRegister());
+        operationService.cryptoSendDone(operation);
+
+        assertTrue(userService.getFromDataBase(operation.getUserWhoAccepts().getId()).getOperations().stream().anyMatch(o -> o.getId()==operation.getId()));
+    }
+
+    @Test
+    void operationIsOnSetOperationOfUserWhoPostAfterCryptoSentDone() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+        Operation operation = operationService.create(getSomeOperationRegister());
+        operationService.cryptoSendDone(operation);
+
+        System.out.println("acaestamos"+userService.getFromDataBase(operation.getIntention().getUser().getId()).toString());
+        assertTrue(userService.getFromDataBase(operation.getIntention().getUser().getId()).getOperations().stream().anyMatch(o -> o.getId()==operation.getId()));
+    }
+
 }

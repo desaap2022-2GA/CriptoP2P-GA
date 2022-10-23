@@ -33,17 +33,15 @@ public interface IOperationService {
 
     String actionToDo(Operation operation, User user);
 
-    void cancelOperationByUser(Operation operation, User user);
+    void cancelOperationByUser(Operation operation, User user) throws ResourceNotFound;
 
-    void moneyTransferDone(Operation operation);
+    void moneyTransferDone(Operation operation) throws ResourceNotFound;
 
-    void cryptoSendDone(Operation operation);
+    void cryptoSendDone(Operation operation) throws ResourceNotFound;
 
     void assignBonusTimeToUsers(Operation operation);
 
     void addAnOperationToUsers(Operation operation);
-
-    double amountInDollars(Operation operation, double amount, double dollarQuote);
 
     OperationState  getState(Operation operation);
 
