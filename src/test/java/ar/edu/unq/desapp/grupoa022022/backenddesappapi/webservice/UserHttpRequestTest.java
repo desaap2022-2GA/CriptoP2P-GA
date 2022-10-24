@@ -43,14 +43,14 @@ class UserHttpRequestTest {
 
     @Test
     void gettingUserWithEmailGaudioYahooShouldReturnAnUserWithLastnameGaudio() throws Exception {
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/email/gaudio@yahoo.com",
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/users/qemail/gaudio@yahoo.com",
                 UserView.class)).toString().contains("Gaudio");
     }
 
     @Test
     void gettingUserOperationBetweenDatesReturnATradedBetweenDates() throws Exception {
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/operations-between-dates/1/10000000000/20000000000",
-                TradedBetweenDates.class));
+                TradedBetweenDates.class)).toString().contains("pesos");
     }
 
     @Test
@@ -76,12 +76,12 @@ class UserHttpRequestTest {
     void puttingUser1WithAddressHusaresShouldReturnThatChange() throws Exception {
 
         UserModify userModify = new UserModify("Roger", "Federer", "federer@gmail.com"
-                , "Av Libertador 5000","1234", "1236549877412589632145", "Zs59f4lo");
+                , "Husares 5000","1234", "1236549877412589632145", "Zs59f4lo");
 
         assertThat(this.restTemplate.exchange("http://localhost:" + port + "/users/{id}",
                 HttpMethod.PUT,
                 new HttpEntity<>(userModify, createJsonHeader()),
-                Void.class, 2));
+                Void.class, 2)).isNotNull();
     }
 
     private static HttpHeaders createJsonHeader() {

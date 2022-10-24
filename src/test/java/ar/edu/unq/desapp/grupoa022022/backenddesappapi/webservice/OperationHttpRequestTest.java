@@ -51,7 +51,7 @@ class OperationHttpRequestTest {
         assertThat(this.restTemplate.exchange("http://localhost:" + port + "/operations/{id}",
                 HttpMethod.PUT,
                 new HttpEntity<>(operationModify, createJsonHeader()),
-                Void.class, 1));
+                Void.class, 1)).toString().contains("CANCELLED");
     }
 
     @Test
@@ -59,7 +59,7 @@ class OperationHttpRequestTest {
         OperationRegister operationRegister = new OperationRegister(2,1);
 
         assertThat(this.restTemplate.postForEntity("http://localhost:" + port + "/operations",
-                operationRegister, OperationRegister.class));
+                operationRegister, OperationRegister.class)).toString().contains("ACTIVE");
     }
 
     private static HttpHeaders createJsonHeader() {
