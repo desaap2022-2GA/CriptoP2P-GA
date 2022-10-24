@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyLastQuote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
@@ -8,8 +9,12 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.ICryptocurren
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IQuoteRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service

@@ -1,8 +1,10 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyLastQuote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 

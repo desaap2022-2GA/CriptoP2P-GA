@@ -10,8 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.List;
 
 @SpringBootApplication
 public class BackendDesappApiApplication {
@@ -35,8 +39,12 @@ public class BackendDesappApiApplication {
         SpringApplication.run(BackendDesappApiApplication.class, args);
     }
 
-//	protected final Log logger = LogFactory.getLog(getClass());
-
+    //	protected final Log logger = LogFactory.getLog(getClass());
+/*    @Bean
+    public RestTemplate getRestTemplate() {
+        return new RestTemplate();
+    }
+*/
     @Value("${spring.datasource.driverClassName:NONE}")
     private String className;
 
@@ -60,9 +68,15 @@ public class BackendDesappApiApplication {
                 "Zwf5u5ef"));
 
         //CRYPTOCURRENCIES
+
         Cryptocurrency cryptocurrency = cryptocurrencyService.create(new CryptocurrencyRegister("DAI", 320.38));
 
         Cryptocurrency cryptocurrency2 = cryptocurrencyService.create(new CryptocurrencyRegister("BITCOIN", 5840798.98));
+
+        List<String> cryptocurrencyNameList = Arrays.asList("ALICEUSDT", "MATICUSDT", "AXSUSDT", "AAVEUSDT", "ATOMUSDT", "NEOUSDT", "DOTUSDT"
+                , "ETHUSDT", "CAKEUSDT", "BTCUSDT", "BNBUSDT", "ADAUSDT", "TRXUSDT", "AUDIOUSDT");
+
+        cryptocurrencyNameList.forEach(name -> cryptocurrencyService.create(new CryptocurrencyRegister(name, 0.00)));
 
         //QUOTES
         quoteService.create(cryptocurrency.getId(), 305.00);
