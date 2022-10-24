@@ -59,7 +59,7 @@ class OperationHttpRequestTest {
         OperationRegister operationRegister = new OperationRegister(2,1);
 
         assertThat(this.restTemplate.postForEntity("http://localhost:" + port + "/operations",
-                operationRegister, OperationRegister.class)).toString().contains("ACTIVE");
+                operationRegister, OperationView.class)).toString().contains("ACTIVE");
     }
 
     private static HttpHeaders createJsonHeader() {
