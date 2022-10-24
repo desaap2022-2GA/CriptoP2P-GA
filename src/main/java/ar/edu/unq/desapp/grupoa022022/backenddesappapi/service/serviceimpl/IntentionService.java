@@ -72,24 +72,4 @@ public class IntentionService implements IIntentionService {
     public List<Intention> getAll() {
         return intentionRepo.findAll();
     }
-
-    @Override
-    public double amountPriceInPesos(Intention intention) {
-        return intention.amountPriceInPesos();
-    }
-
-    @Override
-    public String transactionInfoToShow(Intention intention) {
-        return intention.transactionInfoToShow();
-    }
-
-    @Override
-    public int getOperationNumberUser(Intention intention) {
-        return intention.numberOperationsUser();
-    }
-
-    @Override
-    public int getUserReputation(Intention intention) {
-        return intention.getUserReputation();
-    }
 }

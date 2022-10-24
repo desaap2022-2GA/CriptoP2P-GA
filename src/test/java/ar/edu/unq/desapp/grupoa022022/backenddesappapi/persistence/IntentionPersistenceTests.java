@@ -160,34 +160,34 @@ class IntentionPersistenceTests {
     void getAmountPriceInPesosFromAnIntentionWithPrice335Units2() throws ResourceNotFound, PriceNotInAValidRange {
         Intention intention = intentionService.create(getIntentionRegisterWithPrice335Units2());
 
-        assertEquals(670, intentionService.amountPriceInPesos(intention));
+        assertEquals(670, intention.amountPriceInPesos());
     }
 
     @Test
     void getAddressCryptoWhenAskForInfoToShowOnBuyTypeIntention() throws ResourceNotFound, PriceNotInAValidRange {
         Intention intention = intentionService.create(getIntentionRegisterBUYType());
 
-        assertEquals("Xwf5u5ef", intentionService.transactionInfoToShow(intention));
+        assertEquals("Xwf5u5ef", intention.transactionInfoToShow());
     }
 
     @Test
     void getMercadoPagoCVUWhenAskForInfoToShowOnSELLTypeIntention() throws ResourceNotFound, PriceNotInAValidRange {
         Intention intention = intentionService.create(getIntentionRegisterSELLType());
 
-        assertEquals("6352879863528798635287", intentionService.transactionInfoToShow(intention));
+        assertEquals("6352879863528798635287", intention.transactionInfoToShow());
     }
 
     @Test
     void getReputation10FromUserWhoPostTheIntentionWith50Points5NumbersOperations() throws ResourceNotFound, PriceNotInAValidRange {
-        int intentionId = intentionService.create(getIntentionRegisterWithUserWhoHas50Point5NumberOperations()).getId();
+        Intention intention = intentionService.create(getIntentionRegisterWithUserWhoHas50Point5NumberOperations());
 
-        assertEquals(10, intentionService.getUserReputation(intentionService.findById(intentionId)));
+        assertEquals(10, intention.getUserReputation());
     }
 
     @Test
     void getOperationNumber5FromUserWhoPostTheIntentionWith5NumbersOperations() throws ResourceNotFound, PriceNotInAValidRange {
-        int intentionId = intentionService.create(getIntentionRegisterWithUserWhoHas50Point5NumberOperations()).getId();
+        Intention intention = intentionService.create(getIntentionRegisterWithUserWhoHas50Point5NumberOperations());
 
-        assertEquals(5, intentionService.getOperationNumberUser(intentionService.findById(intentionId)));
+        assertEquals(5, intention.numberOperationsUser());
     }
 }

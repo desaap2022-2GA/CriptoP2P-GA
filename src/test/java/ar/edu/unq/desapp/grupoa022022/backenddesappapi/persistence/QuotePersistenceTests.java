@@ -125,7 +125,7 @@ class QuotePersistenceTests {
         Quote quote = quoteService.create(getCryptocurrencyDB().getId(), dataSet.getSomePriceInRangeDAI());
         double intentionPrice = dataSet.getSomePriceInRangeDAI() * 0.95;
 
-        assertTrue(quoteService.intentionPriceInARangeOfFiveUpAndDownRespectToQuotePrice(intentionPrice, quote));
+        assertTrue(quote.intentionPriceInARangeOfFiveUpAndDown(intentionPrice));
     }
 
     @Test
@@ -133,7 +133,7 @@ class QuotePersistenceTests {
         Quote quote = quoteService.create(getCryptocurrencyDB().getId(), dataSet.getSomePriceInRangeDAI());
         double intentionPrice = dataSet.getSomePriceInRangeDAI() * 1.06;
 
-        assertFalse(quoteService.intentionPriceInARangeOfFiveUpAndDownRespectToQuotePrice(intentionPrice, quote));
+        assertFalse(quote.intentionPriceInARangeOfFiveUpAndDown(intentionPrice));
     }
 
     @Test
@@ -141,7 +141,7 @@ class QuotePersistenceTests {
         Quote quote = quoteService.create(getCryptocurrencyDB().getId(), dataSet.getSomePriceInRangeDAI());
         double intentionPrice = dataSet.getSomePriceInRangeDAI() * 1.01;
 
-        assertTrue(quoteService.intentionPriceHigherThanQuotePrice(intentionPrice, quote));
+        assertTrue(quote.intentionPriceHigherThanQuotePrice(intentionPrice));
     }
 
     @Test
@@ -149,7 +149,7 @@ class QuotePersistenceTests {
         Quote quote = quoteService.create(getCryptocurrencyDB().getId(), dataSet.getSomePriceInRangeDAI());
         double intentionPrice = dataSet.getSomePriceInRangeDAI() * 1;
 
-        assertFalse(quoteService.intentionPriceHigherThanQuotePrice(intentionPrice, quote));
+        assertFalse(quote.intentionPriceHigherThanQuotePrice(intentionPrice));
     }
 
     @Test
@@ -157,7 +157,7 @@ class QuotePersistenceTests {
         Quote quote = quoteService.create(getCryptocurrencyDB().getId(), dataSet.getSomePriceInRangeDAI());
         double intentionPrice = dataSet.getSomePriceInRangeDAI() * 0.90;
 
-        assertTrue(quoteService.intentionPriceLowerThanQuotePrice(intentionPrice, quote));
+        assertTrue(quote.intentionPriceLowerThanQuotePrice(intentionPrice));
     }
 
     @Test
@@ -165,6 +165,6 @@ class QuotePersistenceTests {
         Quote quote = quoteService.create(getCryptocurrencyDB().getId(), dataSet.getSomePriceInRangeDAI());
         double intentionPrice = dataSet.getSomePriceInRangeDAI() * 1.90;
 
-        assertFalse(quoteService.intentionPriceLowerThanQuotePrice(intentionPrice, quote));
+        assertFalse(quote.intentionPriceLowerThanQuotePrice(intentionPrice));
     }
 }

@@ -63,19 +63,4 @@ public class QuoteService implements IQuoteService {
                 () -> new ResourceNotFound("Quote not found with id " + id)
         );
     }
-
-    @Override
-    public boolean intentionPriceInARangeOfFiveUpAndDownRespectToQuotePrice(double intentionPrice, Quote quote) {
-        return quote.intentionPriceInARangeOfFiveUpAndDown(intentionPrice);
-    }
-
-    @Override
-    public boolean intentionPriceHigherThanQuotePrice(double intentionPrice, Quote quote) {
-        return quote.intentionPriceHigherThanQuotePrice(intentionPrice);
-    }
-
-    @Override
-    public boolean intentionPriceLowerThanQuotePrice(double intentionPrice, Quote quote) {
-        return quote.intentionPriceLowerThanQuotePrice(intentionPrice);
-    }
 }

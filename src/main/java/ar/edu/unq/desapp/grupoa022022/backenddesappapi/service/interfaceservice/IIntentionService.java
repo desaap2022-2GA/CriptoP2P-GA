@@ -20,12 +20,4 @@ public interface IIntentionService {
     Intention findById(int id) throws ResourceNotFound;
 
     List<Intention> getAll();
-
-    double amountPriceInPesos(Intention intention);
-
-    String transactionInfoToShow(Intention intention);
-
-    int getOperationNumberUser(Intention intention) throws ResourceNotFound;
-
-    int getUserReputation(Intention intention) throws ResourceNotFound;
 }

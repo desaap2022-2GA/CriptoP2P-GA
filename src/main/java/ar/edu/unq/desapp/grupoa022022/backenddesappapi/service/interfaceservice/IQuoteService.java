@@ -17,10 +17,4 @@ public interface IQuoteService {
     List<Quote> getAll();
 
     Quote findById(int id) throws ResourceNotFound;
-
-    boolean intentionPriceInARangeOfFiveUpAndDownRespectToQuotePrice(double intentionPrice, Quote quote);
-
-    boolean intentionPriceHigherThanQuotePrice(double intentionPrice, Quote quote);
-
-    boolean intentionPriceLowerThanQuotePrice(double intentionPrice, Quote quote);
 }

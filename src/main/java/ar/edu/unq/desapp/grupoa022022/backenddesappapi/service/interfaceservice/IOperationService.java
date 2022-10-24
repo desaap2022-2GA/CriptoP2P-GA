@@ -9,8 +9,6 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.Intentio
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.InvalidState;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceExceedVariationWithRespectIntentionTypeLimits;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 import java.util.List;
 
 public interface IOperationService {
@@ -28,14 +26,6 @@ public interface IOperationService {
 
     List<Operation> getAll();
 
-    IntentionType getType(Operation operation);
-
-    String getTransactionInfoToShow(Operation operation);
-
-    int getUserReputation(Operation operation);
-
-    String actionToDo(Operation operation, User user);
-
     void cancelOperationByUser(Operation operation, User user) throws ResourceNotFound;
 
     void moneyTransferDone(Operation operation) throws ResourceNotFound;
@@ -45,8 +35,6 @@ public interface IOperationService {
     void assignBonusTimeToUsers(Operation operation);
 
     void addAnOperationToUsers(Operation operation);
-
-    OperationState getState(Operation operation);
 
     void modify(OperationModify operationModify) throws ResourceNotFound, InvalidState;
 }

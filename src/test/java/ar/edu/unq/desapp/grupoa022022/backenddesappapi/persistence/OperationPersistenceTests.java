@@ -245,56 +245,56 @@ class OperationPersistenceTests {
     @Test
     void getSellTypeWhenAskForAnOperationTypeMadeWithASellIntentionType() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         Operation operation = operationService.create(getSELLOperationRegister());
-        assertEquals(IntentionType.SELL, operationService.getType(operation));
+        assertEquals(IntentionType.SELL, operation.getType());
     }
 
     @Test
     void getAddressWalletInfoWhenAskTransactionInfoInABuyIntentionTypeOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         Operation operation = operationService.create(getBUYOperationRegister());
 
-        assertEquals("Xwf5u5ef", operationService.getTransactionInfoToShow(operation));
+        assertEquals("Xwf5u5ef", operation.getTransactionInfoToShow());
     }
 
     @Test
     void getMercadoPagoCvuInfoWhenAskTransactionInfoInASellIntentionTypeOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         Operation operation = operationService.create(getSELLOperationRegister());
 
-        assertEquals("6352879863528798635287", operationService.getTransactionInfoToShow(operation));
+        assertEquals("6352879863528798635287", operation.getTransactionInfoToShow());
     }
 
     @Test
     void getUserReputationFromOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         Operation operation = operationService.create(getOperationRegisterWithUserPostWhoHas30Point3NumberOperations());
 
-        assertEquals(10, operationService.getUserReputation(operation));
+        assertEquals(10, operation.getUserReputation());
     }
 
     @Test
     void getActionToDoMakeTransferFromOperationWithIntentionTypeSELLAndUserUserWhoAccept() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         Operation operation = operationService.create(getSELLOperationRegister());
 
-        assertEquals("Make transfer", operationService.actionToDo(operation, operation.getUserWhoAccepts()));
+        assertEquals("Make transfer", operation.actionToDo(operation.getUserWhoAccepts()));
     }
 
     @Test
     void getActionToDoConfirmReceptionFromOperationWithIntentionTypeSELLAndUserUserWhoPost() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         Operation operation = operationService.create(getSELLOperationRegister());
 
-        assertEquals("Confirm reception", operationService.actionToDo(operation, operation.getIntention().getUser()));
+        assertEquals("Confirm reception", operation.actionToDo(operation.getIntention().getUser()));
     }
 
     @Test
     void getActionToDoConfirmReceptionFromOperationWithIntentionTypeBUYAndUserUserWhoAccept() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         Operation operation = operationService.create(getBUYOperationRegister());
 
-        assertEquals("Confirm reception", operationService.actionToDo(operation, operation.getUserWhoAccepts()));
+        assertEquals("Confirm reception", operation.actionToDo(operation.getUserWhoAccepts()));
     }
 
     @Test
     void getActionToDoMakeTransferFromOperationWithIntentionTypeBUYAndUserUserWhoPost() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         Operation operation = operationService.create(getBUYOperationRegister());
 
-        assertEquals("Make transfer", operationService.actionToDo(operation, operation.getIntention().getUser()));
+        assertEquals("Make transfer", operation.actionToDo(operation.getIntention().getUser()));
     }
 
     @Test
@@ -316,7 +316,7 @@ class OperationPersistenceTests {
     @Test
     void getACTIVEStateFromNewOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         Operation operation = operationService.create(getSomeOperationRegister());
-        assertEquals(OperationState.ACTIVE, operationService.getState(operation));
+        assertEquals(OperationState.ACTIVE, operation.getState());
     }
 
     @Test
@@ -324,7 +324,7 @@ class OperationPersistenceTests {
         Operation operation = operationService.create(getSomeOperationRegister());
         operationService.cancelOperationByUser(operation, operation.getUserWhoAccepts());
 
-        assertEquals(OperationState.CANCELLED, operationService.getState(operation));
+        assertEquals(OperationState.CANCELLED, operation.getState());
     }
 
     @Test
@@ -332,7 +332,7 @@ class OperationPersistenceTests {
         Operation operation = operationService.create(getSomeOperationRegister());
         operationService.moneyTransferDone(operation);
 
-        assertEquals(OperationState.PAID, operationService.getState(operation));
+        assertEquals(OperationState.PAID, operation.getState());
     }
 
     @Test
@@ -340,7 +340,7 @@ class OperationPersistenceTests {
         Operation operation = operationService.create(getSomeOperationRegister());
         operationService.cryptoSendDone(operation);
 
-        assertEquals(OperationState.CRYPTOSENT, operationService.getState(operation));
+        assertEquals(OperationState.CRYPTOSENT, operation.getState());
     }
 
     @Test

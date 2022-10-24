@@ -15,8 +15,6 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IOperationRep
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IOperationService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IUserService;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -92,26 +90,6 @@ public class OperationService implements IOperationService {
     }
 
     @Override
-    public IntentionType getType(Operation operation) {
-        return operation.getType();
-    }
-
-    @Override
-    public String getTransactionInfoToShow(Operation operation) {
-        return operation.getTransactionInfoToShow();
-    }
-
-    @Override
-    public int getUserReputation(Operation operation) {
-        return operation.getUserReputation();
-    }
-
-    @Override
-    public String actionToDo(Operation operation, User user) {
-        return operation.actionToDo(user);
-    }
-
-    @Override
     public void cancelOperationByUser(Operation operation, User user) {
         operation.cancelOperationByUser(user);
         operationRepo.save(operation);
@@ -138,11 +116,6 @@ public class OperationService implements IOperationService {
     public void addAnOperationToUsers(Operation operation) {
         operation.addAnOperationToUsers();
         this.update(operation);
-    }
-
-    @Override
-    public OperationState getState(Operation operation) {
-        return operation.getState();
     }
 
     @Override

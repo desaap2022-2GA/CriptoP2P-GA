@@ -108,7 +108,7 @@ class CryptocurrencyPersistenceTests {
         quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
         int quote2Id = quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI() + 2000).getId();
 
-        assertEquals(quote2Id, cryptocurrencyService.getLatestQuote(cryptocurrencyService.findById(cryptocurrency.getId())).getId());
+        assertEquals(quote2Id, cryptocurrencyService.findById(cryptocurrency.getId()).latestQuote().getId());
     }
 
     @Test
@@ -122,7 +122,7 @@ class CryptocurrencyPersistenceTests {
         oldQuote.setDateTime(new DateTimeInMilliseconds().getCurrentTimeMinusOneDayInMilliseconds());
         quoteService.update(oldQuote);
 
-        assertEquals(5, cryptocurrencyService.last24hoursQuotes(cryptocurrencyService.findById(cryptocurrency.getId())).size());
+        assertEquals(5, cryptocurrencyService.findById(cryptocurrency.getId()).last24HoursQuotes().size());
     }
 
     @Test
@@ -149,6 +149,6 @@ class CryptocurrencyPersistenceTests {
     void getEmptyIntentionsFromACryptocurrencyWithoutIntentions() {
         Cryptocurrency cryptocurrency = getCryptocurrencyDB();
 
-        assertTrue(cryptocurrencyService.getReferencedIntentions(cryptocurrency).isEmpty());
+        assertTrue(cryptocurrency.getIntentions().isEmpty());
     }
 }
