@@ -1,10 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptoDetails;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.HelperDTO;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserModify;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRange;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
@@ -120,7 +117,13 @@ class UtilsTests {
         assertEquals(dataString(user), dataString(userReturned));
     }
 
+    @Test
+    void oneCryptoDetailsIsPresentOnSetWhenItIsAddedToIt(){
+        TradedBetweenDates tradedBetweenDates = new TradedBetweenDates(200.00, 40000);
+        tradedBetweenDates.addCryptoDetails(new CryptoDetails("X",2,1.00,2.00));
 
+        assertEquals(1, tradedBetweenDates.getCryptoDetails().size());
+    }
 
     public String dataString(User user) {
         return user.getName() + user.getLastname() + user.getEmail() + user.getAddress() + user.getPassword() + user.getMercadoPagoCVU() + user.getAddressWalletActiveCripto();
