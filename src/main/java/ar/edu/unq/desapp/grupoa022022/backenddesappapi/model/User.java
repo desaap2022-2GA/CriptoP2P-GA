@@ -171,5 +171,4 @@ public class User {
     public double volumeTraded(Set<Operation> operations) {
         return operations.stream().mapToDouble(o -> o.getIntention().amountPriceInPesos()).sum();
     }
-
 }
