@@ -120,6 +120,8 @@ class UtilsTests {
         assertEquals(dataString(user), dataString(userReturned));
     }
 
+
+
     public String dataString(User user) {
         return user.getName() + user.getLastname() + user.getEmail() + user.getAddress() + user.getPassword() + user.getMercadoPagoCVU() + user.getAddressWalletActiveCripto();
     }
