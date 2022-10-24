@@ -1,14 +1,12 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.QuoteRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -42,8 +40,7 @@ class IntentionHttpRequestTest {
     }
 
     @Test
-    void postingAnIntentionWithPrice333_33ShouldReturnAListThatIncludesIt() throws Exception {
-
+    void postingAnIntentionWithPrice333_33ShouldReturnIt() throws Exception {
         IntentionRegister intentionRegister = new IntentionRegister(IntentionType.BUY,1,333.33,2,1);
 
         assertThat(this.restTemplate.postForEntity("http://localhost:" + port + "/intentions",

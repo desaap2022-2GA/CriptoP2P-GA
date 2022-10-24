@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
-public class UtilsTests {
+class UtilsTests {
 
     @Autowired
     CryptocurrencyService cryptocurrencyService;

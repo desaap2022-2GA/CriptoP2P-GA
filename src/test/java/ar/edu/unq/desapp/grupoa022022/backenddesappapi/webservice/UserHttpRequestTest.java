@@ -48,6 +48,12 @@ class UserHttpRequestTest {
     }
 
     @Test
+    void gettingUserOperationBetweenDatesReturnATradedBetweenDates() throws Exception {
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/operations-between-dates/1/10000000000/20000000000",
+                TradedBetweenDates.class));
+    }
+
+    @Test
     void postingAnUserWithNameRogerShouldReturnAListThatIncludesIt() throws Exception {
 
         UserRegister userRegister = new UserRegister("Roger", "Federer", "federer@gmail.com"
@@ -75,7 +81,7 @@ class UserHttpRequestTest {
         assertThat(this.restTemplate.exchange("http://localhost:" + port + "/users/{id}",
                 HttpMethod.PUT,
                 new HttpEntity<>(userModify, createJsonHeader()),
-                Void.class, 2)).toString().contains("lolala");
+                Void.class, 2));
     }
 
     private static HttpHeaders createJsonHeader() {
