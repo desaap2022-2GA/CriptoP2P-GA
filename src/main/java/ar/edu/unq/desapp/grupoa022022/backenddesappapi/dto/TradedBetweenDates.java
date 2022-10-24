@@ -1,12 +1,14 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 public class TradedBetweenDates {
 
     private long date;
