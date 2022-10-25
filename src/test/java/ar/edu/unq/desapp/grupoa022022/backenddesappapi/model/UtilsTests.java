@@ -63,13 +63,13 @@ public class UtilsTests {
 
         assertTrue(helperDTO.firstNotNullAndFirstAndSecondNotEquals("0", "1"));
     }
-
+/*
     @Test
     void getAmountInDollars() {
 
         assertEquals(150, new DollarConvert().amountInDollars(30000.00));
     }
-
+*/
     //SERVICE
 
     @Test
