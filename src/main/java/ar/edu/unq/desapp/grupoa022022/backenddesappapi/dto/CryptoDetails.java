@@ -1,9 +1,13 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 public class CryptoDetails {
 

@@ -58,7 +58,7 @@ class UserPersistenceTests {
 
     @BeforeEach
     public void init() {
- //       LOG.info("startup");
+        //       LOG.info("startup");
         operationService.deleteAll();
         intentionService.deleteAll();
         cryptocurrencyService.deleteAll();
@@ -187,4 +187,22 @@ class UserPersistenceTests {
         assertEquals(0, userService.getAllUsers().size());
     }
 
+    @Test
+    void updateAnUserAnCheckPersistence() throws ExceptionsUser, ResourceNotFound {
+        prueUser1.setPassword(encoder.encode("3546DelpoWinner"));
+        int idUSer1 = userRepo.save(prueUser1).getId();
+        User userRecov = userRepo.findById(idUSer1).get();
+        userRecov.setEmail("rogerFederer@gmail.com");
+        userService.update(userRecov);
+
+        assertEquals("rogerFederer@gmail.com", userService.findById(idUSer1).getEmail());
+    }
+
+    @Test
+    void checkIfAnEmailIsInTheDatabaseAndThrowsAException() throws EmailAlreadyExists, ExceptionsUser {
+        prueUser1.setPassword(encoder.encode("3546DelpoWinner"));
+        userRepo.save(prueUser1);
+
+        assertThrows(EmailAlreadyExists.class, () -> userService.checkNewUserEmail(prueUser1.getEmail()));
+    }
 }

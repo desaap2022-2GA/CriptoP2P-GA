@@ -1,10 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationModify;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
@@ -427,5 +424,16 @@ class OperationPersistenceTests {
         operationService.cryptoSendDone(operation);
 
         assertTrue(userService.getFromDataBase(operation.getUserWhoAccepts().getId()).getOperations().stream().anyMatch(o -> o.getId() == operation.getId()));
+    }
+
+    @Test
+    void operationViewClassIsObtainAfterOpenIsCalledWithAndOperationRegister() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+        assertEquals(OperationView.class, operationService.open(getSomeOperationRegister()).getClass());
+    }
+
+    @Test
+    void operationViewStringInfoObtainAfterOpenIsCalledWithAndOperationRegister() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+        assertEquals("OperationView(cryptocurrency=DAI, nominalAmount=961.14, quote=320.38, userWhoPostCompleteName=Paston Gaudio, operationNumber=0, reputation=0, sentAddress=Xwf5u5ef, actionToDo=Confirm reception)"
+                , operationService.open(getSomeOperationRegister()).toString());
     }
 }

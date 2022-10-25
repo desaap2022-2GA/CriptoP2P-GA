@@ -26,7 +26,7 @@ public class OperationController {
         return operationService.open(operationRegister);
     }
 
-    @PutMapping
+    @PutMapping(value = "/{id}")
     public void modifyOperation(@RequestBody OperationModify operationModify) throws ResourceNotFound, InvalidState {
         operationService.modify(operationModify);
     }

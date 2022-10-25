@@ -1,13 +1,18 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -40,11 +45,26 @@ class OperationHttpRequestTest {
     }
 
     @Test
-    void postingAnOperationWithPrice333_33ShouldReturnAListThatIncludesIt() throws Exception {
+    void puttingOperationWithID1OperationStateCancelledUserID2() throws Exception {
+        OperationModify operationModify = new OperationModify(1, OperationState.CANCELLED,2);
 
-        IntentionRegister intentionRegister = new IntentionRegister(IntentionType.BUY,1,333.33,2,1);
+        assertThat(this.restTemplate.exchange("http://localhost:" + port + "/operations/{id}",
+                HttpMethod.PUT,
+                new HttpEntity<>(operationModify, createJsonHeader()),
+                Void.class, 1)).toString().contains("CANCELLED");
+    }
+
+    @Test
+    void postingAnOperationWithIntentionID2AndUserID1ShouldReturnAListThatIncludesIt() throws Exception {
+        OperationRegister operationRegister = new OperationRegister(2,1);
 
         assertThat(this.restTemplate.postForEntity("http://localhost:" + port + "/operations",
-                intentionRegister, IntentionRegister.class)).toString().contains("333.33");
+                operationRegister, OperationView.class)).toString().contains("ACTIVE");
+    }
+
+    private static HttpHeaders createJsonHeader() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        return httpHeaders;
     }
 }

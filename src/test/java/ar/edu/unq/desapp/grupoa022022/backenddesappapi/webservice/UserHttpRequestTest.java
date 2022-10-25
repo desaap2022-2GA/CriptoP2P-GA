@@ -1,13 +1,11 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,8 +41,14 @@ class UserHttpRequestTest {
 
     @Test
     void gettingUserWithEmailGaudioYahooShouldReturnAnUserWithLastnameGaudio() throws Exception {
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/email/gaudio@yahoo.com",
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/users/qemail/gaudio@yahoo.com",
                 UserView.class)).toString().contains("Gaudio");
+    }
+
+    @Test
+    void gettingUserOperationBetweenDatesReturnATradedBetweenDates() throws Exception {
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/operations-between-dates/1/10000000000/20000000000",
+                TradedBetweenDates.class)).toString().contains("pesos");
     }
 
     @Test
@@ -70,12 +74,12 @@ class UserHttpRequestTest {
     void puttingUser1WithAddressHusaresShouldReturnThatChange() throws Exception {
 
         UserModify userModify = new UserModify("Roger", "Federer", "federer@gmail.com"
-                , "Av Libertador 5000","1234", "1236549877412589632145", "Zs59f4lo");
+                , "Husares 5000","1234", "1236549877412589632145", "Zs59f4lo");
 
         assertThat(this.restTemplate.exchange("http://localhost:" + port + "/users/{id}",
                 HttpMethod.PUT,
                 new HttpEntity<>(userModify, createJsonHeader()),
-                Void.class, 2)).toString().contains("lolala");
+                Void.class, 2)).isNotNull();
     }
 
     private static HttpHeaders createJsonHeader() {
