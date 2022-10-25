@@ -6,12 +6,12 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
@@ -39,19 +39,19 @@ public class BackendDesappApiApplication {
         SpringApplication.run(BackendDesappApiApplication.class, args);
     }
 
-    //	protected final Log logger = LogFactory.getLog(getClass());
-/*    @Bean
-    public RestTemplate getRestTemplate() {
-        return new RestTemplate();
-    }
-*/
+    protected final Logger logger = LogManager.getLogger(getClass());
+    /*    @Bean
+        public RestTemplate getRestTemplate() {
+            return new RestTemplate();
+        }
+    */
     @Value("${spring.datasource.driverClassName:NONE}")
     private String className;
 
     @PostConstruct
     public void initialize() throws PriceNotInAValidRange, IntentionAlreadyTaken, ResourceNotFound, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState {
         if (className.equals("org.h2.Driver")) {
-//			logger.info("Init Data Using H2 DB");
+            logger.info("Init Data Using H2 DB");
             fireInitialData();
         }
     }
