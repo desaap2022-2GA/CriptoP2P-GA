@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class IntentionService implements IIntentionService {
@@ -72,4 +73,17 @@ public class IntentionService implements IIntentionService {
     public List<Intention> getAll() {
         return intentionRepo.findAll();
     }
+
+    @Override
+    public List<Intention> getIntentionActive() {
+        List<Intention> intentions = intentionRepo.findAll();
+
+        List<Intention> activeIntentions = intentions.stream()
+                .filter(i -> i.isTaken()== false)
+                .collect(Collectors.toList());
+
+        return (activeIntentions.size() > 0 ? activeIntentions : (List<Intention>) new ResourceNotFound("Not found intention active")
+        );
+    };
+
 }

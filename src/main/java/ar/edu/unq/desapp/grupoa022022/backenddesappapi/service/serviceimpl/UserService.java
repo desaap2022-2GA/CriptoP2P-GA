@@ -13,10 +13,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DollarConvert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService implements IUserService {
@@ -123,5 +120,19 @@ public class UserService implements IUserService {
 
     public void update(User user) {
         userRepo.save(user);
+    }
+
+    @Override
+    public List<UserQuery> getListUsers() throws ExceptionsUser {
+
+        ArrayList userList = new ArrayList();
+        List<User> users = userRepo.findAll();
+        for (User us : users) {
+            UserQuery user = new UserQuery(us.getName(), us.getLastname(), us.getNumberOperations(),
+                    us.getReputation());
+
+            userList.add(user);
+        }
+        return userList.stream().toList();
     }
 }

@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserModify;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserQuery;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
@@ -41,4 +42,6 @@ public interface IUserService {
     Object login(String email, String password) throws ResourceNotFound;
 
     void update(User user);
+
+    List<UserQuery> getListUsers() throws ExceptionsUser;
 }

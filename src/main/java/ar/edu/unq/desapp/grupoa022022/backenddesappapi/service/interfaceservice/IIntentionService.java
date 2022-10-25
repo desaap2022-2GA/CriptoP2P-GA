@@ -20,4 +20,6 @@ public interface IIntentionService {
     Intention findById(int id) throws ResourceNotFound;
 
     List<Intention> getAll();
+
+    List<Intention> getIntentionActive();
 }

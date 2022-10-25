@@ -11,13 +11,13 @@ import java.util.Set;
 @Setter
 public class TradedBetweenDates {
 
-    private long date;
+    private String date;
     private double dollarAmount;
     private double pesosAmount;
     Set<CryptoDetails> cryptoDetails = new HashSet<>();
 
     public TradedBetweenDates(double dollarAmount, double pesosAmount){
-        this.date = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds();
+        this.date = new DateTimeInMilliseconds().getCurrentTimeMinus30MinutesInMillisecondsDateFormat();
         this.dollarAmount = dollarAmount;
         this.pesosAmount = pesosAmount;
     }

@@ -32,4 +32,14 @@ public class IntentionController {
     public List<Intention> listAllIntentions() {
         return intentionService.getAll();
     }
+
+    @GetMapping(value = "/intention/active")
+    public List<Intention> listIntentionActive() {
+        return intentionService.getIntentionActive();
+    }
+
+    @GetMapping(value = "/intention/{id}")
+    public Intention getIntentionById(int id) throws ResourceNotFound {
+        return intentionService.findById(id);
+    }
 }
