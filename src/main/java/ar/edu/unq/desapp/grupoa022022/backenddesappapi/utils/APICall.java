@@ -16,8 +16,7 @@ public class APICall {
 
         Casa responseBean = objetosCasa.getBody()[1].getCasa();
         String quoteDollarBlueSale = responseBean.getVenta();
-        Double quote = Double.parseDouble(quoteDollarBlueSale);
 
-        return quote;
+        return Double.parseDouble(quoteDollarBlueSale);
     }
 }

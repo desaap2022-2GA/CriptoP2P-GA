@@ -8,6 +8,9 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.Resource
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.ICryptocurrencyRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IQuoteRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
+import lombok.extern.log4j.Log4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,7 @@ import java.util.List;
 @Service
 public class CryptocurrencyService implements ICryptocurrencyService {
 
+    protected final Logger logger = LogManager.getLogger(getClass());
     RestTemplate restTemplate = new RestTemplate();
     @Autowired
     private ICryptocurrencyRepo cryptocurrencyRepo;
@@ -76,12 +80,12 @@ public class CryptocurrencyService implements ICryptocurrencyService {
 
         cryptocurrencyNameList.forEach(name -> {
             String url = "https://api1.binance.com/api/v3/ticker/price?symbol="+name;
-            System.out.println("Url is : " + url);
+            logger.info("Url is : " + url);
 
             ResponseEntity<CryptocurrencyLastQuote> cryptoCurrencyLastQuote =
                     restTemplate.getForEntity(url, CryptocurrencyLastQuote.class);
 
-            System.out.println("Response status code is: " + cryptoCurrencyLastQuote.getStatusCode());
+            logger.info("Response status code is: " + cryptoCurrencyLastQuote.getStatusCode());
             CryptocurrencyLastQuote responseBean = cryptoCurrencyLastQuote.getBody();
 
             cryptocurrencyLastQuotesList.add(responseBean);

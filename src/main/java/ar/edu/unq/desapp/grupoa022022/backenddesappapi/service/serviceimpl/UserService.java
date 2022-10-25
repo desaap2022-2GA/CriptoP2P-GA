@@ -12,6 +12,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DollarConvert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -76,6 +77,7 @@ public class UserService implements IUserService {
             throw new EmailAlreadyExists("The email is already registered");
         }
     }
+
     @Override
     public UserView findByPassword(String password) throws ResourceNotFound {
         return helper.userToUserView(userRepo.findByPassword(password).orElseThrow(
@@ -87,7 +89,7 @@ public class UserService implements IUserService {
     public Object login(String email, String password) throws ResourceNotFound {
         UserView user = findByPassword(password);
 
-        return (user.getEmail().equals(email))? user: new ResourceNotFound("Incorrect email or password");
+        return (user.getEmail().equals(email)) ? user : new ResourceNotFound("Incorrect email or password");
     }
 
     @Override
@@ -96,16 +98,12 @@ public class UserService implements IUserService {
         Set<Operation> operations = user.operationsBetweenDates(firstDate, secondDate);
 
         double amountInPesos = user.volumeTraded(operations);
-        double amountInDollars = new DollarConvert().amountInDollars(amountInPesos) ;
+        double amountInDollars = new DollarConvert().amountInDollars(amountInPesos);
         TradedBetweenDates tradedBetweenDates = new TradedBetweenDates(amountInDollars, amountInPesos);
-        operations.forEach(operation -> {
+        for (Operation operation : operations) {
             Intention intention = operation.getIntention();
-            try {
-                tradedBetweenDates.addCryptoDetails(helper.intentionToCryptoDetails(intention));
-            } catch (ResourceNotFound e) {
-                throw new RuntimeException(e);
-            }
-        });
+            tradedBetweenDates.addCryptoDetails(helper.intentionToCryptoDetails(intention));
+        }
         return tradedBetweenDates;
     }
 
@@ -123,7 +121,7 @@ public class UserService implements IUserService {
         );
     }
 
-    public void update(User user){
+    public void update(User user) {
         userRepo.save(user);
     }
 }

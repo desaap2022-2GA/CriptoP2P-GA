@@ -40,11 +40,7 @@ public class BackendDesappApiApplication {
     }
 
     protected final Logger logger = LogManager.getLogger(getClass());
-    /*    @Bean
-        public RestTemplate getRestTemplate() {
-            return new RestTemplate();
-        }
-    */
+
     @Value("${spring.datasource.driverClassName:NONE}")
     private String className;
 
