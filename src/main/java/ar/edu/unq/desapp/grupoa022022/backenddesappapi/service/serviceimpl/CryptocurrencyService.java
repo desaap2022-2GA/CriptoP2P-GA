@@ -20,6 +20,7 @@ import java.util.List;
 @Service
 public class CryptocurrencyService implements ICryptocurrencyService {
 
+    RestTemplate restTemplate = new RestTemplate();
     @Autowired
     private ICryptocurrencyRepo cryptocurrencyRepo;
 
@@ -63,5 +64,28 @@ public class CryptocurrencyService implements ICryptocurrencyService {
         return cryptocurrencyRepo.findById(id).orElseThrow(
                 () -> new ResourceNotFound("Cryptocurrency not found with id " + id)
         );
+    }
+
+    @Override
+    public List<CryptocurrencyLastQuote> latestQuotes(){
+
+        List<CryptocurrencyLastQuote> cryptocurrencyLastQuotesList = new ArrayList<>();
+
+        List<String> cryptocurrencyNameList = Arrays.asList("ALICEUSDT", "MATICUSDT", "AXSUSDT", "AAVEUSDT", "ATOMUSDT", "NEOUSDT", "DOTUSDT"
+                , "ETHUSDT", "CAKEUSDT", "BTCUSDT", "BNBUSDT", "ADAUSDT", "TRXUSDT", "AUDIOUSDT");
+
+        cryptocurrencyNameList.forEach(name -> {
+            String url = "https://api1.binance.com/api/v3/ticker/price?symbol="+name;
+            System.out.println("Url is : " + url);
+
+            ResponseEntity<CryptocurrencyLastQuote> cryptoCurrencyLastQuote =
+                    restTemplate.getForEntity(url, CryptocurrencyLastQuote.class);
+
+            System.out.println("Response status code is: " + cryptoCurrencyLastQuote.getStatusCode());
+            CryptocurrencyLastQuote responseBean = cryptoCurrencyLastQuote.getBody();
+
+            cryptocurrencyLastQuotesList.add(responseBean);
+        });
+        return cryptocurrencyLastQuotesList;
     }
 }

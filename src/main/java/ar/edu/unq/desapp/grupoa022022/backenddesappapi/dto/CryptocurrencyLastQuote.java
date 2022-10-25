@@ -1,14 +1,17 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
-@Data
+import java.math.BigDecimal;
+
+@Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class CryptocurrencyLastQuote {
     @JsonProperty("symbol")
     private String name;
     @JsonProperty("price")
-    private Double lastQuote;
+    private BigDecimal lastQuote;
 }

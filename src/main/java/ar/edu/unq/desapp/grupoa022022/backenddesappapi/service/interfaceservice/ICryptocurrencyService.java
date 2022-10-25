@@ -20,4 +20,6 @@ public interface ICryptocurrencyService {
     List<Cryptocurrency> getAll();
 
     Cryptocurrency findById(int id) throws ResourceNotFound;
+
+    List<CryptocurrencyLastQuote> latestQuotes();
 }
