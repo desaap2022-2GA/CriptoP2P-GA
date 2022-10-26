@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 public class OperationRegister {
 

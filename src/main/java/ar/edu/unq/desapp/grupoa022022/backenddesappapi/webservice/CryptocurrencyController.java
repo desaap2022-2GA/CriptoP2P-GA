@@ -7,7 +7,6 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
 import javax.validation.Valid;
 import java.util.List;
 

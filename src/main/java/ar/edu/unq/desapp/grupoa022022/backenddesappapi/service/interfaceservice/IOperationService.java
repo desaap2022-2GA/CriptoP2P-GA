@@ -22,9 +22,9 @@ public interface IOperationService {
 
     void deleteAll();
 
-    Operation findById(int id) throws ResourceNotFound;
+    OperationView getOperationById(int operationId, int userId) throws ResourceNotFound;
 
-    List<Operation> getAll();
+    Operation findById(int id) throws ResourceNotFound;
 
     void cancelOperationByUser(Operation operation, User user) throws ResourceNotFound;
 

@@ -72,6 +72,6 @@ public class HelperDTO {
         String completeName = user.getName() + " " + user.getLastname();
         return new OperationView(intention.getCryptocurrency().getName(), intention.actualAmountPriceInPesos()
                 , cryptocurrency.latestQuote().getPrice(), completeName, user.getNumberOperations(), user.getReputation()
-                , intention.transactionInfoToShow(), operation.actionToDo(userWhoAsk));
+                , intention.transactionInfoToShow(userWhoAsk), operation.actionToDo(userWhoAsk));
     }
 }

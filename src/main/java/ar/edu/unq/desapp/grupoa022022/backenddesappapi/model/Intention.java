@@ -11,6 +11,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
@@ -78,16 +79,20 @@ public class Intention {
         return this.actualAmountPriceInPesos() / dollarPrice;
     }
 
-    public int numberOperationsUser() {
-        return this.user.getNumberOperations();
+    public String transactionInfoToShow(User userWhoAsk) {
+
+        String infoMessage = "";
+
+        switch (this.getType()) {
+            case SELL -> infoMessage = (this.conditionToShowInfoMessage(userWhoAsk))
+                    ? this.operation.getUserWhoAccepts().getAddressWalletActiveCripto() : this.user.getMercadoPagoCVU();
+            case BUY -> infoMessage = (this.conditionToShowInfoMessage(userWhoAsk))
+                    ? this.operation.getUserWhoAccepts().getMercadoPagoCVU() : this.user.getAddressWalletActiveCripto();
+        }
+        return infoMessage;
     }
 
-    public int getUserReputation() {
-        return this.user.getReputation();
-    }
-
-    public String transactionInfoToShow() {
-        return (this.type == IntentionType.SELL) ? this.user.getMercadoPagoCVU()
-                : this.user.getAddressWalletActiveCripto();
+    public boolean conditionToShowInfoMessage(User userWhoAsk) {
+        return Objects.equals(this.user, userWhoAsk);
     }
 }

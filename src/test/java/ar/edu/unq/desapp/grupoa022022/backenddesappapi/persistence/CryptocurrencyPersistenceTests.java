@@ -11,6 +11,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IQuoteService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +49,9 @@ class CryptocurrencyPersistenceTests {
     public Cryptocurrency getCryptocurrencyDB4(){ return cryptocurrencyService.create(cryptocurrencyRegisterUSDT);}
 
     @BeforeEach
+
     public void init() {
-        //       LOG.info("startup");
+//      LOG.info("startup");
         operationService.deleteAll();
         intentionService.deleteAll();
         cryptocurrencyService.deleteAll();

@@ -39,27 +39,27 @@ class OperationModelTests {
     void ObtainIntentionTypeAfterAOperationIsCreatedWhitAnIntentionTypedAsSell() {
         Operation operation = new Operation(dataSet.getIntentionSell(), dataSet.getUserTest());
 
-        assertEquals(IntentionType.SELL, operation.getType());
+        assertEquals(IntentionType.SELL, operation.getIntention().getType());
     }
 
     @Test
     void ObtainCVUMercadoPagoFromUserOnOperationCreatedWhitAnIntentionTypedAsSell() {
-        Operation operation = new Operation(dataSet.getIntentionSell(), dataSet.getUserTest());
+        Operation operation = new Operation(dataSet.getIntentionSell(), dataSet.getUserTest2());
 
-        assertEquals("6352879863528798635287", operation.getTransactionInfoToShow());
+        assertEquals("6352879863528798635287", operation.getIntention().transactionInfoToShow(operation.getUserWhoAccepts()));
     }
 
     @Test
     void ObtainAddressWalletCryptoFromUserOnOperationCreatedWhitAnIntentionTypedAsBuy() {
-        Operation operation = new Operation(dataSet.getIntentionBuy(), dataSet.getUserTest());
+        Operation operation = new Operation(dataSet.getIntentionBuy(), dataSet.getUserTest2());
 
-        assertEquals("Xwf5u5ef", operation.getTransactionInfoToShow());
+        assertEquals("Xwf5u5ef", operation.getIntention().transactionInfoToShow(operation.getUserWhoAccepts()));
     }
 
     @Test
     void ObtainUserReputationOnOperationCreatedWhitAnIntentionFromAnUserWithoutPoints() {
         Operation operation = new Operation(dataSet.getIntentionBuy(), dataSet.getUserTest());
 
-        assertEquals(0, operation.getUserReputation());
+        assertEquals(0, operation.getIntention().getUser().getReputation());
     }
 }

@@ -32,16 +32,11 @@ class OperationHttpRequestTest {
     void contextLoads() throws Exception {
         assertThat(controller).isNotNull();
     }
-    @Test
-    void gettingOperationsShouldReturnAListThatIncludesOneWithNameMartin() throws Exception {
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/operations",
-                String.class)).contains("Martin");
-    }
 
     @Test
-    void gettingOperation1ShouldReturnAnOperationWithUserWhoPostNameMartin() throws Exception {
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/operations/1",
-                String.class)).contains("Martin");
+    void askingForOperation2WithUser1ShouldReturnAnOperationWithUserWhoPostNameMartin() throws Exception {
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/operations/2/1",
+                String.class)).contains("Gaudio");
     }
 
     @Test
