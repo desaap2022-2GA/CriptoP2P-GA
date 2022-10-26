@@ -9,6 +9,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UserHttpRequestTest {
@@ -57,24 +59,17 @@ class UserHttpRequestTest {
         UserRegister userRegister = new UserRegister("Roger", "Federer", "federer@gmail.com"
                 , "Av Libertador 5000", "1234", "1236549877412589632145", "Zs59f4lo");
 
-        assertThat(this.restTemplate.postForEntity("http://localhost:" + port + "/users",
-                userRegister, UserRegister.class)).toString().contains("federer@gmail.com");
-    }
+        ResponseEntity<UserView> result = this.restTemplate.postForEntity("http://localhost:" + port + "/users",
+                userRegister, UserView.class);
 
-    @Test
-    void deletingAnUserShouldReturn200OkStatusCode() throws Exception {
-
-        assertThat(this.restTemplate.exchange("http://localhost:" + port + "/users/{id}",
-                HttpMethod.DELETE,
-                null,
-                Void.class, 1).getStatusCode()).toString().contains("200");
+        assertEquals(result.getBody().getEmail(), "federer@gmail.com");
     }
 
     @Test
     void puttingUser1WithAddressHusaresShouldReturnThatChange() throws Exception {
 
         UserModify userModify = new UserModify("Roger", "Federer", "federer@gmail.com"
-                , "Husares 5000","1234", "1236549877412589632145", "Zs59f4lo");
+                , "Husares 5000", "1234", "1236549877412589632145", "Zs59f4lo");
 
         assertThat(this.restTemplate.exchange("http://localhost:" + port + "/users/{id}",
                 HttpMethod.PUT,

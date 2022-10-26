@@ -44,11 +44,18 @@ class IntentionHttpRequestTest {
     }
 
     @Test
+    void gettingActiveIntentionShouldReturnAnIntentionWith5326807_85Price() throws Exception {
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/intentions/active",
+                String.class)).contains("5326807.85");
+    }
+
+    @Test
     void postingAnIntentionWithPrice320_00ShouldReturnIt() throws Exception {
-        IntentionRegister intentionRegister = new IntentionRegister(IntentionType.BUY,1,320.00,2,1);
+        IntentionRegister intentionRegister = new IntentionRegister(IntentionType.BUY, 1, 320.00, 2, 1);
 
         ResponseEntity<String> result = this.restTemplate.postForEntity("http://localhost:" + port + "/intentions",
                 intentionRegister, String.class);
 
         assertTrue(result.getBody().contains("320.0"));
-}}
+    }
+}
