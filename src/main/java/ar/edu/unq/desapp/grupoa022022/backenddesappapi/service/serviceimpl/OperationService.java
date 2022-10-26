@@ -18,8 +18,6 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class OperationService implements IOperationService {
 
@@ -84,9 +82,10 @@ public class OperationService implements IOperationService {
         );
     }
 
-    @Override
-    public List<Operation> getAll() {
-        return operationRepo.findAll();
+    public OperationView getOperationById(int operationId, int userId) throws ResourceNotFound {
+        Operation operation = findById(operationId);
+        User userWhoAsk = userService.getFromDataBase(userId);
+        return helper.operationToOperationView(operation, userWhoAsk);
     }
 
     @Override

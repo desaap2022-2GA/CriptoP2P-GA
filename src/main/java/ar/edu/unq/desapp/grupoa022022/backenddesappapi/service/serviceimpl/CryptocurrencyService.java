@@ -80,12 +80,10 @@ public class CryptocurrencyService implements ICryptocurrencyService {
 
         cryptocurrencyNameList.forEach(name -> {
             String url = "https://api1.binance.com/api/v3/ticker/price?symbol="+name;
-            logger.info("Url is : " + url);
 
             ResponseEntity<CryptocurrencyLastQuote> cryptoCurrencyLastQuote =
                     restTemplate.getForEntity(url, CryptocurrencyLastQuote.class);
 
-            logger.info("Response status code is: " + cryptoCurrencyLastQuote.getStatusCode());
             CryptocurrencyLastQuote responseBean = cryptoCurrencyLastQuote.getBody();
 
             cryptocurrencyLastQuotesList.add(responseBean);

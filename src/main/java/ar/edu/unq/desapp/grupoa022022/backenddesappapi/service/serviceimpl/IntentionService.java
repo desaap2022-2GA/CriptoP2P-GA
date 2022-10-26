@@ -1,6 +1,8 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.HelperDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
@@ -14,10 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class IntentionService implements IIntentionService {
+
+    private final HelperDTO helper = new HelperDTO();
 
     @Autowired
     private IIntentionRepo intentionRepo;
@@ -42,6 +45,11 @@ public class IntentionService implements IIntentionService {
         }
     }
 
+    public IntentionView open(IntentionRegister intentionRegister) throws PriceNotInAValidRange, ResourceNotFound {
+        Intention intention = this.create(intentionRegister);
+        return helper.intentionToIntentionView(intention, intention.getUser());
+    }
+
     @Override
     public void update(Intention intention) {
         intentionRepo.save(intention);
@@ -63,27 +71,32 @@ public class IntentionService implements IIntentionService {
     }
 
     @Override
+    public IntentionView getIntentionById(int id) throws ResourceNotFound {
+        Intention intention = this.findById(id);
+        return helper.intentionToIntentionView(intention, intention.getUser());
+    }
+
+    @Override
+    public List<IntentionView> getActiveIntentions() {
+        return this.findActiveIntentions().stream().map(intention -> helper.intentionToIntentionView(intention
+                ,intention.getUser())).toList();
+    }
+
     public Intention findById(int id) throws ResourceNotFound {
         return intentionRepo.findById(id).orElseThrow(
                 () -> new ResourceNotFound("Intention not found with id " + id)
         );
     }
 
-    @Override
-    public List<Intention> getAll() {
-        return intentionRepo.findAll();
+    public List<Intention> findActiveIntentions(){
+        return intentionRepo.findAll().stream()
+                .filter(i -> !i.isTaken())
+                .toList();
     }
 
     @Override
-    public List<Intention> getIntentionActive() {
-        List<Intention> intentions = intentionRepo.findAll();
-
-        List<Intention> activeIntentions = intentions.stream()
-                .filter(i -> i.isTaken()== false)
-                .collect(Collectors.toList());
-
-        return (activeIntentions.size() > 0 ? activeIntentions : (List<Intention>) new ResourceNotFound("Not found intention active")
-        );
-    };
-
+    public List<IntentionView> getAll() {
+        return intentionRepo.findAll().stream().map(intention -> helper.intentionToIntentionView(intention
+        ,intention.getUser())).toList();
+    }
 }

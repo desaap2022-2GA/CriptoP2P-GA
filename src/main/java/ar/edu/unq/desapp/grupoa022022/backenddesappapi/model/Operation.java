@@ -49,22 +49,27 @@ public class Operation {
         userWhoAccepts.addOperation(this);
     }
 
-    public IntentionType getType() {
-        return this.intention.getType();
-    }
-
-    public String getTransactionInfoToShow() {
-        return this.intention.transactionInfoToShow();
-    }
-
-    public int getUserReputation() {
-        return this.intention.getUserReputation();
-    }
-
     public String actionToDo(User user) {
-        return ((this.intention.getType().equals(IntentionType.SELL) && Objects.equals(userWhoAccepts.getId(), user.getId()))
-                || (this.intention.getType().equals(IntentionType.BUY) && !Objects.equals(userWhoAccepts.getId(), user.getId())))
-                ? "Make transfer" : "Confirm reception";
+
+        String actionMessage = "";
+
+        switch (this.getState()) {
+            case CANCELLED -> actionMessage = "Cancelled";
+            case CRYPTOSENT -> actionMessage = (this.conditionToShowActionMessage(user))
+                    ? "Confirm reception on Wallet, Transaction finished" : "Waiting for counterpart confirm reception on Wallet, " +
+                    "Transaction finished";
+            case PAID -> actionMessage = (this.conditionToShowActionMessage(user))
+                    ? "Waiting for counterpart confirm reception and transfer cryptocurrency" : "Confirm reception on " +
+                    "Mercado Pago and transfer Cryptocurrency";
+            case ACTIVE -> actionMessage = (this.conditionToShowActionMessage(user))
+                    ? "Make transfer" : "Waiting for counterpart transfer";
+        }
+        return actionMessage;
+    }
+
+    public boolean conditionToShowActionMessage(User user) {
+        return (this.intention.getType().equals(IntentionType.SELL) && Objects.equals(userWhoAccepts.getId(), user.getId()))
+                || (this.intention.getType().equals(IntentionType.BUY) && !Objects.equals(userWhoAccepts.getId(), user.getId()));
     }
 
     public void cancelOperationByUser(User user) {

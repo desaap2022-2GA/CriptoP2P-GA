@@ -17,7 +17,7 @@ public class TradedBetweenDates {
     Set<CryptoDetails> cryptoDetails = new HashSet<>();
 
     public TradedBetweenDates(double dollarAmount, double pesosAmount){
-        this.date = new DateTimeInMilliseconds().getCurrentTimeMinus30MinutesInMillisecondsDateFormat();
+        this.date = new DateTimeInMilliseconds().getCurrentTimeInMillisecondsDateFormat();
         this.dollarAmount = dollarAmount;
         this.pesosAmount = pesosAmount;
     }

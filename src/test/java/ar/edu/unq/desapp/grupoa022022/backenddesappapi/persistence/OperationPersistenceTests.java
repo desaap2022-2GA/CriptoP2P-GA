@@ -216,14 +216,6 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void get2OperationsWhenAskForAllOfIt() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
-        operationService.create(getBUYOperationRegister());
-        operationService.create(getSELLOperationRegister());
-
-        assertEquals(2, operationService.getAll().size());
-    }
-
-    @Test
     void getResourceNotFoundAfterDeleteTheOnlyOneAndAskForIt() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         Operation operation = operationService.create(getSomeOperationRegister());
         operationService.delete(operation.getId());
@@ -232,38 +224,44 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void getEmptyAfterDeleteAllOperationAndAskForAllOfIt() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
-        operationService.create(getSomeOperationRegister());
-        operationService.deleteAll();
-
-        assertTrue(operationService.getAll().isEmpty());
+    void getSellTypeWhenAskForAnOperationTypeMadeWithASellIntentionType() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+        Operation operation = operationService.create(getSELLOperationRegister());
+        assertEquals(IntentionType.SELL, operation.getIntention().getType());
     }
 
     @Test
-    void getSellTypeWhenAskForAnOperationTypeMadeWithASellIntentionType() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getMercadoPagoCVUWhenUserWhoPostAskForInfoToShowOnBuyTypeOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+        Operation operation = operationService.create(getBUYOperationRegister());
+
+        assertEquals("6352879863528798635287", operation.getIntention().transactionInfoToShow(operation.getIntention().getUser()));
+    }
+
+    @Test
+    void getAddressCryptoWhenUserWhoPostAskForInfoToShowOnSELLTypeOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         Operation operation = operationService.create(getSELLOperationRegister());
-        assertEquals(IntentionType.SELL, operation.getType());
+
+        assertEquals("Xwf5u5ef", operation.getIntention().transactionInfoToShow(operation.getIntention().getUser()));
     }
 
     @Test
     void getAddressWalletInfoWhenAskTransactionInfoInABuyIntentionTypeOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         Operation operation = operationService.create(getBUYOperationRegister());
 
-        assertEquals("Xwf5u5ef", operation.getTransactionInfoToShow());
+        assertEquals("Xwf5u5ef", operation.getIntention().transactionInfoToShow(operation.getUserWhoAccepts()));
     }
 
     @Test
     void getMercadoPagoCvuInfoWhenAskTransactionInfoInASellIntentionTypeOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         Operation operation = operationService.create(getSELLOperationRegister());
 
-        assertEquals("6352879863528798635287", operation.getTransactionInfoToShow());
+        assertEquals("6352879863528798635287", operation.getIntention().transactionInfoToShow(operation.getUserWhoAccepts()));
     }
 
     @Test
     void getUserReputationFromOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         Operation operation = operationService.create(getOperationRegisterWithUserPostWhoHas30Point3NumberOperations());
 
-        assertEquals(10, operation.getUserReputation());
+        assertEquals(10, operation.getIntention().getUser().getReputation());
     }
 
     @Test
@@ -274,17 +272,17 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void getActionToDoConfirmReceptionFromOperationWithIntentionTypeSELLAndUserUserWhoPost() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getActionToDoWaitingForCounterpartTransferFromOperationWithIntentionTypeSELLAndUserUserWhoPost() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         Operation operation = operationService.create(getSELLOperationRegister());
 
-        assertEquals("Confirm reception", operation.actionToDo(operation.getIntention().getUser()));
+        assertEquals("Waiting for counterpart transfer", operation.actionToDo(operation.getIntention().getUser()));
     }
 
     @Test
-    void getActionToDoConfirmReceptionFromOperationWithIntentionTypeBUYAndUserUserWhoAccept() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getActionToDoWaitingForCounterpartTransferFromOperationWithIntentionTypeBUYAndUserUserWhoAccept() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         Operation operation = operationService.create(getBUYOperationRegister());
 
-        assertEquals("Confirm reception", operation.actionToDo(operation.getUserWhoAccepts()));
+        assertEquals("Waiting for counterpart transfer", operation.actionToDo(operation.getUserWhoAccepts()));
     }
 
     @Test
@@ -433,7 +431,7 @@ class OperationPersistenceTests {
 
     @Test
     void operationViewStringInfoObtainAfterOpenIsCalledWithAndOperationRegister() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
-        assertEquals("OperationView(cryptocurrency=DAI, nominalAmount=961.14, quote=320.38, userWhoPostCompleteName=Paston Gaudio, operationNumber=0, reputation=0, sentAddress=Xwf5u5ef, actionToDo=Confirm reception)"
+        assertEquals("OperationView(cryptocurrency=DAI, nominalAmount=961.14, quote=320.38, userWhoPostCompleteName=Paston Gaudio, operationNumber=0, reputation=0, sentAddress=Xwf5u5ef, actionToDo=Waiting for counterpart transfer)"
                 , operationService.open(getSomeOperationRegister()).toString());
     }
 }

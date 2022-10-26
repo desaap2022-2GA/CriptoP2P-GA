@@ -1,9 +1,0 @@
-language: java
-jdk: oraclejdk17
-
-before_install:
-  - cd src/backend-desapp-api
-  - chmod +x gradlew
-
-script:
-  - ./gradlew build

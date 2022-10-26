@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRange;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
@@ -21,27 +21,26 @@ public class IntentionController {
 
     @Operation(summary = "Create an intention")
     @PostMapping
-    public Intention createIntention(@RequestBody @Valid IntentionRegister intentionRegister) throws ResourceNotFound, PriceNotInAValidRange {
-        return intentionService.create(intentionRegister);
+    public IntentionView openIntention(@RequestBody @Valid IntentionRegister intentionRegister) throws ResourceNotFound, PriceNotInAValidRange {
+        return intentionService.open(intentionRegister);
     }
 
     @Operation(summary = "Search an intention by id")
     @GetMapping(value = "/{id}")
-    public Intention getIntentionById(@PathVariable("id") Integer id) throws ResourceNotFound {
-        return intentionService.findById(id);
+    public IntentionView getIntentionById(@PathVariable("id") Integer id) throws ResourceNotFound {
+        return intentionService.getIntentionById(id);
     }
 
     @Operation(summary = "List all intentions")
     @GetMapping
-    public List<Intention> listAllIntentions() {
+    public List<IntentionView> listAllIntentions() {
         return intentionService.getAll();
     }
 
     @Operation(summary = "List all active intentions")
-    @GetMapping(value = "/intention/active")
-    public List<Intention> listIntentionActive() {
-        return intentionService.getIntentionActive();
+    @GetMapping(value = "/active")
+    public List<IntentionView> listIntentionActive() {
+        return intentionService.getActiveIntentions();
     }
-
 
 }

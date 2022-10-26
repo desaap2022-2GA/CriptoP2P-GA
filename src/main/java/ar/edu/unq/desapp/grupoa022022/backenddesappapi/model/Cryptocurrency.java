@@ -57,6 +57,7 @@ public class Cryptocurrency {
     }
 
     public void removeIntention(Intention intention) { this.intentions.remove(intention);}
+
     public Set<Quote> last24HoursQuotes() {
         long nowMinusOneDay = new DateTimeInMilliseconds().getCurrentTimeMinusOneDayInMilliseconds();
         return this.quotes.stream().filter(q -> q.getDateTime() > nowMinusOneDay).collect(Collectors.toSet());

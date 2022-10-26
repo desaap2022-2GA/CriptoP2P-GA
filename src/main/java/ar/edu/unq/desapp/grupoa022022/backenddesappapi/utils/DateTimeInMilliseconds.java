@@ -27,14 +27,6 @@ public class DateTimeInMilliseconds {
         return convertLongToDate(currentTimeInMilliseconds);
     }
 
-    public String getCurrentTimeMinusOneDayInMillisecondsDateFormat() {
-        return convertLongToDate(currentTimeMinusOneDayInMilliseconds);
-    }
-
-    public String getCurrentTimeMinus30MinutesInMillisecondsDateFormat() {
-        return convertLongToDate(currentTimeMinus30MinutesInMilliseconds);
-    }
-
     public String convertLongToDate (long timeInLong) {
         Date date = new Date();
         date.setTime(timeInLong);

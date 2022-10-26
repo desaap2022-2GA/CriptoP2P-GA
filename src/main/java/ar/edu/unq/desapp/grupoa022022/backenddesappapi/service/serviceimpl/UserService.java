@@ -123,9 +123,9 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<UserQuery> getListUsers() throws ExceptionsUser {
+    public List<UserQuery> getListUsers() {
 
-        ArrayList userList = new ArrayList();
+        ArrayList<UserQuery> userList = new ArrayList<>();
         List<User> users = userRepo.findAll();
         for (User us : users) {
             UserQuery user = new UserQuery(us.getName(), us.getLastname(), us.getNumberOperations(),
