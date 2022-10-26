@@ -3,7 +3,6 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.EnumType;

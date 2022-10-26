@@ -6,6 +6,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
@@ -73,5 +74,11 @@ public class HelperDTO {
         return new OperationView(intention.getCryptocurrency().getName(), intention.actualAmountPriceInPesos()
                 , cryptocurrency.latestQuote().getPrice(), completeName, user.getNumberOperations(), user.getReputation()
                 , intention.transactionInfoToShow(userWhoAsk), operation.actionToDo(userWhoAsk));
+    }
+
+    public IntentionView intentionToIntentionView(Intention intention, User userWhoPost){
+        return new IntentionView(intention.getId(), new DateTimeInMilliseconds().convertLongToDate(intention.getDateTime())
+                , intention.getType(), intention.getCryptocurrency().getName(), intention.getPrice(), intention.getUnits()
+                , intention.amountPriceInPesos(), userToUserView(userWhoPost), intention.isTaken());
     }
 }

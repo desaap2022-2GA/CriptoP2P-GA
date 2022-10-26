@@ -9,7 +9,6 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.Intentio
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.InvalidState;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceExceedVariationWithRespectIntentionTypeLimits;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
-import java.util.List;
 
 public interface IOperationService {
     Operation create(OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits;
