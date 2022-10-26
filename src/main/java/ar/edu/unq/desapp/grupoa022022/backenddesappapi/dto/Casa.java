@@ -7,7 +7,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Casa {
     @JsonProperty("compra")
     String compra;

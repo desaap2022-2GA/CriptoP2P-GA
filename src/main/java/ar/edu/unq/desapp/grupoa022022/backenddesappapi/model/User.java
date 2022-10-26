@@ -20,7 +20,6 @@ import static ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.Verify.*;
 @Getter
 @Setter
 @Table(name = "users")
-/*@ConstructorBinding()*/
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,8 +51,6 @@ public class User {
     private int points = 0;
 
     private int numberOperations = 0;
-
-    //private String apiKey;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user",fetch=FetchType.EAGER)
@@ -138,11 +135,6 @@ public class User {
         return (this.numberOperations != 0) ? (this.points / this.numberOperations) : 0;
     }
 
-    /*public void setReputacion(User user ){
-        user.reputacion = this.getReputation();
-    }
-
-     */
     public void addIntention(Intention intention) {
         this.intentions.add(intention);
     }
