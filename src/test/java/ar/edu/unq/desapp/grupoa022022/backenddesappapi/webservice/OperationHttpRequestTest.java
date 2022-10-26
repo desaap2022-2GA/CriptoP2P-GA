@@ -9,12 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.testng.AssertJUnit.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class OperationHttpRequestTest {
@@ -53,8 +51,12 @@ class OperationHttpRequestTest {
     void postingAnOperationWithIntentionID2AndUserID1ShouldReturnAListThatIncludesIt() throws Exception {
         OperationRegister operationRegister = new OperationRegister(2,1);
 
-        assertThat(this.restTemplate.postForEntity("http://localhost:" + port + "/operations",
-                operationRegister, OperationView.class)).toString().contains("ACTIVE");
+        ResponseEntity<String> result = this.restTemplate.postForEntity("http://localhost:" + port + "/operations",
+                operationRegister, String.class);
+
+        System.out.println("result = " + result);
+
+        assertTrue(result.getBody().contains("2"));
     }
 
     private static HttpHeaders createJsonHeader() {

@@ -1,13 +1,16 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.QuoteRegister;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.ResponseEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.testng.AssertJUnit.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class QuoteHttpRequestTest {
@@ -43,7 +46,12 @@ class QuoteHttpRequestTest {
 
         QuoteRegister quoteRegister = new QuoteRegister(1, 152.50);
 
-        assertThat(this.restTemplate.postForEntity("http://localhost:" + port + "/quotes",
-                quoteRegister, QuoteRegister.class)).toString().contains("152.50");
+        ResponseEntity<String> result = this.restTemplate.postForEntity("http://localhost:" + port + "/quotes",
+                    quoteRegister, String.class);
+
+            System.out.println("result = " + result);
+
+            assertTrue(result.getBody().contains("152.5"));
+
     }
 }
