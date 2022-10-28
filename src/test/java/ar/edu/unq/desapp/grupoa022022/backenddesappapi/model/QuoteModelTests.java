@@ -1,38 +1,39 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.ICryptocurrencyRepo;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IQuoteRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
 class QuoteModelTests {
 
-    DataSet dataSet = new DataSet();
+    public Cryptocurrency mockCryptocurrency = Mockito.mock(Cryptocurrency.class);
 
-    @Autowired
-    IQuoteRepo quoteRepo;
+    public Double price = 200.00;
 
-    @Autowired
-    ICryptocurrencyRepo cryptocurrencyRepo;
+    @BeforeEach
+    public void init() throws ResourceNotFound {
+        Mockito.when(mockCryptocurrency.getName()).thenReturn("DAI");
+    }
 
     @Test
     void ObtainCryptocurrencyNameFromNewQuoteOfDAICryptocurrency() {
-        Quote quote = new Quote(new Cryptocurrency("DAI"), dataSet.getSomePriceInRangeDAI());
+        Quote quote = new Quote(mockCryptocurrency, price);
 
         assertEquals("DAI", quote.getCryptocurrency().getName());
     }
 
     @Test
     void ObtainCryptocurrencyPriceFromNewQuoteWithPrice5000() {
-        Quote quote = new Quote(dataSet.getCryptocurrency(), 5000.00);
+        Quote quote = new Quote(mockCryptocurrency, 5000.00);
 
         assertEquals(5000.00, quote.getPrice());
     }
@@ -40,7 +41,7 @@ class QuoteModelTests {
     @Test
     void ObtainDateTimeFromNewQuoteBetweenARangeOfDates() {
         long beforeTime = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds() - 1;
-        Quote quote = new Quote(dataSet.getCryptocurrency(), dataSet.getSomePriceInRangeDAI());
+        Quote quote = new Quote(mockCryptocurrency, price);
         long afterTime = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds() + 1;
         long quoteTime = quote.getDateTime();
 
@@ -49,8 +50,9 @@ class QuoteModelTests {
 
     @Test
     void ObtainLatestQuoteFromCryptocurrencyWhenCreateAQuoteForThatCryptocurrency() throws ResourceNotFound {
-        Quote quote = new Quote(dataSet.getCryptocurrency(), dataSet.getSomePriceInRangeDAI());
+        Quote quote = new Quote(mockCryptocurrency, price);
+        Mockito.when(mockCryptocurrency.latestQuote()).thenReturn(quote);
 
-        assertEquals(quote.getId(), dataSet.getCryptocurrency().latestQuote().getId());
+        assertEquals(quote.getId(), mockCryptocurrency.latestQuote().getId());
     }
 }

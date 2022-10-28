@@ -153,4 +153,22 @@ class CryptocurrencyPersistenceTests {
 
         assertTrue(cryptocurrency.getIntentions().isEmpty());
     }
+
+    @Test
+    void whenDeleteQuoteCheckDoesNotExistInCryptocurrency() throws ResourceNotFound {
+        int cryptocurrencyId = getCryptocurrencyDB().getId();
+        Quote quote = quoteService.create(cryptocurrencyId, dataSet.getSomePriceInRangeDAI());
+        quoteService.delete(quote.getId());
+        Cryptocurrency updatedCryptocurrency = cryptocurrencyService.findById(cryptocurrencyId);
+
+        assertFalse(updatedCryptocurrency.getQuotes().contains(quote));
+    }
+
+    @Test
+    void afterCreateANewQuoteWithCryptocurrencyXCheckDependencies() throws ResourceNotFound {
+        int cryptocurrencyId = getCryptocurrencyDB().getId();
+        Quote quote = quoteService.create(cryptocurrencyId, dataSet.getSomePriceInRangeDAI());
+
+        assertTrue(cryptocurrencyService.findById(cryptocurrencyId).getQuotes().stream().anyMatch(q-> q.getDateTime() == quote.getDateTime()));
+    }
 }
