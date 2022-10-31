@@ -11,6 +11,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IUserRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IUserService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DollarConvert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -42,7 +43,7 @@ public class UserService implements IUserService {
 
     @Override
     public List<UserView> getAllUsers() {
-        return helper.usersToUsersView(userRepo.findAll());
+        return helper.usersToUsersView(userRepo.findAll(Sort.by(Sort.Direction.ASC,"id")));
     }
 
     @Override
@@ -126,7 +127,7 @@ public class UserService implements IUserService {
     public List<UserQuery> getListUsers() {
 
         ArrayList<UserQuery> userList = new ArrayList<>();
-        List<User> users = userRepo.findAll();
+        List<User> users = userRepo.findAll(Sort.by(Sort.Direction.ASC,"id"));
         for (User us : users) {
             UserQuery user = new UserQuery(us.getName(), us.getLastname(), us.getNumberOperations(),
                     us.getReputation());
