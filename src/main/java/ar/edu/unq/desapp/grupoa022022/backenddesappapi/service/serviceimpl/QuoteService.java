@@ -8,6 +8,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IQuoteRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IQuoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,7 +55,7 @@ public class QuoteService implements IQuoteService {
 
     @Override
     public List<Quote> getAll() {
-        return quoteRepo.findAll();
+        return quoteRepo.findAll(Sort.by(Sort.Direction.ASC,"id"));
     }
 
     @Override

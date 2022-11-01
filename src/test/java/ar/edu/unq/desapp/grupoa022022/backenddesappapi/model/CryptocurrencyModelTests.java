@@ -1,9 +1,9 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.ICryptocurrencyRepo;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,8 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class CryptocurrencyModelTests {
 
-    @Autowired
-    ICryptocurrencyRepo cryptocurrencyRepo;
+    public User mockUser = Mockito.mock(User.class);
+
+    public Double priceInRange = 190.00;
+
+    public IntentionType buyType = IntentionType.BUY;
+
+    public int units1 = 1;
 
     @Test
     void ObtainCryptocurrencyNameFromNewCryptocurrency() {
@@ -68,5 +73,13 @@ class CryptocurrencyModelTests {
         quote2.setDateTime(quote1.getDateTime() + 1);
 
         assertEquals(quote2, cryptocurrency.latestQuote());
+    }
+
+    @Test
+    void IntentionExistInCryptocurrencyIntentionsWhenCreateAnIntentionWithThatCryptocurrency() {
+        Cryptocurrency cryptocurrency = new Cryptocurrency("SOL");
+        Intention intention = new Intention(buyType, cryptocurrency, priceInRange, units1, mockUser);
+
+        assertTrue(cryptocurrency.getIntentions().contains(intention));
     }
 }

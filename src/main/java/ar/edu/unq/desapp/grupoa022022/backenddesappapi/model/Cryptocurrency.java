@@ -39,6 +39,10 @@ public class Cryptocurrency {
         this.name = name;
     }
 
+    public Cryptocurrency(String name, double price) {
+        new Quote(this, price);
+    }
+
     public Quote latestQuote() throws ResourceNotFound {
         Optional<Quote> quote = this.quotes.stream().reduce((q1, q2) -> q1.getDateTime() > q2.getDateTime() ? q1 : q2);
         if (quote.isPresent()) {
@@ -56,7 +60,9 @@ public class Cryptocurrency {
         this.intentions.add(intention);
     }
 
-    public void removeIntention(Intention intention) { this.intentions.remove(intention);}
+    public void removeIntention(Intention intention) {
+        this.intentions.remove(intention);
+    }
 
     public Set<Quote> last24HoursQuotes() {
         long nowMinusOneDay = new DateTimeInMilliseconds().getCurrentTimeMinusOneDayInMilliseconds();

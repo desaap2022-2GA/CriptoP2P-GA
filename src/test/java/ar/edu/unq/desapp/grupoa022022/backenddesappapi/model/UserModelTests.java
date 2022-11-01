@@ -1,13 +1,26 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
 class UserModelTests {
+
+    public Cryptocurrency mockCryptocurrency = Mockito.mock(Cryptocurrency.class);
+
+    public Double priceInRange = 190.00;
+
+    public IntentionType buyType = IntentionType.BUY;
+
+    public int units1 = 1;
 
     @Test
     void theNameOfAUserIsCorrect() throws ExceptionsUser {
@@ -197,5 +210,13 @@ class UserModelTests {
         user.setNumberOperations(operations);
 
         assertEquals(2, user.getReputation());
+    }
+
+    @Test
+    void IntentionExistInUserIntentionsWhenCreateAnIntentionWithThatUser() {
+        User user = new User();
+        Intention intention = new Intention(buyType, mockCryptocurrency, priceInRange, units1, user);
+
+        assertTrue(user.getIntentions().contains(intention));
     }
 }

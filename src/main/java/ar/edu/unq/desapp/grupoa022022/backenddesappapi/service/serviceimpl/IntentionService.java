@@ -13,6 +13,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -89,14 +90,14 @@ public class IntentionService implements IIntentionService {
     }
 
     public List<Intention> findActiveIntentions(){
-        return intentionRepo.findAll().stream()
+        return intentionRepo.findAll(Sort.by(Sort.Direction.ASC,"id")).stream()
                 .filter(i -> !i.isTaken())
                 .toList();
     }
 
     @Override
     public List<IntentionView> getAll() {
-        return intentionRepo.findAll().stream().map(intention -> helper.intentionToIntentionView(intention
+        return intentionRepo.findAll(Sort.by(Sort.Direction.ASC,"id")).stream().map(intention -> helper.intentionToIntentionView(intention
         ,intention.getUser())).toList();
     }
 }
