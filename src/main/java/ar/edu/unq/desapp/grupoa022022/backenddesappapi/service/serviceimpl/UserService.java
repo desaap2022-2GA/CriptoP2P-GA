@@ -30,7 +30,7 @@ public class UserService implements IUserService {
         return helper.userToUserView(saveToDataBase(userRegister));
     }
 
-    @Override
+    /*@Override
     public UserView modify(UserModify userModify) throws EmailAlreadyExists, ResourceNotFound, ExceptionsUser {
         User originalUser = userRepo.findById(userModify.getId()).orElseThrow(
                 () -> new ResourceNotFound("User not found with userId " + userModify.getId())
@@ -40,6 +40,8 @@ public class UserService implements IUserService {
         }
         return helper.userToUserView(userRepo.save(helper.userModifyToUser(userModify, originalUser)));
     }
+
+     */
 
     @Override
     public List<UserView> getAllUsers() {
@@ -135,5 +137,16 @@ public class UserService implements IUserService {
             userList.add(user);
         }
         return userList.stream().toList();
+    }
+
+    @Override
+    public UserView modifyUser(int id, String field, String data) throws ResourceNotFound, ExceptionsUser {
+
+        User user = userRepo.findById(id).orElseThrow(
+                () -> new ResourceNotFound("User not found with id " + id)
+        );
+
+
+        return helper.userToUserView(userRepo.save(helper.userModify(user, field, data)));
     }
 }

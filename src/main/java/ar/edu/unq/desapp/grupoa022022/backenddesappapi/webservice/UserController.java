@@ -29,11 +29,13 @@ public class UserController {
         return userService.create(userRegister);
     }
 
-    @Operation(summary = "Modify a user")
+    /*@Operation(summary = "Modify a user")
     @PutMapping(value = "/{id}")
     public void modifyUser(@RequestBody @Valid UserModify userModify) throws EmailAlreadyExists, ExceptionsUser, ResourceNotFound {
         userService.modify(userModify);
     }
+
+     */
     @Operation(summary = "Search for a user by mail")
     @GetMapping(value = "/email/{email}")
     public UserView getUserByEmail(@PathVariable("email") String email) throws NoSuchElementException, ResourceNotFound {
@@ -65,5 +67,11 @@ public class UserController {
     @GetMapping
     public List<UserQuery> listUsers() throws ExceptionsUser {
         return userService.getListUsers();
+    }
+
+    @Operation(summary = "modify a user's data")
+    @PutMapping(value = "/{id},{field},{data}")
+    public UserView modifyAUser(@PathVariable int id, @PathVariable String field, @PathVariable String data) throws ResourceNotFound, ExceptionsUser {
+        return userService.modifyUser(id, field,data);
     }
 }

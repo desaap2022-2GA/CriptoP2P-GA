@@ -15,7 +15,7 @@ public interface IUserService {
 
     UserView create(UserRegister userRegister) throws EmailAlreadyExists;
 
-    UserView modify(UserModify userModify) throws EmailAlreadyExists, ResourceNotFound, ExceptionsUser;
+   // UserView modify(UserModify userModify) throws EmailAlreadyExists, ResourceNotFound, ExceptionsUser;
 
     List<UserView> getAllUsers();
 
@@ -44,4 +44,6 @@ public interface IUserService {
     void update(User user);
 
     List<UserQuery> getListUsers() throws ExceptionsUser;
+
+    UserView modifyUser(int id, String field, String data) throws ResourceNotFound, ExceptionsUser;
 }

@@ -20,7 +20,7 @@ public class HelperDTO {
                 , userRegister.getAddress(), encoder.encode(userRegister.getPassword()), userRegister.getMercadoPagoCVU()
                 , userRegister.getAddressWalletActiveCrypto());
     }
-
+/*
     public User userModifyToUser(UserModify userModify, User userOriginal) throws ExceptionsUser {
 
         if (firstNotNullAndFirstAndSecondNotEquals(userModify.getName(), userOriginal.getName())) {
@@ -46,6 +46,8 @@ public class HelperDTO {
         }
         return userOriginal;
     }
+
+ */
 
     public boolean firstNotNullAndFirstAndSecondNotEquals(String firstCheck, String secondCheck) {
         return firstCheck != null && !Objects.equals(firstCheck, secondCheck);
@@ -80,5 +82,18 @@ public class HelperDTO {
         return new IntentionView(intention.getId(), new DateTimeInMilliseconds().convertLongToDate(intention.getDateTime())
                 , intention.getType(), intention.getCryptocurrency().getName(), intention.getPrice(), intention.getUnits()
                 , intention.amountPriceInPesos(), userToUserView(userWhoPost), intention.isTaken());
+    }
+
+    public User userModify(User user, String field, String data) throws ExceptionsUser {
+        switch (field){
+            case "name": user.setName(data);
+            case "lastname": user.setLastname(data);
+            case "email": user.setEmail(data);
+            case "address": user.setAddress(data);
+            case "password": user.setPassword(data);
+            case "mercadoPagoCVU": user.setMercadoPagoCVU(data);
+            case "addressWalletActiveCripto": user.setAddressWalletActiveCripto(data);
+        }
+        return user;
     }
 }
