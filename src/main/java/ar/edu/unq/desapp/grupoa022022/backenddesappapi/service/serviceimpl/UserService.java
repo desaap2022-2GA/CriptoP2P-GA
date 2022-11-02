@@ -10,17 +10,28 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.Resource
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IUserRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IUserService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DollarConvert;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.JwtProvider;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@Builder
 public class UserService implements IUserService {
 
     @Autowired
     private IUserRepo userRepo;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtProvider jwtProvider;
+
 
     private final HelperDTO helper = new HelperDTO();
 
@@ -29,6 +40,49 @@ public class UserService implements IUserService {
         this.checkNewUserEmail(userRegister.getEmail());
         return helper.userToUserView(saveToDataBase(userRegister));
     }
+
+    /******/
+    @Override
+    public UserView save (UserDTO userDTO){
+        Optional<User> userOptional = userRepo.findByEmail(userDTO.getEmail());
+        if(userOptional.isPresent()){
+            return null;
+        }
+        String password = passwordEncoder.encode(userDTO.getPassword());
+        User user = User.builder()
+                        .email(userDTO.getEmail())
+                        .password(password)
+                        .build();// por qué no deja usar User y si UserDTO?
+
+
+        return helper.userToUserView(userRepo.save(user));
+    }
+
+    public TokenDTO login (UserDTO dto){
+        Optional<User> user = userRepo.findByEmail(dto.getEmail());
+        if(!user.isPresent()){
+            return null;
+        }
+        if(passwordEncoder.matches(dto.getPassword(), user.get().getPassword())){
+            return new TokenDTO(jwtProvider.createToken(user.get()));
+        }
+        return null;
+    }
+
+    public TokenDTO validate(String token){
+        if(!jwtProvider.validate(token)){
+            return null;
+        }
+        String email = jwtProvider.getEmailFromToken(token);
+        if (!userRepo.findByEmail(email).isPresent()){
+            return null;
+        }
+        return new TokenDTO(token);
+    }
+
+    /******/
+
+
 
     @Override
     public UserView modify(UserModify userModify) throws EmailAlreadyExists, ResourceNotFound, ExceptionsUser {

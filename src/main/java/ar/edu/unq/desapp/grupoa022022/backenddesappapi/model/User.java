@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.info.Contact;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,8 +18,10 @@ import static ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.Verify.*;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@Builder
 @Table(name = "users")
 public class User {
     @Id
@@ -69,6 +72,7 @@ public class User {
         this.mercadoPagoCVU = mercadoPagoCVU;
         this.addressWalletActiveCripto = addressWalletActiveCripto;
     }
+
 
     public void setName(String name) throws ExceptionsUser {
         if (verifyLong(name, 3, 30)) {

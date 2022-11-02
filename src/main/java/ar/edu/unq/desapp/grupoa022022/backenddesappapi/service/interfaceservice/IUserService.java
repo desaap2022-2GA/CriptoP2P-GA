@@ -1,9 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserModify;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserQuery;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
@@ -44,4 +41,8 @@ public interface IUserService {
     void update(User user);
 
     List<UserQuery> getListUsers() throws ExceptionsUser;
+
+    /******/
+    UserView save (UserDTO userDTO);
+    /******/
 }
