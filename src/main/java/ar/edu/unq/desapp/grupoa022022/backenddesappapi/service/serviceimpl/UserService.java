@@ -43,45 +43,49 @@ public class UserService implements IUserService {
 
     /******/
     @Override
-    public UserView save (UserDTO userDTO){
+    public UserView save(UserDTO userDTO) {
         Optional<User> userOptional = userRepo.findByEmail(userDTO.getEmail());
-        if(userOptional.isPresent()){
+        if (userOptional.isPresent()) {
             return null;
         }
         String password = passwordEncoder.encode(userDTO.getPassword());
         User user = User.builder()
-                        .email(userDTO.getEmail())
-                        .password(password)
-                        .build();// por qué no deja usar User y si UserDTO?
+                .name(userDTO.getName())
+                .lastname(userDTO.getLastname())
+                .address(userDTO.getAddress())
+                .addressWalletActiveCripto(userDTO.getAddressWalletActiveCripto())
+                .mercadoPagoCVU(userDTO.getMercadoPagoCVU())
+                .email(userDTO.getEmail())
+                .password(password)
+                .build();// por qué no deja usar User y si UserDTO?
 
 
         return helper.userToUserView(userRepo.save(user));
     }
 
-    public TokenDTO login (UserDTO dto){
+    public TokenDTO login(UserDTO dto) {
         Optional<User> user = userRepo.findByEmail(dto.getEmail());
-        if(!user.isPresent()){
+        if (!user.isPresent()) {
             return null;
         }
-        if(passwordEncoder.matches(dto.getPassword(), user.get().getPassword())){
+        if (passwordEncoder.matches(dto.getPassword(), user.get().getPassword())) {
             return new TokenDTO(jwtProvider.createToken(user.get()));
         }
         return null;
     }
 
-    public TokenDTO validate(String token){
-        if(!jwtProvider.validate(token)){
+    public TokenDTO validate(String token) {
+        if (!jwtProvider.validate(token)) {
             return null;
         }
         String email = jwtProvider.getEmailFromToken(token);
-        if (!userRepo.findByEmail(email).isPresent()){
+        if (!userRepo.findByEmail(email).isPresent()) {
             return null;
         }
         return new TokenDTO(token);
     }
 
     /******/
-
 
 
     @Override
@@ -97,7 +101,7 @@ public class UserService implements IUserService {
 
     @Override
     public List<UserView> getAllUsers() {
-        return helper.usersToUsersView(userRepo.findAll(Sort.by(Sort.Direction.ASC,"id")));
+        return helper.usersToUsersView(userRepo.findAll(Sort.by(Sort.Direction.ASC, "id")));
     }
 
     @Override
@@ -181,7 +185,7 @@ public class UserService implements IUserService {
     public List<UserQuery> getListUsers() {
 
         ArrayList<UserQuery> userList = new ArrayList<>();
-        List<User> users = userRepo.findAll(Sort.by(Sort.Direction.ASC,"id"));
+        List<User> users = userRepo.findAll(Sort.by(Sort.Direction.ASC, "id"));
         for (User us : users) {
             UserQuery user = new UserQuery(us.getName(), us.getLastname(), us.getNumberOperations(),
                     us.getReputation());
