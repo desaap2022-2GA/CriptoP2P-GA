@@ -1,9 +1,9 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserModify;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserQuery;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
@@ -71,7 +71,7 @@ public class UserController {
 
     @Operation(summary = "modify a user's data")
     @PutMapping(value = "/{id},{field},{data}")
-    public UserView modifyAUser(@PathVariable int id, @PathVariable String field, @PathVariable String data) throws ResourceNotFound, ExceptionsUser {
+    public User modifyAUser(@PathVariable int id, @PathVariable String field, @PathVariable String data) throws ResourceNotFound, ExceptionsUser {
         return userService.modifyUser(id, field,data);
     }
 }

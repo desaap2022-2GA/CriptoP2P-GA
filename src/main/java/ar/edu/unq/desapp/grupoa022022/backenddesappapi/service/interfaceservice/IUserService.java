@@ -1,6 +1,5 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserModify;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserQuery;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
@@ -45,5 +44,5 @@ public interface IUserService {
 
     List<UserQuery> getListUsers() throws ExceptionsUser;
 
-    UserView modifyUser(int id, String field, String data) throws ResourceNotFound, ExceptionsUser;
+    User modifyUser(int id, String field, String data) throws ResourceNotFound, ExceptionsUser;
 }

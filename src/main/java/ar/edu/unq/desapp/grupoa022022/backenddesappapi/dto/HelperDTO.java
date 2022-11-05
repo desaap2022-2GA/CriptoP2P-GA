@@ -87,12 +87,19 @@ public class HelperDTO {
     public User userModify(User user, String field, String data) throws ExceptionsUser {
         switch (field){
             case "name": user.setName(data);
+                break;
             case "lastname": user.setLastname(data);
+                break;
             case "email": user.setEmail(data);
+                break;
             case "address": user.setAddress(data);
+                break;
             case "password": user.setPassword(data);
+                break;
             case "mercadoPagoCVU": user.setMercadoPagoCVU(data);
+                break;
             case "addressWalletActiveCripto": user.setAddressWalletActiveCripto(data);
+                break;
         }
         return user;
     }

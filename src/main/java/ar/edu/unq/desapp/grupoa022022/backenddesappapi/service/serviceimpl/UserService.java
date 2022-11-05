@@ -140,13 +140,16 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserView modifyUser(int id, String field, String data) throws ResourceNotFound, ExceptionsUser {
+    public User modifyUser(int id, String field, String data) throws ResourceNotFound, ExceptionsUser {
 
         User user = userRepo.findById(id).orElseThrow(
                 () -> new ResourceNotFound("User not found with id " + id)
         );
 
+        //UserView newUser = helper.userToUserView(userRepo.save(helper.userModify(user, field, data)));
+        User newUser = helper.userModify(user, field, data);
+        System.out.println("usuario cambiado: " + newUser);
 
-        return helper.userToUserView(userRepo.save(helper.userModify(user, field, data)));
+        return newUser;
     }
 }
