@@ -58,4 +58,24 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         errorMap.put(ERROR_MESSAGE, ex.getMessage());
         return errorMap;
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({ResourceNotFound.class, EmailAlreadyExists.class, ExceptionsUser.class})
+    public Map<String, String> handlerBusinessException(String message){
+        try{
+            final var b = message == "";
+        }
+        catch(ResourceNotFound ex) {
+            Map<String, String> errorMap = new HashMap<>();
+            errorMap.put(ERROR_MESSAGE, ex.getMessage());
+            return errorMap;
+        }catch(EmailAlreadyExists ex){
+            Map<String, String> errorMap = new HashMap<>();
+            errorMap.put(ERROR_MESSAGE, ex.getMessage());
+            return errorMap;
+        }
+        return null;
+    }
+
+
 }
