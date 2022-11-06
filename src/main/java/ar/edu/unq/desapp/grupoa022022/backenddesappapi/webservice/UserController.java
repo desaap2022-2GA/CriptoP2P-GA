@@ -28,7 +28,7 @@ public class UserController {
         return userService.create(userRegister);
     }
 
-    /******/
+    /***Agregado***/
     @Operation(summary = "Login")
     @PostMapping(value = "/login")
     public ResponseEntity<TokenDTO> login (@RequestBody UserDTO dto){
@@ -59,7 +59,7 @@ public class UserController {
         return ResponseEntity.ok(userView);
     }
 
-    /******/
+    /***Fin Agregado***/
     @Operation(summary = "Modify a user")
     @PutMapping(value = "/{id}")
     public void modifyUser(@RequestBody @Valid UserModify userModify) throws EmailAlreadyExists, ExceptionsUser, ResourceNotFound {
