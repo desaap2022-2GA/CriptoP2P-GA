@@ -4,6 +4,6 @@ public enum OperationState {
 
     ACTIVE,
     PAID,
-    CRYPTOSENDED,
+    CRYPTOSENT,
     CANCELLED
 }

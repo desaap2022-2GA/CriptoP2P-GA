@@ -34,15 +34,14 @@ dependencies {
 	implementation 'org.testng:testng:7.1.0'
 	implementation 'org.testng:testng:7.1.0'
 
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
 	runtimeOnly 'com.h2database:h2'
 
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 
 	implementation 'org.postgresql:postgresql:42.5.0'
-
-/*	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
-	implementation 'io.springfox:springfox-boot-starter:3.0.0'*/
 
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
 
@@ -67,6 +66,11 @@ jacocoTestReport {
 	reports {
 		xml.enabled true
 	}
+}
+
+test.finalizedBy jacocoTestReport
+tasks.named('sonarqube').configure {
+    dependsOn test
 }
 
 sonarqube {

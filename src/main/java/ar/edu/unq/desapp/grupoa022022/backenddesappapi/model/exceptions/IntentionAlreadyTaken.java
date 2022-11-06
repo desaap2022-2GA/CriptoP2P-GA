@@ -1,8 +1,8 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions;
 
-public class ExceptionsUser extends Throwable {
+public class IntentionAlreadyTaken extends Throwable {
 
-    public ExceptionsUser(String message){
+    public IntentionAlreadyTaken(String message) {
         super(message);
     }
 }

@@ -55,7 +55,7 @@ public class User {
     //private String apiKey;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",fetch=FetchType.EAGER)
     private Set<Intention> intentions = new HashSet<>();
 
     @JsonIgnore
@@ -126,7 +126,7 @@ public class User {
     }
 
     public void setAddressWalletActiveCripto(String adressWalletActiveCripto) throws ExceptionsUser {
-        if (verifyAdressWalletActiveCripto(adressWalletActiveCripto)) {
+        if (verifyAddressWalletActiveCripto(adressWalletActiveCripto)) {
             this.addressWalletActiveCripto = adressWalletActiveCripto;
         } else {
             throw new ExceptionsUser("Campo Obligatorio. Debe contener 8 dígitos");
@@ -154,7 +154,7 @@ public class User {
     }
 
     public Set<Operation> operationsBetweenDates(long firstDate, long secondDate) {
-        return this.operations.stream().filter(o -> o.getState().equals(OperationState.CRYPTOSENDED)
+        return this.operations.stream().filter(o -> o.getState().equals(OperationState.CRYPTOSENT)
                 && o.getDateTime() > firstDate
                 && o.getDateTime() < secondDate).collect(Collectors.toSet());
     }

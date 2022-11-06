@@ -1,6 +1,5 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi;
 
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

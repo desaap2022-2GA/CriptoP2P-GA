@@ -25,7 +25,7 @@ class QuoteModelTests {
 
     @Test
     void ObtainCryptocurrencyNameFromNewQuoteOfDAICryptocurrency() {
-        Quote quote = new Quote(new Cryptocurrency("DAI"), dataSet.getSomePrice());
+        Quote quote = new Quote(new Cryptocurrency("DAI"), dataSet.getSomePriceInRangeDAI());
 
         assertEquals("DAI", quote.getCryptocurrency().getName());
     }
@@ -40,7 +40,7 @@ class QuoteModelTests {
     @Test
     void ObtainDateTimeFromNewQuoteBetweenARangeOfDates() throws InterruptedException {
         long beforeTime = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds() - 1;
-        Quote quote = new Quote(dataSet.getCryptocurrency(), dataSet.getSomePrice());
+        Quote quote = new Quote(dataSet.getCryptocurrency(), dataSet.getSomePriceInRangeDAI());
         long afterTime = new DateTimeInMilliseconds().getCurrentTimeInMilliseconds() + 1;
         long quoteTime = quote.getDateTime();
 
@@ -49,8 +49,8 @@ class QuoteModelTests {
 
     @Test
     void ObtainLatestQuoteFromCryptocurrencyWhenCreateAQuoteForThatCryptocurrency() throws ResourceNotFound {
-        Quote quote = new Quote(dataSet.getCryptocurrency(), dataSet.getSomePrice());
+        Quote quote = new Quote(dataSet.getCryptocurrency(), dataSet.getSomePriceInRangeDAI());
 
-        assertEquals(quote, dataSet.getCryptocurrency().latestQuote());
+        assertEquals(quote.getId(), dataSet.getCryptocurrency().latestQuote().getId());
     }
 }

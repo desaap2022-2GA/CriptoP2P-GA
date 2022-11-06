@@ -11,4 +11,10 @@ public class UserRegister extends UserAPI {
 
     @NotBlank(message = "Password: it can not be null")
     private String password;
+
+    public UserRegister(String name, String lastname, String email, String address, String password, String mercadoPagoCVU,
+                        String addressWalletActiveCrypto) {
+        super(name, lastname, email, address, mercadoPagoCVU, addressWalletActiveCrypto);
+        this.password = password;
+    }
 }

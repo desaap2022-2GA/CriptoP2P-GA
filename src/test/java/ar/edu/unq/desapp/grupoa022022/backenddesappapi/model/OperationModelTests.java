@@ -50,7 +50,7 @@ class OperationModelTests {
     }
 
     @Test
-    void ObtainAdressWalletCryptoFromUserOnOperationCreatedWhitAnIntentionTypedAsBuy() {
+    void ObtainAddressWalletCryptoFromUserOnOperationCreatedWhitAnIntentionTypedAsBuy() {
         Operation operation = new Operation(dataSet.getIntentionBuy(), dataSet.getUserTest());
 
         assertEquals("Xwf5u5ef", operation.getTransactionInfoToShow());
