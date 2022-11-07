@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice.Aspects;
+package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice.aspects;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

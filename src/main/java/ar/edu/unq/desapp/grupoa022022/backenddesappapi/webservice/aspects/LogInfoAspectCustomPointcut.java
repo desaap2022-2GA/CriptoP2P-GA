@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice.Aspects;
+package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice.aspects;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
