@@ -85,9 +85,9 @@ public class Intention {
 
         switch (this.getType()) {
             case SELL -> infoMessage = (this.conditionToShowInfoMessage(userWhoAsk))
-                    ? this.operation.getUserWhoAccepts().getAddressWalletActiveCripto() : this.user.getMercadoPagoCVU();
+                    ? this.operation.getUserWhoAccepts().getaddressWalletActiveCrypto() : this.user.getMercadoPagoCVU();
             case BUY -> infoMessage = (this.conditionToShowInfoMessage(userWhoAsk))
-                    ? this.operation.getUserWhoAccepts().getMercadoPagoCVU() : this.user.getAddressWalletActiveCripto();
+                    ? this.operation.getUserWhoAccepts().getMercadoPagoCVU() : this.user.getaddressWalletActiveCrypto();
         }
         return infoMessage;
     }

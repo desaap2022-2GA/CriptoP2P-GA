@@ -41,8 +41,8 @@ public class HelperDTO {
         if (firstNotNullAndFirstAndSecondNotEquals(userModify.getMercadoPagoCVU(), userOriginal.getMercadoPagoCVU())) {
             userOriginal.setMercadoPagoCVU(userModify.getMercadoPagoCVU());
         }
-        if (firstNotNullAndFirstAndSecondNotEquals(userModify.getAddressWalletActiveCrypto(), userOriginal.getAddressWalletActiveCripto())) {
-            userOriginal.setAddressWalletActiveCripto(userModify.getAddressWalletActiveCrypto());
+        if (firstNotNullAndFirstAndSecondNotEquals(userModify.getAddressWalletActiveCrypto(), userOriginal.getaddressWalletActiveCrypto())) {
+            userOriginal.setaddressWalletActiveCrypto(userModify.getAddressWalletActiveCrypto());
         }
         return userOriginal;
     }
@@ -53,7 +53,7 @@ public class HelperDTO {
 
     public UserView userToUserView(User user) {
         return new UserView(user.getId(), user.getName(), user.getLastname(), user.getEmail(), user.getAddress(),
-                user.getMercadoPagoCVU(), user.getAddressWalletActiveCripto(), user.getPoints(),
+                user.getMercadoPagoCVU(), user.getaddressWalletActiveCrypto(), user.getPoints(),
                 user.getNumberOperations(), user.getReputation());
     }
 

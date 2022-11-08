@@ -43,9 +43,9 @@ class IntentionModelTests {
         Mockito.when(mockCryptocurrency.getName()).thenReturn("DAI");
         Mockito.when(mockCryptocurrency.latestQuote()).thenReturn(mockQuote);
         Mockito.when(mockQuote.getPrice()).thenReturn(200.00);
-        Mockito.when(mockUserWhoAccepts.getAddressWalletActiveCripto()).thenReturn("Xwf5u5ef");
+        Mockito.when(mockUserWhoAccepts.getaddressWalletActiveCrypto()).thenReturn("Xwf5u5ef");
         Mockito.when(mockUserWhoAccepts.getMercadoPagoCVU()).thenReturn("6352879863528798635287");
-        Mockito.when(mockUser.getAddressWalletActiveCripto()).thenReturn("Xwf5u5ef");
+        Mockito.when(mockUser.getaddressWalletActiveCrypto()).thenReturn("Xwf5u5ef");
         Mockito.when(mockUser.getMercadoPagoCVU()).thenReturn("6352879863528798635287");
     }
 

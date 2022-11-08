@@ -126,7 +126,7 @@ class UtilsTests {
     }
 
     public String dataString(User user) {
-        return user.getName() + user.getLastname() + user.getEmail() + user.getAddress() + user.getPassword() + user.getMercadoPagoCVU() + user.getAddressWalletActiveCripto();
+        return user.getName() + user.getLastname() + user.getEmail() + user.getAddress() + user.getPassword() + user.getMercadoPagoCVU() + user.getaddressWalletActiveCrypto();
     }
 
     public String dataString(UserModify user) {

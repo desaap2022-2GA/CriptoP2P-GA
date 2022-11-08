@@ -20,40 +20,45 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
+/*
 
     @Operation(summary = "Register a new user")
     @PostMapping
-    public UserView createUser(@RequestBody @Valid UserRegister userRegister) throws EmailAlreadyExists {
-        return userService.create(userRegister);
-    }
+    public ResponseEntity<UserView> createUser(@RequestBody @Valid UserRegister userRegister) throws EmailAlreadyExists {
+        UserView userToShow = userService.create(userRegister);
+        if (userToShow == null){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(userToShow);
+    }*/
 
     /***Agregado***/
     @Operation(summary = "Login")
     @PostMapping(value = "/login")
-    public ResponseEntity<TokenDTO> login (@RequestBody UserDTO dto){
+    public ResponseEntity<TokenDTO> login(@RequestBody UserDTO dto) {
         TokenDTO tokenDTO = userService.login(dto);
-        if(tokenDTO == null){
+        if (tokenDTO == null) {
             return ResponseEntity.badRequest().build();
         }
+        System.out.println(tokenDTO.getToken());
         return ResponseEntity.ok(tokenDTO);
     }
-
+/*
     @Operation(summary = "Validate token")
     @PostMapping(value = "/validate")
-    public ResponseEntity<TokenDTO> validate (@RequestParam String token){
+    public ResponseEntity<TokenDTO> validate(@RequestParam String token) {
         TokenDTO tokenDTO = userService.validate(token);
-        if(tokenDTO == null){
+        if (tokenDTO == null) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(tokenDTO);
-    }
+    }*/
 
-    @Operation(summary = "Validate token")
-    @PostMapping(value = "/create")
-    public ResponseEntity<UserView> create (@RequestBody UserDTO dto){
-        UserView userView = userService.save(dto);
-        if(userView == null){
+    @Operation(summary = "Register User")
+    @PostMapping
+    public ResponseEntity<UserView> create(@RequestBody UserDTO dto) {
+        UserView userView = userService.create(dto);
+        if (userView == null) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(userView);
@@ -62,24 +67,48 @@ public class UserController {
     /***Fin Agregado***/
     @Operation(summary = "Modify a user")
     @PutMapping(value = "/{id}")
-    public void modifyUser(@RequestBody @Valid UserModify userModify) throws EmailAlreadyExists, ExceptionsUser, ResourceNotFound {
+    public ResponseEntity.BodyBuilder modifyUser(@RequestHeader(value = "Authorization") String token, @RequestBody @Valid UserModify userModify) throws EmailAlreadyExists, ExceptionsUser, ResourceNotFound {
+        TokenDTO tokenDTO = userService.validate(token);
+        if (tokenDTO == null) {
+            return ResponseEntity.badRequest();
+        }
+        System.out.println(tokenDTO.getToken());
         userService.modify(userModify);
+        return ResponseEntity.ok();
+
     }
+
     @Operation(summary = "Search for a user by mail")
     @GetMapping(value = "/email/{email}")
-    public UserView getUserByEmail(@PathVariable("email") String email) throws NoSuchElementException, ResourceNotFound {
-        return userService.findByEmail(email);
+    public ResponseEntity<UserView> getUserByEmail(@RequestHeader(value = "Authorization") String token, @PathVariable("email") String email) throws NoSuchElementException, ResourceNotFound {
+        TokenDTO tokenDTO = userService.validate(token);
+        if (tokenDTO == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(userService.findByEmail(email));
     }
+
     @Operation(summary = "Search for a user by id")
     @GetMapping(value = "/{id}")
-    public UserView getUserById(@PathVariable("id") Integer id) throws ResourceNotFound {
-        return userService.findById(id);
+    public ResponseEntity<UserView> getUserById(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFound {
+        System.out.println(token);
+        TokenDTO tokenDTO = userService.validate(token);
+        if (tokenDTO == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(userService.findById(id));
     }
+
     @Operation(summary = "Search for a user by password")
     @GetMapping(value = "/password/{password}")
-    public UserView getUserByPassword(@PathVariable("password") String password) throws ResourceNotFound {
-        return userService.findByPassword(password);
+    public ResponseEntity<UserView> getUserByPassword(@RequestHeader(value = "Authorization") String token, @PathVariable("password") String password) throws ResourceNotFound {
+        TokenDTO tokenDTO = userService.validate(token);
+        if (tokenDTO == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(userService.findByPassword(password));
     }
+
     /*@Operation(summary = "Login for a user")
     @GetMapping(value = "/login")
     @ResponseBody
@@ -91,12 +120,22 @@ public class UserController {
     @Operation(summary = "Operations between two dates")
     @GetMapping(value = "/operations-between-dates/{id}/{firstdate}/{seconddate}")
     @ResponseBody
-    public Object getOperationsBetweenDates(@PathVariable int id, @PathVariable long firstdate, @PathVariable long seconddate) throws ResourceNotFound {
-        return userService.operationsBetweenDates(id, firstdate, seconddate);
+    public ResponseEntity<Object> getOperationsBetweenDates(@RequestHeader(value = "Authorization") String token, @PathVariable int id, @PathVariable long firstdate, @PathVariable long seconddate) throws ResourceNotFound {
+        TokenDTO tokenDTO = userService.validate(token);
+        if (tokenDTO == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(userService.operationsBetweenDates(id, firstdate, seconddate));
     }
+
     @Operation(summary = "List the users of the query")
     @GetMapping
-    public List<UserQuery> listUsers() throws ExceptionsUser {
-        return userService.getListUsers();
+    public ResponseEntity<List<UserQuery>> listUsers(@RequestHeader(value = "Authorization") String token) throws ExceptionsUser {
+        TokenDTO tokenDTO = userService.validate(token);
+        if (tokenDTO == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        System.out.println(tokenDTO.getToken());
+        return ResponseEntity.ok(userService.getListUsers());
     }
 }

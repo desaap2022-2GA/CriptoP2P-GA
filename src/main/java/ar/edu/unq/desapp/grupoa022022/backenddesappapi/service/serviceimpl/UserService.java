@@ -35,15 +35,15 @@ public class UserService implements IUserService {
 
     private final HelperDTO helper = new HelperDTO();
 
-    @Override
+/*    @Override
     public UserView create(UserRegister userRegister) throws EmailAlreadyExists {
         this.checkNewUserEmail(userRegister.getEmail());
         return helper.userToUserView(saveToDataBase(userRegister));
-    }
+    }*/
 
     /***Agregado***/
     @Override
-    public UserView save(UserDTO userDTO) {
+    public UserView create(UserDTO userDTO) {
         Optional<User> userOptional = userRepo.findByEmail(userDTO.getEmail());
         if (userOptional.isPresent()) {
             return null;
@@ -53,7 +53,7 @@ public class UserService implements IUserService {
                 .name(userDTO.getName())
                 .lastname(userDTO.getLastname())
                 .address(userDTO.getAddress())
-                .addressWalletActiveCripto(userDTO.getAddressWalletActiveCripto())
+                .addressWalletActiveCrypto(userDTO.getAddressWalletActiveCrypto())
                 .mercadoPagoCVU(userDTO.getMercadoPagoCVU())
                 .email(userDTO.getEmail())
                 .password(password)
@@ -75,14 +75,16 @@ public class UserService implements IUserService {
     }
 
     public TokenDTO validate(String token) {
-        if (!jwtProvider.validate(token)) {
+        System.out.println("inside validate "+token);
+        var newToken = token.replace("Bearer ", "");
+        if (!jwtProvider.validate(newToken)) {
             return null;
         }
-        String email = jwtProvider.getEmailFromToken(token);
+        String email = jwtProvider.getEmailFromToken(newToken);
         if (!userRepo.findByEmail(email).isPresent()) {
             return null;
         }
-        return new TokenDTO(token);
+        return new TokenDTO(newToken);
     }
 
     /***Fin Agregado***/

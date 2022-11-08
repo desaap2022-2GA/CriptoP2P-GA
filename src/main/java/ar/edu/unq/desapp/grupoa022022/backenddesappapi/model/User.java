@@ -49,7 +49,7 @@ public class User {
 
     @NotBlank
     @Size(min = 8, max = 8, message = "wallet must be 8 characters")
-    private String addressWalletActiveCripto;
+    private String addressWalletActiveCrypto;
 
     private int points = 0;
 
@@ -63,14 +63,14 @@ public class User {
     @OneToMany(mappedBy = "userWhoAccepts",fetch=FetchType.EAGER)
     private Set<Operation> operations = new HashSet<>();
 
-    public User(String name, String lastname, String email, String address, String password, String mercadoPagoCVU, String addressWalletActiveCripto) {
+    public User(String name, String lastname, String email, String address, String password, String mercadoPagoCVU, String addressWalletActiveCrypto) {
         this.name = name;
         this.lastname = lastname;
         this.email = email;
         this.address = address;
         this.password = password;
         this.mercadoPagoCVU = mercadoPagoCVU;
-        this.addressWalletActiveCripto = addressWalletActiveCripto;
+        this.addressWalletActiveCrypto = addressWalletActiveCrypto;
     }
 
 
@@ -123,13 +123,13 @@ public class User {
         }
     }
 
-    public String getAddressWalletActiveCripto() {
-        return addressWalletActiveCripto;
+    public String getaddressWalletActiveCrypto() {
+        return addressWalletActiveCrypto;
     }
 
-    public void setAddressWalletActiveCripto(String adressWalletActiveCripto) throws ExceptionsUser {
-        if (verifyAddressWalletActiveCripto(adressWalletActiveCripto)) {
-            this.addressWalletActiveCripto = adressWalletActiveCripto;
+    public void setaddressWalletActiveCrypto(String adressWalletActiveCripto) throws ExceptionsUser {
+        if (verifyaddressWalletActiveCrypto(adressWalletActiveCripto)) {
+            this.addressWalletActiveCrypto = adressWalletActiveCripto;
         } else {
             throw new ExceptionsUser("Campo Obligatorio. Debe contener 8 dígitos");
         }

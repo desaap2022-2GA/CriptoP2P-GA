@@ -38,7 +38,7 @@ public class Verify {
         return cvu.length() == 22;
     }
 
-    public static boolean verifyAddressWalletActiveCripto(String addressAC){
+    public static boolean verifyaddressWalletActiveCrypto(String addressAC){
         return addressAC.length() == 8;
     }
 }

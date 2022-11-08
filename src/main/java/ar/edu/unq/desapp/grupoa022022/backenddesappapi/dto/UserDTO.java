@@ -2,7 +2,6 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto;
 
 import lombok.*;
 
-import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -23,7 +22,7 @@ public class UserDTO {
 
     private String address;
 
-    @NotBlank
+    @NotBlank(message = "Password: it can not be null")
     private String password;
 
     @NotBlank
@@ -32,5 +31,5 @@ public class UserDTO {
 
     @NotBlank
     @Size(min = 8, max = 8, message = "wallet must be 8 characters")
-    private String addressWalletActiveCripto;
+    private String addressWalletActiveCrypto;
 }

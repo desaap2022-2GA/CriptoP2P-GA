@@ -124,18 +124,18 @@ class UserModelTests {
     @Test
     void theActiveCryptoWalletAddressOfAUserIsCorrect() throws ExceptionsUser {
         User user = new User();
-        String addressWalletActiveCripto = "12345678";
-        user.setAddressWalletActiveCripto(addressWalletActiveCripto);
+        String addressWalletActiveCrypto = "12345678";
+        user.setaddressWalletActiveCrypto(addressWalletActiveCrypto);
 
-        assertEquals("12345678", user.getAddressWalletActiveCripto());
+        assertEquals("12345678", user.getaddressWalletActiveCrypto());
     }
 
     @Test
     void theAddressCryptoAssetWalletDoesNotMeetTheConditionsThrowsAnException() {
         assertThrows(ExceptionsUser.class, () -> {
             User user = new User();
-            String addressWalletActiveCripto = "123456789";
-            user.setAddressWalletActiveCripto(addressWalletActiveCripto);
+            String addressWalletActiveCrypto = "123456789";
+            user.setaddressWalletActiveCrypto(addressWalletActiveCrypto);
         });
     }
 
