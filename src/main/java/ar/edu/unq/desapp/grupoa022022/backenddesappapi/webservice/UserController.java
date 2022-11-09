@@ -56,7 +56,7 @@ public class UserController {
 
     @Operation(summary = "Register User")
     @PostMapping
-    public ResponseEntity<UserView> create(@RequestBody UserDTO dto) {
+    public ResponseEntity<UserView> create(@RequestBody UserRegister dto) {
         UserView userView = userService.create(dto);
         if (userView == null) {
             return ResponseEntity.badRequest().build();

@@ -43,19 +43,19 @@ public class UserService implements IUserService {
 
     /***Agregado***/
     @Override
-    public UserView create(UserDTO userDTO) {
-        Optional<User> userOptional = userRepo.findByEmail(userDTO.getEmail());
+    public UserView create(UserRegister userRegister) {
+        Optional<User> userOptional = userRepo.findByEmail(userRegister.getEmail());
         if (userOptional.isPresent()) {
             return null;
         }
-        String password = passwordEncoder.encode(userDTO.getPassword());
+        String password = passwordEncoder.encode(userRegister.getPassword());
         User user = User.builder()
-                .name(userDTO.getName())
-                .lastname(userDTO.getLastname())
-                .address(userDTO.getAddress())
-                .addressWalletActiveCrypto(userDTO.getAddressWalletActiveCrypto())
-                .mercadoPagoCVU(userDTO.getMercadoPagoCVU())
-                .email(userDTO.getEmail())
+                .name(userRegister.getName())
+                .lastname(userRegister.getLastname())
+                .address(userRegister.getAddress())
+                .addressWalletActiveCrypto(userRegister.getAddressWalletActiveCrypto())
+                .mercadoPagoCVU(userRegister.getMercadoPagoCVU())
+                .email(userRegister.getEmail())
                 .password(password)
                 .build();// por qué no deja usar User y si UserDTO?
 
