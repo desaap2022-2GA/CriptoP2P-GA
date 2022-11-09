@@ -12,6 +12,7 @@ import lombok.extern.log4j.Log4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -72,6 +73,7 @@ public class CryptocurrencyService implements ICryptocurrencyService {
     }
 
     @Override
+    @Cacheable("cryptoCurrency")
     public List<CryptocurrencyLastQuote> latestQuotes(){
 
         List<CryptocurrencyLastQuote> cryptocurrencyLastQuotesList = new ArrayList<>();
