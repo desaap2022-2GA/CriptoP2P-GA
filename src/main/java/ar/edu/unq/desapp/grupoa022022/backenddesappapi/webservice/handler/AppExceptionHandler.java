@@ -1,22 +1,19 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice.handler;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.*;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.*;
 
-@RestControllerAdvice
+//@RestControllerAdvice
 public class AppExceptionHandler extends ResponseEntityExceptionHandler {
-
+/*
     private static final String ERROR_MESSAGE = "errorMessage";
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
@@ -88,5 +85,5 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put(ERROR_MESSAGE, ex.getMessage());
         return errorMap;
-    }
+    }*/
 }

@@ -1,20 +1,34 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-public class UserRegister extends UserAPI {
+@AllArgsConstructor
+public class UserRegister {
 
+    @NotBlank
+    @Size(min = 3, max = 30, message = "Name: must be between 3 and 30 characters")
+    private String name;
+    @NotBlank
+    @Size(min = 3, max = 30, message = "Lastname: must be between 3 and 30 characters")
+    private String lastname;
+    @Pattern(regexp = "^[^@]+@[^@]+\\.[a-zA-Z]{2,}$", message = "Email: must be a properly formatted email address")
+    private String email;
+    @NotBlank(message = "Address: it can not be null")
+    private String address;
     @NotBlank(message = "Password: it can not be null")
     private String password;
-
-    public UserRegister(String name, String lastname, String email, String address, String password, String mercadoPagoCVU,
-                        String addressWalletActiveCrypto) {
-        super(name, lastname, email, address, mercadoPagoCVU, addressWalletActiveCrypto);
-        this.password = password;
-    }
+    @NotBlank
+    @Size(min = 22, max = 22, message = "MercadoPagoCVU: must be 22 characters")
+    private String mercadoPagoCVU;
+    @NotBlank
+    @Size(min = 8, max = 8, message = "AddressWalletActiveCrypto: must be 8 characters")
+    private String addressWalletActiveCrypto;
 }
