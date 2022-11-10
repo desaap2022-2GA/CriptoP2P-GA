@@ -8,13 +8,14 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.Resource
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.ICryptocurrencyRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IQuoteRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
-import lombok.extern.log4j.Log4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -92,5 +93,17 @@ public class CryptocurrencyService implements ICryptocurrencyService {
             cryptocurrencyLastQuotesList.add(responseBean);
         });
         return cryptocurrencyLastQuotesList;
+    }
+
+    @Scheduled(cron = "* * * * * ") //Ahora en un min
+    // "*/10 * * * * "cada 10 minutos - application.properties
+    // "${cron.expression}
+    @CachePut("cryptoCurrency")
+    //@Cacheable("cryptoCurrency")
+    @Override
+    public List<CryptocurrencyLastQuote> latestQuotes10Min(){
+        //System.out.println("pase");
+        return latestQuotes();
+        //return null;
     }
 }
