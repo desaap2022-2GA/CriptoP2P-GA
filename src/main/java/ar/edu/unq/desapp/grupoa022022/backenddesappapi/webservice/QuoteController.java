@@ -17,12 +17,14 @@ public class QuoteController {
 
     @Autowired
     QuoteService quoteService;
+
     @Operation(summary = "Create a quote")
     @PostMapping
     public Quote createQuote(@RequestBody @Valid QuoteRegister quoteRegister) throws ResourceNotFound {
         return quoteService.create(quoteRegister.getCryptocurrencyId(), quoteRegister.getPrice());
     }
-    @Operation(summary = "List all quotes")
+
+    @Operation(summary = "List all quotes")//eliminar ya esta en otro endpoint
     @GetMapping
     public List<Quote> listAllQuotes() {
         return quoteService.getAll();

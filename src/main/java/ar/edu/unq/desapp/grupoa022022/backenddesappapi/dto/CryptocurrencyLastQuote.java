@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class CryptocurrencyLastQuote {
     @JsonProperty("symbol")
     private String name;

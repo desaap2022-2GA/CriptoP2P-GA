@@ -44,7 +44,7 @@ class OperationHttpRequestTest {
         assertThat(this.restTemplate.exchange("http://localhost:" + port + "/operations/{id}",
                 HttpMethod.PUT,
                 new HttpEntity<>(operationModify, createJsonHeader()),
-                Void.class, 1)).toString().contains("CANCELLED");
+                Void.class, 1)).isNotNull();
     }
 
     @Test
