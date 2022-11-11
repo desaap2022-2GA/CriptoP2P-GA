@@ -35,8 +35,9 @@ public class LogErrorHandlerAspect {
             String ERROR_MESSAGE = "errorMessage: ";
             Map<String, Object> body = new LinkedHashMap<>();
             List<String> errors = new LinkedList<>();
-            body.put("timestamp", new Date());
-            body.put("status", status.value());
+            body.put("timestamp: ", new Date());
+            body.put("status: ", status.value());
+            System.out.println("dentro de manejador de excepciones"+e);
             switch (e.getClass().toString()) {
                 case "PriceNotInAValidRange.class", "PriceExceedVariationWithRespectIntentionTypeLimits.class",
                         "InvalidState.class", "IntentionAlreadyTaken.class", "ExceptionsUser.class",

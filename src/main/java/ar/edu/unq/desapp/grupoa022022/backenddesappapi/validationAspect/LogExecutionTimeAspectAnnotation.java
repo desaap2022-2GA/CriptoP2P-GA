@@ -4,14 +4,23 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.TokenDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.ProceedingJoinPoint;
+
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 @Aspect
 @Component
+@Order(0)
 public class LogExecutionTimeAspectAnnotation {
 
 	@Autowired
@@ -30,9 +39,14 @@ public class LogExecutionTimeAspectAnnotation {
 		*/
 
 		TokenDTO tokenDTO = userService.validate(joinPoint.getArgs()[0].toString());
+		System.out.println(tokenDTO);
 		if (tokenDTO == null) {
 			logger.info("/////// AROUND BAD-REQUEST invalid token ///////");
-			return ResponseEntity.badRequest().build();
+			Map<String, Object> body = new LinkedHashMap<>();
+			body.put("timestamp: ", new Date());
+			body.put("status: ", HttpStatus.BAD_REQUEST.value());
+			body.put("error message: ", "invalid token");
+			return new ResponseEntity<>(body, HttpHeaders.EMPTY, HttpStatus.BAD_REQUEST);
 		}
 		Object proceed = joinPoint.proceed();
 		long executionTime = System.currentTimeMillis() - start;

@@ -35,32 +35,12 @@ public class UserService implements IUserService {
 
     private final HelperDTO helper = new HelperDTO();
 
-/*    @Override
-    public UserView create(UserRegister userRegister) throws EmailAlreadyExists {
-        this.checkNewUserEmail(userRegister.getEmail());
-        return helper.userToUserView(saveToDataBase(userRegister));
-    }*/
-
-    /***Agregado***/
     @Override
-    public UserView create(UserDTO userDTO) {
-        Optional<User> userOptional = userRepo.findByEmail(userDTO.getEmail());
-        if (userOptional.isPresent()) {
+    public UserView create(UserRegister userRegister) throws EmailAlreadyExists {
+        if (findUserByEmail(userRegister.getEmail()).isPresent()) {
             return null;
         }
-        String password = passwordEncoder.encode(userDTO.getPassword());
-        User user = User.builder()
-                .name(userDTO.getName())
-                .lastname(userDTO.getLastname())
-                .address(userDTO.getAddress())
-                .addressWalletActiveCrypto(userDTO.getAddressWalletActiveCrypto())
-                .mercadoPagoCVU(userDTO.getMercadoPagoCVU())
-                .email(userDTO.getEmail())
-                .password(password)
-                .build();// por qué no deja usar User y si UserDTO?
-
-
-        return helper.userToUserView(userRepo.save(user));
+        return helper.userToUserView(saveToDataBase(userRegister));
     }
 
     public TokenDTO login(UserDTO dto) {
@@ -75,7 +55,7 @@ public class UserService implements IUserService {
     }
 
     public TokenDTO validate(String token) {
-        System.out.println("inside validate "+token);
+        System.out.println("inside validate " + token);
         var newToken = token.replace("Bearer ", "");
         if (!jwtProvider.validate(newToken)) {
             return null;

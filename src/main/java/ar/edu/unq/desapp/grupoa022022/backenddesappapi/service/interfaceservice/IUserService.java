@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface IUserService {
 
-    UserView create(UserDTO userDTO);
+    UserView create(UserRegister userRegister) throws EmailAlreadyExists;
 
     UserView modify(UserModify userModify) throws EmailAlreadyExists, ResourceNotFound, ExceptionsUser;
 

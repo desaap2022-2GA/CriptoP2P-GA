@@ -9,6 +9,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceExc
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IOperationService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,20 +21,23 @@ public class OperationController {
     private IOperationService operationService;
 
     @Operation(summary = "Start an operation")
+    @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping
-    public OperationView openOperation(@RequestBody OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    public OperationView openOperation(@RequestHeader(value = "Authorization") String token, @RequestBody OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         return operationService.open(operationRegister);
     }
 
     @Operation(summary = "Modify an operation")
+    @SecurityRequirement(name = "Bearer Authentication")
     @PutMapping(value = "/{id}")
-    public void modifyOperation(@RequestBody OperationModify operationModify) throws ResourceNotFound, InvalidState {
+    public void modifyOperation(@RequestHeader(value = "Authorization") String token, @RequestBody OperationModify operationModify) throws ResourceNotFound, InvalidState {
         operationService.modify(operationModify);
     }
 
     @Operation(summary = "Search for operation id")
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/{userId}/{operationId}")
-    public OperationView getOperationById(@PathVariable int operationId, @PathVariable int userId) throws ResourceNotFound {
+    public OperationView getOperationById(@RequestHeader(value = "Authorization") String token, @PathVariable int operationId, @PathVariable int userId) throws ResourceNotFound {
         return operationService.getOperationById(operationId,userId);
 
     }
