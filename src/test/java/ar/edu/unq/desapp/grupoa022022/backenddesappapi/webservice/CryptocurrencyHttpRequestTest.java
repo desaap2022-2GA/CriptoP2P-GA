@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +13,12 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class CryptocurrencyHttpRequestTest {
@@ -35,8 +40,10 @@ class CryptocurrencyHttpRequestTest {
     @Test
     void gettingCryptocurrenciesShouldReturnAListThatIncludesDAI() {
 
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/cryptocurrencies",
-                String.class)).contains("DAI");
+        ResponseEntity<Cryptocurrency[]> result = restTemplate.getForEntity("http://localhost:" + port + "/cryptocurrencies",
+                Cryptocurrency[].class);
+        System.out.println(result);
+        assertTrue(Arrays.toString(Objects.requireNonNull(result.getBody())).contains("DAI"));
     }
 
     @Test

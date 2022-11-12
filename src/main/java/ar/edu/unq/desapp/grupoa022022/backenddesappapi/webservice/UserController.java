@@ -20,19 +20,18 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-/*
-
-    @Operation(summary = "Register a new user")
-    @PostMapping
-    public ResponseEntity<UserView> createUser(@RequestBody @Valid UserRegister userRegister) throws EmailAlreadyExists {
-        UserView userToShow = userService.create(userRegister);
-        if (userToShow == null){
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(userToShow);
-    }*/
 
     /***Agregado***/
+    @Operation(summary = "Register User")
+    @PostMapping
+    public ResponseEntity<UserView> create(@RequestBody UserRegister dto) {
+        UserView userView = userService.create(dto);
+        if (userView == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(userView);
+    }
+
     @Operation(summary = "Login")
     @PostMapping(value = "/login")
     public ResponseEntity<TokenDTO> login(@RequestBody UserDTO dto) {
@@ -53,29 +52,19 @@ public class UserController {
         }
         return ResponseEntity.ok(tokenDTO);
     }*/
-
-    @Operation(summary = "Register User")
-    @PostMapping
-    public ResponseEntity<UserView> create(@RequestBody UserRegister dto) {
-        UserView userView = userService.create(dto);
-        if (userView == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(userView);
-    }
-
     /***Fin Agregado***/
+
     @Operation(summary = "Modify a user")
     @PutMapping(value = "/{id}")
-    public ResponseEntity.BodyBuilder modifyUser(@RequestHeader(value = "Authorization") String token, @RequestBody @Valid UserModify userModify) throws EmailAlreadyExists, ExceptionsUser, ResourceNotFound {
+    public ResponseEntity<UserView> modifyUser(@RequestHeader(value = "Authorization") String token, @RequestBody @Valid UserModify userModify, @PathVariable("id") Integer id) throws EmailAlreadyExists, ExceptionsUser, ResourceNotFound {
         TokenDTO tokenDTO = userService.validate(token);
         if (tokenDTO == null) {
-            return ResponseEntity.badRequest();
+            return ResponseEntity.badRequest().build();
         }
         System.out.println(tokenDTO.getToken());
-        userService.modify(userModify);
-        return ResponseEntity.ok();
-
+         UserView result = userService.modify(id, userModify);
+        System.out.println("DENTROPUT"+result );
+        return ResponseEntity.ok(result);
     }
 
     @Operation(summary = "Search for a user by mail")
@@ -109,18 +98,10 @@ public class UserController {
         return ResponseEntity.ok(userService.findByPassword(password));
     }
 
-    /*@Operation(summary = "Login for a user")
-    @GetMapping(value = "/login")
-    @ResponseBody
-    public Object login(@RequestParam String email, @RequestParam String password) throws ResourceNotFound {
-        return userService.login(email, password);
-    }
-
-     */
     @Operation(summary = "Operations between two dates")
     @GetMapping(value = "/operations-between-dates/{id}/{firstdate}/{seconddate}")
     @ResponseBody
-    public ResponseEntity<Object> getOperationsBetweenDates(@RequestHeader(value = "Authorization") String token, @PathVariable int id, @PathVariable long firstdate, @PathVariable long seconddate) throws ResourceNotFound {
+    public ResponseEntity<TradedBetweenDates> getOperationsBetweenDates(@RequestHeader(value = "Authorization") String token, @PathVariable int id, @PathVariable long firstdate, @PathVariable long seconddate) throws ResourceNotFound {
         TokenDTO tokenDTO = userService.validate(token);
         if (tokenDTO == null) {
             return ResponseEntity.badRequest().build();

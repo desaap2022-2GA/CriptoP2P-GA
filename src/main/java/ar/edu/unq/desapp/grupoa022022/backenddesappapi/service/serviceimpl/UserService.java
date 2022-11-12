@@ -91,8 +91,8 @@ public class UserService implements IUserService {
 
 
     @Override
-    public UserView modify(UserModify userModify) throws EmailAlreadyExists, ResourceNotFound, ExceptionsUser {
-        User originalUser = userRepo.findById(userModify.getId()).orElseThrow(
+    public UserView modify(int id, UserModify userModify) throws EmailAlreadyExists, ResourceNotFound, ExceptionsUser {
+        User originalUser = userRepo.findById(id).orElseThrow(
                 () -> new ResourceNotFound("User not found with userId " + userModify.getId())
         );
         if (!Objects.equals(originalUser.getEmail(), userModify.getEmail())) {
@@ -151,7 +151,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Object operationsBetweenDates(int userId, long firstDate, long secondDate) throws ResourceNotFound {
+    public TradedBetweenDates operationsBetweenDates(int userId, long firstDate, long secondDate) throws ResourceNotFound {
         User user = this.getFromDataBase(userId);
         Set<Operation> operations = user.operationsBetweenDates(firstDate, secondDate);
 

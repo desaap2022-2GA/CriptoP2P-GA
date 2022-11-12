@@ -12,7 +12,7 @@ public interface IUserService {
 
     UserView create(UserRegister userRegister);
 
-    UserView modify(UserModify userModify) throws EmailAlreadyExists, ResourceNotFound, ExceptionsUser;
+    UserView modify(int id, UserModify userModify) throws EmailAlreadyExists, ResourceNotFound, ExceptionsUser;
 
     List<UserView> getAllUsers();
 
@@ -26,7 +26,7 @@ public interface IUserService {
 
     void checkNewUserEmail(String email) throws EmailAlreadyExists;
 
-    Object operationsBetweenDates(int userId, long firstDate, long secondDate) throws ResourceNotFound;
+    TradedBetweenDates operationsBetweenDates(int userId, long firstDate, long secondDate) throws ResourceNotFound;
 
     void deleteAllUsers();
 
