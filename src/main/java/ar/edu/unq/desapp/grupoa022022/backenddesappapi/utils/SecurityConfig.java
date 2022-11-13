@@ -24,20 +24,20 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Value("${user.pass}")
-    private String USER_PASS;
+    private String userPass;
 
     @Value("${admin.pass}")
-    private String ADMIN_PASS;
+    private String adminPass;
 
     @Bean
     public UserDetailsService userDetailsService(PasswordEncodeConfig bCryptPasswordEncoder) {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(User.withUsername("user")
-                .password(bCryptPasswordEncoder.passwordEncode().encode(USER_PASS))
+                .password(bCryptPasswordEncoder.passwordEncode().encode(userPass))
                 .roles("USER")
                 .build());
         manager.createUser(User.withUsername("admin")
-                .password(bCryptPasswordEncoder.passwordEncode().encode(ADMIN_PASS))
+                .password(bCryptPasswordEncoder.passwordEncode().encode(adminPass))
                 .roles("USER", "ADMIN")
                 .build());
         return manager;
