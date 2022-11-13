@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
@@ -18,13 +19,18 @@ public class DataSet {
             "Av Cordoba 3000, CABA", "1111", "6352879863528798635287",
             "Xwf5u5ef");
 
-        private final UserRegister userRegister = new UserRegister("Paston", "Gaudio", "gaudio@yahoo.com",
+    private final UserRegister userRegister = new UserRegister("Paston", "Gaudio", "gaudio@yahoo.com",
                 "Av Libertador 5000, CABA", "1111", "6352879863528798635287",
                 "Xwf5u5ef");
 
     private final UserRegister userRegister2 = new UserRegister("Martin", "Fierro", "fierro@gmail.com",
             "Av Cordoba 3000, CABA", "1111", "6352879863528798635287",
             "Xwf5u5ef");
+
+   private final UserRegister userRegister3 = new UserRegister("Paston", "Gaudio", "gaudio@yahoo.com",
+            "Av Libertador 5000, CABA", "Paston33", "6352879863528798635287",
+            "Xwf5u5ef");
+
     private final Cryptocurrency cryptocurrency = new Cryptocurrency("DAI");
 
     private final Cryptocurrency cryptocurrency2 = new Cryptocurrency("USDT");
@@ -66,6 +72,8 @@ public class DataSet {
     public UserRegister getUserRegister2() {
         return userRegister2;
     }
+
+    public UserRegister getUserRegister3() {return  userRegister3;}
 
     public Cryptocurrency getCryptocurrency() {
         new Quote(cryptocurrency, 305.00);
