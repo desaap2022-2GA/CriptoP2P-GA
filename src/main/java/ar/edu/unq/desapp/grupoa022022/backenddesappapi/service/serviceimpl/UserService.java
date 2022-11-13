@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-@Builder
+//@Builder
 public class UserService implements IUserService {
 
     @Autowired
@@ -48,18 +48,7 @@ public class UserService implements IUserService {
         if (userOptional.isPresent()) {
             return null;
         }
-        String password = passwordEncoder.encode(userRegister.getPassword());
-        User user = User.builder()
-                .name(userRegister.getName())
-                .lastname(userRegister.getLastname())
-                .address(userRegister.getAddress())
-                .addressWalletActiveCrypto(userRegister.getAddressWalletActiveCrypto())
-                .mercadoPagoCVU(userRegister.getMercadoPagoCVU())
-                .email(userRegister.getEmail())
-                .password(password)
-                .build();// por qué no deja usar User y si UserDTO?
-
-
+        User user = helper.userRegisterToUser(userRegister);
         return helper.userToUserView(userRepo.save(user));
     }
 

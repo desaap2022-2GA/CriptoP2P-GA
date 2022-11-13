@@ -75,7 +75,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.DELETE)
                 .hasRole("ADMIN")
-                .antMatchers("/users/**")
+                .antMatchers("/users/**", "/cryptocurrencies/**", "/quotes/**", "/intentions/**"
+                        , "/operations/**")
                 .anonymous()
                 .anyRequest()
                 .authenticated()

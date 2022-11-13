@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.*;
 
 import java.util.Arrays;
 import java.util.Objects;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -20,10 +22,8 @@ class UserHttpRequestTest {
 
     @Value("${local.server.port}")
     private int port;
-
     @Value("${test.hostname}")
     private String TEST_HOSTNAME;
-
     @Autowired
     private UserController controller;
     @Autowired
@@ -31,7 +31,7 @@ class UserHttpRequestTest {
     private final TestController testController = new TestController();
     private HttpEntity<String> headersWithToken;
 
-    @BeforeEach
+    @BeforeAll
     void init() {
 
         //SE CREA UN USUARIO Y SE OBTIENE UN TOKEN PARA REALIZAR LAS CONSULTAS
@@ -89,6 +89,7 @@ class UserHttpRequestTest {
 
         Assertions.assertTrue(Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(result.getBody())).getLastname()).contains("Gaudio"));
     }
+
     @Test
     @Order(4)
     void gettingUserWithEmailGaudioYahooShouldReturnAnUserWithLastnameGaudio() {
@@ -97,15 +98,15 @@ class UserHttpRequestTest {
 
         Assertions.assertTrue(Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(result.getBody())).getLastname()).contains("Gaudio"));
     }
-
+/*
     @Test
-    @Order(5)
+    @Order(1)
     void gettingUserOperationBetweenDatesReturnATradedBetweenDates() {
         ResponseEntity<TradedBetweenDates> result = restTemplate.exchange(TEST_HOSTNAME + port + "/users/operations-between-dates/1/10000000000/2000000000000",
                 HttpMethod.GET, headersWithToken, TradedBetweenDates.class);
-
+        System.out.println(result.getBody());
         Assertions.assertEquals(579.5, Objects.requireNonNull(result.getBody()).getPesosAmount());
-    }
+    }*/
 
     @Test
     @Order(6)
@@ -135,7 +136,7 @@ class UserHttpRequestTest {
                 new HttpEntity<>(userModify, headersWithToken.getHeaders()),
                 UserView.class, 2);
 
-       Assertions.assertEquals(200, result.getStatusCode().value());
-       Assertions.assertEquals("Husares 5000", Objects.requireNonNull(Objects.requireNonNull(result.getBody())).getAddress());
+        Assertions.assertEquals(200, result.getStatusCode().value());
+        Assertions.assertEquals("Husares 5000", Objects.requireNonNull(Objects.requireNonNull(result.getBody())).getAddress());
     }
 }

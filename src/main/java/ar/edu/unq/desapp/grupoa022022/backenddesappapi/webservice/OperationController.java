@@ -10,6 +10,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.Resource
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IOperationService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,20 +22,20 @@ public class OperationController {
 
     @Operation(summary = "Start an operation")
     @PostMapping
-    public OperationView openOperation(@RequestBody OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
-        return operationService.open(operationRegister);
+    public ResponseEntity<?> openOperation(@RequestBody OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+        return ResponseEntity.ok(operationService.open(operationRegister));
     }
 
     @Operation(summary = "Modify an operation")
     @PutMapping(value = "/{id}")
-    public void modifyOperation(@RequestBody OperationModify operationModify) throws ResourceNotFound, InvalidState {
+    public ResponseEntity<?> modifyOperation(@RequestBody OperationModify operationModify) throws ResourceNotFound, InvalidState {
         operationService.modify(operationModify);
+        return ResponseEntity.ok("");
     }
 
     @Operation(summary = "Search for operation id")
     @GetMapping(value = "/{userId}/{operationId}")
-    public OperationView getOperationById(@PathVariable int operationId, @PathVariable int userId) throws ResourceNotFound {
-        return operationService.getOperationById(operationId,userId);
-
+    public ResponseEntity<OperationView> getOperationById(@PathVariable int operationId, @PathVariable int userId) throws ResourceNotFound {
+        return ResponseEntity.ok(operationService.getOperationById(operationId,userId));
     }
 }

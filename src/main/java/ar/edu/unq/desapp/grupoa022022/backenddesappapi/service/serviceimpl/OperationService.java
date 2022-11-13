@@ -35,10 +35,11 @@ public class OperationService implements IOperationService {
     public Operation create(OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         User user = userService.getFromDataBase(operationRegister.getUserId());
         Intention intention = intentionService.findById(operationRegister.getIntentionId());
+        Operation operation;
         if (!intention.isTaken()) {
             intention.setTaken(true);
             intentionService.update(intention);
-            Operation operation = new Operation(intention, user);//usuario Que Acepta La Intencion
+            operation = new Operation(intention, user);//usuario Que Acepta La Intencion
             if (intention.getCryptocurrency().latestQuote()
                     .priceExceedVariationWithRespectTheIntentionPriceAccordingIntentionTypeLimits(intention.getPrice(),
                             intention.getType())) {
@@ -48,21 +49,24 @@ public class OperationService implements IOperationService {
                         "intention type limits, price of intention: " + intention.getPrice() + " ,price latest quote: " +
                         intention.getCryptocurrency().latestQuote().getPrice());
             }
-            return operationRepo.save(operation);
         } else {
             throw new IntentionAlreadyTaken("The intention is already taken");
         }
+        Operation operationSaved = operationRepo.save(operation);
+        System.out.println("operationSAVEDservice"+ operationSaved.toString());
+        return operationSaved;
     }
 
     @Override
     public OperationView open(OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
-        Operation operation = this.create(operationRegister);
-        return helper.operationToOperationView(operation, operation.getUserWhoAccepts());
+        Operation operationCreated = this.create(operationRegister);
+        System.out.println("afterCreateService"+operationCreated.toString());
+        return helper.operationToOperationView(operationCreated, operationCreated.getUserWhoAccepts());
     }
 
     @Override
     public void update(Operation operation) {
-        operationRepo.save(operation);
+        System.out.println("updateOperation"+operationRepo.save(operation));
     }
 
     @Override
@@ -119,7 +123,9 @@ public class OperationService implements IOperationService {
 
     @Override
     public void modify(OperationModify operationModify) throws ResourceNotFound, InvalidState {
+        System.out.println("serviceModify"+operationModify);
         Operation operation = findById(operationModify.getOperationId());
+        System.out.println("serviceAfterFind"+operation.toString());
         User user = userService.getFromDataBase(operationModify.getUserId());
 
         switch (operationModify.getState()) {
