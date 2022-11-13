@@ -40,6 +40,7 @@ public class Cryptocurrency {
     }
 
     public Cryptocurrency(String name, double price) {
+        this.name = name;
         new Quote(this, price);
     }
 

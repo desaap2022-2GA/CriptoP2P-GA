@@ -94,6 +94,9 @@ public class BackendDesappApiApplication {
         intentionService.create(new IntentionRegister(IntentionType.SELL, cryptocurrency2.getId(),
                 5326807.85, 2, user.getId()));
 
+        intentionService.create(new IntentionRegister(IntentionType.SELL, cryptocurrency2.getId(),
+                5726807.85, 1, user.getId()));
+
         //OPERATION
         Operation operation = operationService.create(new OperationRegister(intention.getId(), user2.getId()));
 
