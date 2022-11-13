@@ -39,7 +39,6 @@ public class UserController {
         if (tokenDTO == null) {
             return ResponseEntity.badRequest().build();
         }
-        System.out.println(tokenDTO.getToken());
         return ResponseEntity.ok(tokenDTO);
     }
 /*
@@ -61,9 +60,7 @@ public class UserController {
         if (tokenDTO == null) {
             return ResponseEntity.badRequest().build();
         }
-        System.out.println(tokenDTO.getToken());
          UserView result = userService.modify(id, userModify);
-        System.out.println("DENTROPUT"+result );
         return ResponseEntity.ok(result);
     }
 
@@ -80,7 +77,6 @@ public class UserController {
     @Operation(summary = "Search for a user by id")
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserView> getUserById(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFound {
-        System.out.println(token);
         TokenDTO tokenDTO = userService.validate(token);
         if (tokenDTO == null) {
             return ResponseEntity.badRequest().build();
@@ -116,7 +112,6 @@ public class UserController {
         if (tokenDTO == null) {
             return ResponseEntity.badRequest().build();
         }
-        System.out.println(tokenDTO.getToken());
         return ResponseEntity.ok(userService.getListUsers());
     }
 }

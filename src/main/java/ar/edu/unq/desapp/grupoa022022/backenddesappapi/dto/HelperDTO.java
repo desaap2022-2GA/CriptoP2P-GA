@@ -72,9 +72,6 @@ public class HelperDTO {
         Cryptocurrency cryptocurrency = intention.getCryptocurrency();
         User user = intention.getUser();
         String completeName = user.getName() + " " + user.getLastname();
-        System.out.println(intention.getCryptocurrency().getName()+intention.actualAmountPriceInPesos()
-                +cryptocurrency.latestQuote().getPrice()+completeName+user.getNumberOperations()+user.getReputation()
-                +intention.transactionInfoToShow(userWhoAsk)+operation.actionToDo(userWhoAsk));
         return new OperationView(intention.getCryptocurrency().getName(), intention.actualAmountPriceInPesos()
                 , cryptocurrency.latestQuote().getPrice(), completeName, user.getNumberOperations(), user.getReputation()
                 , intention.transactionInfoToShow(userWhoAsk), operation.actionToDo(userWhoAsk));

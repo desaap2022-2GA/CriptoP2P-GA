@@ -52,21 +52,18 @@ public class OperationService implements IOperationService {
         } else {
             throw new IntentionAlreadyTaken("The intention is already taken");
         }
-        Operation operationSaved = operationRepo.save(operation);
-        System.out.println("operationSAVEDservice"+ operationSaved.toString());
-        return operationSaved;
+        return operationRepo.save(operation);
     }
 
     @Override
     public OperationView open(OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         Operation operationCreated = this.create(operationRegister);
-        System.out.println("afterCreateService"+operationCreated.toString());
         return helper.operationToOperationView(operationCreated, operationCreated.getUserWhoAccepts());
     }
 
     @Override
     public void update(Operation operation) {
-        System.out.println("updateOperation"+operationRepo.save(operation));
+        operationRepo.save(operation);
     }
 
     @Override
@@ -123,9 +120,7 @@ public class OperationService implements IOperationService {
 
     @Override
     public void modify(OperationModify operationModify) throws ResourceNotFound, InvalidState {
-        System.out.println("serviceModify"+operationModify);
         Operation operation = findById(operationModify.getOperationId());
-        System.out.println("serviceAfterFind"+operation.toString());
         User user = userService.getFromDataBase(operationModify.getUserId());
 
         switch (operationModify.getState()) {

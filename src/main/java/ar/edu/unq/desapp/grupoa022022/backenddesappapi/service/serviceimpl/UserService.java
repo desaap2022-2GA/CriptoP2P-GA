@@ -64,7 +64,6 @@ public class UserService implements IUserService {
     }
 
     public TokenDTO validate(String token) {
-        System.out.println("inside validate "+token);
         var newToken = token.replace("Bearer ", "");
         if (!jwtProvider.validate(newToken)) {
             return null;
