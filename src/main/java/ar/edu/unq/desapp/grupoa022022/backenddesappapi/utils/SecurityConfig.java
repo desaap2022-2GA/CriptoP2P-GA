@@ -12,13 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-/*
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-}*/
-
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
@@ -29,38 +22,43 @@ public class SecurityConfig {
     @Value("${admin.pass}")
     private String adminPass;
 
-    @Bean
-    public UserDetailsService userDetailsService(PasswordEncodeConfig bCryptPasswordEncoder) {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user")
-                .password(bCryptPasswordEncoder.passwordEncode().encode(userPass))
-                .roles("USER")
-                .build());
-        manager.createUser(User.withUsername("admin")
-                .password(bCryptPasswordEncoder.passwordEncode().encode(adminPass))
-                .roles("USER", "ADMIN")
-                .build());
-        return manager;
-    }
-
+    /*
+        @Bean
+        public UserDetailsService userDetailsService(PasswordEncodeConfig bCryptPasswordEncoder) {
+            InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+            manager.createUser(User.withUsername("user")
+                    .password(bCryptPasswordEncoder.passwordEncode().encode(userPass))
+                    .roles("USER")
+                    .build());
+            manager.createUser(User.withUsername("admin")
+                    .password(bCryptPasswordEncoder.passwordEncode().encode(adminPass))
+                    .roles("USER", "ADMIN")
+                    .build());
+            return manager;
+        }
+    */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf()
                 .disable()
                 .authorizeRequests()
+/*
                 .antMatchers(HttpMethod.DELETE)
                 .hasRole("ADMIN")
+*/
                 .antMatchers("/users/**", "/cryptocurrencies/**", "/quotes/**", "/intentions/**"
-                        , "/operations/**")
+                        , "/operations/**", "/h2-console/**", "/swagger-ui/**")
                 .anonymous()
                 .anyRequest()
                 .authenticated()
+/*
                 .and()
                 .httpBasic()
+*/
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+        http.headers().frameOptions().disable();
         return http.build();
     }
 }
