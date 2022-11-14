@@ -8,6 +8,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Objects;
@@ -36,6 +37,7 @@ public class User {
     @Size(min = 3, max = 30, message = "lastname must be between 3 and 30 characters")
     private String lastname;
 
+    @Pattern(regexp = "^[^@]+@[^@]+\\.[a-zA-Z]{2,}$", message = "mail must be in appropriate format")
     private String email;
 
     private String address;
