@@ -62,21 +62,7 @@ public class UserService implements IUserService {
         }
         return null;
     }
-
-    public TokenDTO validate(String token) {
-        var newToken = token.replace("Bearer ", "");
-        if (!jwtProvider.validate(newToken)) {
-            return null;
-        }
-        String email = jwtProvider.getEmailFromToken(newToken);
-        if (!userRepo.findByEmail(email).isPresent()) {
-            return null;
-        }
-        return new TokenDTO(newToken);
-    }
-
     /***Fin Agregado***/
-
 
     @Override
     public UserView modify(int id, UserModify userModify) throws EmailAlreadyExists, ResourceNotFound, ExceptionsUser {

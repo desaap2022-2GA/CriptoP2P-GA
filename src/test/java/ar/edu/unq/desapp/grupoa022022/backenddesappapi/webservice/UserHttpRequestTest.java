@@ -78,7 +78,7 @@ class UserHttpRequestTest {
                 HttpMethod.GET, headersWithToken, UserView[].class);
 
         System.out.println(Arrays.stream(result.getBody()).map(userView -> userView.getId()).toString());
-        Assertions.assertEquals(3, Objects.requireNonNull(result.getBody()).length);
+        Assertions.assertEquals(7, Objects.requireNonNull(result.getBody()).length);
     }
 
     @Test
@@ -114,10 +114,10 @@ class UserHttpRequestTest {
         UserRegister userRegister = new UserRegister("Roger", "Federer", "federer@gmail.com"
                 , "Av Libertador 5000", "1234", "1236549877412589632145", "Zs59f4lo");
 
-        ResponseEntity<UserView> result = null;
+        ResponseEntity<UserView> result;
         try {
             result = restTemplate.exchange(TEST_HOSTNAME + port + "/users",
-                    HttpMethod.POST, new HttpEntity<>(testController.getBody(userRegister), testController.getHeaders()), UserView.class);
+                    HttpMethod.POST, new HttpEntity<>(testController.getBody(userRegister), headersWithToken.getHeaders()), UserView.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

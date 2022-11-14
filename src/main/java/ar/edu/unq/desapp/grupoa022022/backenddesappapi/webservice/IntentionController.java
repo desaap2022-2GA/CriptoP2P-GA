@@ -2,9 +2,11 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionView;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.TokenDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRange;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,30 +20,48 @@ import java.util.List;
 public class IntentionController {
 
     @Autowired
-    private IIntentionService intentionService;
+    IIntentionService intentionService;
+
+    @Autowired
+    TokenService tokenService;
 
     @Operation(summary = "Create an intention")
     @PostMapping
-    public ResponseEntity<IntentionView> openIntention(@RequestBody @Valid IntentionRegister intentionRegister) throws ResourceNotFound, PriceNotInAValidRange {
+    public ResponseEntity<IntentionView> openIntention(@RequestHeader(value = "Authorization") String token, @RequestBody @Valid IntentionRegister intentionRegister) throws ResourceNotFound, PriceNotInAValidRange {
+        TokenDTO tokenDTO = tokenService.validate(token);
+        if (tokenDTO == null) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(intentionService.open(intentionRegister));
     }
 
     @Operation(summary = "Search an intention by id")
     @GetMapping(value = "/{id}")
-    public ResponseEntity<IntentionView> getIntentionById(@PathVariable("id") Integer id) throws ResourceNotFound {
+    public ResponseEntity<IntentionView> getIntentionById(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFound {
+        TokenDTO tokenDTO = tokenService.validate(token);
+        if (tokenDTO == null) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(intentionService.getIntentionById(id));
     }
 
     @Operation(summary = "List all intentions")
     @GetMapping
-    public ResponseEntity<List<IntentionView>> listAllIntentions() {
+    public ResponseEntity<List<IntentionView>> listAllIntentions(@RequestHeader(value = "Authorization") String token) {
+        TokenDTO tokenDTO = tokenService.validate(token);
+        if (tokenDTO == null) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(intentionService.getAll());
     }
 
     @Operation(summary = "List all active intentions")
     @GetMapping(value = "/active")
-    public ResponseEntity<List<IntentionView>> listIntentionActive() {
+    public ResponseEntity<List<IntentionView>> listIntentionActive(@RequestHeader(value = "Authorization") String token) {
+        TokenDTO tokenDTO = tokenService.validate(token);
+        if (tokenDTO == null) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(intentionService.getActiveIntentions());
     }
-
 }

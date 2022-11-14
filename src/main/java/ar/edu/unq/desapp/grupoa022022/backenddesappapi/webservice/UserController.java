@@ -4,6 +4,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.TokenService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    TokenService tokenService;
 
     /***Agregado***/
     @Operation(summary = "Register User")
@@ -56,7 +60,7 @@ public class UserController {
     @Operation(summary = "Modify a user")
     @PutMapping(value = "/{id}")
     public ResponseEntity<UserView> modifyUser(@RequestHeader(value = "Authorization") String token, @RequestBody @Valid UserModify userModify, @PathVariable("id") Integer id) throws EmailAlreadyExists, ExceptionsUser, ResourceNotFound {
-        TokenDTO tokenDTO = userService.validate(token);
+        TokenDTO tokenDTO = tokenService.validate(token);
         if (tokenDTO == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -67,7 +71,7 @@ public class UserController {
     @Operation(summary = "Search for a user by mail")
     @GetMapping(value = "/email/{email}")
     public ResponseEntity<UserView> getUserByEmail(@RequestHeader(value = "Authorization") String token, @PathVariable("email") String email) throws NoSuchElementException, ResourceNotFound {
-        TokenDTO tokenDTO = userService.validate(token);
+        TokenDTO tokenDTO = tokenService.validate(token);
         if (tokenDTO == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -77,7 +81,7 @@ public class UserController {
     @Operation(summary = "Search for a user by id")
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserView> getUserById(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFound {
-        TokenDTO tokenDTO = userService.validate(token);
+        TokenDTO tokenDTO = tokenService.validate(token);
         if (tokenDTO == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -87,7 +91,7 @@ public class UserController {
     @Operation(summary = "Search for a user by password")
     @GetMapping(value = "/password/{password}")
     public ResponseEntity<UserView> getUserByPassword(@RequestHeader(value = "Authorization") String token, @PathVariable("password") String password) throws ResourceNotFound {
-        TokenDTO tokenDTO = userService.validate(token);
+        TokenDTO tokenDTO = tokenService.validate(token);
         if (tokenDTO == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -98,7 +102,7 @@ public class UserController {
     @GetMapping(value = "/operations-between-dates/{id}/{firstdate}/{seconddate}")
     @ResponseBody
     public ResponseEntity<TradedBetweenDates> getOperationsBetweenDates(@RequestHeader(value = "Authorization") String token, @PathVariable int id, @PathVariable long firstdate, @PathVariable long seconddate) throws ResourceNotFound {
-        TokenDTO tokenDTO = userService.validate(token);
+        TokenDTO tokenDTO = tokenService.validate(token);
         if (tokenDTO == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -107,8 +111,8 @@ public class UserController {
 
     @Operation(summary = "List the users of the query")
     @GetMapping
-    public ResponseEntity<List<UserQuery>> listUsers(@RequestHeader(value = "Authorization") String token) throws ExceptionsUser {
-        TokenDTO tokenDTO = userService.validate(token);
+    public ResponseEntity<List<UserQuery>> listUsers(@RequestHeader(value = "Authorization") String token){
+        TokenDTO tokenDTO = tokenService.validate(token);
         if (tokenDTO == null) {
             return ResponseEntity.badRequest().build();
         }

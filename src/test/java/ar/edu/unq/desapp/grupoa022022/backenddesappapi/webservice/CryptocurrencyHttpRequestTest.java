@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.TokenDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.*;
@@ -9,9 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -33,6 +32,42 @@ class CryptocurrencyHttpRequestTest {
     private TestRestTemplate restTemplate;
     private final TestController testController = new TestController();
 
+    private HttpEntity<String> headersWithToken;
+
+    @BeforeAll
+    void init() {
+
+        //SE CREA UN USUARIO Y SE OBTIENE UN TOKEN PARA REALIZAR LAS CONSULTAS
+        HttpEntity<String> jwtEntity;
+        try {
+            jwtEntity = testController.getRegistrationEntityC();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        ResponseEntity<String> registrationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/users", HttpMethod.POST,
+                jwtEntity, String.class);
+
+        HttpEntity<String> authenticationEntity = null;
+        if (registrationResponse.getStatusCode().equals(HttpStatus.OK)) {
+            try {
+                authenticationEntity = testController.getAuthenticationEntityC();
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        ResponseEntity<TokenDTO> authenticationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/users/login",
+                HttpMethod.POST, authenticationEntity, TokenDTO.class);
+
+        if (authenticationResponse.getStatusCode().equals(HttpStatus.OK)) {
+            String token = "Bearer " + authenticationResponse.getBody().getToken();
+            HttpHeaders headers = testController.getHeaders();
+            headers.set("Authorization", token);
+            headersWithToken = new HttpEntity<>(headers);
+        }
+    }
+
     @Test
     void contextLoads() {
         assertThat(controller).isNotNull();
@@ -42,8 +77,8 @@ class CryptocurrencyHttpRequestTest {
     @Order(1)
     void gettingCryptocurrenciesShouldReturnAListWhit16Cryptocurrencies() {
 
-        ResponseEntity<Cryptocurrency[]> result = restTemplate.getForEntity(TEST_HOSTNAME + port + "/cryptocurrencies",
-                Cryptocurrency[].class);
+        ResponseEntity<Cryptocurrency[]> result = restTemplate.exchange(TEST_HOSTNAME + port + "/cryptocurrencies",
+                HttpMethod.GET, headersWithToken, Cryptocurrency[].class);
         System.out.println(result);
         Assertions.assertEquals(16, Arrays.stream(Objects.requireNonNull(result.getBody())).toList().size());
     }
@@ -57,7 +92,7 @@ class CryptocurrencyHttpRequestTest {
         ResponseEntity<Cryptocurrency> result;
         try {
             result = restTemplate.exchange(TEST_HOSTNAME + port + "/cryptocurrencies",
-                    HttpMethod.POST, new HttpEntity<>(testController.getBody(cryptocurrencyRegister), testController.getHeaders()), Cryptocurrency.class);
+                    HttpMethod.POST, new HttpEntity<>(testController.getBody(cryptocurrencyRegister), headersWithToken.getHeaders()), Cryptocurrency.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
