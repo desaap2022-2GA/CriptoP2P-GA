@@ -95,15 +95,15 @@ public class CryptocurrencyService implements ICryptocurrencyService {
         return cryptocurrencyLastQuotesList;
     }
 
-    @Scheduled(cron = "* * * * * ") //Ahora en un min
+//    @Scheduled(cron = "* * * * * ") //Ahora en un min
     // "*/10 * * * * "cada 10 minutos - application.properties
     // "${cron.expression}
-    @CachePut("cryptoCurrency")
+//    @CachePut("cryptoCurrency")
     //@Cacheable("cryptoCurrency")
-    @Override
-    public List<CryptocurrencyLastQuote> latestQuotes10Min(){
+//    @Override
+//    public List<CryptocurrencyLastQuote> latestQuotes10Min(){
         //System.out.println("pase");
-        return latestQuotes();
+//        return latestQuotes();
         //return null;
-    }
+//    }
 }

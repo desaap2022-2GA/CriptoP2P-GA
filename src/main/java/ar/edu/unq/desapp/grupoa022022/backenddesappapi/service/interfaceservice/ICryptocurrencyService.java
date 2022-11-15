@@ -24,7 +24,5 @@ public interface ICryptocurrencyService {
 
     List<CryptocurrencyLastQuote> latestQuotes();
 
-    @Scheduled(fixedRate = 600000)
-    @CachePut("cryptoCurrency")
-    List<CryptocurrencyLastQuote> latestQuotes10Min();
+//    List<CryptocurrencyLastQuote> latestQuotes10Min();
 }

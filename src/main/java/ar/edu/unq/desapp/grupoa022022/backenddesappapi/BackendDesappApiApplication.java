@@ -12,13 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @SpringBootApplication
+@EnableScheduling
 public class BackendDesappApiApplication {
 
     @Autowired
@@ -39,6 +44,13 @@ public class BackendDesappApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(BackendDesappApiApplication.class, args);
     }
+
+    @Scheduled(cron = "* * * * * ")
+    //@CachePut("cryptoCurrency")
+    public void tarea(){
+       // Log.Logger .info("paso 1 minuto" + new Date());
+    }
+
 
     protected final Logger logger = LogManager.getLogger(getClass());
 
