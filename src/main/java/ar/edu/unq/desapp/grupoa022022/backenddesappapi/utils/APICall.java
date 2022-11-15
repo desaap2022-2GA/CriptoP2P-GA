@@ -42,6 +42,4 @@ public class APICall {
         });
         return cryptocurrencyLastQuotesList;
     }
-
-
 }

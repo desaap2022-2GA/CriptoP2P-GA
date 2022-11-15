@@ -9,26 +9,14 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.ICryptocurren
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IQuoteRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.APICall;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class CryptocurrencyService implements ICryptocurrencyService {
-
-    protected final Logger logger = LogManager.getLogger(getClass());
-    RestTemplate restTemplate = new RestTemplate();
     @Autowired
     private ICryptocurrencyRepo cryptocurrencyRepo;
 
