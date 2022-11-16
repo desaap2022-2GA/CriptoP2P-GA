@@ -100,7 +100,6 @@ class QuoteHttpRequestTest {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-
         Assertions.assertEquals(152.50, Objects.requireNonNull(result.getBody()).getPrice());
     }
 }

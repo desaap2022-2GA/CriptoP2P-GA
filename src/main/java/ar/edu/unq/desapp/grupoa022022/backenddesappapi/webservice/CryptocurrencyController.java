@@ -7,6 +7,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ public class CryptocurrencyController {
     TokenService tokenService;
 
     @Operation(summary = "Create a cryptocurrency")
+    @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping
     public ResponseEntity<Cryptocurrency> createCryptocurrency(@RequestHeader(value = "Authorization") String token, @RequestBody @Valid CryptocurrencyRegister cryptocurrencyRegister) {
         TokenDTO tokenDTO = tokenService.validate(token);
@@ -35,6 +37,7 @@ public class CryptocurrencyController {
     }
 
     @Operation(summary = "List all cryptocurrency")
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping
     public ResponseEntity<List<Cryptocurrency>> listAllCryptocurrencies(@RequestHeader(value = "Authorization") String token) {
         TokenDTO tokenDTO = tokenService.validate(token);
@@ -45,6 +48,7 @@ public class CryptocurrencyController {
     }
 
     @Operation(summary = "List last quote of cryptocurrencies")
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("/latest_quotes")
     public ResponseEntity<List<CryptocurrencyLastQuote>> listLastQuoteOfCryptocurrencies(@RequestHeader(value = "Authorization") String token) {
         TokenDTO tokenDTO = tokenService.validate(token);

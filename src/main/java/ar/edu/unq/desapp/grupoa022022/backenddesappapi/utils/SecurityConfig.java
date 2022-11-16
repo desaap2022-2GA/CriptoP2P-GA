@@ -16,27 +16,29 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 
-    @Value("${user.pass}")
-    private String userPass;
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            // -- Console H2
+            "/h2-console/**",
+            // other public endpoints of your API may be appended to this array
+            "/users/**",
+            "/cryptocurrencies/**",
+            "/quotes/**",
+            "/intentions/**",
+            "/operations/**",
+            "/h2-console/**"
+    };
 
-    @Value("${admin.pass}")
-    private String adminPass;
-
-    /*
-        @Bean
-        public UserDetailsService userDetailsService(PasswordEncodeConfig bCryptPasswordEncoder) {
-            InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-            manager.createUser(User.withUsername("user")
-                    .password(bCryptPasswordEncoder.passwordEncode().encode(userPass))
-                    .roles("USER")
-                    .build());
-            manager.createUser(User.withUsername("admin")
-                    .password(bCryptPasswordEncoder.passwordEncode().encode(adminPass))
-                    .roles("USER", "ADMIN")
-                    .build());
-            return manager;
-        }
-    */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf()
@@ -46,8 +48,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.DELETE)
                 .hasRole("ADMIN")
 */
-                .antMatchers("/users/**", "/cryptocurrencies/**", "/quotes/**", "/intentions/**"
-                        , "/operations/**", "/h2-console/**", "/swagger-ui/**")
+                .antMatchers(AUTH_WHITELIST)
                 .anonymous()
                 .anyRequest()
                 .authenticated()

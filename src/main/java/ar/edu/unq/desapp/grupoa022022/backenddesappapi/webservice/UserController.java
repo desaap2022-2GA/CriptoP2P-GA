@@ -10,6 +10,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.Resource
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.TokenService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,9 @@ public class UserController {
     @Operation(summary = "Register User")
     @PostMapping
     public ResponseEntity<UserView> create(@RequestBody UserRegister dto) {
+        System.out.println("userRegister "+dto);
         UserView userView = userService.create(dto);
+        System.out.println("userView "+userView);
         if (userView == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -51,6 +54,7 @@ public class UserController {
     /***Fin Agregado***/
 
     @Operation(summary = "Search for a user by mail")
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/email/{email}")
     public ResponseEntity<UserView> getUserByEmail(@RequestHeader(value = "Authorization") String token, @PathVariable("email") String email) throws NoSuchElementException, ResourceNotFound {
         TokenDTO tokenDTO = tokenService.validate(token);
@@ -61,6 +65,7 @@ public class UserController {
     }
 
     @Operation(summary = "Search for a user by id")
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserView> getUserById(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFound {
         TokenDTO tokenDTO = tokenService.validate(token);
@@ -71,6 +76,7 @@ public class UserController {
     }
 
     @Operation(summary = "Search for a user by password")
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/password/{password}")
     public ResponseEntity<UserView> getUserByPassword(@RequestHeader(value = "Authorization") String token, @PathVariable("password") String password) throws ResourceNotFound {
         TokenDTO tokenDTO = tokenService.validate(token);
@@ -81,6 +87,7 @@ public class UserController {
     }
 
     @Operation(summary = "Operations between two dates")
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/operations-between-dates/{id}/{firstdate}/{seconddate}")
     @ResponseBody
     public ResponseEntity<TradedBetweenDates> getOperationsBetweenDates(@RequestHeader(value = "Authorization") String token, @PathVariable int id, @PathVariable long firstdate, @PathVariable long seconddate) throws ResourceNotFound {
@@ -92,6 +99,7 @@ public class UserController {
     }
 
     @Operation(summary = "List the users of the query")
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping
     public ResponseEntity<List<UserQuery>> listUsers(@RequestHeader(value = "Authorization") String token) {
         TokenDTO tokenDTO = tokenService.validate(token);
@@ -102,13 +110,13 @@ public class UserController {
     }
 
     @Operation(summary = "modify a user's data")
+    @SecurityRequirement(name = "Bearer Authentication")
     @PutMapping(value = "/{id},{field},{data}")
     public ResponseEntity<User> modifyAUser(@RequestHeader(value = "Authorization") String token, @PathVariable int id, @PathVariable String field, @PathVariable String data) throws ResourceNotFound, ExceptionsUser {
         TokenDTO tokenDTO = tokenService.validate(token);
         if (tokenDTO == null) {
             return ResponseEntity.badRequest().build();
         }
-
         return ResponseEntity.ok(userService.modifyUser(id, field, data));
     }
 }

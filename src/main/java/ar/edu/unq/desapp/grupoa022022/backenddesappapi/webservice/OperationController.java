@@ -11,6 +11,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.Resource
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IOperationService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ public class OperationController {
     TokenService tokenService;
 
     @Operation(summary = "Start an operation")
+    @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping
     public ResponseEntity<?> openOperation(@RequestHeader(value = "Authorization") String token, @RequestBody OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         TokenDTO tokenDTO = tokenService.validate(token);
@@ -36,6 +38,7 @@ public class OperationController {
     }
 
     @Operation(summary = "Modify an operation")
+    @SecurityRequirement(name = "Bearer Authentication")
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> modifyOperation(@RequestHeader(value = "Authorization") String token, @RequestBody OperationModify operationModify) throws ResourceNotFound, InvalidState {
         TokenDTO tokenDTO = tokenService.validate(token);
@@ -47,6 +50,7 @@ public class OperationController {
     }
 
     @Operation(summary = "Search for operation id")
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/{userId}/{operationId}")
     public ResponseEntity<OperationView> getOperationById(@RequestHeader(value = "Authorization") String token, @PathVariable int operationId, @PathVariable int userId) throws ResourceNotFound {
         TokenDTO tokenDTO = tokenService.validate(token);
