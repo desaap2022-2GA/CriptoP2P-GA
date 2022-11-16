@@ -13,10 +13,10 @@ public class CryptocurrencyLastQuote {
     @JsonProperty("symbol")
     private String name;
     @JsonProperty("price")
-    private BigDecimal lastQuote;
+    private String lastQuote;
 
     private String date;
-    public CryptocurrencyLastQuote(String name, BigDecimal lastQuote){
+    public CryptocurrencyLastQuote(String name, String lastQuote){
         this.name = name;
         this.lastQuote = lastQuote;
     }

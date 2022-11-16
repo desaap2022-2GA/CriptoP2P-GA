@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -52,7 +53,7 @@ public class CryptocurrencyService implements ICryptocurrencyService {
 
     @Override
     public List<Cryptocurrency> getAll() {
-        return cryptocurrencyRepo.findAll(Sort.by(Sort.Direction.ASC,"id"));
+        return cryptocurrencyRepo.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     @Override
@@ -64,8 +65,15 @@ public class CryptocurrencyService implements ICryptocurrencyService {
 
     @Override
     @Cacheable("cryptoCurrency")
-    public List<CryptocurrencyLastQuote> latestQuotes(){
+    public List<CryptocurrencyLastQuote> latestQuotes() {
         return new APICall().binanceLatestQuotes();
+    }
+
+    @Override
+    public List<CryptocurrencyLastQuote> oneDayQuotes(Integer id) throws ResourceNotFound {
+        Cryptocurrency cryptocurrency = findById(id);
+        //return cryptocurrency.last24HoursQuotes();
+        return new APICall().binance24hsQuotesForCryptocurrency(cryptocurrency);
     }
 
 //    @Scheduled(cron = "* * * * * ") //Ahora en un min
@@ -75,8 +83,8 @@ public class CryptocurrencyService implements ICryptocurrencyService {
     //@Cacheable("cryptoCurrency")
 //    @Override
 //    public List<CryptocurrencyLastQuote> latestQuotes10Min(){
-        //System.out.println("pase");
+    //System.out.println("pase");
 //        return latestQuotes();
-        //return null;
+    //return null;
 //    }
 }

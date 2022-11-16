@@ -65,8 +65,8 @@ public class Cryptocurrency {
         this.intentions.remove(intention);
     }
 
-    public Set<Quote> last24HoursQuotes() {
+    public List<Quote> last24HoursQuotes() {
         long nowMinusOneDay = new DateTimeInMilliseconds().getCurrentTimeMinusOneDayInMilliseconds();
-        return this.quotes.stream().filter(q -> q.getDateTime() > nowMinusOneDay).collect(Collectors.toSet());
+        return this.quotes.stream().filter(q -> q.getDateTime() > nowMinusOneDay).collect(Collectors.toList());
     }
 }
