@@ -10,6 +10,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.Resource
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.IntentionService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,10 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @ExtendWith(MockitoExtension.class)
@@ -46,7 +44,7 @@ public class IntentionServiceTest {
 
     public IntentionView mockIntentionView = Mockito.mock(IntentionView.class);
 
-    public IntentionType mockintentionType = Mockito.mock(IntentionType.class);
+    //public IntentionType mockintentionType = Mockito.mock(IntentionType.class);
     public User mockUser = Mockito.mock(User.class);
 
     public User userReg = new User("Paston", "Gaudio", "gaudio@yahoo.com",
@@ -93,18 +91,18 @@ public class IntentionServiceTest {
         assertEquals(intent.getPrice(), intentionRegister.getPrice());
     }
 
-
-    @DisplayName("JUnit test getAll method in IntentionService")
+    @DisplayName("JUnit test create method with exception in IntentionService")
     @Test
-    public void getAllIntentionTest() {
-        assertEquals(intentionService.getAll().size(), 3);
+    public void createIntention_WithException_Test(){
+        assertThrows(PriceNotInAValidRange.class, () -> {
+            IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
+                    mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
+            intentionRegister.setPrice(50000d);
+            intentionService.create(intentionRegister);
+        });
     }
 
-    @DisplayName("JUnit test findById method in IntentionService")
-    @Test
-    public void findByIdIntentionTest() throws ResourceNotFound {
-        assertEquals(intentionService.findById(1).getPrice(), 289.75d);
-    }
+
 
     @DisplayName("JUnit test open method in IntentionService")
     @Test
@@ -113,7 +111,17 @@ public class IntentionServiceTest {
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
 
         assertEquals(intentionService.open(intentionRegister).getPrice(), 289.75d);
+    }
 
+    @DisplayName("JUnit test open method with exception in IntentionService")
+    @Test
+    public void openIntention_WithException_Test(){
+        assertThrows(PriceNotInAValidRange.class, () -> {
+            IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
+                    mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
+            intentionRegister.setPrice(50d);
+            intentionService.open(intentionRegister);
+        });
     }
 
 
@@ -124,10 +132,10 @@ public class IntentionServiceTest {
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
 
         Intention intent = intentionService.create(intentionRegister);
-
+        intent.setUnits(3);
         intentionService.update(intent);
 
-        assertEquals(intent.getPrice(), 289.75d);
+        assertEquals(intent.getUnits(), 3);
     }
 
     @DisplayName("JUnit test deleteById Method in IntentionService")
@@ -140,8 +148,36 @@ public class IntentionServiceTest {
 
         intentionService.delete(intent.getId());
 
-        assertEquals(intentionService.getAll().size(), 3);
+        assertEquals(intentionService.getAll().size(), 6);
     }
+
+   /* @DisplayName("JUnit test deleteById method with exception in IntentionService")
+    @Test
+    public void deleteByIdIntention_WithException_Test(){
+        assertThrows(ResourceNotFound.class, () -> {
+            //IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
+            //        mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
+            //intentionRegister.setPrice(50000d);
+            intentionService.delete(3600);
+        });
+    }
+
+    */
+
+    @DisplayName("JUnit test getIntentionById method in IntentionService")
+    @Test
+    void getIntentionByIdTest() throws ResourceNotFound {
+        assertEquals(intentionService.getIntentionById(1).getUnits(), 2);
+    }
+
+    @DisplayName("JUnit test getIntentionById method with exception in IntentionService")
+    @Test
+    public void getIntentionById_WithException_Test(){
+        assertThrows(ResourceNotFound.class, () -> {
+            intentionService.getIntentionById(20);
+        });
+    }
+
 
     @DisplayName("JUnit test getActiveIntetntion method in IntentionService")
     @Test
@@ -151,24 +187,67 @@ public class IntentionServiceTest {
 
         Intention intent = intentionService.create(intentionRegister);
 
-        List<IntentionView> intentions = intentionService.getActiveIntentions();
+        assertEquals(intentionService.getActiveIntentions().size(), 3);
 
-        assertEquals(intentions.size(), 0);
+        //assertEquals(intentionService.getActiveIntentions().size(), 2);
+    }
+
+    @DisplayName("JUnit test findById method in IntentionService")
+    @Test
+    public void findByIdIntentionTest() throws ResourceNotFound {
+        assertEquals(intentionService.findById(1).getPrice(), 289.75d);
+    }
+
+    @DisplayName("JUnit test findIntentionById method with exception in IntentionService")
+    @Test
+    public void findIntentionById_WithException_Test(){
+        assertThrows(ResourceNotFound.class, () -> {
+            intentionService.getIntentionById(20);
+        });
+    }
+
+    @DisplayName("Junit test findActiveIntentions method in IntentionService")
+    @Test
+    void findActiveIntentionTest(){
+        assertEquals(intentionService.findActiveIntentions().size(),2);
+    }
+
+    @DisplayName("JUnit test getAll method in IntentionService")
+    @Test
+    public void getAllIntentionTest() {
+        //intentionService.deleteAll();
+        assertEquals(intentionService.getAll().size(), 3);
     }
 
 
 
-/*
-public List<IntentionView> getActiveIntentions() {
-        return this.findActiveIntentions().stream().map(intention -> helper.intentionToIntentionView(intention
-                ,intention.getUser())).toList();
+
+
+ /*   @DisplayName("JUnit test deleteAll method in IntetntionService")
+    @Test
+    void deleteAllIntentionsTest() throws PriceNotInAValidRange, ResourceNotFound {
+        IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
+                mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
+
+        Intention intent = intentionService.create(intentionRegister);
+        intentionService.deleteAll();
+
+        assertTrue(intentionService.getAll().isEmpty());
     }
- */
+
+
+  */
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
-
-/*
-    Intention findById(int id) throws ResourceNotFound;
-    IntentionView getIntentionById(int id) throws ResourceNotFound;
-*/
