@@ -40,7 +40,9 @@ public class JwtProvider{
 
     public boolean validate (String token){
         try{
-            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+            Jwts.parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token);
             return true;
         }catch(Exception e){
             return false;
@@ -50,7 +52,11 @@ public class JwtProvider{
 
     public String getEmailFromToken(String token){
         try{
-            return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
+            return Jwts.parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
         }catch(Exception e){
             return "Bad token";
         }

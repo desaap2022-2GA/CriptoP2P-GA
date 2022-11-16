@@ -12,55 +12,54 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-/*
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-}*/
-
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 
-    @Value("${user.pass}")
-    private String USER_PASS;
-
-    @Value("${admin.pass}")
-    private String ADMIN_PASS;
-
-    @Bean
-    public UserDetailsService userDetailsService(PasswordEncodeConfig bCryptPasswordEncoder) {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user")
-                .password(bCryptPasswordEncoder.passwordEncode().encode(USER_PASS))
-                .roles("USER")
-                .build());
-        manager.createUser(User.withUsername("admin")
-                .password(bCryptPasswordEncoder.passwordEncode().encode(ADMIN_PASS))
-                .roles("USER", "ADMIN")
-                .build());
-        return manager;
-    }
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            // -- Console H2
+            "/h2-console/**",
+            // other public endpoints of your API may be appended to this array
+            "/users/**",
+            "/cryptocurrencies/**",
+            "/quotes/**",
+            "/intentions/**",
+            "/operations/**",
+            "/h2-console/**"
+    };
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf()
                 .disable()
                 .authorizeRequests()
+/*
                 .antMatchers(HttpMethod.DELETE)
                 .hasRole("ADMIN")
-                .antMatchers("/users/**", "/cryptocurrencies/**", "/quotes/**", "/intentions/**"
-                        , "/operations/**")
+*/
+                .antMatchers(AUTH_WHITELIST)
                 .anonymous()
                 .anyRequest()
                 .authenticated()
+/*
                 .and()
                 .httpBasic()
+*/
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+        http.headers().frameOptions().disable();
         return http.build();
     }
 }

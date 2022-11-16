@@ -4,6 +4,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.*;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.APICall;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 import org.apache.logging.log4j.LogManager;
@@ -12,15 +13,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @SpringBootApplication
+@EnableScheduling
 public class BackendDesappApiApplication {
 
     @Autowired
@@ -48,6 +53,13 @@ public class BackendDesappApiApplication {
     }
 
     protected final Logger logger = LogManager.getLogger(getClass());
+
+    @Scheduled(cron = "${cron.expression}")//un minuto de prueba
+    @CachePut("cryptoCurrency")
+    public List<CryptocurrencyLastQuote> updateCryptocurrenciesQuotes() {
+        logger.info("Quotes UPDATED" + new Date());
+        return new APICall().binanceLatestQuotes();
+    }
 
     @Value("${spring.datasource.driverClassName:NONE}")
     private String className;

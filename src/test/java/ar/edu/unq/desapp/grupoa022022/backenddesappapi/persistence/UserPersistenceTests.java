@@ -43,7 +43,6 @@ class UserPersistenceTests {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
-
     final private User prueUser1 = new User("Roger", "Federer", "federer@yahoo.com",
             "Av Libertador 5000, CABA", "", "5469875465852365478952",
             "pup3oi5e");

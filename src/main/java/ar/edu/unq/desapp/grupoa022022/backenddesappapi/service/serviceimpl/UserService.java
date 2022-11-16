@@ -62,32 +62,7 @@ public class UserService implements IUserService {
         }
         return null;
     }
-
-    public TokenDTO validate(String token) {
-        var newToken = token.replace("Bearer ", "");
-        if (!jwtProvider.validate(newToken)) {
-            return null;
-        }
-        String email = jwtProvider.getEmailFromToken(newToken);
-        if (!userRepo.findByEmail(email).isPresent()) {
-            return null;
-        }
-        return new TokenDTO(newToken);
-    }
-
     /***Fin Agregado***/
-
-
-    @Override
-    public UserView modify(int id, UserModify userModify) throws EmailAlreadyExists, ResourceNotFound, ExceptionsUser {
-        User originalUser = userRepo.findById(id).orElseThrow(
-                () -> new ResourceNotFound("User not found with userId " + userModify.getId())
-        );
-        if (!Objects.equals(originalUser.getEmail(), userModify.getEmail())) {
-            this.checkNewUserEmail(userModify.getEmail());
-        }
-        return helper.userToUserView(userRepo.save(helper.userModifyToUser(userModify, originalUser)));
-    }
 
     @Override
     public List<UserView> getAllUsers() {
@@ -183,5 +158,19 @@ public class UserService implements IUserService {
             userList.add(user);
         }
         return userList.stream().toList();
+    }
+
+    @Override
+    public User modifyUser(int id, String field, String data) throws ResourceNotFound, ExceptionsUser {
+
+        User user = userRepo.findById(id).orElseThrow(
+                () -> new ResourceNotFound("User not found with id " + id)
+        );
+
+        //UserView newUser = helper.userToUserView(userRepo.save(helper.userModify(user, field, data)));
+        User newUser = helper.userModify(user, field, data);
+        System.out.println("usuario cambiado: " + newUser);
+
+        return newUser;
     }
 }

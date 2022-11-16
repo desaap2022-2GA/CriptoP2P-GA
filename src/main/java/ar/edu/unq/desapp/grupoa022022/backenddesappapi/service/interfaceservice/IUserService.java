@@ -1,18 +1,20 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserQuery;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+
 import java.util.List;
 import java.util.Optional;
 
 public interface IUserService {
 
     UserView create(UserRegister userRegister);
-
-    UserView modify(int id, UserModify userModify) throws EmailAlreadyExists, ResourceNotFound, ExceptionsUser;
 
     List<UserView> getAllUsers();
 
@@ -41,8 +43,9 @@ public interface IUserService {
     void update(User user);
 
     List<UserQuery> getListUsers() throws ExceptionsUser;
-
     /***Agregado***/
-   // UserView save (UserDTO userDTO);
+    // UserView save (UserDTO userDTO);
+
     /***Fin Agregado***/
+    User modifyUser(int id, String field, String data) throws ResourceNotFound, ExceptionsUser;
 }
