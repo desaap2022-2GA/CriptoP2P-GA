@@ -4,7 +4,9 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IUserRepo;
@@ -31,23 +33,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 @RunWith(SpringRunner.class)
-//@ExtendWith(SpringExtension.class)
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 public class UserServiceTest {
 
     DataSet dataSet = new DataSet();
 
-    @Mock
-    private IUserRepo userRepo;
-    
-    //@InjectMocks
     @Autowired
     private UserService userService;
-    
-    //private User user;
+
     public User mockUser = Mockito.mock(User.class);
     public UserRegister mockUserRegister = Mockito.mock(UserRegister.class);
+
+    public UserRegister mockUserRegister1 = Mockito.mock(UserRegister.class);
 
     //private UserRegister regUser;
 
@@ -57,6 +55,8 @@ public class UserServiceTest {
         public void init() throws ResourceNotFound {
             Mockito.when(mockUser.getId()).thenReturn(1);
             Mockito.when(mockUser.getEmail()).thenReturn("gaudio@yahoo.com");
+            //Mockito.when(mockUser.operationsBetweenDates(2000000, 2000010)).thenReturn([1,2]);
+
             Mockito.when(mockUserRegister.getName()).thenReturn("Paston");
             Mockito.when(mockUserRegister.getLastname()).thenReturn("Gaudio");
             Mockito.when(mockUserRegister.getEmail()).thenReturn("gaudio@yahoo.com");
@@ -65,52 +65,51 @@ public class UserServiceTest {
             Mockito.when(mockUserRegister.getMercadoPagoCVU()).thenReturn("6352879863528798635287");
             Mockito.when(mockUserRegister.getAddressWalletActiveCrypto()).thenReturn("Xwf5u5ef");
 
+            Mockito.when(mockUserRegister1.getName()).thenReturn("Paston");
+            Mockito.when(mockUserRegister1.getLastname()).thenReturn("Gaudio");
+            Mockito.when(mockUserRegister1.getEmail()).thenReturn("gaudioPaston@yahoo.com");
+            Mockito.when(mockUserRegister1.getAddress()).thenReturn("Av Libertador 5000, CABA");
+            Mockito.when(mockUserRegister1.getPassword()).thenReturn("1111");
+            Mockito.when(mockUserRegister1.getMercadoPagoCVU()).thenReturn("6352879863528798635287");
+            Mockito.when(mockUserRegister1.getAddressWalletActiveCrypto()).thenReturn("Xwf5u5ef");
 
     }
 
-    @DisplayName("JUnit test create method")
+    @DisplayName("JUnit test create method in UserService")
     @Test
     public void createAUserTest(){
-        System.out.println("------------------- aca pasé 1");
-        UserRegister userRegister = new UserRegister(mockUserRegister.getName(), mockUserRegister.getLastname(),
-                mockUserRegister.getEmail(), mockUserRegister.getAddress(), mockUserRegister.getPassword(),
-                mockUserRegister.getMercadoPagoCVU(), mockUserRegister.getAddressWalletActiveCrypto());
+        UserRegister userRegister = new UserRegister(mockUserRegister1.getName(), mockUserRegister1.getLastname(),
+                mockUserRegister1.getEmail(), mockUserRegister1.getAddress(), mockUserRegister1.getPassword(),
+                mockUserRegister1.getMercadoPagoCVU(), mockUserRegister1.getAddressWalletActiveCrypto());
+
         UserView userMock = userService.create(userRegister);
-        System.out.println("------------------- aca pasé 2");
 
-        String userEmail = userMock.getEmail();
-        System.out.println("------------------- aca pasé 3");
-
-        assertEquals(userEmail, userService.create(dataSet.getUserRegister()).getEmail());
+        assertEquals(userMock.getEmail(), "gaudioPaston@yahoo.com");
     }
 
-    @DisplayName("JUnit test getAllUsers method")
+    @DisplayName("JUnit test getAllUsers method in UserService")
     @Test
     public void getAllUsersTest() {
-        List users = new ArrayList<>();
-        users.add(dataSet.getUserRegister());
-        users.add(dataSet.getUserRegister2());
-
         assertEquals(userService.getAllUsers().size(), 2);
     }
 
-    @DisplayName("JUnit test findById method")
+    @DisplayName("JUnit test findById method in UserService")
     @Test
-    public void getUserByIdTest() throws ResourceNotFound {
+    public void findUserByIdTest() throws ResourceNotFound {
         String emailMock = mockUser.getEmail();
 
         assertEquals(emailMock, userService.findById(1).getEmail());
     }
 
-    @DisplayName("JUnit test findById method with exception")
+    @DisplayName("JUnit test findById method with exception in UserService")
     @Test
-    public void getUserById_WithException_Test(){
-        assertThrows(ExceptionsUser.class, () -> {
+    public void findUserById_WithException_Test(){
+        assertThrows(ResourceNotFound.class, () -> {
             userService.findById(6);
         });
     }
 
-    @DisplayName("JUnit test findByEmail method")
+    @DisplayName("JUnit test findByEmail method in UserService")
     @Test
     public void findByEmailTest() throws ResourceNotFound {
         String emailMock = mockUser.getEmail();
@@ -118,13 +117,41 @@ public class UserServiceTest {
         assertEquals(emailMock, userService.findByEmail("gaudio@yahoo.com").getEmail());
     }
 
-    @DisplayName("JUnit test findByPassword")
+    @DisplayName("JUnit test findByEmail method with exception in UserService")
+    @Test
+    public void findUserByEmail_WithException_Test(){
+        assertThrows(ResourceNotFound.class, () -> {
+            userService.findByEmail("gauisio@yahoo.com");
+        });
+    }
+
+    @DisplayName("JUnit test checkNewUserEmail method with exception in UserService")
+    @Test
+    public void checkNewUserEmail_WithException_Test(){
+        assertThrows(EmailAlreadyExists.class, () -> {
+            userService.checkNewUserEmail("gaudio@yahoo.com");
+        });
+    }
+
+ /*   @DisplayName("JUnit test operationsBetweenDates")
+    @Test
+    public void operationsBetweenDatesTest(){
+        User user = dataSet.getUserTest();
+        long firstDate = 2000000;
+        long secondDate = 2000010;
+
+        Operation operation = new Operation();
+        Set<Operation> operations = user.operationsBetweenDates(firstDate, secondDate);
+    }
+*/
+/*  @DisplayName("JUnit test findByPassword")
     @Test
     public void findByPasswordTest() throws ResourceNotFound {
         String emailMock = mockUser.getEmail();
-
-        assertEquals(emailMock, userService.findByPassword("1111").getEmail());
+        assertEquals(emailMock, userService.findByPassword("1234").getEmail());
     }
+*/
+
 
 
 
