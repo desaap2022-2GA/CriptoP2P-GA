@@ -37,7 +37,6 @@ public class LogExecutionTimeAspectAnnotation {
 		boolean query = joinPoint.getArgs()[0].toString().contains("Bearer");//el primero es el token deberiamos buscar
 		// si existe alguno que cumpla esta condicion y si es asi pedirlo y realizar la accion
 		*/
-
 		TokenDTO tokenDTO = userService.validate(joinPoint.getArgs()[0].toString());
 		System.out.println(tokenDTO);
 		if (tokenDTO == null) {
