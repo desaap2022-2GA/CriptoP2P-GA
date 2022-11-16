@@ -8,7 +8,6 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.Exceptio
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.testng.IResultMap;
 
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +20,7 @@ public class HelperDTO {
                 , userRegister.getAddress(), encoder.encode(userRegister.getPassword()), userRegister.getMercadoPagoCVU()
                 , userRegister.getAddressWalletActiveCrypto());
     }
-
+/*
     public User userModifyToUser(UserModify userModify, User userOriginal) throws ExceptionsUser {
 
         if (firstNotNullAndFirstAndSecondNotEquals(userModify.getName(), userOriginal.getName())) {
@@ -48,13 +47,15 @@ public class HelperDTO {
         return userOriginal;
     }
 
+ */
+
     public boolean firstNotNullAndFirstAndSecondNotEquals(String firstCheck, String secondCheck) {
         return firstCheck != null && !Objects.equals(firstCheck, secondCheck);
     }
 
     public UserView userToUserView(User user) {
         return new UserView(user.getId(), user.getName(), user.getLastname(), user.getEmail(), user.getAddress(),
-                user.getMercadoPagoCVU(), user.getaddressWalletActiveCrypto(), user.getPoints(),
+                user.getMercadoPagoCVU(), user.getAddressWalletActiveCrypto(), user.getPoints(),
                 user.getNumberOperations(), user.getReputation());
     }
 
@@ -81,5 +82,25 @@ public class HelperDTO {
         return new IntentionView(intention.getId(), new DateTimeInMilliseconds().convertLongToDate(intention.getDateTime())
                 , intention.getType(), intention.getCryptocurrency().getName(), intention.getPrice(), intention.getUnits()
                 , intention.amountPriceInPesos(), userToUserView(userWhoPost), intention.isTaken());
+    }
+
+    public User userModify(User user, String field, String data) throws ExceptionsUser {
+        switch (field){
+            case "name": user.setName(data);
+                break;
+            case "lastname": user.setLastname(data);
+                break;
+            case "email": user.setEmail(data);
+                break;
+            case "address": user.setAddress(data);
+                break;
+            case "password": user.setPassword(data);
+                break;
+            case "mercadoPagoCVU": user.setMercadoPagoCVU(data);
+                break;
+            case "addressWalletActiveCripto": user.setAddressWalletActiveCrypto(data);
+                break;
+        }
+        return user;
     }
 }

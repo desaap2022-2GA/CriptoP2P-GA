@@ -3,7 +3,6 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.v3.oas.annotations.info.Contact;
 import lombok.*;
 
 import javax.persistence.*;
@@ -125,11 +124,11 @@ public class User {
         }
     }
 
-    public String getaddressWalletActiveCrypto() {
+    public String getAddressWalletActiveCrypto() {
         return addressWalletActiveCrypto;
     }
 
-    public void setaddressWalletActiveCrypto(String adressWalletActiveCripto) throws ExceptionsUser {
+    public void setAddressWalletActiveCrypto(String adressWalletActiveCripto) throws ExceptionsUser {
         if (verifyaddressWalletActiveCrypto(adressWalletActiveCripto)) {
             this.addressWalletActiveCrypto = adressWalletActiveCripto;
         } else {

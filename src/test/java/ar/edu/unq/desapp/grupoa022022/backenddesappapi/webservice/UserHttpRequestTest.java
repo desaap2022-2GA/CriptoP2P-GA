@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.*;
@@ -128,13 +129,11 @@ class UserHttpRequestTest {
     @Test
     @Order(7)
     void puttingUser1WithAddressHusaresShouldReturnThatChange() {
-        UserModify userModify = new UserModify("Roger", "Federer", "federer2@gmail.com"
-                , "Husares 5000", "1234", "1236549877412589632145", "Zs59f4lo");
 
-        ResponseEntity<UserView> result = restTemplate.exchange(TEST_HOSTNAME + port + "/users/{id}",
+        ResponseEntity<User> result = restTemplate.exchange(TEST_HOSTNAME + port + "/users//{id},{field},{data}",
                 HttpMethod.PUT,
-                new HttpEntity<>(userModify, headersWithToken.getHeaders()),
-                UserView.class, 2);
+                new HttpEntity<>(null, headersWithToken.getHeaders()),
+                User.class, 2,"address","Husares 5000");
 
         Assertions.assertEquals(200, result.getStatusCode().value());
         Assertions.assertEquals("Husares 5000", Objects.requireNonNull(Objects.requireNonNull(result.getBody())).getAddress());
