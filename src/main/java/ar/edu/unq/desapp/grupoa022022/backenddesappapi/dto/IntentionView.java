@@ -21,4 +21,5 @@ public class IntentionView {
     Double amountPriceInPesos;
     UserView userWhoPost;
     boolean isTaken;
+
 }
