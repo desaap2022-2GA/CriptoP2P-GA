@@ -4,6 +4,8 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyLastQuo
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.List;
 
@@ -21,4 +23,6 @@ public interface ICryptocurrencyService {
     Cryptocurrency findById(int id) throws ResourceNotFound;
 
     List<CryptocurrencyLastQuote> latestQuotes();
+
+//    List<CryptocurrencyLastQuote> latestQuotes10Min();
 }

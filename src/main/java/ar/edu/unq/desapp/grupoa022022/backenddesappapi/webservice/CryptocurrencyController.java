@@ -53,4 +53,10 @@ public class CryptocurrencyController {
         }
         return ResponseEntity.ok(cryptocurrencyService.latestQuotes());
     }
+/*
+    @Operation(summary = "List last quote of cryptocurrencies")
+    @GetMapping("/latest_quotes10Min")
+    public List<CryptocurrencyLastQuote> listLastQuoteOfCryptocurrenciesEvery10Min() {
+        return cryptocurrencyService.latestQuotes10Min();
+    }*/
 }
