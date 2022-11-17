@@ -9,14 +9,17 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRange;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IIntentionRepo;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IOperationRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IOperationService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -27,11 +30,17 @@ public class IntentionService implements IIntentionService {
     @Autowired
     private IIntentionRepo intentionRepo;
 
+   // @Autowired
+    //private IOperationRepo operationRepo;
+
     @Autowired
     private ICryptocurrencyService cryptocurrencyService;
 
     @Autowired
     private IUserService userService;
+
+   // @Autowired
+  //  private IOperationService operationService;
 
     @Override
     public Intention create(IntentionRegister intentionRegister) throws ResourceNotFound, PriceNotInAValidRange {
@@ -47,6 +56,7 @@ public class IntentionService implements IIntentionService {
         }
     }
 
+    @Override
     public IntentionView open(IntentionRegister intentionRegister) throws PriceNotInAValidRange, ResourceNotFound {
         Intention intention = this.create(intentionRegister);
         return helper.intentionToIntentionView(intention, intention.getUser());
@@ -63,10 +73,18 @@ public class IntentionService implements IIntentionService {
             Cryptocurrency cryptocurrency = intention.getCryptocurrency();
             cryptocurrency.removeIntention(intention);
             cryptocurrencyService.update(cryptocurrency);
+            intention.setOperation(null);
+            //this.existsOperation(intention);
             intentionRepo.deleteById(id);
         });
     }
-
+/*
+    public void existsOperation(Intention intention){
+        operationRepo.findById(intention.getOperation().getId()).ifPresent(operation -> {
+                operationService.delete(intention.getOperation().getId());
+        });
+    }
+*/
     @Override
     public void deleteAll() {
         intentionRepo.findAll().forEach(intention -> this.delete(intention.getId()));

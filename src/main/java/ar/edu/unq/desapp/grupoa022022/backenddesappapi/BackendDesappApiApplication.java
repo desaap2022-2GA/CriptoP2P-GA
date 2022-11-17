@@ -117,5 +117,10 @@ public class BackendDesappApiApplication {
 
         //OPERATION CRYPTOSENT (TERMINATED)
         operationService.modify(new OperationModify(operation.getId(), OperationState.CRYPTOSENT, user2.getId()));
+
     }
+
+
+
 }
+
