@@ -41,16 +41,11 @@ public class IntentionServiceTest {
     @Autowired
     private UserService userService;
 
-    DataSet dataSet;
-
-
     public Intention mockIntention = Mockito.mock(Intention.class);
 
     public IntentionRegister mockIntentionReg = Mockito.mock(IntentionRegister.class);
 
     public IntentionView mockIntentionView = Mockito.mock(IntentionView.class);
-
-    //public IntentionType mockintentionType = Mockito.mock(IntentionType.class);
     public User mockUser = Mockito.mock(User.class);
 
     public User userReg = new User("Paston", "Gaudio", "gaudio@yahoo.com",
@@ -79,13 +74,10 @@ public class IntentionServiceTest {
         Mockito.when(mockIntentionView.getCryptocurrency()).thenReturn("DAI");
         Mockito.when(mockIntentionView.getUnits()).thenReturn(1);
         Mockito.when(mockIntention.isTaken()).thenReturn(false);
-        //Mockito.when(mockintentionType).thenReturn(IntentionType.BUY);
-
         Mockito.when(mockUser.getId()).thenReturn(1);
 
         operationService.deleteAll();
         intentionService.deleteAll();
-        //userService.deleteAllUsers();
     }
 
 
@@ -94,9 +86,7 @@ public class IntentionServiceTest {
     public void createIntentionTest() throws PriceNotInAValidRange, ResourceNotFound {
         IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
-        //System.out.println("registerUserId: "+ intentionRegister.getUserId());
         Intention intent = intentionService.create(intentionRegister);
-        //System.out.println("----------------- pase 1");
         assertEquals(intent.getPrice(), intentionRegister.getPrice());
     }
 
@@ -110,8 +100,6 @@ public class IntentionServiceTest {
             intentionService.create(intentionRegister);
         });
     }
-
-
 
     @DisplayName("JUnit test open method in IntentionService")
     @Test
@@ -234,20 +222,4 @@ public class IntentionServiceTest {
 
         assertTrue(intentionService.getAll().isEmpty());
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
