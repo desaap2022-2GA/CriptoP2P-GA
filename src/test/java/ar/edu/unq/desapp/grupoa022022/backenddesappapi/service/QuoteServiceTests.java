@@ -39,7 +39,7 @@ class QuoteServiceTests {
     public MockitoRule rule = MockitoJUnit.rule();
     */
     @BeforeEach
-    public void init() throws ResourceNotFound {
+    void init() throws ResourceNotFound {
         Mockito.when(mockCryptocurrency.getId()).thenReturn(1);
         Mockito.when(mockCryptocurrency.getName()).thenReturn("DAI");
         //       Mockito.when(quoteRepo.save(any())).thenReturn(any());

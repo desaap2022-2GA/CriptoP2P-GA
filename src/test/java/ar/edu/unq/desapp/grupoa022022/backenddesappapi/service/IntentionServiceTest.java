@@ -1,7 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRange;

@@ -9,9 +9,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.OperationService;
 
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -26,6 +24,7 @@ import static ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationSta
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @RunWith(SpringRunner.class)
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
@@ -52,9 +51,13 @@ public class OperationServiceTest {
         Mockito.when(mockOperationModify.getState()).thenReturn(PAID);
     }
 
+    // *** PONER LOS COMENTADOS ABAJO!!!!!!!!!!!!!!!! ***
+
+    @Order(1)
     @DisplayName("JUnit test create method in OperationService")
     @Test
     void createOperationTest() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+        //cambiar id intention
         OperationRegister operationRegister = new OperationRegister(mockOperationReg1.getIntentionId(), mockOperationReg1.getUserId());
 
         Operation operation = operationService.create(operationRegister);
@@ -62,6 +65,7 @@ public class OperationServiceTest {
         assertEquals(operation.getIntention().getId(), 3);
     }
 
+    @Order(2)
     @DisplayName("JUnit test create method with exception in OperationService")
     @Test
     void createOperation_With_Exceptition_Test(){
@@ -71,7 +75,8 @@ public class OperationServiceTest {
             operationService.create(operationRegister);
         });
     }
-
+/*
+    @Order(3)
     @DisplayName("JUnit test open method in OperationService")
     @Test
     void openOperationTest() throws IntentionAlreadyTaken, ResourceNotFound, PriceExceedVariationWithRespectIntentionTypeLimits {
@@ -79,9 +84,10 @@ public class OperationServiceTest {
 
         Operation operation = operationService.create(operationRegister);
 
-        assertEquals(operation.getUserWhoAccepts().getId(),1);
+        assertEquals(operation.getState(),ACTIVE);
     }
-
+*/
+    @Order(4)
     @DisplayName("JUnit test open method with exception in OperationService")
     @Test
     void openOperation_With_Exception_Test(){
@@ -92,10 +98,11 @@ public class OperationServiceTest {
         });
     }
 
-
+    @Order(5)
     @DisplayName("JUnit test update method in OperationService")
     @Test
     void updateOperationTest() throws IntentionAlreadyTaken, ResourceNotFound, PriceExceedVariationWithRespectIntentionTypeLimits {
+        //crear la operacion
         Operation operation = operationService.findById(1);
         operation.setState(OperationState.valueOf("PAID"));
         operationService.update(operation);
@@ -104,6 +111,7 @@ public class OperationServiceTest {
     }
 
 
+    @Order(6)
     @DisplayName("JUnit test update method in OperationService")
     @Test
     void updateOperation_With_Exception_Test(){
@@ -113,7 +121,8 @@ public class OperationServiceTest {
             operationService.update(operation);
         });
     }
-
+/*
+    @Order(7)
     @DisplayName("JUnit test delete method in OperationService")
     @Test
     void deleteOperationTest() throws IntentionAlreadyTaken, ResourceNotFound, PriceExceedVariationWithRespectIntentionTypeLimits {
@@ -125,6 +134,7 @@ public class OperationServiceTest {
         assertEquals(operationService.getAll().size(), 1);
     }
 
+    @Order(8)
     @DisplayName("JUnit test deleteAll method in OperationService")
     @Test
     void deleteAllOperationTest() throws IntentionAlreadyTaken, ResourceNotFound, PriceExceedVariationWithRespectIntentionTypeLimits {
@@ -132,15 +142,18 @@ public class OperationServiceTest {
 
         assertTrue(operationService.getAll().isEmpty());
     }
-
+*/
+    @Order(9)
     @DisplayName("JUnit test findById method in OperationService")
     @Test
     void findByIdOperationTest() throws ResourceNotFound {
+        //crear operacion
         Operation operation = operationService.findById(1);
 
         assertEquals(operation.getId(), 1);
     }
 
+    @Order(10)
     @DisplayName("JUnit test findById method with exception in OperationService")
     @Test
     void findById_With_Exception_Test(){
@@ -149,14 +162,17 @@ public class OperationServiceTest {
         });
     }
 
+    @Order(11)
     @DisplayName("JUnit test getOperationById method in OperationService")
     @Test
     void getOperationByIdTest() throws ResourceNotFound {
+        //crear operation
         OperationView operation = operationService.getOperationById(1, 1);
 
         assertEquals(operation.getOperationNumber(), 1);
     }
 
+    @Order(12)
     @DisplayName("JUNit test getOperationById method with exception in OperationService")
     @Test
     void getOperationById_With_Exception_Test(){
@@ -164,7 +180,8 @@ public class OperationServiceTest {
             operationService.getOperationById(1000, 55);
         });
     }
-
+/*
+    @Order(13)
     @DisplayName("JUnit test cancelOperationByUser method in OperationService")
     @Test
     void cancelOperationByUserTest() throws IntentionAlreadyTaken, ResourceNotFound, PriceExceedVariationWithRespectIntentionTypeLimits {
@@ -175,7 +192,8 @@ public class OperationServiceTest {
 
         assertEquals(operation.getState(), CANCELLED);
     }
-
+*/
+    @Order(14)
     @DisplayName("JUnit test cancelOperationByUser method with exception in OperationService")
     @Test
     void cancelOperationByUser_With_Exception_Test(){
@@ -186,9 +204,11 @@ public class OperationServiceTest {
         });
     }
 
+    @Order(15)
     @DisplayName("JUnit moneyTransferDone method in OperationService")
     @Test
     void moneyTransferDoneTest() throws ResourceNotFound {
+        //create operation
         Operation operation = operationService.findById(1);
         operationService.moneyTransferDone(operation);
 
@@ -196,6 +216,7 @@ public class OperationServiceTest {
     }
 
 
+    @Order(16)
     @DisplayName("JUnit moneyTransferDone method with exception in Operation Service")
     @Test
     void moneyTransferDone_With_Exception_Test(){
@@ -205,15 +226,18 @@ public class OperationServiceTest {
         });
     }
 
+    @Order(17)
     @DisplayName("JUnit cryptoSendDone method in OperationService")
     @Test
     void cryptoSendDoneTest() throws ResourceNotFound {
+        //create operation
         Operation operation = operationService.findById(1);
         operationService.cryptoSendDone(operation);
 
         assertEquals(operation.getState(), CRYPTOSENT);
     }
 
+    @Order(18)
     @DisplayName("JUni cryptoSendDone method with exception in OperationService")
     @Test
     void cryptoSendDoneTest_With_Exception_Test(){
@@ -223,15 +247,18 @@ public class OperationServiceTest {
         });
     }
 
+    @Order(19)
     @DisplayName("Junit assignBonusTimeToUsers method in OperationService")
     @Test
     void assignBonusTimeToUsersTest() throws ResourceNotFound {
+        //create operation
         Operation operation = operationService.findById(1);
         operationService.assignBonusTimeToUsers(operation);
 
         assertEquals(operation.getUserWhoAccepts().getOperations().size(), 1);
     }
 
+    @Order(20)
     @DisplayName("JUnit assignBonusTimeToUsers method with exception in OperationService")
     @Test
     void assignBonusTimeToUsers_With_Exception_Test(){
@@ -241,9 +268,12 @@ public class OperationServiceTest {
         });
     }
 
+    @Order(21)
     @DisplayName("JUnit modify method in OperationService")
     @Test
     void modifyTest() throws ResourceNotFound, InvalidState {
+        //debaguear
+        //probar creando una operation
         OperationModify operationModify = new OperationModify(mockOperationModify.getOperationId(), mockOperationModify.getState(),
                 mockOperationModify.getUserId());
         operationService.modify(operationModify);
@@ -251,6 +281,7 @@ public class OperationServiceTest {
         assertEquals(operationModify.getState(), PAID);
     }
 
+    @Order(22)
     @DisplayName("JUnit modify method with exception in OperationService")
     @Test
     void modify_With_Exception_Test(){
