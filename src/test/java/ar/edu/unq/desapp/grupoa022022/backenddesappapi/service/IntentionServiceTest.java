@@ -1,6 +1,5 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
@@ -48,18 +47,6 @@ public class IntentionServiceTest {
     public IntentionView mockIntentionView = Mockito.mock(IntentionView.class);
     public User mockUser = Mockito.mock(User.class);
 
-    public User userReg = new User("Paston", "Gaudio", "gaudio@yahoo.com",
-            "Av Libertador 5000, CABA", "1234", "6352879863528798635287",
-            "Xwf5u5ef");
-
-    public UserView userView = new UserView(1, "Paston", "Gaudio", "gaudio@yahoo.com",
-            "Av Libertador 5000, CABA", "6352879863528798635287",
-            "Xwf5u5ef", 2, 1, 1);
-
-
-    public Cryptocurrency cryptocurrency = new Cryptocurrency("DAI", 320.38);
-
-
     @BeforeEach
     public void init() throws ResourceNotFound {
         Mockito.when(mockIntention.getId()).thenReturn(1);
@@ -83,7 +70,7 @@ public class IntentionServiceTest {
 
     @DisplayName("JUnit test create method in IntentionService")
     @Test
-    public void createIntentionTest() throws PriceNotInAValidRange, ResourceNotFound {
+    void createIntentionTest() throws PriceNotInAValidRange, ResourceNotFound {
         IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
         Intention intent = intentionService.create(intentionRegister);
@@ -92,7 +79,7 @@ public class IntentionServiceTest {
 
     @DisplayName("JUnit test create method with exception in IntentionService")
     @Test
-    public void createIntention_WithException_Test(){
+    void createIntention_WithException_Test(){
         assertThrows(PriceNotInAValidRange.class, () -> {
             IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                     mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
@@ -103,7 +90,7 @@ public class IntentionServiceTest {
 
     @DisplayName("JUnit test open method in IntentionService")
     @Test
-    public void openIntentionTest() throws PriceNotInAValidRange, ResourceNotFound {
+    void openIntentionTest() throws PriceNotInAValidRange, ResourceNotFound {
         IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
 
@@ -112,7 +99,7 @@ public class IntentionServiceTest {
 
     @DisplayName("JUnit test open method with exception in IntentionService")
     @Test
-    public void openIntention_WithException_Test(){
+    void openIntention_WithException_Test(){
         assertThrows(PriceNotInAValidRange.class, () -> {
             IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                     mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
@@ -121,10 +108,9 @@ public class IntentionServiceTest {
         });
     }
 
-
     @DisplayName("JUnit test update method in IntentionService")
     @Test
-    public void updateIntentionTest() throws PriceNotInAValidRange, ResourceNotFound {
+    void updateIntentionTest() throws PriceNotInAValidRange, ResourceNotFound {
         IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
 
@@ -137,7 +123,7 @@ public class IntentionServiceTest {
 
     @DisplayName("JUnit test deleteById Method in IntentionService")
     @Test
-    public void deleteByIdIntentionTest() throws PriceNotInAValidRange, ResourceNotFound {
+    void deleteByIdIntentionTest() throws PriceNotInAValidRange, ResourceNotFound {
         IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
 
@@ -147,7 +133,6 @@ public class IntentionServiceTest {
 
         assertEquals(intentionService.getAll().size(), 0);
     }
-
 
     @DisplayName("JUnit test getIntentionById method in IntentionService")
     @Test
@@ -164,7 +149,7 @@ public class IntentionServiceTest {
 
     @DisplayName("JUnit test getIntentionById method with exception in IntentionService")
     @Test
-    public void getIntentionById_WithException_Test(){
+    void getIntentionById_WithException_Test(){
         assertThrows(ResourceNotFound.class, () -> {
             intentionService.getIntentionById(20);
         });
@@ -173,7 +158,7 @@ public class IntentionServiceTest {
 
     @DisplayName("JUnit test getActiveIntention method in IntentionService")
     @Test
-    public void getActiveIntentionsTest() throws PriceNotInAValidRange, ResourceNotFound {
+    void getActiveIntentionsTest() throws PriceNotInAValidRange, ResourceNotFound {
         IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
 
@@ -184,7 +169,7 @@ public class IntentionServiceTest {
 
     @DisplayName("JUnit test findById method in IntentionService")
     @Test
-    public void findByIdIntentionTest() throws ResourceNotFound, PriceNotInAValidRange {
+    void findByIdIntentionTest() throws ResourceNotFound, PriceNotInAValidRange {
         IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
 
@@ -196,7 +181,7 @@ public class IntentionServiceTest {
 
     @DisplayName("JUnit test findIntentionById method with exception in IntentionService")
     @Test
-    public void findIntentionById_WithException_Test(){
+    void findIntentionById_WithException_Test(){
         assertThrows(ResourceNotFound.class, () -> {
             intentionService.getIntentionById(20);
         });
