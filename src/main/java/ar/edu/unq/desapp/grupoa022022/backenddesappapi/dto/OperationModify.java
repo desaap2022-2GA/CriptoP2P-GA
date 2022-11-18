@@ -21,4 +21,5 @@ public class OperationModify {
     private OperationState state;
     @NotNull
     private int userId;
+
 }

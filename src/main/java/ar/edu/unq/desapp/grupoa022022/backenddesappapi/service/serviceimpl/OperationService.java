@@ -18,6 +18,8 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OperationService implements IOperationService {
 
@@ -64,6 +66,10 @@ public class OperationService implements IOperationService {
     @Override
     public void update(Operation operation) {
         operationRepo.save(operation);
+    }
+
+    public List<Operation> getAll(){
+        return operationRepo.findAll();
     }
 
     @Override
