@@ -49,7 +49,7 @@ public class APICall {
         DateTimeInMilliseconds dateUtils = new DateTimeInMilliseconds();
 
         String url = "https://api1.binance.com/api/v3/klines?symbol=" + cryptocurrency.getName() +
-                "&interval=5m&startTime=" + dateUtils.getCurrentTimeMinusOneDayInMilliseconds() +
+                "&interval=1h&startTime=" + dateUtils.getCurrentTimeMinusOneDayInMilliseconds() +
                 "&endTime=" + dateUtils.getCurrentTimeInMilliseconds();
 
         ResponseEntity<List[]> responseList =

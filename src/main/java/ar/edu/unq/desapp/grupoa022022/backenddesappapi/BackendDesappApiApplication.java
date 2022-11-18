@@ -54,7 +54,7 @@ public class BackendDesappApiApplication {
 
     protected final Logger logger = LogManager.getLogger(getClass());
 
-    @Scheduled(cron = "${cron.expression}")//un minuto de prueba
+    @Scheduled(cron = "0 * * * * *")//10 minutos
     @CachePut("cryptoCurrency")
     public List<CryptocurrencyLastQuote> updateCryptocurrenciesQuotes() {
         logger.info("Quotes UPDATED" + new Date());
