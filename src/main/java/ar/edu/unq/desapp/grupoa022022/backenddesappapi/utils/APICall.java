@@ -4,8 +4,10 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.Casa;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyLastQuote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.ObjectCasa;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -13,11 +15,16 @@ public class APICall {
 
     RestTemplate restTemplate = new RestTemplate();
 
+    @Value("${integration.dolarsi.api.url.valoresprincipales}")
+    private String dolarSiApiURL;
+
+    @Value("${integration.binance.api.url}")
+    private String binanceApiURL;
+
     public double dolarSiLatestQuote() {
 
-        String url = "https://www.dolarsi.com/api/api.php?type=valoresprincipales";
         ResponseEntity<ObjectCasa[]> objetcsCasa =
-                restTemplate.getForEntity(url, ObjectCasa[].class);
+                restTemplate.getForEntity(dolarSiApiURL, ObjectCasa[].class);
         Casa responseBean = Objects.requireNonNull(objetcsCasa.getBody())[1].getCasa();
         String quoteDollarBlueSale = responseBean.getVenta().replace(",", ".");
         return Double.parseDouble(quoteDollarBlueSale);
@@ -31,7 +38,7 @@ public class APICall {
                 , "ETHUSDT", "CAKEUSDT", "BTCUSDT", "BNBUSDT", "ADAUSDT", "TRXUSDT", "AUDIOUSDT");
 
         cryptocurrencyNameList.forEach(name -> {
-            String url = "https://api1.binance.com/api/v3/ticker/price?symbol=" + name;
+            String url = binanceApiURL + "ticker/price?symbol=" + name;
 
             ResponseEntity<CryptocurrencyLastQuote> cryptoCurrencyLastQuote =
                     restTemplate.getForEntity(url, CryptocurrencyLastQuote.class);
@@ -48,7 +55,7 @@ public class APICall {
 
         DateTimeInMilliseconds dateUtils = new DateTimeInMilliseconds();
 
-        String url = "https://api1.binance.com/api/v3/klines?symbol=" + cryptocurrency.getName() +
+        String url = binanceApiURL + "klines?symbol=" + cryptocurrency.getName() +
                 "&interval=1h&startTime=" + dateUtils.getCurrentTimeMinusOneDayInMilliseconds() +
                 "&endTime=" + dateUtils.getCurrentTimeInMilliseconds();
 

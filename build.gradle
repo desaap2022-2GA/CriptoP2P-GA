@@ -64,6 +64,10 @@ dependencies {
 }
 
 test {
+    filter {
+        //exclude all tests from a package.
+        excludeTestsMatching "ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice.*"
+    }
     useJUnitPlatform()
     testLogging.showStandardStreams(true)
     testLogging {
