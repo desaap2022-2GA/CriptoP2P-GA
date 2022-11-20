@@ -25,7 +25,7 @@ class QuotePersistenceTests {
 
 
     //**************** REPOSITORY ****************
-
+/*
     @Test
     void recoverANewQuotePersisted() throws NoSuchElementException {
         Cryptocurrency cryptocurrency = cryptocurrencyService.getAll().stream().findAny().orElseThrow();
@@ -34,5 +34,5 @@ class QuotePersistenceTests {
         int idSaved = quoteDB.getId();
 
         assertEquals(idSaved, quoteRepo.findById(idSaved).orElseThrow().getId());
-    }
+    }*/
 }

@@ -37,7 +37,7 @@ class QuoteServiceTests {
     /*
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
-    */
+    *//*
     @BeforeEach
     public void init() throws ResourceNotFound {
         Mockito.when(mockCryptocurrency.getId()).thenReturn(1);
@@ -142,5 +142,5 @@ class QuoteServiceTests {
         double intentionPrice = dataSet.getSomePriceInRangeDAI() * 1.90;
 
         assertFalse(quote.intentionPriceLowerThanQuotePrice(intentionPrice));
-    }
+    }*/
 }
