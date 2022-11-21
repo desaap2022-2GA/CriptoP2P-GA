@@ -3,7 +3,7 @@ name: Java CI
 on:
   push:
     branches:
-      - main        # The default branch
+      - master        # The default branch
       - branch-*    # The other branches to be analyzed
 
 jobs:
