@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface IUserService {
 
-    UserView create(UserRegister userRegister);
+    UserView create(UserRegister userRegister) throws EmailAlreadyExists;
 
     List<UserView> getAllUsers();
 
@@ -32,7 +32,7 @@ public interface IUserService {
 
     void deleteAllUsers();
 
-    User saveToDataBase(UserRegister userRegister);
+    User saveToDataBase(UserRegister userRegister) throws ExceptionsUser;
 
     User getFromDataBase(int userId) throws ResourceNotFound;
 

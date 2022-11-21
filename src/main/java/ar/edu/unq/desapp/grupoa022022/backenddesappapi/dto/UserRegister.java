@@ -4,12 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
 public class UserRegister extends UserAPI {
 
-    @NotBlank(message = "Password: it can not be null")
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=(.*[a-z])+)(?=(.*[\\W])+)(?!.*\\s).{6,}$", message = "password must contain at " +
+            "least 1 lowercase, 1 uppercase, 1 special character, and at least 6 characters")
     private String password;
 
     public UserRegister(String name, String lastname, String email, String address, String password, String mercadoPagoCVU,

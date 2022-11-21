@@ -43,11 +43,8 @@ public class UserService implements IUserService {
 
     /***Agregado***/
     @Override
-    public UserView create(UserRegister userRegister) {
-        Optional<User> userOptional = userRepo.findByEmail(userRegister.getEmail());
-        if (userOptional.isPresent()) {
-            return null;
-        }
+    public UserView create(UserRegister userRegister) throws EmailAlreadyExists {
+        this.checkNewUserEmail(userRegister.getEmail());
         User user = helper.userRegisterToUser(userRegister);
         return helper.userToUserView(userRepo.save(user));
     }

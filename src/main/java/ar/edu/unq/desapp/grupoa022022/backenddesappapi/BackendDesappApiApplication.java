@@ -68,7 +68,7 @@ public class BackendDesappApiApplication {
     private String className;
 
     @PostConstruct
-    public void initialize() throws PriceNotInAValidRange, IntentionAlreadyTaken, ResourceNotFound, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState {
+    public void initialize() throws PriceNotInAValidRange, IntentionAlreadyTaken, ResourceNotFound, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState, ExceptionsUser {
         System.out.println("className:"+className);
         if (className.equals("dev")) {
             logger.info("Init Data Using H2 DB");
@@ -76,7 +76,7 @@ public class BackendDesappApiApplication {
         }
     }
 
-    private void fireInitialData() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState {
+    private void fireInitialData() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState, ExceptionsUser {
 
         //USERS
         User user = userService.saveToDataBase(new UserRegister("Paston", "Gaudio", "gaudio@yahoo.com",

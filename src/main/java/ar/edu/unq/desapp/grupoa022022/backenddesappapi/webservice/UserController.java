@@ -5,6 +5,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserQuery;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.TokenService;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -31,13 +33,8 @@ public class UserController {
     /***Agregado***/
     @Operation(summary = "Register User")
     @PostMapping
-    public ResponseEntity<UserView> create(@RequestBody UserRegister dto) {
-        System.out.println("userRegister "+dto);
+    public ResponseEntity<UserView> create(@Valid @RequestBody UserRegister dto) throws EmailAlreadyExists {
         UserView userView = userService.create(dto);
-        System.out.println("userView "+userView);
-        if (userView == null) {
-            return ResponseEntity.badRequest().build();
-        }
         return ResponseEntity.ok(userView);
     }
 

@@ -71,7 +71,7 @@ class UtilsTests {
     //SERVICE
 
     @Test
-    void getACryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFound, PriceNotInAValidRange {
+    void getACryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         Cryptocurrency cryptocurrency = cryptocurrencyService.create(dataSet.getCryptocurrencyRegisterDAI());
         User user = userService.saveToDataBase(dataSet.getUserRegister());
         Intention intention = intentionService.create(new IntentionRegister(dataSet.getSomeTypeBUY()
@@ -81,7 +81,7 @@ class UtilsTests {
     }
 
     @Test
-    void getStringCryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFound, PriceNotInAValidRange {
+    void getStringCryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         Cryptocurrency cryptocurrency = cryptocurrencyService.create(dataSet.getCryptocurrencyRegisterDAI());
         User user = userService.saveToDataBase(dataSet.getUserRegister());
         Intention intention = intentionService.create(new IntentionRegister(dataSet.getSomeTypeBUY()
