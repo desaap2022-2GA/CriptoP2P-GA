@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.ActiveIntentionView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.TokenDTO;
@@ -62,7 +63,7 @@ public class IntentionController {
     @Operation(summary = "List all active intentions")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/active")
-    public ResponseEntity<List<IntentionView>> listIntentionActive(@RequestHeader(value = "Authorization") String token) {
+    public ResponseEntity<List<ActiveIntentionView>> listIntentionActive(@RequestHeader(value = "Authorization") String token) {
         TokenDTO tokenDTO = tokenService.validate(token);
         if (tokenDTO == null) {
             return ResponseEntity.badRequest().build();

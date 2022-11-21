@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice;
 
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.ActiveIntentionView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
@@ -18,7 +19,7 @@ public interface IIntentionService {
 
     void deleteAll();
 
-    List<IntentionView> getActiveIntentions();
+    List<ActiveIntentionView> getActiveIntentions();
 
     Intention findById(int id) throws ResourceNotFound;
 

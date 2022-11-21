@@ -15,7 +15,7 @@ public class CryptocurrencyLastQuote {
     @JsonProperty("price")
     private String lastQuote;
 
-    private String date;
+    private String dateTime;
     public CryptocurrencyLastQuote(String name, String lastQuote){
         this.name = name;
         this.lastQuote = lastQuote;

@@ -12,13 +12,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class IntentionView {
 
-    int id;
+    String id;
     String dateTime;
-    IntentionType type;
+    String operationType;
     String cryptocurrency;
-    Double price;
-    int units;
-    Double amountPriceInPesos;
-    UserView userWhoPost;
-    boolean isTaken;
+    String price;
+    String units;
+    String amountPriceInPesos;
+    String userWhoPost;
 }

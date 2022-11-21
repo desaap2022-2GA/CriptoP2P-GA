@@ -79,11 +79,16 @@ public class HelperDTO {
     }
 
     public IntentionView intentionToIntentionView(Intention intention, User userWhoPost){
-        return new IntentionView(intention.getId(), new DateTimeInMilliseconds().convertLongToDate(intention.getDateTime())
-                , intention.getType(), intention.getCryptocurrency().getName(), intention.getPrice(), intention.getUnits()
-                , intention.amountPriceInPesos(), userToUserView(userWhoPost), intention.isTaken());
+        return new IntentionView(String.valueOf(intention.getId()), new DateTimeInMilliseconds().convertLongToDate(intention.getDateTime())
+                , intention.getType().toString(), intention.getCryptocurrency().getName(), intention.getPrice().toString(), String.valueOf(intention.getUnits())
+                , intention.amountPriceInPesos().toString(), userWhoPost.getName()+" "+userWhoPost.getLastname());
     }
 
+    public ActiveIntentionView intentionToActiveIntentionView(Intention intention, User userWhoPost){
+        return new ActiveIntentionView(String.valueOf(intention.getId()), new DateTimeInMilliseconds().convertLongToDate(intention.getDateTime())
+                , intention.getType().toString(), intention.getCryptocurrency().getName(), intention.getPrice().toString(), String.valueOf(intention.getUnits())
+                , intention.amountPriceInPesos().toString(), userWhoPost.getName()+" "+userWhoPost.getLastname(), String.valueOf(userWhoPost.getNumberOperations()), String.valueOf(userWhoPost.getReputation()));
+    }
     public User userModify(User user, String field, String data) throws ExceptionsUser {
         switch (field){
             case "name": user.setName(data);

@@ -47,7 +47,7 @@ public class ExternalProxyService {
                     restTemplate.getForEntity(url, CryptocurrencyLastQuote.class);
 
             CryptocurrencyLastQuote responseBean = cryptoCurrencyLastQuote.getBody();
-            responseBean.setDate(String.valueOf(new Date()));
+            responseBean.setDateTime(String.valueOf(new Date()));
 
             cryptocurrencyLastQuotesList.add(responseBean);
         });

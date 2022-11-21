@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.ActiveIntentionView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.HelperDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionView;
@@ -78,8 +79,8 @@ public class IntentionService implements IIntentionService {
     }
 
     @Override
-    public List<IntentionView> getActiveIntentions() {
-        return this.findActiveIntentions().stream().map(intention -> helper.intentionToIntentionView(intention
+    public List<ActiveIntentionView> getActiveIntentions() {
+        return this.findActiveIntentions().stream().map(intention -> helper.intentionToActiveIntentionView(intention
                 ,intention.getUser())).toList();
     }
 

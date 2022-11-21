@@ -11,6 +11,6 @@ public class UserQuery {
 
     private final String name;
     private final String lastname;
-    private final int numberOperations;
-    private final int reputation;
+    private final String numberOperations;
+    private final String reputation;
 }
