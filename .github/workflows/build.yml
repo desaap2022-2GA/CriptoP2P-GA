@@ -2,7 +2,9 @@ name: Java CI
 
 on:
   push:
-    branches: [master, coldSmellFix]
+    branches:
+      - master        # The default branch
+      - branch-*    # The other branches to be analyzed
 
 jobs:
   build:
