@@ -64,12 +64,13 @@ public class BackendDesappApiApplication {
         return externalProxyService.binanceLatestQuotes();
     }
 
-    @Value("${spring.datasource.driverClassName:NONE}")
+    @Value("${spring.profiles.active}")
     private String className;
 
     @PostConstruct
     public void initialize() throws PriceNotInAValidRange, IntentionAlreadyTaken, ResourceNotFound, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState {
-        if (className.equals("org.h2.Driver")) {
+        System.out.println("className:"+className);
+        if (className.equals("dev")) {
             logger.info("Init Data Using H2 DB");
             fireInitialData();
         }
