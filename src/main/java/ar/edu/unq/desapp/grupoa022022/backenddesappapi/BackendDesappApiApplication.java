@@ -3,8 +3,8 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.*;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.integration.ExternalProxyService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.*;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.APICall;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 import org.apache.logging.log4j.LogManager;
@@ -43,6 +43,9 @@ public class BackendDesappApiApplication {
     @Autowired
     IOperationService operationService;
 
+    @Autowired
+    private ExternalProxyService externalProxyService;
+
     public static void main(String[] args) {
         SpringApplication.run(BackendDesappApiApplication.class, args);
     }
@@ -58,7 +61,7 @@ public class BackendDesappApiApplication {
     @CachePut("cryptoCurrency")
     public List<CryptocurrencyLastQuote> updateCryptocurrenciesQuotes() {
         logger.info("Quotes UPDATED" + new Date());
-        return new APICall().binanceLatestQuotes();
+        return externalProxyService.binanceLatestQuotes();
     }
 
     @Value("${spring.datasource.driverClassName:NONE}")

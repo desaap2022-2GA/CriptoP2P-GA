@@ -1,17 +1,20 @@
-package ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils;
+package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.integration;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.Casa;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyLastQuote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.ObjectCasa;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class APICall {
+@Service
+public class ExternalProxyService {
 
     RestTemplate restTemplate = new RestTemplate();
 

@@ -7,8 +7,8 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.ICryptocurrencyRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IQuoteRepo;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.integration.ExternalProxyService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.APICall;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
@@ -23,6 +23,9 @@ public class CryptocurrencyService implements ICryptocurrencyService {
 
     @Autowired
     private IQuoteRepo quoteRepo;
+
+    @Autowired
+    private ExternalProxyService externalProxyService;
 
     @Override
     public Cryptocurrency create(CryptocurrencyRegister cryptocurrencyRegister) {
@@ -66,14 +69,14 @@ public class CryptocurrencyService implements ICryptocurrencyService {
     @Override
     @Cacheable("cryptoCurrency")
     public List<CryptocurrencyLastQuote> latestQuotes() {
-        return new APICall().binanceLatestQuotes();
+        return externalProxyService.binanceLatestQuotes();
     }
 
     @Override
     public List<CryptocurrencyLastQuote> oneDayQuotes(Integer id) throws ResourceNotFound {
         Cryptocurrency cryptocurrency = findById(id);
         //return cryptocurrency.last24HoursQuotes();
-        return new APICall().binance24hsQuotesForCryptocurrency(cryptocurrency);
+        return externalProxyService.binance24hsQuotesForCryptocurrency(cryptocurrency);
     }
 
 //    @Scheduled(cron = "* * * * * ") //Ahora en un min
