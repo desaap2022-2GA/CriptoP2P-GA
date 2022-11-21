@@ -80,11 +80,11 @@ public class BackendDesappApiApplication {
 
         //USERS
         User user = userService.saveToDataBase(new UserRegister("Paston", "Gaudio", "gaudio@yahoo.com",
-                "Av Libertador 5000, CABA", "1234", "6352879863528798635287",
+                "Av Libertador 5000, CABA", "Ruben?", "6352879863528798635287",
                 "Xwf5u5ef"));
 
         User user2 = userService.saveToDataBase(new UserRegister("Martin", "Fierro", "fierro@gmail.com",
-                "Av Cordoba 3000, CABA", "1234", "6352879863528798635288",
+                "Av Cordoba 3000, CABA", "Maria!", "6352879863528798635288",
                 "Zwf5u5ef"));
 
         //CRYPTOCURRENCIES

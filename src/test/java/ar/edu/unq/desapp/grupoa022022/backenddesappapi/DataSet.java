@@ -11,19 +11,19 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 public class DataSet {
 
     private final User userTest = new User("Paston", "Gaudio", "gaudio@yahoo.com",
-            "Av Libertador 5000, CABA", "1111", "6352879863528798635287",
+            "Av Libertador 5000, CABA", "Calor*", "6352879863528798635287",
             "Xwf5u5ef");
 
     private final User userTest2 = new User("Martin", "Fierro", "fierro@gmail.com",
-            "Av Cordoba 3000, CABA", "1111", "6352879863528798635287",
+            "Av Cordoba 3000, CABA", "Calor*", "6352879863528798635287",
             "Xwf5u5ef");
 
         private final UserRegister userRegister = new UserRegister("Paston", "Gaudio", "gaudio@yahoo.com",
-                "Av Libertador 5000, CABA", "1111", "6352879863528798635287",
+                "Av Libertador 5000, CABA", "Calor*", "6352879863528798635287",
                 "Xwf5u5ef");
 
     private final UserRegister userRegister2 = new UserRegister("Martin", "Fierro", "fierro@gmail.com",
-            "Av Cordoba 3000, CABA", "1111", "6352879863528798635287",
+            "Av Cordoba 3000, CABA", "Calor*", "6352879863528798635287",
             "Xwf5u5ef");
     private final Cryptocurrency cryptocurrency = new Cryptocurrency("DAI");
 

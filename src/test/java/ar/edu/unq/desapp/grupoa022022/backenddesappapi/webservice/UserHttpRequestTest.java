@@ -111,7 +111,7 @@ class UserHttpRequestTest {
     @Order(6)
     void postingAnUserWithEmail_federer_gmail_com_ShouldReturnIt() {
         UserRegister userRegister = new UserRegister("Roger", "Federer", "federer@gmail.com"
-                , "Av Libertador 5000", "1234", "1236549877412589632145", "Zs59f4lo");
+                , "Av Libertador 5000", "unoDo$", "1236549877412589632145", "Zs59f4lo");
 
         ResponseEntity<UserView> result;
         try {

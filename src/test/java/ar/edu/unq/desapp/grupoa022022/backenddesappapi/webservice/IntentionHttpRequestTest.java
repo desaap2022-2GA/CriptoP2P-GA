@@ -87,7 +87,7 @@ class IntentionHttpRequestTest {
         ResponseEntity<IntentionView> result = restTemplate.exchange(TEST_HOSTNAME + port + "/intentions/2",
                 HttpMethod.GET, headersWithToken, IntentionView.class);
 
-        Assertions.assertEquals(5326807.85, Objects.requireNonNull(result.getBody()).getPrice());
+        Assertions.assertEquals("5326807.85", Objects.requireNonNull(result.getBody()).getPrice());
     }
 
     @Test

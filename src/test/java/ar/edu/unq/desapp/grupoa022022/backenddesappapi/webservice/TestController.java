@@ -23,43 +23,43 @@ public class TestController {
 
     public HttpEntity<String> getRegistrationEntity() throws JsonProcessingException {
         return new HttpEntity<>(getBody(new UserRegister("userU", "userU", "userU@gmail.com",
-                "userU 56", "userU", "userUserUserUserUserUs",
+                "userU 56", "userU@", "userUserUserUserUserUs",
                 "userUser")), getHeaders());
     }
     public HttpEntity<String> getRegistrationEntityC() throws JsonProcessingException {
         return new HttpEntity<>(getBody(new UserRegister("userU", "userU", "userC@gmail.com",
-                "userU 56", "userU", "userUserUserUserUserUs",
+                "userU 56", "userU@", "userUserUserUserUserUs",
                 "userUser")), getHeaders());
     }
     public HttpEntity<String> getRegistrationEntityI() throws JsonProcessingException {
         return new HttpEntity<>(getBody(new UserRegister("userU", "userU", "userI@gmail.com",
-                "userU 56", "userU", "userUserUserUserUserUs",
+                "userU 56", "userU@", "userUserUserUserUserUs",
                 "userUser")), getHeaders());
     }
     public HttpEntity<String> getRegistrationEntityQ() throws JsonProcessingException {
         return new HttpEntity<>(getBody(new UserRegister("userU", "userU", "userQ@gmail.com",
-                "userU 56", "userU", "userUserUserUserUserUs",
+                "userU 56", "userU@", "userUserUserUserUserUs",
                 "userUser")), getHeaders());
     }
     public HttpEntity<String> getRegistrationEntityO() throws JsonProcessingException {
         return new HttpEntity<>(getBody(new UserRegister("userU", "userU", "userO@gmail.com",
-                "userU 56", "userU", "userUserUserUserUserUs",
+                "userU 56", "userU@", "userUserUserUserUserUs",
                 "userUser")), getHeaders());
     }
 
     public HttpEntity<String> getAuthenticationEntity() throws JsonProcessingException {
-        return new HttpEntity<>(getBody(new UserDTO("userU@gmail.com", "userU")), getHeaders());
+        return new HttpEntity<>(getBody(new UserDTO("userU@gmail.com", "userU@")), getHeaders());
     }
     public HttpEntity<String> getAuthenticationEntityC() throws JsonProcessingException {
-        return new HttpEntity<>(getBody(new UserDTO("userC@gmail.com", "userU")), getHeaders());
+        return new HttpEntity<>(getBody(new UserDTO("userC@gmail.com", "userU@")), getHeaders());
     }
     public HttpEntity<String> getAuthenticationEntityI() throws JsonProcessingException {
-        return new HttpEntity<>(getBody(new UserDTO("userI@gmail.com", "userU")), getHeaders());
+        return new HttpEntity<>(getBody(new UserDTO("userI@gmail.com", "userU@")), getHeaders());
     }
     public HttpEntity<String> getAuthenticationEntityQ() throws JsonProcessingException {
-        return new HttpEntity<>(getBody(new UserDTO("userQ@gmail.com", "userU")), getHeaders());
+        return new HttpEntity<>(getBody(new UserDTO("userQ@gmail.com", "userU@")), getHeaders());
     }
     public HttpEntity<String> getAuthenticationEntityO() throws JsonProcessingException {
-        return new HttpEntity<>(getBody(new UserDTO("userO@gmail.com", "userU")), getHeaders());
+        return new HttpEntity<>(getBody(new UserDTO("userO@gmail.com", "userU@")), getHeaders());
     }
 }
