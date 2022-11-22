@@ -33,7 +33,6 @@ public class AuthController {
             body.put("error message: ", "email or password invalid");
             return new ResponseEntity<>(body, HttpHeaders.EMPTY, HttpStatus.BAD_REQUEST);
         }
-        System.out.println(tokenDTO.getToken());
         return ResponseEntity.ok(tokenDTO);
     }
 

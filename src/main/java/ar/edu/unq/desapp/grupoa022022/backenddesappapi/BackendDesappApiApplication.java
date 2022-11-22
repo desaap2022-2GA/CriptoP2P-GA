@@ -69,7 +69,6 @@ public class BackendDesappApiApplication {
 
     @PostConstruct
     public void initialize() throws PriceNotInAValidRangeException, IntentionAlreadyTakenException, ResourceNotFoundException, PriceExceedVariationWithRespectIntentionTypeLimitsException, InvalidStateException, UserValidationException {
-        System.out.println("className:" + className);
         if (className.equals("dev")) {
             logger.info("Init Data Using H2 DB");
             fireInitialData();

@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa022022.backenddesappapi.aspects.logData;
+package ar.edu.unq.desapp.grupoa022022.backenddesappapi.aspects.log_data;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

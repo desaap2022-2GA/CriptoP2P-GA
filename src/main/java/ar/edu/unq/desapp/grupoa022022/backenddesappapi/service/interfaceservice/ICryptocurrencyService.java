@@ -23,6 +23,4 @@ public interface ICryptocurrencyService {
     List<CryptocurrencyLastQuote> latestQuotes();
 
     List<CryptocurrencyLastQuote> oneDayQuotes(Integer id) throws ResourceNotFoundException;
-
-//    List<CryptocurrencyLastQuote> latestQuotes10Min();
 }

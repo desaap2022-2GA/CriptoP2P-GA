@@ -43,9 +43,6 @@ public interface IUserService {
     void update(User user);
 
     List<UserQuery> getListUsers() throws UserValidationException;
-    /***Agregado***/
-    // UserView save (UserDTO userDTO);
 
-    /***Fin Agregado***/
     UserView modifyUser(int id, String field, String data) throws ResourceNotFoundException, UserValidationException;
 }

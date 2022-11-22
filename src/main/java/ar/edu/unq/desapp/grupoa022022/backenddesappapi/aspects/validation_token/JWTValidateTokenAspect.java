@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa022022.backenddesappapi.aspects.validationToken;
+package ar.edu.unq.desapp.grupoa022022.backenddesappapi.aspects.validation_token;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.TokenDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.TokenService;
@@ -30,7 +30,7 @@ public class JWTValidateTokenAspect {
 
 	/// CUSTOM POINTCUT////
 	@Around("execution(* ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice.*.*(..))")
-	public Object JWTValidateToken(ProceedingJoinPoint joinPoint) throws Throwable {
+	public Object jwtValidateToken(ProceedingJoinPoint joinPoint) throws Throwable {
 		logger.info("/////// START VALIDATION TOKEN //////");
 		long startTime = System.currentTimeMillis();
 		TokenDTO tokenDTO = tokenService.validate(joinPoint.getArgs()[0].toString());

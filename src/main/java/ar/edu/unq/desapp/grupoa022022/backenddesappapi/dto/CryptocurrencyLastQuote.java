@@ -3,8 +3,6 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 @NoArgsConstructor

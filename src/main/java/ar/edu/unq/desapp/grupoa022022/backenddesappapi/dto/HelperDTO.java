@@ -20,34 +20,6 @@ public class HelperDTO {
                 , userRegister.getAddress(), encoder.encode(userRegister.getPassword()), userRegister.getMercadoPagoCVU()
                 , userRegister.getAddressWalletActiveCrypto());
     }
-/*
-    public User userModifyToUser(UserModify userModify, User userOriginal) throws ExceptionsUser {
-
-        if (firstNotNullAndFirstAndSecondNotEquals(userModify.getName(), userOriginal.getName())) {
-            userOriginal.setName(userModify.getName());
-        }
-        if (firstNotNullAndFirstAndSecondNotEquals(userModify.getLastname(), userOriginal.getLastname())) {
-            userOriginal.setLastname(userModify.getLastname());
-        }
-        if (firstNotNullAndFirstAndSecondNotEquals(userModify.getEmail(), userOriginal.getEmail())) {
-            userOriginal.setEmail(userModify.getEmail());
-        }
-        if (firstNotNullAndFirstAndSecondNotEquals(userModify.getAddress(), userOriginal.getAddress())) {
-            userOriginal.setAddress(userModify.getAddress());
-        }
-        if (firstNotNullAndFirstAndSecondNotEquals(userModify.getPassword(), userOriginal.getPassword())) {
-            userOriginal.setPassword(encoder.encode(userModify.getPassword()));
-        }
-        if (firstNotNullAndFirstAndSecondNotEquals(userModify.getMercadoPagoCVU(), userOriginal.getMercadoPagoCVU())) {
-            userOriginal.setMercadoPagoCVU(userModify.getMercadoPagoCVU());
-        }
-        if (firstNotNullAndFirstAndSecondNotEquals(userModify.getAddressWalletActiveCrypto(), userOriginal.getaddressWalletActiveCrypto())) {
-            userOriginal.setaddressWalletActiveCrypto(userModify.getAddressWalletActiveCrypto());
-        }
-        return userOriginal;
-    }
-
- */
 
     public boolean firstNotNullAndFirstAndSecondNotEquals(String firstCheck, String secondCheck) {
         return firstCheck != null && !Objects.equals(firstCheck, secondCheck);
