@@ -41,6 +41,7 @@ public class UserService implements IUserService {
         return helper.userToUserView(userRepo.save(user));
     }
 
+    @Override
     public TokenDTO login(UserDTO dto) {
         Optional<User> user = userRepo.findByEmail(dto.getEmail());
         if (!user.isPresent()) {
@@ -51,20 +52,6 @@ public class UserService implements IUserService {
         }
         return null;
     }
-
-    public TokenDTO validate(String token) {
-        System.out.println("inside validate " + token);
-        var newToken = token.replace("Bearer ", "");
-        if (!jwtProvider.validate(newToken)) {
-            return null;
-        }
-        String email = jwtProvider.getEmailFromToken(newToken);
-        if (!userRepo.findByEmail(email).isPresent()) {
-            return null;
-        }
-        return new TokenDTO(newToken);
-    }
-    /***Fin Agregado***/
 
     @Override
     public List<UserView> getAllUsers() {
@@ -108,7 +95,6 @@ public class UserService implements IUserService {
         ));
     }
 
-    @Override
     public Object login(String email, String password) throws ResourceNotFoundException {
         UserView user = findByPassword(password);
 
@@ -163,7 +149,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User modifyUser(int id, String field, String data) throws ResourceNotFoundException, UserValidationException {
+    public UserView modifyUser(int id, String field, String data) throws ResourceNotFoundException, UserValidationException {
 
         User user = userRepo.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("User not found with id " + id)
@@ -171,8 +157,9 @@ public class UserService implements IUserService {
 
         //UserView newUser = helper.userToUserView(userRepo.save(helper.userModify(user, field, data)));
         User newUser = helper.userModify(user, field, data);
-        System.out.println("usuario cambiado: " + newUser);
+ //       System.out.println("usuario cambiado: " + newUser);
+        update(newUser);
 
-        return newUser;
+        return helper.userToUserView(newUser);
     }
 }

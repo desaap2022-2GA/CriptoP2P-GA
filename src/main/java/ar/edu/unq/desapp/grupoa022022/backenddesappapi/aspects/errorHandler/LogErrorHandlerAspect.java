@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.errorHandlerAspect;
+package ar.edu.unq.desapp.grupoa022022.backenddesappapi.aspects.errorHandler;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -17,11 +17,10 @@ import java.util.*;
 
 @Aspect
 @Component
-@Order(1)
+@Order(2)
 public class LogErrorHandlerAspect {
     static Logger logger = LoggerFactory.getLogger(LogErrorHandlerAspect.class);
 
-    /// CUSTOM POINTCUT////
     @Around("execution(* ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice..*.*(..))")
     public Object logErrorHandler(ProceedingJoinPoint joinPoint) throws Throwable {
         try {

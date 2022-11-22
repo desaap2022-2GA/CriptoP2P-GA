@@ -43,7 +43,7 @@ public class User {
 
     private String address;
 
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$", message = "Password must contain at " +
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+*=])(?=\\S+$).{6,}$", message = "Password must contain at " +
             "least 1 lowercase, 1 uppercase, 1 special character, and at least 6 characters")
     private String password;
 

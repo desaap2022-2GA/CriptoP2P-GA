@@ -128,10 +128,10 @@ class UserHttpRequestTest {
     @Order(7)
     void puttingUser1WithAddressHusaresShouldReturnThatChange() {
 
-        ResponseEntity<User> result = restTemplate.exchange(TEST_HOSTNAME + port + "/users//{id},{field},{data}",
+        ResponseEntity<UserView> result = restTemplate.exchange(TEST_HOSTNAME + port + "/users//{id},{field},{data}",
                 HttpMethod.PUT,
                 new HttpEntity<>(null, headersWithToken.getHeaders()),
-                User.class, 2,"address","Husares 5000");
+                UserView.class, 2,"address","Husares 5000");
 
         Assertions.assertEquals(200, result.getStatusCode().value());
         Assertions.assertEquals("Husares 5000", Objects.requireNonNull(Objects.requireNonNull(result.getBody())).getAddress());

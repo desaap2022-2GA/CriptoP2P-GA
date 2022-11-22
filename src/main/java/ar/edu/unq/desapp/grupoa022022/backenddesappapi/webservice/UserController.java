@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.aspects.logData.LogMethodData;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserQuery;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -57,6 +57,7 @@ public class UserController {
         return ResponseEntity.ok(userService.operationsBetweenDates(id, firstdate, seconddate));
     }
 
+    @LogMethodData
     @Operation(summary = "List the users of the query")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping
@@ -67,7 +68,7 @@ public class UserController {
     @Operation(summary = "modify a user's data")
     @SecurityRequirement(name = "Bearer Authentication")
     @PutMapping(value = "/{id},{field},{data}")
-    public ResponseEntity<User> modifyAUser(@RequestHeader(value = "Authorization") String token, @PathVariable int id, @PathVariable String field, @PathVariable String data) throws ResourceNotFoundException, UserValidationException {
+    public ResponseEntity<UserView> modifyAUser(@RequestHeader(value = "Authorization") String token, @PathVariable int id, @PathVariable String field, @PathVariable String data) throws ResourceNotFoundException, UserValidationException {
         return ResponseEntity.ok(userService.modifyUser(id, field, data));
     }
 }

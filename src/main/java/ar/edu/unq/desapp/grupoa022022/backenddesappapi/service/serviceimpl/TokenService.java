@@ -26,4 +26,13 @@ public class TokenService {
         }
         return new TokenDTO(newToken);
     }
+
+    public String emailFromToken(String token) {
+        var newToken = token.replace("Bearer ", "");
+        String email = jwtProvider.getEmailFromToken(newToken);
+        if (email.isEmpty()) {
+            return null;
+        }
+        return email;
+    }
 }

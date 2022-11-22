@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
-/******/
+
 @Component
 public class JwtProvider{
     @Value("${jwt.secret}")
@@ -62,4 +62,3 @@ public class JwtProvider{
         }
     }
 }
-/******/

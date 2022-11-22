@@ -38,7 +38,7 @@ public interface IUserService {
 
     UserView findByPassword(String password) throws ResourceNotFoundException;
 
-    Object login(String email, String password) throws ResourceNotFoundException;
+    TokenDTO login(UserDTO userDTO) throws ResourceNotFoundException;
 
     void update(User user);
 
@@ -47,5 +47,5 @@ public interface IUserService {
     // UserView save (UserDTO userDTO);
 
     /***Fin Agregado***/
-    User modifyUser(int id, String field, String data) throws ResourceNotFoundException, UserValidationException;
+    UserView modifyUser(int id, String field, String data) throws ResourceNotFoundException, UserValidationException;
 }
