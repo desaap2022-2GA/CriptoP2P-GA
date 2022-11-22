@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Collections;
 
 @Service
 public class UserServiceDetails implements UserDetailsService {
@@ -27,29 +28,33 @@ public class UserServiceDetails implements UserDetailsService {
                 () -> new UsernameNotFoundException("User not found with email " + email)
         );
 
-        UserDetails userDetails = new UserDetails() {
+        return new UserDetails() {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
-                return null;
+                return Collections.emptyList();
             }
 
             @Override
             public String getPassword() {
+
                 return user.getPassword();
             }
 
             @Override
             public String getUsername() {
+
                 return user.getEmail();
             }
 
             @Override
             public boolean isAccountNonExpired() {
+
                 return true;
             }
 
             @Override
             public boolean isAccountNonLocked() {
+
                 return true;
             }
 
@@ -63,6 +68,5 @@ public class UserServiceDetails implements UserDetailsService {
                 return true;
             }
         };
-        return userDetails;
     }
 }

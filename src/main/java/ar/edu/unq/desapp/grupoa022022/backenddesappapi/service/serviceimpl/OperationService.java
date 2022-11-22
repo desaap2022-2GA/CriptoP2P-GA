@@ -35,10 +35,11 @@ public class OperationService implements IOperationService {
     public Operation create(OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
         User user = userService.getFromDataBase(operationRegister.getUserId());
         Intention intention = intentionService.findById(operationRegister.getIntentionId());
+        Operation operation;
         if (!intention.isTaken()) {
             intention.setTaken(true);
             intentionService.update(intention);
-            Operation operation = new Operation(intention, user);//usuario Que Acepta La Intencion
+            operation = new Operation(intention, user);//usuario Que Acepta La Intencion
             if (intention.getCryptocurrency().latestQuote()
                     .priceExceedVariationWithRespectTheIntentionPriceAccordingIntentionTypeLimits(intention.getPrice(),
                             intention.getType())) {
@@ -48,16 +49,16 @@ public class OperationService implements IOperationService {
                         "intention type limits, price of intention: " + intention.getPrice() + " ,price latest quote: " +
                         intention.getCryptocurrency().latestQuote().getPrice());
             }
-            return operationRepo.save(operation);
         } else {
             throw new IntentionAlreadyTaken("The intention is already taken");
         }
+        return operationRepo.save(operation);
     }
 
     @Override
     public OperationView open(OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
-        Operation operation = this.create(operationRegister);
-        return helper.operationToOperationView(operation, operation.getUserWhoAccepts());
+        Operation operationCreated = this.create(operationRegister);
+        return helper.operationToOperationView(operationCreated, operationCreated.getUserWhoAccepts());
     }
 
     @Override

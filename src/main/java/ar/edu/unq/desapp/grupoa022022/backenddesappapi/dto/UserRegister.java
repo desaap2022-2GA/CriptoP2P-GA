@@ -23,7 +23,8 @@ public class UserRegister {
     private String email;
     @NotBlank(message = "Address: it can not be null")
     private String address;
-    @NotBlank(message = "Password: it can not be null")
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=(.*[a-z])+)(?=(.*[\\W])+)(?!.*\\s).{6,}$", message = "password must contain at " +
+            "least 1 lowercase, 1 uppercase, 1 special character, and at least 6 characters")
     private String password;
     @NotBlank
     @Size(min = 22, max = 22, message = "MercadoPagoCVU: must be 22 characters")

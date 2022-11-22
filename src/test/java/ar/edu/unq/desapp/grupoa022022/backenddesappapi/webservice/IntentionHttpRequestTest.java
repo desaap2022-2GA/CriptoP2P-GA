@@ -1,61 +1,117 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionView;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.TokenDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
-import org.junit.jupiter.api.Test;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+
+import java.util.Arrays;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class IntentionHttpRequestTest {
 
     @Value("${local.server.port}")
     private int port;
-
+    @Value("${test.hostname}")
+    private String TEST_HOSTNAME;
     @Autowired
     private IntentionController controller;
-
     @Autowired
     private TestRestTemplate restTemplate;
+    private final TestController testController = new TestController();
+
+    private HttpEntity<String> headersWithToken;
+
+    @BeforeAll
+    void init() {
+
+        //SE CREA UN USUARIO Y SE OBTIENE UN TOKEN PARA REALIZAR LAS CONSULTAS
+        HttpEntity<String> jwtEntity;
+        try {
+            jwtEntity = testController.getRegistrationEntityI();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        ResponseEntity<String> registrationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/users", HttpMethod.POST,
+                jwtEntity, String.class);
+
+        HttpEntity<String> authenticationEntity = null;
+        if (registrationResponse.getStatusCode().equals(HttpStatus.OK)) {
+            try {
+                authenticationEntity = testController.getAuthenticationEntityI();
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        ResponseEntity<TokenDTO> authenticationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/users/login",
+                HttpMethod.POST, authenticationEntity, TokenDTO.class);
+
+        if (authenticationResponse.getStatusCode().equals(HttpStatus.OK)) {
+            String token = "Bearer " + authenticationResponse.getBody().getToken();
+            HttpHeaders headers = testController.getHeaders();
+            headers.set("Authorization", token);
+            headersWithToken = new HttpEntity<>(headers);
+        }
+    }
 
     @Test
-    void contextLoads() throws Exception {
+    void contextLoads() {
         assertThat(controller).isNotNull();
     }
 
     @Test
-    void gettingIntentionsShouldReturnAListThatIncludesOneWith289_75Price() throws Exception {
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/intentions",
-                String.class)).contains("289.75");
+    @Order(1)
+    void gettingIntentionsShouldReturnAListWith3Intentions() {
+        ResponseEntity<IntentionView[]> result = restTemplate.exchange(TEST_HOSTNAME + port + "/intentions",
+                HttpMethod.GET, headersWithToken, IntentionView[].class);
+
+        Assertions.assertEquals(3, Arrays.stream(Objects.requireNonNull(result.getBody())).toList().size());
     }
 
     @Test
-    void gettingIntention1ShouldReturnAnIntentionWith5326807_85Price() throws Exception {
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/intentions/2",
-                String.class)).contains("5326807.85");
+    void gettingIntention1ShouldReturnAnIntentionWith5326807_85Price() {
+        ResponseEntity<IntentionView> result = restTemplate.exchange(TEST_HOSTNAME + port + "/intentions/2",
+                HttpMethod.GET, headersWithToken, IntentionView.class);
+
+        Assertions.assertEquals("5326807.85", Objects.requireNonNull(result.getBody()).getPrice());
     }
 
     @Test
-    void gettingActiveIntentionShouldReturnAnIntentionWith5326807_85Price() throws Exception {
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/intentions/active",
-                String.class)).contains("5326807.85");
-    }
+    @Order(2)
+    void gettingActiveIntentionShouldReturn2() {
+        ResponseEntity<IntentionView[]> result = restTemplate.exchange(TEST_HOSTNAME + port + "/intentions/active",
+                HttpMethod.GET, headersWithToken, IntentionView[].class);
 
+        Assertions.assertEquals(2, Objects.requireNonNull(Objects.requireNonNull(result.getBody())).length);
+    }
+/*
     @Test
-    void postingAnIntentionWithPrice320_00ShouldReturnIt() throws Exception {
+    @Order(9)
+    void postingAnIntentionWithPrice320_00ShouldReturnIt() {
         IntentionRegister intentionRegister = new IntentionRegister(IntentionType.BUY, 1, 320.00, 2, 1);
+        ResponseEntity<IntentionView> result;
+        try {
+            result = restTemplate.exchange(TEST_HOSTNAME + port + "/intentions",
+                    HttpMethod.POST, new HttpEntity<>(testController.getBody(intentionRegister), headersWithToken.getHeaders())
+                    , IntentionView.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
 
-        ResponseEntity<String> result = this.restTemplate.postForEntity("http://localhost:" + port + "/intentions",
-                intentionRegister, String.class);
-
-        assertTrue(result.getBody().contains("320.0"));
-    }
+        Assertions.assertEquals(320.0, Objects.requireNonNull(result.getBody()).getPrice());
+    }*/
 }

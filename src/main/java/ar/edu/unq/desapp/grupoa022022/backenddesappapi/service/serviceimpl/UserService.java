@@ -11,7 +11,6 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IUserRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IUserService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DollarConvert;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.JwtProvider;
-import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,7 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-@Builder
+//@Builder
 public class UserService implements IUserService {
 
     @Autowired
@@ -37,10 +36,9 @@ public class UserService implements IUserService {
 
     @Override
     public UserView create(UserRegister userRegister) throws EmailAlreadyExists {
-        if (findUserByEmail(userRegister.getEmail()).isPresent()) {
-            return null;
-        }
-        return helper.userToUserView(saveToDataBase(userRegister));
+        this.checkNewUserEmail(userRegister.getEmail());
+        User user = helper.userRegisterToUser(userRegister);
+        return helper.userToUserView(userRepo.save(user));
     }
 
     public TokenDTO login(UserDTO dto) {
@@ -66,20 +64,7 @@ public class UserService implements IUserService {
         }
         return new TokenDTO(newToken);
     }
-
     /***Fin Agregado***/
-
-
-    @Override
-    public UserView modify(UserModify userModify) throws EmailAlreadyExists, ResourceNotFound, ExceptionsUser {
-        User originalUser = userRepo.findById(userModify.getId()).orElseThrow(
-                () -> new ResourceNotFound("User not found with userId " + userModify.getId())
-        );
-        if (!Objects.equals(originalUser.getEmail(), userModify.getEmail())) {
-            this.checkNewUserEmail(userModify.getEmail());
-        }
-        return helper.userToUserView(userRepo.save(helper.userModifyToUser(userModify, originalUser)));
-    }
 
     @Override
     public List<UserView> getAllUsers() {
@@ -131,7 +116,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Object operationsBetweenDates(int userId, long firstDate, long secondDate) throws ResourceNotFound {
+    public TradedBetweenDates operationsBetweenDates(int userId, long firstDate, long secondDate) throws ResourceNotFound {
         User user = this.getFromDataBase(userId);
         Set<Operation> operations = user.operationsBetweenDates(firstDate, secondDate);
 
@@ -169,11 +154,25 @@ public class UserService implements IUserService {
         ArrayList<UserQuery> userList = new ArrayList<>();
         List<User> users = userRepo.findAll(Sort.by(Sort.Direction.ASC, "id"));
         for (User us : users) {
-            UserQuery user = new UserQuery(us.getName(), us.getLastname(), us.getNumberOperations(),
-                    us.getReputation());
+            UserQuery user = new UserQuery(us.getName(), us.getLastname(), String.valueOf(us.getNumberOperations()),
+                    String.valueOf(us.getReputation()));
 
             userList.add(user);
         }
         return userList.stream().toList();
+    }
+
+    @Override
+    public User modifyUser(int id, String field, String data) throws ResourceNotFound, ExceptionsUser {
+
+        User user = userRepo.findById(id).orElseThrow(
+                () -> new ResourceNotFound("User not found with id " + id)
+        );
+
+        //UserView newUser = helper.userToUserView(userRepo.save(helper.userModify(user, field, data)));
+        User newUser = helper.userModify(user, field, data);
+        System.out.println("usuario cambiado: " + newUser);
+
+        return newUser;
     }
 }

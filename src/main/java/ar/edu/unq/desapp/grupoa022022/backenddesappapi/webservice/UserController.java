@@ -1,9 +1,14 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserQuery;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.TokenService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -22,6 +27,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+/*
+<<<<<<< HEAD
     @Operation(summary = "Modify a user")
     @SecurityRequirement(name = "Bearer Authentication")
     @PutMapping(value = "/{id}")
@@ -29,6 +36,30 @@ public class UserController {
         userService.modify(userModify);
         return ResponseEntity.ok("");
     }
+=======
+*/
+    @Autowired
+    TokenService tokenService;
+
+    /***Agregado***/
+    @Operation(summary = "Register User")
+    @PostMapping
+    public ResponseEntity<UserView> create(@Valid @RequestBody UserRegister dto) throws EmailAlreadyExists {
+        UserView userView = userService.create(dto);
+        return ResponseEntity.ok(userView);
+    }
+
+    @Operation(summary = "Login")
+    @PostMapping(value = "/login")
+    public ResponseEntity<TokenDTO> login(@RequestBody UserDTO dto) {
+        TokenDTO tokenDTO = userService.login(dto);
+        if (tokenDTO == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(tokenDTO);
+    }
+
+    /***Fin Agregado***/
 
     @Operation(summary = "Search for a user by mail")
     @SecurityRequirement(name = "Bearer Authentication")
@@ -55,7 +86,7 @@ public class UserController {
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/operations-between-dates/{id}/{firstdate}/{seconddate}")
     @ResponseBody
-    public ResponseEntity<Object> getOperationsBetweenDates(@RequestHeader(value = "Authorization") String token, @PathVariable int id, @PathVariable long firstdate, @PathVariable long seconddate) throws ResourceNotFound {
+    public ResponseEntity<TradedBetweenDates> getOperationsBetweenDates(@RequestHeader(value = "Authorization") String token, @PathVariable int id, @PathVariable long firstdate, @PathVariable long seconddate) throws ResourceNotFound {
         return ResponseEntity.ok(userService.operationsBetweenDates(id, firstdate, seconddate));
     }
 
@@ -64,5 +95,12 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserQuery>> listUsers(@RequestHeader(value = "Authorization") String token) throws ExceptionsUser {
         return ResponseEntity.ok(userService.getListUsers());
+    }
+
+    @Operation(summary = "modify a user's data")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @PutMapping(value = "/{id},{field},{data}")
+    public ResponseEntity<User> modifyAUser(@RequestHeader(value = "Authorization") String token, @PathVariable int id, @PathVariable String field, @PathVariable String data) throws ResourceNotFound, ExceptionsUser {
+        return ResponseEntity.ok(userService.modifyUser(id, field, data));
     }
 }

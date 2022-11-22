@@ -3,7 +3,6 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.v3.oas.annotations.info.Contact;
 import lombok.*;
 
 import javax.persistence.*;
@@ -42,7 +41,8 @@ public class User {
 
     private String address;
 
-    @NotBlank
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=(.*[a-z])+)(?=(.*[\\W])+)(?!.*\\s).{6,}$", message = "password must contain at " +
+            "least 1 lowercase, 1 uppercase, 1 special character, and at least 6 characters")
     private String password;
 
     @NotBlank
@@ -58,11 +58,11 @@ public class User {
     private int numberOperations = 0;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user",fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Intention> intentions = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "userWhoAccepts",fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "userWhoAccepts", fetch = FetchType.EAGER)
     private Set<Operation> operations = new HashSet<>();
 
     public User(String name, String lastname, String email, String address, String password, String mercadoPagoCVU, String addressWalletActiveCrypto) {
@@ -125,11 +125,11 @@ public class User {
         }
     }
 
-    public String getaddressWalletActiveCrypto() {
+    public String getAddressWalletActiveCrypto() {
         return addressWalletActiveCrypto;
     }
 
-    public void setaddressWalletActiveCrypto(String adressWalletActiveCripto) throws ExceptionsUser {
+    public void setAddressWalletActiveCrypto(String adressWalletActiveCripto) throws ExceptionsUser {
         if (verifyaddressWalletActiveCrypto(adressWalletActiveCripto)) {
             this.addressWalletActiveCrypto = adressWalletActiveCripto;
         } else {

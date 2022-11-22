@@ -52,30 +52,30 @@ class OperationPersistenceTests {
         return cryptocurrencyService.create(dataSet.getCryptocurrencyRegisterBITCOIN());
     }
 
-    public User getUserWhoPostDB() {
+    public User getUserWhoPostDB() throws ExceptionsUser {
         return userService.saveToDataBase(dataSet.getUserRegister());
     }
 
-    public User getUserWhoAcceptDB2() {
+    public User getUserWhoAcceptDB2() throws ExceptionsUser {
         return userService.saveToDataBase(dataSet.getUserRegister2());
     }
 
-    public User getUserWith30Point3NumberOperationsDB() {
+    public User getUserWith30Point3NumberOperationsDB() throws ExceptionsUser {
         User userDB = getUserWhoPostDB();
         userDB.setPoints(30);
         userDB.setNumberOperations(3);
         return userRepo.save(userDB);
     }
 
-    public int getUserWhoPostDBId() {
+    public int getUserWhoPostDBId() throws ExceptionsUser {
         return getUserWhoPostDB().getId();
     }
 
-    public int getUserWhoAcceptDB2Id() {
+    public int getUserWhoAcceptDB2Id() throws ExceptionsUser {
         return getUserWhoAcceptDB2().getId();
     }
 
-    public int getUserWith30Point3NumberOperationsDBId() {
+    public int getUserWith30Point3NumberOperationsDBId() throws ExceptionsUser {
         return getUserWith30Point3NumberOperationsDB().getId();
     }
 
@@ -87,90 +87,90 @@ class OperationPersistenceTests {
         return getCryptocurrencyDB2().getId();
     }
 
-    public IntentionRegister getSomeIntentionRegister() {
+    public IntentionRegister getSomeIntentionRegister() throws ExceptionsUser {
         return new IntentionRegister(dataSet.getSomeTypeBUY(),
                 getSomeCryptocurrencyDBId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), getUserWhoPostDBId());
     }
 
-    public IntentionRegister getIntentionRegisterWithPrice320Units2() {
+    public IntentionRegister getIntentionRegisterWithPrice320Units2() throws ExceptionsUser {
         return new IntentionRegister(IntentionType.SELL,
                 getSomeCryptocurrencyDBId(), 320.00, 2, getUserWhoPostDBId());
     }
 
-    public IntentionRegister getIntentionRegisterWithPrice330Units2() {
+    public IntentionRegister getIntentionRegisterWithPrice330Units2() throws ExceptionsUser {
         return new IntentionRegister(IntentionType.BUY,
                 getSomeCryptocurrencyDBId(), 330.00, 2, getUserWhoPostDBId());
     }
 
-    public IntentionRegister getIntentionRegisterWithUserWhoHas30Point3NumberOperations() {
+    public IntentionRegister getIntentionRegisterWithUserWhoHas30Point3NumberOperations() throws ExceptionsUser {
         return new IntentionRegister(dataSet.getSomeTypeBUY(), getSomeCryptocurrencyDBId(), dataSet.getSomePriceInRangeDAI(),
                 dataSet.getSomeUnit(), getUserWith30Point3NumberOperationsDBId());
     }
 
-    public IntentionRegister getIntentionRegisterBUYType() {
+    public IntentionRegister getIntentionRegisterBUYType() throws ExceptionsUser {
         return new IntentionRegister(IntentionType.BUY,
                 getSomeCryptocurrencyDBId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), getUserWhoPostDBId());
     }
 
-    public IntentionRegister getIntentionRegisterSELLType() {
+    public IntentionRegister getIntentionRegisterSELLType() throws ExceptionsUser {
         return new IntentionRegister(IntentionType.SELL,
                 getSomeCryptocurrencyDB2Id(), dataSet.getSomePriceInRangeBITCOIN(), dataSet.getSomeUnit(), getUserWhoPostDBId());
     }
 
-    public Intention getIntentionRegisterWithPrice320Units2DB() throws ResourceNotFound, PriceNotInAValidRange {
+    public Intention getIntentionRegisterWithPrice320Units2DB() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         return intentionService.create(getIntentionRegisterWithPrice320Units2());
     }
 
 
-    public Intention getIntentionRegisterWithPrice330Units2DB() throws ResourceNotFound, PriceNotInAValidRange {
+    public Intention getIntentionRegisterWithPrice330Units2DB() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         return intentionService.create(getIntentionRegisterWithPrice330Units2());
     }
 
-    public Intention getSELLTypeIntentionDB() throws ResourceNotFound, PriceNotInAValidRange {
+    public Intention getSELLTypeIntentionDB() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         return intentionService.create(getIntentionRegisterSELLType());
     }
 
-    public Intention getBUYTypeIntentionDB() throws ResourceNotFound, PriceNotInAValidRange {
+    public Intention getBUYTypeIntentionDB() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         return intentionService.create(getIntentionRegisterBUYType());
     }
 
-    public Intention getIntentionDB() throws ResourceNotFound, PriceNotInAValidRange {
+    public Intention getIntentionDB() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         return intentionService.create(getSomeIntentionRegister());
     }
 
-    public Intention getIntentionWhoUserHas30Points3NumberOperationsDB() throws ResourceNotFound, PriceNotInAValidRange {
+    public Intention getIntentionWhoUserHas30Points3NumberOperationsDB() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         return intentionService.create(getIntentionRegisterWithUserWhoHas30Point3NumberOperations());
     }
 
-    public int getIntentionDBId() throws ResourceNotFound, PriceNotInAValidRange {
+    public int getIntentionDBId() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         return getIntentionDB().getId();
     }
 
-    public int getSELLIntentionDBId() throws ResourceNotFound, PriceNotInAValidRange {
+    public int getSELLIntentionDBId() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         return getSELLTypeIntentionDB().getId();
     }
 
-    public int getBUYIntentionDBId() throws ResourceNotFound, PriceNotInAValidRange {
+    public int getBUYIntentionDBId() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         return getBUYTypeIntentionDB().getId();
     }
 
-    public OperationRegister getOperationRegisterWithUserPostWhoHas30Point3NumberOperations() throws ResourceNotFound, PriceNotInAValidRange {
+    public OperationRegister getOperationRegisterWithUserPostWhoHas30Point3NumberOperations() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         return new OperationRegister(getIntentionWhoUserHas30Points3NumberOperationsDB().getId(), getUserWhoAcceptDB2Id());
     }
 
-    public OperationRegister getBUYOperationRegister() throws ResourceNotFound, PriceNotInAValidRange {
+    public OperationRegister getBUYOperationRegister() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         return new OperationRegister(getBUYIntentionDBId(), getUserWhoAcceptDB2Id());
     }
 
-    public OperationRegister getSELLOperationRegister() throws ResourceNotFound, PriceNotInAValidRange {
+    public OperationRegister getSELLOperationRegister() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         return new OperationRegister(getSELLIntentionDBId(), getUserWhoAcceptDB2Id());
     }
 
-    public OperationRegister getSomeOperationRegister() throws ResourceNotFound, PriceNotInAValidRange {
+    public OperationRegister getSomeOperationRegister() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         return new OperationRegister(getIntentionDBId(), getUserWhoAcceptDB2Id());
     }
 
-    public OperationRegister getOperationRegisterWithUserAcceptWhoHas30Point3NumberOperations() throws ResourceNotFound, PriceNotInAValidRange {
+    public OperationRegister getOperationRegisterWithUserAcceptWhoHas30Point3NumberOperations() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         return new OperationRegister(getIntentionDBId(), getUserWith30Point3NumberOperationsDBId());
     }
 
@@ -186,7 +186,7 @@ class OperationPersistenceTests {
     //**************** SERVICE - REPOSITORY ****************
 
     @Test
-    void recoversPersistenceANewOperation() {
+    void recoversPersistenceANewOperation() throws ExceptionsUser {
         Intention intentionDB = intentionRepo.save(new Intention(dataSet.getSomeTypeBUY(), getCryptocurrencyDB(),
                 dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), getUserWhoPostDB()));
         Operation saved = operationRepo.save(new Operation(intentionDB, getUserWhoAcceptDB2()));
@@ -195,7 +195,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void getOperationIdFromANewPersistedOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getOperationIdFromANewPersistedOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         int operationId = operationService.create(getSomeOperationRegister()).getId();
 
         assertEquals(operationId, operationService.findById(operationId).getId());
@@ -207,7 +207,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void getOperationStateFromAnOperationThatChangeState() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getOperationStateFromAnOperationThatChangeState() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getSomeOperationRegister());
         operation.setState(OperationState.CRYPTOSENT);
         operationService.update(operation);
@@ -216,7 +216,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void getResourceNotFoundAfterDeleteTheOnlyOneAndAskForIt() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getResourceNotFoundAfterDeleteTheOnlyOneAndAskForIt() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getSomeOperationRegister());
         operationService.delete(operation.getId());
 
@@ -224,76 +224,76 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void getSellTypeWhenAskForAnOperationTypeMadeWithASellIntentionType() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getSellTypeWhenAskForAnOperationTypeMadeWithASellIntentionType() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getSELLOperationRegister());
         assertEquals(IntentionType.SELL, operation.getIntention().getType());
     }
 
     @Test
-    void getMercadoPagoCVUWhenUserWhoPostAskForInfoToShowOnBuyTypeOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getMercadoPagoCVUWhenUserWhoPostAskForInfoToShowOnBuyTypeOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getBUYOperationRegister());
 
         assertEquals("6352879863528798635287", operation.getIntention().transactionInfoToShow(operation.getIntention().getUser()));
     }
 
     @Test
-    void getAddressCryptoWhenUserWhoPostAskForInfoToShowOnSELLTypeOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getAddressCryptoWhenUserWhoPostAskForInfoToShowOnSELLTypeOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getSELLOperationRegister());
 
         assertEquals("Xwf5u5ef", operation.getIntention().transactionInfoToShow(operation.getIntention().getUser()));
     }
 
     @Test
-    void getAddressWalletInfoWhenAskTransactionInfoInABuyIntentionTypeOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getAddressWalletInfoWhenAskTransactionInfoInABuyIntentionTypeOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getBUYOperationRegister());
 
         assertEquals("Xwf5u5ef", operation.getIntention().transactionInfoToShow(operation.getUserWhoAccepts()));
     }
 
     @Test
-    void getMercadoPagoCvuInfoWhenAskTransactionInfoInASellIntentionTypeOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getMercadoPagoCvuInfoWhenAskTransactionInfoInASellIntentionTypeOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getSELLOperationRegister());
 
         assertEquals("6352879863528798635287", operation.getIntention().transactionInfoToShow(operation.getUserWhoAccepts()));
     }
 
     @Test
-    void getUserReputationFromOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getUserReputationFromOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getOperationRegisterWithUserPostWhoHas30Point3NumberOperations());
 
         assertEquals(10, operation.getIntention().getUser().getReputation());
     }
 
     @Test
-    void getActionToDoMakeTransferFromOperationWithIntentionTypeSELLAndUserUserWhoAccept() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getActionToDoMakeTransferFromOperationWithIntentionTypeSELLAndUserUserWhoAccept() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getSELLOperationRegister());
 
         assertEquals("Make transfer", operation.actionToDo(operation.getUserWhoAccepts()));
     }
 
     @Test
-    void getActionToDoWaitingForCounterpartTransferFromOperationWithIntentionTypeSELLAndUserUserWhoPost() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getActionToDoWaitingForCounterpartTransferFromOperationWithIntentionTypeSELLAndUserUserWhoPost() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getSELLOperationRegister());
 
         assertEquals("Waiting for counterpart transfer", operation.actionToDo(operation.getIntention().getUser()));
     }
 
     @Test
-    void getActionToDoWaitingForCounterpartTransferFromOperationWithIntentionTypeBUYAndUserUserWhoAccept() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getActionToDoWaitingForCounterpartTransferFromOperationWithIntentionTypeBUYAndUserUserWhoAccept() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getBUYOperationRegister());
 
         assertEquals("Waiting for counterpart transfer", operation.actionToDo(operation.getUserWhoAccepts()));
     }
 
     @Test
-    void getActionToDoMakeTransferFromOperationWithIntentionTypeBUYAndUserUserWhoPost() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getActionToDoMakeTransferFromOperationWithIntentionTypeBUYAndUserUserWhoPost() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getBUYOperationRegister());
 
         assertEquals("Make transfer", operation.actionToDo(operation.getIntention().getUser()));
     }
 
     @Test
-    void get10WhenAskForPointsFromUserWhoPostWith30PointsAfterCancelOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void get10WhenAskForPointsFromUserWhoPostWith30PointsAfterCancelOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getOperationRegisterWithUserPostWhoHas30Point3NumberOperations());
         operationService.cancelOperationByUser(operation, operation.getIntention().getUser());
 
@@ -301,7 +301,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void get10WhenAskForPointsFromUserWhoAcceptWith30PointsAfterCancelOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void get10WhenAskForPointsFromUserWhoAcceptWith30PointsAfterCancelOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getOperationRegisterWithUserAcceptWhoHas30Point3NumberOperations());
         operationService.cancelOperationByUser(operation, operation.getUserWhoAccepts());
 
@@ -309,13 +309,13 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void getACTIVEStateFromNewOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getACTIVEStateFromNewOperation() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getSomeOperationRegister());
         assertEquals(OperationState.ACTIVE, operation.getState());
     }
 
     @Test
-    void getCANCELLEDStateFromOperationAfterCancel() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getCANCELLEDStateFromOperationAfterCancel() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getSomeOperationRegister());
         operationService.cancelOperationByUser(operation, operation.getUserWhoAccepts());
 
@@ -323,7 +323,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void getPAIDStateFromOperationAfterMoneyTransferDone() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getPAIDStateFromOperationAfterMoneyTransferDone() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getSomeOperationRegister());
         operationService.moneyTransferDone(operation);
 
@@ -331,7 +331,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void getCRYPTOSENDEDStateFromOperationAfterCryptoSendDone() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void getCRYPTOSENDEDStateFromOperationAfterCryptoSendDone() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getSomeOperationRegister());
         operationService.cryptoSendDone(operation);
 
@@ -339,7 +339,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void get10WhenAskForPointsOnUsersFromOperationDoneInLess30Minutes() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void get10WhenAskForPointsOnUsersFromOperationDoneInLess30Minutes() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getSomeOperationRegister());
         operationService.assignBonusTimeToUsers(operation);
 
@@ -348,7 +348,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void get5WhenAskForPointsOnUsersFromOperationDoneInMore30Minutes() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void get5WhenAskForPointsOnUsersFromOperationDoneInMore30Minutes() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getSomeOperationRegister());
         operation.setDateTime(new DateTimeInMilliseconds().getCurrentTimeMinus30MinutesInMilliseconds());
         operationService.assignBonusTimeToUsers(operation);
@@ -358,7 +358,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void modifyAnOperationWithPaidState() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState {
+    void modifyAnOperationWithPaidState() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState, ExceptionsUser {
         Operation operation = operationService.create(getSELLOperationRegister());
         OperationModify operationModify = new OperationModify(operation.getId(), OperationState.PAID, operation.getUserWhoAccepts().getId());
         operationService.modify(operationModify);
@@ -367,7 +367,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void modifyAnOperationWithCryptoSentState() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState {
+    void modifyAnOperationWithCryptoSentState() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState, ExceptionsUser {
         Operation operation = operationService.create(getSELLOperationRegister());
         OperationModify operationModify = new OperationModify(operation.getId(), OperationState.CRYPTOSENT, operation.getUserWhoAccepts().getId());
         operationService.modify(operationModify);
@@ -376,7 +376,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void modifyAnOperationWithCancelledState() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState {
+    void modifyAnOperationWithCancelledState() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, InvalidState, ExceptionsUser {
         Operation operation = operationService.create(getSELLOperationRegister());
         OperationModify operationModify = new OperationModify(operation.getId(), OperationState.CANCELLED, operation.getUserWhoAccepts().getId());
         operationService.modify(operationModify);
@@ -385,28 +385,28 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void whenTryToSetAStateInvalidThrowsException() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void whenTryToSetAStateInvalidThrowsException() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         int operationId = operationService.create(getSELLOperationRegister()).getId();
 
         assertThrows(InvalidState.class, () -> operationService.modify(new OperationModify(operationId, OperationState.ACTIVE, getUserWhoAcceptDB2Id())));
     }
 
     @Test
-    void getPriceExceedVariationWithRespectIntentionSELLTypeLimitsPriceLowerThanQuoteOfCryptocurrency() throws ResourceNotFound, PriceNotInAValidRange {
+    void getPriceExceedVariationWithRespectIntentionSELLTypeLimitsPriceLowerThanQuoteOfCryptocurrency() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         int intentionId = getIntentionRegisterWithPrice320Units2DB().getId();
 
         assertThrows(PriceExceedVariationWithRespectIntentionTypeLimits.class, () -> operationService.create(new OperationRegister(intentionId, getUserWhoAcceptDB2Id())));
     }
 
     @Test
-    void getPriceExceedVariationWithRespectIntentionBUYTypeLimitsPriceHigherThanQuoteOfCryptocurrency() throws ResourceNotFound, PriceNotInAValidRange {
+    void getPriceExceedVariationWithRespectIntentionBUYTypeLimitsPriceHigherThanQuoteOfCryptocurrency() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         int intentionId = getIntentionRegisterWithPrice330Units2DB().getId();
 
         assertThrows(PriceExceedVariationWithRespectIntentionTypeLimits.class, () -> operationService.create(new OperationRegister(intentionId, getUserWhoAcceptDB2Id())));
     }
 
     @Test
-    void whenTryToTakeAnIntentionAlreadyTakenThrowsException() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void whenTryToTakeAnIntentionAlreadyTakenThrowsException() throws PriceNotInAValidRange, ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Cryptocurrency cryptocurrency = cryptocurrencyService.create(new CryptocurrencyRegister("DOGCOIN", 320.38));
         int intentionId = intentionService.create(new IntentionRegister(IntentionType.BUY,
                 cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), getUserWhoPostDBId())).getId();
@@ -417,7 +417,7 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void operationIsOnSetOperationOfUserWhoAcceptsAfterCryptoSentDone() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void operationIsOnSetOperationOfUserWhoAcceptsAfterCryptoSentDone() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         Operation operation = operationService.create(getSomeOperationRegister());
         operationService.cryptoSendDone(operation);
 
@@ -425,12 +425,12 @@ class OperationPersistenceTests {
     }
 
     @Test
-    void operationViewClassIsObtainAfterOpenIsCalledWithAndOperationRegister() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void operationViewClassIsObtainAfterOpenIsCalledWithAndOperationRegister() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         assertEquals(OperationView.class, operationService.open(getSomeOperationRegister()).getClass());
     }
 
     @Test
-    void operationViewStringInfoObtainAfterOpenIsCalledWithAndOperationRegister() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    void operationViewStringInfoObtainAfterOpenIsCalledWithAndOperationRegister() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits, ExceptionsUser {
         assertEquals("OperationView(cryptocurrency=DAI, nominalAmount=961.14, quote=320.38, userWhoPostCompleteName=Paston Gaudio, operationNumber=0, reputation=0, sentAddress=Xwf5u5ef, actionToDo=Waiting for counterpart transfer)"
                 , operationService.open(getSomeOperationRegister()).toString());
     }

@@ -9,7 +9,6 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.Crypt
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.IntentionService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.OperationService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DollarConvert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +71,7 @@ class UtilsTests {
     //SERVICE
 
     @Test
-    void getACryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFound, PriceNotInAValidRange {
+    void getACryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         Cryptocurrency cryptocurrency = cryptocurrencyService.create(dataSet.getCryptocurrencyRegisterDAI());
         User user = userService.saveToDataBase(dataSet.getUserRegister());
         Intention intention = intentionService.create(new IntentionRegister(dataSet.getSomeTypeBUY()
@@ -82,7 +81,7 @@ class UtilsTests {
     }
 
     @Test
-    void getStringCryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFound, PriceNotInAValidRange {
+    void getStringCryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
         Cryptocurrency cryptocurrency = cryptocurrencyService.create(dataSet.getCryptocurrencyRegisterDAI());
         User user = userService.saveToDataBase(dataSet.getUserRegister());
         Intention intention = intentionService.create(new IntentionRegister(dataSet.getSomeTypeBUY()
@@ -92,27 +91,11 @@ class UtilsTests {
     }
 
     @Test
-    void userStillWithPreviousDataIfNewParamsAreNull() throws ExceptionsUser {
-        User user = new User("Mara", "Lopez", "Mara@gmail.com", "Luro 234", "1234"
-                , "1234567899876543211236", "123654");
-
-        UserModify userModify = new UserModify(null, null, null, null, null
-                , null, null);
-
-        User userReturned = helperDTO.userModifyToUser(userModify, user);
-
-        assertNotEquals(dataString(userModify), dataString(userReturned));
-    }
-
-    @Test
     void userChangeDataIfNewParamsAreNotNull() throws ExceptionsUser {
         User user = new User("Mara", "Lopez", "Mara@gmail.com", "Luro 234", "1234"
                 , "1234567899876543211236", "123654");
 
-        UserModify userModify = new UserModify("Ana", "Gris", "m@gmail.com"
-                , "Uriburu 52", "3155", "1232587416398521475648", "98765485");
-
-        User userReturned = helperDTO.userModifyToUser(userModify, user);
+        User userReturned = helperDTO.userModify(user, "email", "m@gmail.com");
 
         assertEquals(dataString(user), dataString(userReturned));
     }
@@ -126,7 +109,7 @@ class UtilsTests {
     }
 
     public String dataString(User user) {
-        return user.getName() + user.getLastname() + user.getEmail() + user.getAddress() + user.getPassword() + user.getMercadoPagoCVU() + user.getaddressWalletActiveCrypto();
+        return user.getName() + user.getLastname() + user.getEmail() + user.getAddress() + user.getPassword() + user.getMercadoPagoCVU() + user.getAddressWalletActiveCrypto();
     }
 
     public String dataString(UserModify user) {

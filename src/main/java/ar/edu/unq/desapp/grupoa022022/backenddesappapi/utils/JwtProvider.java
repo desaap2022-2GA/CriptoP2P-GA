@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 /******/
 @Component
@@ -23,7 +22,7 @@ public class JwtProvider{
     }
 
     public String createToken(User user){
-        Map<String, Object> claims = new HashMap<>();
+        Map<String, Object> claims;
 
         claims = Jwts.claims().setSubject(user.getEmail());
         claims.put("id", user.getId());
@@ -41,7 +40,9 @@ public class JwtProvider{
 
     public boolean validate (String token){
         try{
-            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+            Jwts.parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token);
             return true;
         }catch(Exception e){
             return false;
@@ -51,7 +52,11 @@ public class JwtProvider{
 
     public String getEmailFromToken(String token){
         try{
-            return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
+            return Jwts.parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
         }catch(Exception e){
             return "Bad token";
         }

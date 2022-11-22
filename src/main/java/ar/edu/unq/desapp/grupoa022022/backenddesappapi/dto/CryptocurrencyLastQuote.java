@@ -7,11 +7,17 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class CryptocurrencyLastQuote {
     @JsonProperty("symbol")
     private String name;
     @JsonProperty("price")
-    private BigDecimal lastQuote;
+    private String lastQuote;
+
+    private String dateTime;
+    public CryptocurrencyLastQuote(String name, String lastQuote){
+        this.name = name;
+        this.lastQuote = lastQuote;
+    }
 }

@@ -7,31 +7,25 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.ICryptocurrencyRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IQuoteRepo;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.integration.ExternalProxyService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
-import lombok.extern.log4j.Log4j;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class CryptocurrencyService implements ICryptocurrencyService {
-
-    protected final Logger logger = LogManager.getLogger(getClass());
-    RestTemplate restTemplate = new RestTemplate();
     @Autowired
     private ICryptocurrencyRepo cryptocurrencyRepo;
 
     @Autowired
     private IQuoteRepo quoteRepo;
+
+    @Autowired
+    private ExternalProxyService externalProxyService;
 
     @Override
     public Cryptocurrency create(CryptocurrencyRegister cryptocurrencyRegister) {
@@ -62,7 +56,7 @@ public class CryptocurrencyService implements ICryptocurrencyService {
 
     @Override
     public List<Cryptocurrency> getAll() {
-        return cryptocurrencyRepo.findAll(Sort.by(Sort.Direction.ASC,"id"));
+        return cryptocurrencyRepo.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     @Override
@@ -74,23 +68,26 @@ public class CryptocurrencyService implements ICryptocurrencyService {
 
     @Override
     @Cacheable("cryptoCurrency")
-    public List<CryptocurrencyLastQuote> latestQuotes(){
-
-        List<CryptocurrencyLastQuote> cryptocurrencyLastQuotesList = new ArrayList<>();
-
-        List<String> cryptocurrencyNameList = Arrays.asList("ALICEUSDT", "MATICUSDT", "AXSUSDT", "AAVEUSDT", "ATOMUSDT", "NEOUSDT", "DOTUSDT"
-                , "ETHUSDT", "CAKEUSDT", "BTCUSDT", "BNBUSDT", "ADAUSDT", "TRXUSDT", "AUDIOUSDT");
-
-        cryptocurrencyNameList.forEach(name -> {
-            String url = "https://api1.binance.com/api/v3/ticker/price?symbol="+name;
-
-            ResponseEntity<CryptocurrencyLastQuote> cryptoCurrencyLastQuote =
-                    restTemplate.getForEntity(url, CryptocurrencyLastQuote.class);
-
-            CryptocurrencyLastQuote responseBean = cryptoCurrencyLastQuote.getBody();
-
-            cryptocurrencyLastQuotesList.add(responseBean);
-        });
-        return cryptocurrencyLastQuotesList;
+    public List<CryptocurrencyLastQuote> latestQuotes() {
+        return externalProxyService.binanceLatestQuotes();
     }
+
+    @Override
+    public List<CryptocurrencyLastQuote> oneDayQuotes(Integer id) throws ResourceNotFound {
+        Cryptocurrency cryptocurrency = findById(id);
+        //return cryptocurrency.last24HoursQuotes();
+        return externalProxyService.binance24hsQuotesForCryptocurrency(cryptocurrency);
+    }
+
+//    @Scheduled(cron = "* * * * * ") //Ahora en un min
+    // "*/10 * * * * "cada 10 minutos - application.properties
+    // "${cron.expression}
+//    @CachePut("cryptoCurrency")
+    //@Cacheable("cryptoCurrency")
+//    @Override
+//    public List<CryptocurrencyLastQuote> latestQuotes10Min(){
+    //System.out.println("pase");
+//        return latestQuotes();
+    //return null;
+//    }
 }
