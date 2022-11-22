@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.UserValidationException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -23,7 +23,7 @@ class UserModelTests {
     public int units1 = 1;
 
     @Test
-    void theNameOfAUserIsCorrect() throws ExceptionsUser {
+    void theNameOfAUserIsCorrect() throws UserValidationException {
         User user = new User();
         String name = "Graciela";
         user.setName(name);
@@ -32,7 +32,7 @@ class UserModelTests {
     }
 
     @Test
-    void theLastnameOfAUserIsCorrect() throws ExceptionsUser {
+    void theLastnameOfAUserIsCorrect() throws UserValidationException {
         User user = new User();
         String lastname = "Gonzalez";
         user.setLastname(lastname);
@@ -42,7 +42,7 @@ class UserModelTests {
 
     @Test
     void theLastnameOfAUserDoesNotMeetTheConditionsThrowsAnException() {
-        assertThrows(ExceptionsUser.class, () -> {
+        assertThrows(UserValidationException.class, () -> {
             User user = new User();
             String lastname = "";
             user.setLastname(lastname);
@@ -50,7 +50,7 @@ class UserModelTests {
     }
 
     @Test
-    void theEmailOfAUserIsCorrect() throws ExceptionsUser {
+    void theEmailOfAUserIsCorrect() throws UserValidationException {
         User user = new User();
         String email = "user@desp.com";
         user.setEmail(email);
@@ -60,7 +60,7 @@ class UserModelTests {
 
     @Test
     void theEmailOfAUserDoesNotMeetTheConditionsTrowsAnException() {
-        assertThrows(ExceptionsUser.class, () -> {
+        assertThrows(UserValidationException.class, () -> {
             User user = new User();
             String lastname = "";
             user.setLastname(lastname);
@@ -68,7 +68,7 @@ class UserModelTests {
     }
 
     @Test
-    void theAddressOfAUserIsCorrect() throws ExceptionsUser {
+    void theAddressOfAUserIsCorrect() throws UserValidationException {
         User user = new User();
         String address = "Roque Saenz Peña 352";
         user.setAddress(address);
@@ -78,7 +78,7 @@ class UserModelTests {
 
     @Test
     void theAddressOfAUserDoesNotMeetTheCOnditionsThrowsAnExpection() {
-        assertThrows(ExceptionsUser.class, () -> {
+        assertThrows(UserValidationException.class, () -> {
             User user = new User();
             String address = "Roque 352";
             user.setAddress(address);
@@ -86,7 +86,7 @@ class UserModelTests {
     }
 
     @Test
-    void thePasswordOfAUserIsCorrect() throws ExceptionsUser {
+    void thePasswordOfAUserIsCorrect() throws UserValidationException {
         User user = new User();
         String password = "Desarrollo1!";
         user.setPassword(password);
@@ -96,7 +96,7 @@ class UserModelTests {
 
     @Test
     void thePasswordOfAUserDoesNotMeetTheConditionsThrowsAnException() {
-        assertThrows(ExceptionsUser.class, () -> {
+        assertThrows(UserValidationException.class, () -> {
             User user = new User();
             String password = "Desa!";
             user.setPassword(password);
@@ -104,7 +104,7 @@ class UserModelTests {
     }
 
     @Test
-    void theCVDDeMercadoLibreOfAUserIsCorrect() throws ExceptionsUser {
+    void theCVDDeMercadoLibreOfAUserIsCorrect() throws UserValidationException {
         User user = new User();
         String CVUMercadoPago = "1234567890123456789012";
         user.setMercadoPagoCVU(CVUMercadoPago);
@@ -114,7 +114,7 @@ class UserModelTests {
 
     @Test
     void theCVDDeMarcadoLibreOfAUserDoesNotMeetTheConditionsThrowsAnException() {
-        assertThrows(ExceptionsUser.class, () -> {
+        assertThrows(UserValidationException.class, () -> {
             User user = new User();
             String CVUMercadoPago = "123456789012345678901";
             user.setPassword(CVUMercadoPago);
@@ -122,7 +122,7 @@ class UserModelTests {
     }
 
     @Test
-    void theActiveCryptoWalletAddressOfAUserIsCorrect() throws ExceptionsUser {
+    void theActiveCryptoWalletAddressOfAUserIsCorrect() throws UserValidationException {
         User user = new User();
         String addressWalletActiveCrypto = "12345678";
         user.setAddressWalletActiveCrypto(addressWalletActiveCrypto);
@@ -132,7 +132,7 @@ class UserModelTests {
 
     @Test
     void theAddressCryptoAssetWalletDoesNotMeetTheConditionsThrowsAnException() {
-        assertThrows(ExceptionsUser.class, () -> {
+        assertThrows(UserValidationException.class, () -> {
             User user = new User();
             String addressWalletActiveCrypto = "123456789";
             user.setAddressWalletActiveCrypto(addressWalletActiveCrypto);

@@ -3,7 +3,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IQuoteService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ class QuoteServiceTests {
     public MockitoRule rule = MockitoJUnit.rule();
     */
     @BeforeEach
-    public void init() throws ResourceNotFound {
+    public void init() throws ResourceNotFoundException {
         Mockito.when(mockCryptocurrency.getId()).thenReturn(1);
         Mockito.when(mockCryptocurrency.getName()).thenReturn("DAI");
         //       Mockito.when(quoteRepo.save(any())).thenReturn(any());
@@ -48,21 +48,21 @@ class QuoteServiceTests {
     //**************** SERVICE ****************
 
     @Test
-    void createANewQuote() throws ResourceNotFound {
+    void createANewQuote() throws ResourceNotFoundException {
         int quoteId = quoteService.create(mockCryptocurrency.getId(), dataSet.getSomePriceInRangeDAI()).getId();
 
         assertEquals(quoteId, quoteService.findById(quoteId).getId());
     }
 
     @Test
-    void afterCreateANewQuoteWithCryptocurrencyXCheckDependencies() throws ResourceNotFound {
+    void afterCreateANewQuoteWithCryptocurrencyXCheckDependencies() throws ResourceNotFoundException {
         Quote quote = quoteService.create(mockCryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
 
         assertEquals(mockCryptocurrency.getName(), quote.getCryptocurrency().getName());
     }
 
     @Test
-    void updateQuotePriceCheckChange() throws ResourceNotFound {
+    void updateQuotePriceCheckChange() throws ResourceNotFoundException {
         Quote quote = quoteService.create(mockCryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
         quote.setPrice(3.00);
         quoteService.update(quote);
@@ -71,7 +71,7 @@ class QuoteServiceTests {
     }
 
     @Test
-    void deleteQuoteCheckDoesNotExist() throws ResourceNotFound {
+    void deleteQuoteCheckDoesNotExist() throws ResourceNotFoundException {
         Quote quote = quoteService.create(mockCryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
         quoteService.delete(quote.getId());
 
@@ -79,7 +79,7 @@ class QuoteServiceTests {
     }
 
     @Test
-    void thereIsNotQuotesAfterDeleteAllQuotes() throws ResourceNotFound {
+    void thereIsNotQuotesAfterDeleteAllQuotes() throws ResourceNotFoundException {
         quoteService.create(mockCryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
         quoteService.create(mockCryptocurrency.getId(), dataSet.getSomePriceInRangeDAI() + 10);
         quoteService.deleteAll();
@@ -88,7 +88,7 @@ class QuoteServiceTests {
     }
 
     @Test
-    void getQuoteById() throws ResourceNotFound {
+    void getQuoteById() throws ResourceNotFoundException {
         quoteService.create(mockCryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
         Quote quote2 = quoteService.create(mockCryptocurrency.getId(), dataSet.getSomePriceInRangeDAI() + 10);
         int quote2Id = quote2.getId();
@@ -97,7 +97,7 @@ class QuoteServiceTests {
     }
 
     @Test
-    void intentionPriceInARangeOfFivePercentRespectQuotePrice() throws ResourceNotFound {
+    void intentionPriceInARangeOfFivePercentRespectQuotePrice() throws ResourceNotFoundException {
         Quote quote = quoteService.create(mockCryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
         double intentionPrice = dataSet.getSomePriceInRangeDAI() * 0.95;
 
@@ -105,7 +105,7 @@ class QuoteServiceTests {
     }
 
     @Test
-    void intentionPriceNotInARangeOfFivePercentRespectQuotePrice() throws ResourceNotFound {
+    void intentionPriceNotInARangeOfFivePercentRespectQuotePrice() throws ResourceNotFoundException {
         Quote quote = quoteService.create(mockCryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
         double intentionPrice = dataSet.getSomePriceInRangeDAI() * 1.06;
 
@@ -113,7 +113,7 @@ class QuoteServiceTests {
     }
 
     @Test
-    void intentionPriceHigherThanQuotePrice() throws ResourceNotFound {
+    void intentionPriceHigherThanQuotePrice() throws ResourceNotFoundException {
         Quote quote = quoteService.create(mockCryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
         double intentionPrice = dataSet.getSomePriceInRangeDAI() * 1.01;
 
@@ -121,7 +121,7 @@ class QuoteServiceTests {
     }
 
     @Test
-    void intentionPriceNotHigherThanQuotePrice() throws ResourceNotFound {
+    void intentionPriceNotHigherThanQuotePrice() throws ResourceNotFoundException {
         Quote quote = quoteService.create(mockCryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
         double intentionPrice = dataSet.getSomePriceInRangeDAI() * 1;
 
@@ -129,7 +129,7 @@ class QuoteServiceTests {
     }
 
     @Test
-    void intentionPriceLowerThanQuotePrice() throws ResourceNotFound {
+    void intentionPriceLowerThanQuotePrice() throws ResourceNotFoundException {
         Quote quote = quoteService.create(mockCryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
         double intentionPrice = dataSet.getSomePriceInRangeDAI() * 0.90;
 
@@ -137,7 +137,7 @@ class QuoteServiceTests {
     }
 
     @Test
-    void intentionPriceNotLowerThanQuotePrice() throws ResourceNotFound {
+    void intentionPriceNotLowerThanQuotePrice() throws ResourceNotFoundException {
         Quote quote = quoteService.create(mockCryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
         double intentionPrice = dataSet.getSomePriceInRangeDAI() * 1.90;
 

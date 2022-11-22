@@ -7,10 +7,10 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.IntentionAlreadyTaken;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.InvalidState;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceExceedVariationWithRespectIntentionTypeLimits;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.IntentionAlreadyTakenException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.InvalidStateException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceExceedVariationWithRespectIntentionTypeLimitsException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IOperationRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IOperationService;
@@ -32,7 +32,7 @@ public class OperationService implements IOperationService {
     IIntentionService intentionService;
 
     @Override
-    public Operation create(OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    public Operation create(OperationRegister operationRegister) throws ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException {
         User user = userService.getFromDataBase(operationRegister.getUserId());
         Intention intention = intentionService.findById(operationRegister.getIntentionId());
         Operation operation;
@@ -45,18 +45,18 @@ public class OperationService implements IOperationService {
                             intention.getType())) {
                 operation.cancelOperationBySystem();
                 operationRepo.save(operation);
-                throw new PriceExceedVariationWithRespectIntentionTypeLimits("Price exceeds variation according the " +
+                throw new PriceExceedVariationWithRespectIntentionTypeLimitsException("Price exceeds variation according the " +
                         "intention type limits, price of intention: " + intention.getPrice() + " ,price latest quote: " +
                         intention.getCryptocurrency().latestQuote().getPrice());
             }
         } else {
-            throw new IntentionAlreadyTaken("The intention is already taken");
+            throw new IntentionAlreadyTakenException("The intention is already taken");
         }
         return operationRepo.save(operation);
     }
 
     @Override
-    public OperationView open(OperationRegister operationRegister) throws ResourceNotFound, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
+    public OperationView open(OperationRegister operationRegister) throws ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException {
         Operation operationCreated = this.create(operationRegister);
         return helper.operationToOperationView(operationCreated, operationCreated.getUserWhoAccepts());
     }
@@ -77,13 +77,13 @@ public class OperationService implements IOperationService {
     }
 
     @Override
-    public Operation findById(int id) throws ResourceNotFound {
+    public Operation findById(int id) throws ResourceNotFoundException {
         return operationRepo.findById(id).orElseThrow(
-                () -> new ResourceNotFound("Operation not found with id " + id)
+                () -> new ResourceNotFoundException("Operation not found with id " + id)
         );
     }
 
-    public OperationView getOperationById(int operationId, int userId) throws ResourceNotFound {
+    public OperationView getOperationById(int operationId, int userId) throws ResourceNotFoundException {
         Operation operation = findById(operationId);
         User userWhoAsk = userService.getFromDataBase(userId);
         return helper.operationToOperationView(operation, userWhoAsk);
@@ -119,7 +119,7 @@ public class OperationService implements IOperationService {
     }
 
     @Override
-    public void modify(OperationModify operationModify) throws ResourceNotFound, InvalidState {
+    public void modify(OperationModify operationModify) throws ResourceNotFoundException, InvalidStateException {
         Operation operation = findById(operationModify.getOperationId());
         User user = userService.getFromDataBase(operationModify.getUserId());
 
@@ -131,7 +131,7 @@ public class OperationService implements IOperationService {
                 addAnOperationToUsers(operation);
             }
             case CANCELLED -> cancelOperationByUser(operation, user);
-            default -> throw new InvalidState("You must provide a valid State");
+            default -> throw new InvalidStateException("You must provide a valid State");
         }
     }
 }

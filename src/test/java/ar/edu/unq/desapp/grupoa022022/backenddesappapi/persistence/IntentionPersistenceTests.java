@@ -5,8 +5,8 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRange;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRangeException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
@@ -109,14 +109,14 @@ class IntentionPersistenceTests {
     }
 
     @Test
-    void getAIntentionCreated() throws ResourceNotFound, PriceNotInAValidRange {
+    void getAIntentionCreated() throws ResourceNotFoundException, PriceNotInAValidRangeException {
         Intention intention = intentionService.create(getSomeIntentionRegister());
 
         assertEquals(intention.getId(), intentionService.findById(intention.getId()).getId());
     }
 
     @Test
-    void getPriceOfAIntentionUpdated() throws ResourceNotFound, PriceNotInAValidRange {
+    void getPriceOfAIntentionUpdated() throws ResourceNotFoundException, PriceNotInAValidRangeException {
         Intention intention = intentionService.create(getSomeIntentionRegister());
         intention.setPrice(2000.00);
         intentionService.update(intention);
@@ -126,11 +126,11 @@ class IntentionPersistenceTests {
 
     @Test
     void getResourceNotFoundWhenAskForIntentionIdThatDoesNotExist() {
-        assertThrows(ResourceNotFound.class, () -> intentionService.findById(1));
+        assertThrows(ResourceNotFoundException.class, () -> intentionService.findById(1));
     }
 
     @Test
-    void getNoIntentionsWhenAskForIntentionsAfterDeleteAll() throws ResourceNotFound, PriceNotInAValidRange {
+    void getNoIntentionsWhenAskForIntentionsAfterDeleteAll() throws ResourceNotFoundException, PriceNotInAValidRangeException {
         intentionService.create(getSomeIntentionRegister());
         intentionService.deleteAll();
 
@@ -138,7 +138,7 @@ class IntentionPersistenceTests {
     }
 
     @Test
-    void get2IntentionsWhenAskForAllIntentions() throws ResourceNotFound, PriceNotInAValidRange {
+    void get2IntentionsWhenAskForAllIntentions() throws ResourceNotFoundException, PriceNotInAValidRangeException {
         userRepo.save(dataSet.getUserTest());
         intentionService.create(getSomeIntentionRegister());
         intentionService.create(getSomeIntentionRegister2());
@@ -146,36 +146,36 @@ class IntentionPersistenceTests {
     }
 
     @Test
-    void getResourceNotFoundWhenAskForIntentionDeleted() throws ResourceNotFound, PriceNotInAValidRange {
+    void getResourceNotFoundWhenAskForIntentionDeleted() throws ResourceNotFoundException, PriceNotInAValidRangeException {
         int intentionId = intentionService.create(getSomeIntentionRegister()).getId();
         intentionService.delete(intentionId);
 
-        assertThrows(ResourceNotFound.class, () -> intentionService.findById(intentionId));
+        assertThrows(ResourceNotFoundException.class, () -> intentionService.findById(intentionId));
     }
 
     @Test
-    void getAmountPriceInDollarsFromAnIntentionWithPrice335Units2AndActualQuotePrice320_38() throws ResourceNotFound, PriceNotInAValidRange {
+    void getAmountPriceInDollarsFromAnIntentionWithPrice335Units2AndActualQuotePrice320_38() throws ResourceNotFoundException, PriceNotInAValidRangeException {
         Intention intention = intentionService.create(getIntentionRegisterWithPrice335Units2());
 
         assertEquals(640.76 / 149.00, intention.actualAmountPriceInDollars(149.00));
     }
 
     @Test
-    void getAmountPriceInPesosFromAnIntentionWithPrice335Units2() throws ResourceNotFound, PriceNotInAValidRange {
+    void getAmountPriceInPesosFromAnIntentionWithPrice335Units2() throws ResourceNotFoundException, PriceNotInAValidRangeException {
         Intention intention = intentionService.create(getIntentionRegisterWithPrice335Units2());
 
         assertEquals(670, intention.amountPriceInPesos());
     }
 
     @Test
-    void getReputation10FromUserWhoPostTheIntentionWith50Points5NumbersOperations() throws ResourceNotFound, PriceNotInAValidRange {
+    void getReputation10FromUserWhoPostTheIntentionWith50Points5NumbersOperations() throws ResourceNotFoundException, PriceNotInAValidRangeException {
         Intention intention = intentionService.create(getIntentionRegisterWithUserWhoHas50Point5NumberOperations());
 
         assertEquals(10, intention.getUser().getReputation());
     }
 
     @Test
-    void getOperationNumber5FromUserWhoPostTheIntentionWith5NumbersOperations() throws ResourceNotFound, PriceNotInAValidRange {
+    void getOperationNumber5FromUserWhoPostTheIntentionWith5NumbersOperations() throws ResourceNotFoundException, PriceNotInAValidRangeException {
         Intention intention = intentionService.create(getIntentionRegisterWithUserWhoHas50Point5NumberOperations());
 
         assertEquals(5, intention.getUser().getNumberOperations());

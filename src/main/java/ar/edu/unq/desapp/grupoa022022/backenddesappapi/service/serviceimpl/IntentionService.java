@@ -7,8 +7,8 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRange;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRangeException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IIntentionRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
@@ -34,7 +34,7 @@ public class IntentionService implements IIntentionService {
     private IUserService userService;
 
     @Override
-    public Intention create(IntentionRegister intentionRegister) throws ResourceNotFound, PriceNotInAValidRange {
+    public Intention create(IntentionRegister intentionRegister) throws ResourceNotFoundException, PriceNotInAValidRangeException {
         Cryptocurrency cryptocurrency = cryptocurrencyService.findById(intentionRegister.getCryptocurrencyId());
         User user = userService.getFromDataBase(intentionRegister.getUserId());
         if (cryptocurrency.latestQuote().intentionPriceInARangeOfFiveUpAndDown(intentionRegister.getPrice())) {
@@ -42,12 +42,12 @@ public class IntentionService implements IIntentionService {
                     intentionRegister.getUnits(), user);
             return intentionRepo.save(intention);
         } else {
-            throw new PriceNotInAValidRange("Price exceed five percent with respect to latest quote, price selected: " + intentionRegister.getPrice()
+            throw new PriceNotInAValidRangeException("Price exceed five percent with respect to latest quote, price selected: " + intentionRegister.getPrice()
                     + " ,price latest quote: " + cryptocurrency.latestQuote().getPrice());
         }
     }
 
-    public IntentionView open(IntentionRegister intentionRegister) throws PriceNotInAValidRange, ResourceNotFound {
+    public IntentionView open(IntentionRegister intentionRegister) throws PriceNotInAValidRangeException, ResourceNotFoundException {
         Intention intention = this.create(intentionRegister);
         return helper.intentionToIntentionView(intention, intention.getUser());
     }
@@ -73,7 +73,7 @@ public class IntentionService implements IIntentionService {
     }
 
     @Override
-    public IntentionView getIntentionById(int id) throws ResourceNotFound {
+    public IntentionView getIntentionById(int id) throws ResourceNotFoundException {
         Intention intention = this.findById(id);
         return helper.intentionToIntentionView(intention, intention.getUser());
     }
@@ -84,9 +84,9 @@ public class IntentionService implements IIntentionService {
                 ,intention.getUser())).toList();
     }
 
-    public Intention findById(int id) throws ResourceNotFound {
+    public Intention findById(int id) throws ResourceNotFoundException {
         return intentionRepo.findById(id).orElseThrow(
-                () -> new ResourceNotFound("Intention not found with id " + id)
+                () -> new ResourceNotFoundException("Intention not found with id " + id)
         );
     }
 

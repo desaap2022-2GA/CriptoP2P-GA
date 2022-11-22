@@ -4,9 +4,9 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExistsException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.UserValidationException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IUserRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IUserService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DollarConvert;
@@ -35,7 +35,7 @@ public class UserService implements IUserService {
     private final HelperDTO helper = new HelperDTO();
 
     @Override
-    public UserView create(UserRegister userRegister) throws EmailAlreadyExists {
+    public UserView create(UserRegister userRegister) throws EmailAlreadyExistsException {
         this.checkNewUserEmail(userRegister.getEmail());
         User user = helper.userRegisterToUser(userRegister);
         return helper.userToUserView(userRepo.save(user));
@@ -72,20 +72,20 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void delete(int id) throws ResourceNotFound {
+    public void delete(int id) throws ResourceNotFoundException {
         this.findById(id);
         userRepo.deleteById(id);
     }
 
     @Override
-    public UserView findById(Integer id) throws ResourceNotFound {
+    public UserView findById(Integer id) throws ResourceNotFoundException {
         return helper.userToUserView(getFromDataBase(id));
     }
 
     @Override
-    public UserView findByEmail(String email) throws ResourceNotFound {
+    public UserView findByEmail(String email) throws ResourceNotFoundException {
         return helper.userToUserView(userRepo.findByEmail(email).orElseThrow(
-                () -> new ResourceNotFound("User not found with user email")
+                () -> new ResourceNotFoundException("User not found with user email")
         ));
     }
 
@@ -95,28 +95,28 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void checkNewUserEmail(String email) throws EmailAlreadyExists {
+    public void checkNewUserEmail(String email) throws EmailAlreadyExistsException {
         if (findUserByEmail(email).isPresent()) {
-            throw new EmailAlreadyExists("The email is already registered");
+            throw new EmailAlreadyExistsException("The email is already registered");
         }
     }
 
     @Override
-    public UserView findByPassword(String password) throws ResourceNotFound {
+    public UserView findByPassword(String password) throws ResourceNotFoundException {
         return helper.userToUserView(userRepo.findByPassword(password).orElseThrow(
-                () -> new ResourceNotFound("User not found with user password")
+                () -> new ResourceNotFoundException("User not found with user password")
         ));
     }
 
     @Override
-    public Object login(String email, String password) throws ResourceNotFound {
+    public Object login(String email, String password) throws ResourceNotFoundException {
         UserView user = findByPassword(password);
 
-        return (user.getEmail().equals(email)) ? user : new ResourceNotFound("Incorrect email or password");
+        return (user.getEmail().equals(email)) ? user : new ResourceNotFoundException("Incorrect email or password");
     }
 
     @Override
-    public TradedBetweenDates operationsBetweenDates(int userId, long firstDate, long secondDate) throws ResourceNotFound {
+    public TradedBetweenDates operationsBetweenDates(int userId, long firstDate, long secondDate) throws ResourceNotFoundException {
         User user = this.getFromDataBase(userId);
         Set<Operation> operations = user.operationsBetweenDates(firstDate, secondDate);
 
@@ -138,9 +138,9 @@ public class UserService implements IUserService {
         return userRepo.save(helper.userRegisterToUser(userRegister));
     }
 
-    public User getFromDataBase(int userId) throws ResourceNotFound {
+    public User getFromDataBase(int userId) throws ResourceNotFoundException {
         return userRepo.findById(userId).orElseThrow(
-                () -> new ResourceNotFound("User not found with userId " + userId)
+                () -> new ResourceNotFoundException("User not found with userId " + userId)
         );
     }
 
@@ -163,10 +163,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User modifyUser(int id, String field, String data) throws ResourceNotFound, ExceptionsUser {
+    public User modifyUser(int id, String field, String data) throws ResourceNotFoundException, UserValidationException {
 
         User user = userRepo.findById(id).orElseThrow(
-                () -> new ResourceNotFound("User not found with id " + id)
+                () -> new ResourceNotFoundException("User not found with id " + id)
         );
 
         //UserView newUser = helper.userToUserView(userRepo.save(helper.userModify(user, field, data)));

@@ -5,13 +5,13 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.ActiveIntentionView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRange;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRangeException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 
 import java.util.List;
 
 public interface IIntentionService {
-    Intention create(IntentionRegister intentionRegister) throws ResourceNotFound, PriceNotInAValidRange;
+    Intention create(IntentionRegister intentionRegister) throws ResourceNotFoundException, PriceNotInAValidRangeException;
 
     void update(Intention intention);
 
@@ -21,11 +21,11 @@ public interface IIntentionService {
 
     List<ActiveIntentionView> getActiveIntentions();
 
-    Intention findById(int id) throws ResourceNotFound;
+    Intention findById(int id) throws ResourceNotFoundException;
 
-    IntentionView getIntentionById(int id) throws ResourceNotFound;
+    IntentionView getIntentionById(int id) throws ResourceNotFoundException;
 
-    IntentionView open(IntentionRegister intentionRegister) throws PriceNotInAValidRange, ResourceNotFound;
+    IntentionView open(IntentionRegister intentionRegister) throws PriceNotInAValidRangeException, ResourceNotFoundException;
 
     List<IntentionView> getAll();
 }

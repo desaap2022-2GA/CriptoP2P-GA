@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -71,11 +71,11 @@ public class Intention {
         return this.price * this.units;
     }
 
-    public Double actualAmountPriceInPesos() throws ResourceNotFound {
+    public Double actualAmountPriceInPesos() throws ResourceNotFoundException {
         return this.getCryptocurrency().latestQuote().getPrice() * this.units;
     }
 
-    public Double actualAmountPriceInDollars(Double dollarPrice) throws ResourceNotFound {
+    public Double actualAmountPriceInDollars(Double dollarPrice) throws ResourceNotFoundException {
         return this.actualAmountPriceInPesos() / dollarPrice;
     }
 

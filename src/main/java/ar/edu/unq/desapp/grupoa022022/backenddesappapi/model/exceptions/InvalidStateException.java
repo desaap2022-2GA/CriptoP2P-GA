@@ -1,8 +1,8 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions;
 
-public class InvalidState extends Throwable {
+public class InvalidStateException extends Exception {
 
-    public InvalidState(String message) {
+    public InvalidStateException(String message) {
         super(message);
     }
 }

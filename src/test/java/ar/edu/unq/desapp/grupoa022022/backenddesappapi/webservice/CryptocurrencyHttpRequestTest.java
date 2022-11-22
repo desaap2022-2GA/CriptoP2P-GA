@@ -45,7 +45,7 @@ class CryptocurrencyHttpRequestTest {
             throw new RuntimeException(e);
         }
 
-        ResponseEntity<String> registrationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/users", HttpMethod.POST,
+        ResponseEntity<String> registrationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/auth", HttpMethod.POST,
                 jwtEntity, String.class);
 
         HttpEntity<String> authenticationEntity = null;
@@ -57,7 +57,7 @@ class CryptocurrencyHttpRequestTest {
             }
         }
 
-        ResponseEntity<TokenDTO> authenticationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/users/login",
+        ResponseEntity<TokenDTO> authenticationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/auth/login",
                 HttpMethod.POST, authenticationEntity, TokenDTO.class);
 
         if (authenticationResponse.getStatusCode().equals(HttpStatus.OK)) {
@@ -76,7 +76,7 @@ class CryptocurrencyHttpRequestTest {
     @Test
     @Order(1)
     void gettingCryptocurrenciesShouldReturnAListWhit16Cryptocurrencies() {
-
+        System.out.println("headersWithToken: "+headersWithToken);
         ResponseEntity<Cryptocurrency[]> result = restTemplate.exchange(TEST_HOSTNAME + port + "/cryptocurrencies",
                 HttpMethod.GET, headersWithToken, Cryptocurrency[].class);
         System.out.println(result);

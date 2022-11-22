@@ -42,7 +42,7 @@ class OperationHttpRequestTest {
             throw new RuntimeException(e);
         }
 
-        ResponseEntity<String> registrationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/users", HttpMethod.POST,
+        ResponseEntity<String> registrationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/auth", HttpMethod.POST,
                 jwtEntity, String.class);
 
         HttpEntity<String> authenticationEntity = null;
@@ -54,7 +54,7 @@ class OperationHttpRequestTest {
             }
         }
 
-        ResponseEntity<TokenDTO> authenticationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/users/login",
+        ResponseEntity<TokenDTO> authenticationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/auth/login",
                 HttpMethod.POST, authenticationEntity, TokenDTO.class);
 
         if (authenticationResponse.getStatusCode().equals(HttpStatus.OK)) {
@@ -97,6 +97,8 @@ class OperationHttpRequestTest {
     void postingAnOperationWithIntentionThatExceedConditionsPriceObtainBadRequest() throws Exception {
         OperationRegister operationRegister = new OperationRegister(2,1);
 
+
+        System.out.println("heathers: "+headersWithToken);
         ResponseEntity<OperationView> result = restTemplate.exchange(TEST_HOSTNAME + port + "/operations",
                 HttpMethod.POST, new HttpEntity<>(testController.getBody(operationRegister), headersWithToken.getHeaders())
                 , OperationView.class);

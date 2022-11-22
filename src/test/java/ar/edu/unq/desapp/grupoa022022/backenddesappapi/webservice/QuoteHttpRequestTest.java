@@ -44,7 +44,7 @@ class QuoteHttpRequestTest {
             throw new RuntimeException(e);
         }
 
-        ResponseEntity<String> registrationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/users", HttpMethod.POST,
+        ResponseEntity<String> registrationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/auth", HttpMethod.POST,
                 jwtEntity, String.class);
 
         HttpEntity<String> authenticationEntity = null;
@@ -56,7 +56,7 @@ class QuoteHttpRequestTest {
             }
         }
 
-        ResponseEntity<TokenDTO> authenticationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/users/login",
+        ResponseEntity<TokenDTO> authenticationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/auth/login",
                 HttpMethod.POST, authenticationEntity, TokenDTO.class);
 
         if (authenticationResponse.getStatusCode().equals(HttpStatus.OK)) {

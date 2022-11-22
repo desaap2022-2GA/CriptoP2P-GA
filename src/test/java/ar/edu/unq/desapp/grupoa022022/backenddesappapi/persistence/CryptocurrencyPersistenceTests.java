@@ -4,14 +4,13 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IOperationService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IQuoteService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
-import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,17 +60,17 @@ class CryptocurrencyPersistenceTests {
     //**************** SERVICE - REPOSITORY ****************
 
     @Test
-    void recoversPersistenceANewCryptocurrency() throws ResourceNotFound {
+    void recoversPersistenceANewCryptocurrency() throws ResourceNotFoundException {
         Cryptocurrency saved = cryptocurrencyRepo.save(new Cryptocurrency("DAI"));
         int idSaved = saved.getId();
-        Cryptocurrency found = cryptocurrencyRepo.findById(idSaved).orElseThrow(() -> new ResourceNotFound
+        Cryptocurrency found = cryptocurrencyRepo.findById(idSaved).orElseThrow(() -> new ResourceNotFoundException
                 ("nonexistent cryptocurrency"));
 
         assertEquals(found.getId(), idSaved);
     }
 
     @Test
-    void createACryptocurrencyCheckId() throws ResourceNotFound {
+    void createACryptocurrencyCheckId() throws ResourceNotFoundException {
         int cryptocurrencyId = cryptocurrencyService.create(cryptocurrencyRegisterDAI).getId();
 
         assertEquals(cryptocurrencyId, cryptocurrencyService.findById(cryptocurrencyId).getId());
@@ -82,11 +81,11 @@ class CryptocurrencyPersistenceTests {
         int cryptocurrencyId = getCryptocurrencyDB().getId();
         cryptocurrencyService.delete(cryptocurrencyId);
 
-        assertThrows(ResourceNotFound.class, () -> cryptocurrencyService.findById(cryptocurrencyId));
+        assertThrows(ResourceNotFoundException.class, () -> cryptocurrencyService.findById(cryptocurrencyId));
     }
 
     @Test
-    void updateACryptocurrencyCheckFieldModified() throws ResourceNotFound {
+    void updateACryptocurrencyCheckFieldModified() throws ResourceNotFoundException {
         Cryptocurrency cryptocurrency = getCryptocurrencyDB();
         cryptocurrency.setName("LUNA");
         cryptocurrencyService.update(cryptocurrency);
@@ -105,7 +104,7 @@ class CryptocurrencyPersistenceTests {
     }
 
     @Test
-    void getTheLatestQuoteFromCryptocurrency() throws ResourceNotFound {
+    void getTheLatestQuoteFromCryptocurrency() throws ResourceNotFoundException {
         Cryptocurrency cryptocurrency = getCryptocurrencyDB();
         quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
         int quote2Id = quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI() + 2000).getId();
@@ -114,7 +113,7 @@ class CryptocurrencyPersistenceTests {
     }
 
     @Test
-    void obtain5WhenGetTheLast24HoursQuotesFromCryptocurrency() throws ResourceNotFound {
+    void obtain5WhenGetTheLast24HoursQuotesFromCryptocurrency() throws ResourceNotFoundException {
         Cryptocurrency cryptocurrency = getCryptocurrencyDB();
         quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
         quoteService.create(cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI());
@@ -138,7 +137,7 @@ class CryptocurrencyPersistenceTests {
     }
 
     @Test
-    void get4QuotesFromACryptocurrency() throws ResourceNotFound {
+    void get4QuotesFromACryptocurrency() throws ResourceNotFoundException {
         int cryptocurrencyId = getCryptocurrencyDB().getId();
         quoteService.create(cryptocurrencyId, dataSet.getSomePriceInRangeDAI());
         quoteService.create(cryptocurrencyId, dataSet.getSomePriceInRangeDAI());
@@ -155,7 +154,7 @@ class CryptocurrencyPersistenceTests {
     }
 
     @Test
-    void whenDeleteQuoteCheckDoesNotExistInCryptocurrency() throws ResourceNotFound {
+    void whenDeleteQuoteCheckDoesNotExistInCryptocurrency() throws ResourceNotFoundException {
         int cryptocurrencyId = getCryptocurrencyDB().getId();
         Quote quote = quoteService.create(cryptocurrencyId, dataSet.getSomePriceInRangeDAI());
         quoteService.delete(quote.getId());
@@ -165,7 +164,7 @@ class CryptocurrencyPersistenceTests {
     }
 
     @Test
-    void afterCreateANewQuoteWithCryptocurrencyXCheckDependencies() throws ResourceNotFound {
+    void afterCreateANewQuoteWithCryptocurrencyXCheckDependencies() throws ResourceNotFoundException {
         int cryptocurrencyId = getCryptocurrencyDB().getId();
         Quote quote = quoteService.create(cryptocurrencyId, dataSet.getSomePriceInRangeDAI());
 

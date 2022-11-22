@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.UserValidationException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -21,7 +21,9 @@ import static ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.Verify.*;
 @AllArgsConstructor
 @Getter
 @Setter
+/*
 @Builder
+*/
 @Table(name = "users")
 public class User {
     @Id
@@ -29,11 +31,11 @@ public class User {
     private int id;
 
     @NotBlank
-    @Size(min = 3, max = 30, message = "name must be between 3 and 30 characters")
+    @Size(min = 3, max = 30, message = "Name must be between 3 and 30 characters")
     private String name;
 
     @NotBlank
-    @Size(min = 3, max = 30, message = "lastname must be between 3 and 30 characters")
+    @Size(min = 3, max = 30, message = "Lastname must be between 3 and 30 characters")
     private String lastname;
 
     @Pattern(regexp = "^[^@]+@[^@]+\\.[a-zA-Z]{2,}$", message = "Email: must be a properly formatted email address")
@@ -41,7 +43,7 @@ public class User {
 
     private String address;
 
-    @Pattern(regexp = "^(?=.*?[A-Z])(?=(.*[a-z])+)(?=(.*[\\W])+)(?!.*\\s).{6,}$", message = "password must contain at " +
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$", message = "Password must contain at " +
             "least 1 lowercase, 1 uppercase, 1 special character, and at least 6 characters")
     private String password;
 
@@ -50,7 +52,7 @@ public class User {
     private String mercadoPagoCVU;
 
     @NotBlank
-    @Size(min = 8, max = 8, message = "wallet must be 8 characters")
+    @Size(min = 8, max = 8, message = "Wallet must be 8 characters")
     private String addressWalletActiveCrypto;
 
     private int points = 0;
@@ -76,52 +78,52 @@ public class User {
     }
 
 
-    public void setName(String name) throws ExceptionsUser {
+    public void setName(String name) throws UserValidationException {
         if (verifyLong(name, 3, 30)) {
             this.name = name;
         } else {
-            throw new ExceptionsUser("Campo Obligatorio. Debe tener entre 3 y 30 caracteres");
+            throw new UserValidationException("Campo Obligatorio. Debe tener entre 3 y 30 caracteres");
         }
     }
 
-    public void setLastname(String lastname) throws ExceptionsUser {
+    public void setLastname(String lastname) throws UserValidationException {
         if (verifyLong(lastname, 3, 30)) {
             this.lastname = lastname;
         } else {
-            throw new ExceptionsUser("Campo Obligatorio. Debe tener entre 3 y 30 caracteres");
+            throw new UserValidationException("Campo Obligatorio. Debe tener entre 3 y 30 caracteres");
         }
     }
 
-    public void setEmail(String email) throws ExceptionsUser {
+    public void setEmail(String email) throws UserValidationException {
         if (verifyEmail(email)) {
             this.email = email;
         } else {
-            throw new ExceptionsUser("Campo Obligatoiro. Debe tener formato de email");
+            throw new UserValidationException("Campo Obligatoiro. Debe tener formato de email");
         }
     }
 
-    public void setAddress(String address) throws ExceptionsUser {
+    public void setAddress(String address) throws UserValidationException {
         if (verifyLong(address, 10, 30)) {
             this.address = address;
         } else {
-            throw new ExceptionsUser("Campo Obligatorio. Debe tener entre 10 y 30 caracteres");
+            throw new UserValidationException("Campo Obligatorio. Debe tener entre 10 y 30 caracteres");
         }
     }
 
-    public void setPassword(String password) throws ExceptionsUser {
+    public void setPassword(String password) throws UserValidationException {
         if (verifyPassword(password)) {
             this.password = password;
         } else {
-            throw new ExceptionsUser("Password: Must contain at least 1 lowercase, 1 uppercase, " +
+            throw new UserValidationException("Password: Must contain at least 1 lowercase, 1 uppercase, " +
                     "1 special character, and at least 6 characters");
         }
     }
 
-    public void setMercadoPagoCVU(String mercadoPagoCVU) throws ExceptionsUser {
+    public void setMercadoPagoCVU(String mercadoPagoCVU) throws UserValidationException {
         if (verifyCVUMercadoPago(mercadoPagoCVU)) {
             this.mercadoPagoCVU = mercadoPagoCVU;
         } else {
-            throw new ExceptionsUser("Campo Obligatorio. Debe contener 22 dígitos");
+            throw new UserValidationException("Campo Obligatorio. Debe contener 22 dígitos");
         }
     }
 
@@ -129,11 +131,11 @@ public class User {
         return addressWalletActiveCrypto;
     }
 
-    public void setAddressWalletActiveCrypto(String adressWalletActiveCripto) throws ExceptionsUser {
+    public void setAddressWalletActiveCrypto(String adressWalletActiveCripto) throws UserValidationException {
         if (verifyaddressWalletActiveCrypto(adressWalletActiveCripto)) {
             this.addressWalletActiveCrypto = adressWalletActiveCripto;
         } else {
-            throw new ExceptionsUser("Campo Obligatorio. Debe contener 8 dígitos");
+            throw new UserValidationException("Campo Obligatorio. Debe contener 8 dígitos");
         }
     }
 

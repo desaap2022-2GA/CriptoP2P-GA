@@ -3,7 +3,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyLastQuote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,7 +51,7 @@ public class CryptocurrencyController {
     @Operation(summary = "List 24hs quotes of cryptocurrency")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("/oneday_quotes/{id}")
-    public ResponseEntity<List<CryptocurrencyLastQuote>> list24hsQuotesOfCryptocurrency(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFound {
+    public ResponseEntity<List<CryptocurrencyLastQuote>> list24hsQuotesOfCryptocurrency(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFoundException {
         return ResponseEntity.ok(cryptocurrencyService.oneDayQuotes(id));
     }
 }

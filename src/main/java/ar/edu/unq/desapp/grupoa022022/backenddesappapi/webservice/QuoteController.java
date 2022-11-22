@@ -2,7 +2,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.QuoteRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.QuoteService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,7 +27,7 @@ public class QuoteController {
     @Operation(summary = "Create a quote")
     @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping
-    public ResponseEntity<Quote> createQuote(@RequestHeader(value = "Authorization") String token, @RequestBody @Valid QuoteRegister quoteRegister) throws ResourceNotFound {
+    public ResponseEntity<Quote> createQuote(@RequestHeader(value = "Authorization") String token, @RequestBody @Valid QuoteRegister quoteRegister) throws ResourceNotFoundException {
         return ResponseEntity.ok(quoteService.create(quoteRegister.getCryptocurrencyId(), quoteRegister.getPrice()));
     }
 
@@ -41,7 +41,7 @@ public class QuoteController {
     @Operation(summary = "Search for a quote by id")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Quote> getQuoteById(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFound {
+    public ResponseEntity<Quote> getQuoteById(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFoundException {
         return ResponseEntity.ok(quoteService.findById(id));
     }
 }

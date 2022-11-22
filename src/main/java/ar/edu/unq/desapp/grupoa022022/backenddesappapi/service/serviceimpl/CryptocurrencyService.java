@@ -4,7 +4,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyLastQuo
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.ICryptocurrencyRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IQuoteRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.integration.ExternalProxyService;
@@ -60,9 +60,9 @@ public class CryptocurrencyService implements ICryptocurrencyService {
     }
 
     @Override
-    public Cryptocurrency findById(int id) throws ResourceNotFound {
+    public Cryptocurrency findById(int id) throws ResourceNotFoundException {
         return cryptocurrencyRepo.findById(id).orElseThrow(
-                () -> new ResourceNotFound("Cryptocurrency not found with id " + id)
+                () -> new ResourceNotFoundException("Cryptocurrency not found with id " + id)
         );
     }
 
@@ -73,7 +73,7 @@ public class CryptocurrencyService implements ICryptocurrencyService {
     }
 
     @Override
-    public List<CryptocurrencyLastQuote> oneDayQuotes(Integer id) throws ResourceNotFound {
+    public List<CryptocurrencyLastQuote> oneDayQuotes(Integer id) throws ResourceNotFoundException {
         Cryptocurrency cryptocurrency = findById(id);
         //return cryptocurrency.last24HoursQuotes();
         return externalProxyService.binance24hsQuotesForCryptocurrency(cryptocurrency);

@@ -23,7 +23,7 @@ public class UserRegister {
     private String email;
     @NotBlank(message = "Address: it can not be null")
     private String address;
-    @Pattern(regexp = "^(?=.*?[A-Z])(?=(.*[a-z])+)(?=(.*[\\W])+)(?!.*\\s).{6,}$", message = "password must contain at " +
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$", message = "Password must contain at " +
             "least 1 lowercase, 1 uppercase, 1 special character, and at least 6 characters")
     private String password;
     @NotBlank

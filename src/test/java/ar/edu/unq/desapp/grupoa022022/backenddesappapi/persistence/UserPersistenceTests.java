@@ -2,9 +2,9 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExists;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExistsException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.UserValidationException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IOperationService;
@@ -68,18 +68,18 @@ class UserPersistenceTests {
 
     //SAVE
     @Test
-    void recoversPersistanceANewUser() throws ResourceNotFound, ExceptionsUser {
+    void recoversPersistanceANewUser() throws ResourceNotFoundException, UserValidationException {
         prueUser1.setPassword(encoder.encode("3546DelpoWinner"));
         User saved = userRepo.save(prueUser1);
         Integer idSaved = saved.getId();
-        User finded = userRepo.findById(idSaved).orElseThrow(() -> new ResourceNotFound("nonexistent user"));
+        User finded = userRepo.findById(idSaved).orElseThrow(() -> new ResourceNotFoundException("nonexistent user"));
 
         assertEquals(idSaved, finded.getId());
     }
 
     //GET ALL
     @Test
-    void databaseHasTwoUsers() throws ExceptionsUser {
+    void databaseHasTwoUsers() throws UserValidationException {
         // userRepo.deleteAll();
         prueUser1.setPassword(encoder.encode("3546DelpoWinner"));
         prueUser2.setPassword(encoder.encode("123NadalChampion"));
@@ -94,7 +94,7 @@ class UserPersistenceTests {
 
     //PUT
     @Test
-    void modifyAnUserWithId1() throws ExceptionsUser {
+    void modifyAnUserWithId1() throws UserValidationException {
         //    userRepo.deleteAll();
 
         prueUser1.setPassword(encoder.encode("3546DelpoWinner"));
@@ -114,7 +114,7 @@ class UserPersistenceTests {
 
     //DELETTE BY ID
     @Test
-    void theUserWithId2IsDeletedFromTheDatabaseSoThereIsOnlyOneUser() throws ResourceNotFound, ExceptionsUser {
+    void theUserWithId2IsDeletedFromTheDatabaseSoThereIsOnlyOneUser() throws ResourceNotFoundException, UserValidationException {
         prueUser1.setPassword(encoder.encode("3546DelpoWinner"));
         prueUser2.setPassword(encoder.encode("123NadalChampion"));
         prueUser3.setPassword(encoder.encode("321Martin"));
@@ -131,7 +131,7 @@ class UserPersistenceTests {
 
     //GET EMAIL ******
     @Test
-    void givenTheEmailOfAUserItIsRetrievedFromTheDB() throws ResourceNotFound, ExceptionsUser {
+    void givenTheEmailOfAUserItIsRetrievedFromTheDB() throws ResourceNotFoundException, UserValidationException {
         //   userRepo.deleteAll();
         prueUser1.setPassword(encoder.encode("3546DelpoWinner"));
         prueUser2.setPassword(encoder.encode("123NadalChampion"));
@@ -147,19 +147,19 @@ class UserPersistenceTests {
 
     //EXISTS EMAIL EXCEPTION *********
     @Test
-    void checkIfAnEmailIsInTheDatabaseAndCanNotFindIt() throws ExceptionsUser {
+    void checkIfAnEmailIsInTheDatabaseAndCanNotFindIt() throws UserValidationException {
         // userRepo.deleteAll();
         prueUser1.setPassword(encoder.encode("3546DelpoWinner"));
         userRepo.save(prueUser1);
         User newUser = new User();
         newUser.setEmail("milonina@gmail.com");
 
-        assertThrows(ResourceNotFound.class, () -> userService.findByEmail(newUser.getEmail()));
+        assertThrows(ResourceNotFoundException.class, () -> userService.findByEmail(newUser.getEmail()));
     }
 
     //POST  -  ADD NEW USER ************
     @Test
-    void checkIfAnEmailIsInTheDatabaseAndCanNotFindItCreatingTheUser() throws EmailAlreadyExists, ExceptionsUser {
+    void checkIfAnEmailIsInTheDatabaseAndCanNotFindItCreatingTheUser() throws EmailAlreadyExistsException, UserValidationException {
         //   userRepo.deleteAll();
         prueUser1.setPassword(encoder.encode("3546DelpoWinner"));
         prueUser2.setPassword(encoder.encode("123NadalChampion"));
@@ -176,7 +176,7 @@ class UserPersistenceTests {
     @Test
     void checkIfAnUserIsInTheDatabaseAndCanNotFindIt() {
 
-        assertThrows(ResourceNotFound.class, () -> userService.getFromDataBase(1));
+        assertThrows(ResourceNotFoundException.class, () -> userService.getFromDataBase(1));
     }
 
     @Test
@@ -187,7 +187,7 @@ class UserPersistenceTests {
     }
 
     @Test
-    void updateAnUserAnCheckPersistence() throws ExceptionsUser, ResourceNotFound {
+    void updateAnUserAnCheckPersistence() throws UserValidationException, ResourceNotFoundException {
         prueUser1.setPassword(encoder.encode("3546DelpoWinner"));
         int idUSer1 = userRepo.save(prueUser1).getId();
         User userRecov = userRepo.findById(idUSer1).get();
@@ -198,10 +198,10 @@ class UserPersistenceTests {
     }
 
     @Test
-    void checkIfAnEmailIsInTheDatabaseAndThrowsAException() throws EmailAlreadyExists, ExceptionsUser {
+    void checkIfAnEmailIsInTheDatabaseAndThrowsAException() throws EmailAlreadyExistsException, UserValidationException {
         prueUser1.setPassword(encoder.encode("3546DelpoWinner"));
         userRepo.save(prueUser1);
 
-        assertThrows(EmailAlreadyExists.class, () -> userService.checkNewUserEmail(prueUser1.getEmail()));
+        assertThrows(EmailAlreadyExistsException.class, () -> userService.checkNewUserEmail(prueUser1.getEmail()));
     }
 }

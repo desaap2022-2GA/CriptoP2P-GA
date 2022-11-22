@@ -43,7 +43,7 @@ class UserHttpRequestTest {
             throw new RuntimeException(e);
         }
 
-        ResponseEntity<String> registrationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/users", HttpMethod.POST,
+        ResponseEntity<String> registrationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/auth", HttpMethod.POST,
                 jwtEntity, String.class);
         HttpEntity<String> authenticationEntity = null;
         if (registrationResponse.getStatusCode().equals(HttpStatus.OK)) {
@@ -54,7 +54,7 @@ class UserHttpRequestTest {
             }
         }
 
-        ResponseEntity<TokenDTO> authenticationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/users/login",
+        ResponseEntity<TokenDTO> authenticationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/auth/login",
                 HttpMethod.POST, authenticationEntity, TokenDTO.class);
         if (authenticationResponse.getStatusCode().equals(HttpStatus.OK)) {
             String token = "Bearer " + authenticationResponse.getBody().getToken();
@@ -115,7 +115,7 @@ class UserHttpRequestTest {
 
         ResponseEntity<UserView> result;
         try {
-            result = restTemplate.exchange(TEST_HOSTNAME + port + "/users",
+            result = restTemplate.exchange(TEST_HOSTNAME + port + "/auth",
                     HttpMethod.POST, new HttpEntity<>(testController.getBody(userRegister), headersWithToken.getHeaders()), UserView.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

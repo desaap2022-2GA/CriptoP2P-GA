@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice.aspects;
-
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRange;
+/*
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRangeException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -31,7 +30,7 @@ public class LogInfoAspectCustomPointcut {
         long start = System.currentTimeMillis();
         try {
             proceed = joinPoint.proceed();
-        } catch (PriceNotInAValidRange e) {
+        } catch (PriceNotInAValidRangeException e) {
 
 //        } catch (Throwable e) {
 
@@ -53,4 +52,4 @@ public class LogInfoAspectCustomPointcut {
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         return headers;
     }
-}
+}*/

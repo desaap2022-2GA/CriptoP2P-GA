@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +38,7 @@ class IntentionModelTests {
     public int units1 = 1;
 
     @BeforeEach
-    public void init() throws ResourceNotFound {
+    public void init() throws ResourceNotFoundException {
         Mockito.when(mockCryptocurrency.getId()).thenReturn(1);
         Mockito.when(mockCryptocurrency.getName()).thenReturn("DAI");
         Mockito.when(mockCryptocurrency.latestQuote()).thenReturn(mockQuote);

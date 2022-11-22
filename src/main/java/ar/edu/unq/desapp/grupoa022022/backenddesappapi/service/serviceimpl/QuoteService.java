@@ -2,7 +2,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.ICryptocurrencyRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IQuoteRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
@@ -26,7 +26,7 @@ public class QuoteService implements IQuoteService {
     private ICryptocurrencyService cryptocurrencyService;
 
     @Override
-    public Quote create(int cryptocurrencyId, Double price) throws ResourceNotFound {
+    public Quote create(int cryptocurrencyId, Double price) throws ResourceNotFoundException {
         Cryptocurrency cryptocurrency = cryptocurrencyService.findById(cryptocurrencyId);
         Quote quote = new Quote(cryptocurrency, price);
         return quoteRepo.save(quote);
@@ -38,7 +38,7 @@ public class QuoteService implements IQuoteService {
     }
 
     @Override
-    public void delete(int id) throws ResourceNotFound {
+    public void delete(int id) throws ResourceNotFoundException {
         Quote quote = this.findById(id);
         Cryptocurrency cryptocurrency = quote.getCryptocurrency();
         Set<Quote> quotes = cryptocurrency.getQuotes();
@@ -59,9 +59,9 @@ public class QuoteService implements IQuoteService {
     }
 
     @Override
-    public Quote findById(int id) throws ResourceNotFound {
+    public Quote findById(int id) throws ResourceNotFoundException {
         return quoteRepo.findById(id).orElseThrow(
-                () -> new ResourceNotFound("Quote not found with id " + id)
+                () -> new ResourceNotFoundException("Quote not found with id " + id)
         );
     }
 }

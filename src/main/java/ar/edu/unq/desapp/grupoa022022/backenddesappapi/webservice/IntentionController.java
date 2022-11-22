@@ -3,8 +3,8 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.ActiveIntentionView;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionView;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRange;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRangeException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,14 +29,14 @@ public class IntentionController {
     @Operation(summary = "Create an intention")
     @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping
-    public ResponseEntity<IntentionView> openIntention(@RequestHeader(value = "Authorization") String token, @RequestBody @Valid IntentionRegister intentionRegister) throws ResourceNotFound, PriceNotInAValidRange {
+    public ResponseEntity<IntentionView> openIntention(@RequestHeader(value = "Authorization") String token, @RequestBody @Valid IntentionRegister intentionRegister) throws ResourceNotFoundException, PriceNotInAValidRangeException {
         return ResponseEntity.ok(intentionService.open(intentionRegister));
     }
 
     @Operation(summary = "Search an intention by id")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/{id}")
-    public ResponseEntity<IntentionView> getIntentionById(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFound {
+    public ResponseEntity<IntentionView> getIntentionById(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFoundException {
         return ResponseEntity.ok(intentionService.getIntentionById(id));
     }
 

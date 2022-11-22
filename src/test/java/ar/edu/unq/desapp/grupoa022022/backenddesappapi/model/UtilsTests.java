@@ -2,9 +2,9 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRange;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.UserValidationException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRangeException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.CryptocurrencyService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.IntentionService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.OperationService;
@@ -71,7 +71,7 @@ class UtilsTests {
     //SERVICE
 
     @Test
-    void getACryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
+    void getACryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFoundException, PriceNotInAValidRangeException, UserValidationException {
         Cryptocurrency cryptocurrency = cryptocurrencyService.create(dataSet.getCryptocurrencyRegisterDAI());
         User user = userService.saveToDataBase(dataSet.getUserRegister());
         Intention intention = intentionService.create(new IntentionRegister(dataSet.getSomeTypeBUY()
@@ -81,7 +81,7 @@ class UtilsTests {
     }
 
     @Test
-    void getStringCryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFound, PriceNotInAValidRange, ExceptionsUser {
+    void getStringCryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFoundException, PriceNotInAValidRangeException, UserValidationException {
         Cryptocurrency cryptocurrency = cryptocurrencyService.create(dataSet.getCryptocurrencyRegisterDAI());
         User user = userService.saveToDataBase(dataSet.getUserRegister());
         Intention intention = intentionService.create(new IntentionRegister(dataSet.getSomeTypeBUY()
@@ -91,7 +91,7 @@ class UtilsTests {
     }
 
     @Test
-    void userChangeDataIfNewParamsAreNotNull() throws ExceptionsUser {
+    void userChangeDataIfNewParamsAreNotNull() throws UserValidationException {
         User user = new User("Mara", "Lopez", "Mara@gmail.com", "Luro 234", "1234"
                 , "1234567899876543211236", "123654");
 

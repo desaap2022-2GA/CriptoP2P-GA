@@ -4,8 +4,8 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.UserValidationException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -63,12 +63,12 @@ public class HelperDTO {
         return all.stream().map(this::userToUserView).toList();
     }
 
-    public CryptoDetails intentionToCryptoDetails(Intention intention) throws ResourceNotFound {
+    public CryptoDetails intentionToCryptoDetails(Intention intention) throws ResourceNotFoundException {
         return new CryptoDetails(intention.getCryptocurrency().getName(), intention.getUnits()
                 , intention.getCryptocurrency().latestQuote().getPrice(), intention.amountPriceInPesos());
     }
 
-    public OperationView operationToOperationView(Operation operation, User userWhoAsk) throws ResourceNotFound {
+    public OperationView operationToOperationView(Operation operation, User userWhoAsk) throws ResourceNotFoundException {
         Intention intention = operation.getIntention();
         Cryptocurrency cryptocurrency = intention.getCryptocurrency();
         User user = intention.getUser();
@@ -89,7 +89,7 @@ public class HelperDTO {
                 , intention.getType().toString(), intention.getCryptocurrency().getName(), intention.getPrice().toString(), String.valueOf(intention.getUnits())
                 , intention.amountPriceInPesos().toString(), userWhoPost.getName()+" "+userWhoPost.getLastname(), String.valueOf(userWhoPost.getNumberOperations()), String.valueOf(userWhoPost.getReputation()));
     }
-    public User userModify(User user, String field, String data) throws ExceptionsUser {
+    public User userModify(User user, String field, String data) throws UserValidationException {
         switch (field){
             case "name": user.setName(data);
                 break;

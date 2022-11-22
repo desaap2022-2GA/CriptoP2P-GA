@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -49,14 +49,14 @@ class CryptocurrencyModelTests {
 
     @Test
     void ThrowExceptionAskingForLastQuoteFromNewCryptocurrency() {
-        assertThrows(ResourceNotFound.class, () -> {
+        assertThrows(ResourceNotFoundException.class, () -> {
             Cryptocurrency cryptocurrency = new Cryptocurrency("LUNA");
             cryptocurrency.latestQuote();
         });
     }
 
     @Test
-    void ObtainLastQuoteFromCryptocurrencySettingWithAPairOfQuotesAnNotExpectingTheFirstOfThem() throws ResourceNotFound {
+    void ObtainLastQuoteFromCryptocurrencySettingWithAPairOfQuotesAnNotExpectingTheFirstOfThem() throws ResourceNotFoundException {
         Cryptocurrency cryptocurrency = new Cryptocurrency("SOL");
         Quote quote1 = new Quote(cryptocurrency, 1000.00);
         Quote quote2 = new Quote(cryptocurrency, 5000.00);
@@ -66,7 +66,7 @@ class CryptocurrencyModelTests {
     }
 
     @Test
-    void ObtainLastQuoteFromCryptocurrencySettingWithAPairOfQuotes() throws ResourceNotFound {
+    void ObtainLastQuoteFromCryptocurrencySettingWithAPairOfQuotes() throws ResourceNotFoundException {
         Cryptocurrency cryptocurrency = new Cryptocurrency("SOL");
         Quote quote1 = new Quote(cryptocurrency, 1000.00);
         Quote quote2 = new Quote(cryptocurrency, 5000.00);

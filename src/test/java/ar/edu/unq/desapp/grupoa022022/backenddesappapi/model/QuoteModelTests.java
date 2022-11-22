@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ class QuoteModelTests {
     public Double price = 200.00;
 
     @BeforeEach
-    public void init() throws ResourceNotFound {
+    public void init() throws ResourceNotFoundException {
         Mockito.when(mockCryptocurrency.getName()).thenReturn("DAI");
     }
 
@@ -49,7 +49,7 @@ class QuoteModelTests {
     }
 
     @Test
-    void ObtainLatestQuoteFromCryptocurrencyWhenCreateAQuoteForThatCryptocurrency() throws ResourceNotFound {
+    void ObtainLatestQuoteFromCryptocurrencyWhenCreateAQuoteForThatCryptocurrency() throws ResourceNotFoundException {
         Quote quote = new Quote(mockCryptocurrency, price);
         Mockito.when(mockCryptocurrency.latestQuote()).thenReturn(quote);
 

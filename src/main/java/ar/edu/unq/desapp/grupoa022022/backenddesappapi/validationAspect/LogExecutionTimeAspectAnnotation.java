@@ -31,14 +31,13 @@ public class LogExecutionTimeAspectAnnotation {
 	/// CUSTOM POINTCUT////
 	@Around("execution(* ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice.*.*(..))")
 	public Object logExecutionTimeAnnotation(ProceedingJoinPoint joinPoint) throws Throwable {
-		logger.info("/////// AROUND START  logExecutionTime annotation //////");
+		logger.info("/////// AROUND START validation token //////");
 		long start = System.currentTimeMillis();
 		/*
 		boolean query = joinPoint.getArgs()[0].toString().contains("Bearer");//el primero es el token deberiamos buscar
 		// si existe alguno que cumpla esta condicion y si es asi pedirlo y realizar la accion
 		*/
 		TokenDTO tokenDTO = userService.validate(joinPoint.getArgs()[0].toString());
-		System.out.println(tokenDTO);
 		if (tokenDTO == null) {
 			logger.info("/////// AROUND BAD-REQUEST invalid token ///////");
 			Map<String, Object> body = new LinkedHashMap<>();
@@ -50,7 +49,7 @@ public class LogExecutionTimeAspectAnnotation {
 		Object proceed = joinPoint.proceed();
 		long executionTime = System.currentTimeMillis() - start;
 		logger.info("/////// " + joinPoint.getSignature() + " executed in " + executionTime + "ms " + proceed.toString());
-		logger.info("/////// AROUND FINISH  logExecutionTime annotation ///////");
+		logger.info("/////// AROUND FINISH validation token ///////");
 		return proceed;
 	}
 }
