@@ -1,7 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto;
 
 import lombok.*;
-/******/
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -10,4 +9,3 @@ import lombok.*;
 public class TokenDTO {
     private String token;
 }
-/******/

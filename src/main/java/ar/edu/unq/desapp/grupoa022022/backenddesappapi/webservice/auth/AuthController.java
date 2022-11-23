@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice.auth;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExistsException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +25,8 @@ public class AuthController {
 
     @Operation(summary = "Login")
     @PostMapping(value = "/login")
-    public ResponseEntity<?> login(@RequestBody UserDTO dto) {
-        TokenDTO tokenDTO = userService.login(dto);
-        if (tokenDTO == null) {
-            Map<String, Object> body = new LinkedHashMap<>();
-            body.put("timestamp: ", new Date());
-            body.put("status: ", HttpStatus.BAD_REQUEST.value());
-            body.put("error message: ", "email or password invalid");
-            return new ResponseEntity<>(body, HttpHeaders.EMPTY, HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<TokenDTO> login(@RequestBody UserDTO dto) throws ResourceNotFoundException {
+        TokenDTO tokenDTO = (TokenDTO) userService.login(dto);
         return ResponseEntity.ok(tokenDTO);
     }
 

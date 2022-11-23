@@ -42,15 +42,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public TokenDTO login(UserDTO dto) {
-        Optional<User> user = userRepo.findByEmail(dto.getEmail());
-        if (!user.isPresent()) {
-            return null;
-        }
-        if (passwordEncoder.matches(dto.getPassword(), user.get().getPassword())) {
-            return new TokenDTO(jwtProvider.createToken(user.get()));
-        }
-        return null;
+    public Object login(UserDTO dto) throws ResourceNotFoundException {
+        User user = userRepo.findByEmail(dto.getEmail()).orElseThrow(
+                () -> new ResourceNotFoundException("email or password invalid"));
+        if (passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+            return new TokenDTO(jwtProvider.createToken(user));
+        } else throw new ResourceNotFoundException("email or password invalid");
     }
 
     @Override
@@ -94,13 +91,14 @@ public class UserService implements IUserService {
                 () -> new ResourceNotFoundException("User not found with user password")
         ));
     }
-/*
-    public Object login(String email, String password) throws ResourceNotFoundException {
-        UserView user = findByPassword(password);
 
-        return (user.getEmail().equals(email)) ? user : new ResourceNotFoundException("Incorrect email or password");
-    }
-*/
+    /*
+        public Object login(String email, String password) throws ResourceNotFoundException {
+            UserView user = findByPassword(password);
+
+            return (user.getEmail().equals(email)) ? user : new ResourceNotFoundException("Incorrect email or password");
+        }
+    */
     @Override
     public TradedBetweenDates operationsBetweenDates(int userId, long firstDate, long secondDate) throws ResourceNotFoundException {
         User user = this.getFromDataBase(userId);
@@ -157,7 +155,7 @@ public class UserService implements IUserService {
 
         //UserView newUser = helper.userToUserView(userRepo.save(helper.userModify(user, field, data)));
         User newUser = helper.userModify(user, field, data);
- //       System.out.println("usuario cambiado: " + newUser);
+        //       System.out.println("usuario cambiado: " + newUser);
         update(newUser);
 
         return helper.userToUserView(newUser);

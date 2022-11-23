@@ -38,7 +38,7 @@ public interface IUserService {
 
     UserView findByPassword(String password) throws ResourceNotFoundException;
 
-    TokenDTO login(UserDTO userDTO) throws ResourceNotFoundException;
+    Object login(UserDTO userDTO) throws ResourceNotFoundException;
 
     void update(User user);
 
