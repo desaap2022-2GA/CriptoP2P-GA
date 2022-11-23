@@ -52,7 +52,7 @@ public class IntentionServiceTest {
         Mockito.when(mockIntention.getType()).thenReturn(IntentionType.valueOf("BUY"));
         Mockito.when(mockIntention.getPrice()).thenReturn(289.75d);
         Mockito.when(mockIntention.getUnits()).thenReturn(2);
-        Mockito.when(mockIntention.isTaken()).thenReturn(true);
+        Mockito.when(mockIntention.isTaken()).thenReturn(false);
         Mockito.when(mockIntentionReg.getUserId()).thenReturn(1);
         Mockito.when(mockIntentionReg.getCryptocurrencyId()).thenReturn(1);
         Mockito.when(mockIntentionView.getId()).thenReturn(1);
@@ -143,7 +143,7 @@ public class IntentionServiceTest {
 
         List<IntentionView> intentions = intentionService.getAll();
 
-        assertEquals(intentionService.getIntentionById(7).getUnits(), 2);
+        assertEquals(intentionService.getIntentionById(intent.getId()).getUnits(), 2);
     }
 
     @DisplayName("JUnit test getIntentionById method with exception in IntentionService")
@@ -175,7 +175,7 @@ public class IntentionServiceTest {
         Intention intent = intentionService.create(intentionRegister);
         List<IntentionView> intentions = intentionService.getAll();
 
-        assertEquals(intentionService.findById(6).getPrice(), 289.75d);
+        assertEquals(intentionService.findById(intent.getId()).getPrice(), 289.75d);
     }
 
     @DisplayName("JUnit test findIntentionById method with exception in IntentionService")
@@ -195,6 +195,7 @@ public class IntentionServiceTest {
     @DisplayName("JUnit test getAll method in IntentionService")
     @Test
     void getAllIntentionTest() {
+
         assertEquals(intentionService.getAll().size(), 0);
     }
 

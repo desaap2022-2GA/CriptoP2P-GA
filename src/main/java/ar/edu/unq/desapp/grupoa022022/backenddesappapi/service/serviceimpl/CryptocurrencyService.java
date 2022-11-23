@@ -6,6 +6,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.ICryptocurrencyRepo;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IIntentionRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IQuoteRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.APICall;
@@ -24,6 +25,9 @@ public class CryptocurrencyService implements ICryptocurrencyService {
     @Autowired
     private IQuoteRepo quoteRepo;
 
+    @Autowired
+    private IIntentionRepo intentionRepo;
+
     @Override
     public Cryptocurrency create(CryptocurrencyRegister cryptocurrencyRegister) {
         Cryptocurrency cryptocurrency = new Cryptocurrency(cryptocurrencyRegister.getName());
@@ -37,6 +41,7 @@ public class CryptocurrencyService implements ICryptocurrencyService {
     public void delete(int id) {
         cryptocurrencyRepo.findById(id).ifPresent(cryptocurrency -> {
             cryptocurrency.getQuotes().forEach(quote -> quoteRepo.deleteById(quote.getId()));
+            cryptocurrency.getIntentions().forEach(intention -> intentionRepo.deleteById(intention.getId()));
             cryptocurrencyRepo.deleteById(id);
         });
     }
@@ -73,6 +78,8 @@ public class CryptocurrencyService implements ICryptocurrencyService {
     public List<CryptocurrencyLastQuote> oneDayQuotes(Integer id) throws ResourceNotFound {
         Cryptocurrency cryptocurrency = findById(id);
         //return cryptocurrency.last24HoursQuotes();
+        //List<CryptocurrencyLastQuote> lastQuotes = new APICall().binance24hsQuotesForCryptocurrency(cryptocurrency);
+        //return  lastQuotes;
         return new APICall().binance24hsQuotesForCryptocurrency(cryptocurrency);
     }
 

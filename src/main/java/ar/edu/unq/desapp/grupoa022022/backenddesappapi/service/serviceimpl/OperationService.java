@@ -140,10 +140,4 @@ public class OperationService implements IOperationService {
             default -> throw new InvalidState("You must provide a valid State");
         }
     }
-
-
-
-
-
-
 }

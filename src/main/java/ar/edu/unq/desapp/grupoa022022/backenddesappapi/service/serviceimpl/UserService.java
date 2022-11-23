@@ -8,10 +8,10 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlr
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ExceptionsUser;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFound;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IUserRepo;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IUserService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DollarConvert;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.JwtProvider;
-import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,21 +35,19 @@ public class UserService implements IUserService {
 
     private final HelperDTO helper = new HelperDTO();
 
-/*    @Override
-    public UserView create(UserRegister userRegister) throws EmailAlreadyExists {
-        this.checkNewUserEmail(userRegister.getEmail());
-        return helper.userToUserView(saveToDataBase(userRegister));
-    }*/
 
-    /***Agregado***/
     @Override
     public UserView create(UserRegister userRegister) {
         Optional<User> userOptional = userRepo.findByEmail(userRegister.getEmail());
         if (userOptional.isPresent()) {
             return null;
         }
+        System.out.println("userReg email: "+ userRegister.getEmail());
         User user = helper.userRegisterToUser(userRegister);
-        return helper.userToUserView(userRepo.save(user));
+        UserView userView = helper.userToUserView(userRepo.save(user));
+        System.out.println("userSave email: "+ userRegister.getEmail());
+        //return helper.userToUserView(userRepo.save(user));
+        return  userView;
     }
 
     public TokenDTO login(UserDTO dto) {
@@ -71,7 +69,8 @@ public class UserService implements IUserService {
 
     @Override
     public void delete(int id) throws ResourceNotFound {
-        this.findById(id);
+        UserView user = this.findById(id);
+
         userRepo.deleteById(id);
     }
 
@@ -167,7 +166,6 @@ public class UserService implements IUserService {
                 () -> new ResourceNotFound("User not found with id " + id)
         );
 
-        //UserView newUser = helper.userToUserView(userRepo.save(helper.userModify(user, field, data)));
         User newUser = helper.userModify(user, field, data);
         System.out.println("usuario cambiado: " + newUser);
 
