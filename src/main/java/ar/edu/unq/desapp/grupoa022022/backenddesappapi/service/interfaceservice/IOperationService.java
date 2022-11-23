@@ -35,5 +35,7 @@ public interface IOperationService {
 
     void addAnOperationToUsers(Operation operation);
 
+
     void modify(OperationModify operationModify) throws ResourceNotFoundException, InvalidStateException;
+
 }

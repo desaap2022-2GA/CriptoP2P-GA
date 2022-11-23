@@ -16,8 +16,12 @@ public class IntentionView {
     String dateTime;
     String operationType;
     String cryptocurrency;
+
     String price;
     String units;
     String amountPriceInPesos;
     String userWhoPost;
 }
+
+
+

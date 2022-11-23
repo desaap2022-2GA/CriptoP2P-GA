@@ -8,6 +8,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlr
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.UserValidationException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IUserRepo;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IUserService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DollarConvert;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.JwtProvider;
@@ -19,7 +20,6 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-//@Builder
 public class UserService implements IUserService {
 
     @Autowired
@@ -33,6 +33,7 @@ public class UserService implements IUserService {
 
 
     private final HelperDTO helper = new HelperDTO();
+
 
     @Override
     public UserView create(UserRegister userRegister) throws EmailAlreadyExistsException {
@@ -153,7 +154,6 @@ public class UserService implements IUserService {
                 () -> new ResourceNotFoundException("User not found with id " + id)
         );
 
-        //UserView newUser = helper.userToUserView(userRepo.save(helper.userModify(user, field, data)));
         User newUser = helper.userModify(user, field, data);
         //       System.out.println("usuario cambiado: " + newUser);
         update(newUser);

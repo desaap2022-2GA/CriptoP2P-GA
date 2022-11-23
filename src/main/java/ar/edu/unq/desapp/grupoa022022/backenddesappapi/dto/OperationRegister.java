@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,5 +16,7 @@ public class OperationRegister {
     private int intentionId;
     @NotNull
     private int userId;
+
+
 }
 

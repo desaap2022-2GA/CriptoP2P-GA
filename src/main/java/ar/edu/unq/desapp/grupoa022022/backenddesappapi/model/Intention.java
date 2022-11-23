@@ -95,4 +95,6 @@ public class Intention {
     public boolean conditionToShowInfoMessage(User userWhoAsk) {
         return Objects.equals(this.user, userWhoAsk);
     }
+
+    public Cryptocurrency getCryptocurrency(){ return this.cryptocurrency;}
 }

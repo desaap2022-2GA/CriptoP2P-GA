@@ -6,6 +6,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.ICryptocurrencyRepo;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IIntentionRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IQuoteRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.integration.ExternalProxyService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
@@ -27,6 +28,9 @@ public class CryptocurrencyService implements ICryptocurrencyService {
     @Autowired
     private ExternalProxyService externalProxyService;
 
+    private IIntentionRepo intentionRepo;
+
+
     @Override
     public Cryptocurrency create(CryptocurrencyRegister cryptocurrencyRegister) {
         Cryptocurrency cryptocurrency = new Cryptocurrency(cryptocurrencyRegister.getName());
@@ -40,6 +44,7 @@ public class CryptocurrencyService implements ICryptocurrencyService {
     public void delete(int id) {
         cryptocurrencyRepo.findById(id).ifPresent(cryptocurrency -> {
             cryptocurrency.getQuotes().forEach(quote -> quoteRepo.deleteById(quote.getId()));
+            cryptocurrency.getIntentions().forEach(intention -> intentionRepo.deleteById(intention.getId()));
             cryptocurrencyRepo.deleteById(id);
         });
     }
