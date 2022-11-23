@@ -264,7 +264,7 @@ class UserModelTests {
     }
 
     @Test
-    void getEmptySetWhenAskForOperationsBetweenDatesFromUserWhoHasAnOperationNotOnRangeDateAndCryptosentState(){
+    void getEmptySetWhenAskForOperationsBetweenDatesFromUserWhoHasAnOperationEarlyFromRangeDateAndCryptosentState(){
         User user = new User();
         Set<Operation> operations = new HashSet<>();
         Mockito.when(mockOperation.getDateTime()).thenReturn(new DateTimeInMilliseconds().getCurrentTimeMinusOneDayInMilliseconds());
@@ -274,6 +274,20 @@ class UserModelTests {
 
         assertEquals(Collections.emptySet(), user.operationsBetweenDates(new DateTimeInMilliseconds().getCurrentTimeMinus30MinutesInMilliseconds(),
                 new DateTimeInMilliseconds().getCurrentTimeInMilliseconds()));
+    }
+
+
+    @Test
+    void getEmptySetWhenAskForOperationsBetweenDatesFromUserWhoHasAnOperationLatelyRangeDateAndCryptosentState(){
+        User user = new User();
+        Set<Operation> operations = new HashSet<>();
+        Mockito.when(mockOperation.getDateTime()).thenReturn(new DateTimeInMilliseconds().getCurrentTimeInMilliseconds());
+        Mockito.when(mockOperation.getState()).thenReturn(OperationState.CRYPTOSENT);
+        operations.add(mockOperation);
+        user.setOperations(operations);
+
+        assertEquals(Collections.emptySet(), user.operationsBetweenDates(new DateTimeInMilliseconds().getCurrentTimeMinusOneDayInMilliseconds(),
+                new DateTimeInMilliseconds().getCurrentTimeMinus30MinutesInMilliseconds()));
     }
 
     @Test
