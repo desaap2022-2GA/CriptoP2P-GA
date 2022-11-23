@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.*;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,7 +26,7 @@ class UserHttpRequestTest {
     @Value("${local.server.port}")
     private int port;
     @Value("${test.hostname}")
-    private String TEST_HOSTNAME;
+    private String testHostname;
     @Autowired
     private UserController controller;
     @Autowired
@@ -43,7 +45,7 @@ class UserHttpRequestTest {
             throw new RuntimeException(e);
         }
 
-        ResponseEntity<String> registrationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/auth", HttpMethod.POST,
+        ResponseEntity<String> registrationResponse = restTemplate.exchange(testHostname + port + "/auth", HttpMethod.POST,
                 jwtEntity, String.class);
         HttpEntity<String> authenticationEntity = null;
         if (registrationResponse.getStatusCode().equals(HttpStatus.OK)) {
@@ -54,7 +56,7 @@ class UserHttpRequestTest {
             }
         }
 
-        ResponseEntity<TokenDTO> authenticationResponse = restTemplate.exchange(TEST_HOSTNAME + port + "/auth/login",
+        ResponseEntity<TokenDTO> authenticationResponse = restTemplate.exchange(testHostname + port + "/auth/login",
                 HttpMethod.POST, authenticationEntity, TokenDTO.class);
         if (authenticationResponse.getStatusCode().equals(HttpStatus.OK)) {
             String token = "Bearer " + authenticationResponse.getBody().getToken();
@@ -73,7 +75,7 @@ class UserHttpRequestTest {
     @Test
     @Order(2)
     void gettingUsersShouldReturnAListWithSizeGrater3() {
-        ResponseEntity<UserView[]> result = restTemplate.exchange(TEST_HOSTNAME + port + "/users",
+        ResponseEntity<UserView[]> result = restTemplate.exchange(testHostname + port + "/users",
                 HttpMethod.GET, headersWithToken, UserView[].class);
 
         System.out.println(Arrays.stream(result.getBody()).map(userView -> userView.getId()).toString());
@@ -83,7 +85,7 @@ class UserHttpRequestTest {
     @Test
     @Order(3)
     void gettingUser1ShouldReturnAnUserWithLastnameGaudio() {
-        ResponseEntity<UserView> result = restTemplate.exchange(TEST_HOSTNAME + port + "/users/1",
+        ResponseEntity<UserView> result = restTemplate.exchange(testHostname + port + "/users/1",
                 HttpMethod.GET, headersWithToken, UserView.class);
 
         Assertions.assertTrue(Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(result.getBody())).getLastname()).contains("Gaudio"));
@@ -92,21 +94,21 @@ class UserHttpRequestTest {
     @Test
     @Order(4)
     void gettingUserWithEmailGaudioYahooShouldReturnAnUserWithLastnameGaudio() {
-        ResponseEntity<UserView> result = restTemplate.exchange(TEST_HOSTNAME + port + "/users/email/gaudio@yahoo.com",
+        ResponseEntity<UserView> result = restTemplate.exchange(testHostname + port + "/users/email/gaudio@yahoo.com",
                 HttpMethod.GET, headersWithToken, UserView.class);
 
         Assertions.assertTrue(Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(result.getBody())).getLastname()).contains("Gaudio"));
     }
 /*
     @Test
-    @Order(1)
+    @Order(8)
     void gettingUserOperationBetweenDatesReturnATradedBetweenDates() {
-        ResponseEntity<TradedBetweenDates> result = restTemplate.exchange(TEST_HOSTNAME + port + "/users/operations-between-dates/1/10000000000/2000000000000",
-                HttpMethod.GET, headersWithToken, TradedBetweenDates.class);
-        System.out.println(result.getBody());
+        ResponseEntity<TradedBetweenDates> result = restTemplate.exchange("http://localhost:" + port + "/users/traded/{id}/{firstdate}/{seconddate}",
+                HttpMethod.GET, headersWithToken, TradedBetweenDates.class,1,"1569217259171","1769217259171");
+        System.out.println(result.getBody().toString());
         Assertions.assertEquals(579.5, Objects.requireNonNull(result.getBody()).getPesosAmount());
-    }*/
-
+    }
+*/
     @Test
     @Order(6)
     void postingAnUserWithEmail_federer_gmail_com_ShouldReturnIt() {
@@ -115,7 +117,7 @@ class UserHttpRequestTest {
 
         ResponseEntity<UserView> result;
         try {
-            result = restTemplate.exchange(TEST_HOSTNAME + port + "/auth",
+            result = restTemplate.exchange(testHostname + port + "/auth",
                     HttpMethod.POST, new HttpEntity<>(testController.getBody(userRegister), headersWithToken.getHeaders()), UserView.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -128,7 +130,7 @@ class UserHttpRequestTest {
     @Order(7)
     void puttingUser1WithAddressHusaresShouldReturnThatChange() {
 
-        ResponseEntity<UserView> result = restTemplate.exchange(TEST_HOSTNAME + port + "/users//{id},{field},{data}",
+        ResponseEntity<UserView> result = restTemplate.exchange(testHostname + port + "/users/{id},{field},{data}",
                 HttpMethod.PUT,
                 new HttpEntity<>(null, headersWithToken.getHeaders()),
                 UserView.class, 2,"address","Husares 5000");

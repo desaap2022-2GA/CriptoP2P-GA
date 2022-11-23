@@ -1,12 +1,18 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.UserValidationException;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.OperationState;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,6 +21,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserModelTests {
 
     public Cryptocurrency mockCryptocurrency = Mockito.mock(Cryptocurrency.class);
+
+    public Operation mockOperation = Mockito.mock(Operation.class);
+
+    public Intention mockIntention = Mockito.mock(Intention.class);
 
     public Double priceInRange = 190.00;
 
@@ -218,5 +228,63 @@ class UserModelTests {
         Intention intention = new Intention(buyType, mockCryptocurrency, priceInRange, units1, user);
 
         assertTrue(user.getIntentions().contains(intention));
+    }
+
+    @Test
+    void getEmptySetWheAskForOperationsBetweenDatesFromAUserWithoutOperations(){
+        User user = new User();
+
+        assertEquals(Collections.emptySet(), user.operationsBetweenDates(new DateTimeInMilliseconds().getCurrentTimeInMilliseconds(),
+                new DateTimeInMilliseconds().getCurrentTimeInMilliseconds()));
+    }
+
+    @Test
+    void getEmptySetWheAskForOperationsBetweenDatesFromAUserWithoutOperationsOnCryptoSentState(){
+        User user = new User();
+        Set<Operation> operations = new HashSet<>();
+        Mockito.when(mockOperation.getDateTime()).thenReturn(new DateTimeInMilliseconds().getCurrentTimeMinus30MinutesInMilliseconds());
+        Mockito.when(mockOperation.getState()).thenReturn(OperationState.ACTIVE);
+        operations.add(mockOperation);
+        user.setOperations(operations);
+
+        assertEquals(Collections.emptySet(), user.operationsBetweenDates(new DateTimeInMilliseconds().getCurrentTimeMinusOneDayInMilliseconds(),
+                new DateTimeInMilliseconds().getCurrentTimeInMilliseconds()));
+    }
+    @Test
+    void getOneWhenAskForOperationsBetweenDatesFromUserWhoHasAnOperationOnRangeDateAndCryptosentState(){
+        User user = new User();
+        Set<Operation> operations = new HashSet<>();
+        Mockito.when(mockOperation.getDateTime()).thenReturn(new DateTimeInMilliseconds().getCurrentTimeMinus30MinutesInMilliseconds());
+        Mockito.when(mockOperation.getState()).thenReturn(OperationState.CRYPTOSENT);
+        operations.add(mockOperation);
+        user.setOperations(operations);
+
+        assertEquals(1, user.operationsBetweenDates(new DateTimeInMilliseconds().getCurrentTimeMinusOneDayInMilliseconds(),
+                new DateTimeInMilliseconds().getCurrentTimeInMilliseconds()).size());
+    }
+
+    @Test
+    void getEmptySetWhenAskForOperationsBetweenDatesFromUserWhoHasAnOperationNotOnRangeDateAndCryptosentState(){
+        User user = new User();
+        Set<Operation> operations = new HashSet<>();
+        Mockito.when(mockOperation.getDateTime()).thenReturn(new DateTimeInMilliseconds().getCurrentTimeMinusOneDayInMilliseconds());
+        Mockito.when(mockOperation.getState()).thenReturn(OperationState.CRYPTOSENT);
+        operations.add(mockOperation);
+        user.setOperations(operations);
+
+        assertEquals(Collections.emptySet(), user.operationsBetweenDates(new DateTimeInMilliseconds().getCurrentTimeMinus30MinutesInMilliseconds(),
+                new DateTimeInMilliseconds().getCurrentTimeInMilliseconds()));
+    }
+
+    @Test
+    void get500whenAskForVolumeTradedWhenGivenASetOperationThatHasAnOperationWithAmount500(){
+        User user = new User();
+        Set<Operation> operations = new HashSet<>();
+        Mockito.when(mockOperation.getIntention()).thenReturn(mockIntention);
+        Mockito.when(mockIntention.amountPriceInPesos()).thenReturn(500.00);
+        operations.add(mockOperation);
+
+        assertEquals(500.00, user.volumeTraded(operations));
+
     }
 }

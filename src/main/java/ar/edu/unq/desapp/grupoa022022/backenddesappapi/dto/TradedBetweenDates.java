@@ -3,12 +3,14 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @Setter
+@ToString
 public class TradedBetweenDates {
 
     private String date;
