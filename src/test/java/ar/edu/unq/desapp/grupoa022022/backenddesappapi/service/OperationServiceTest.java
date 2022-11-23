@@ -325,7 +325,7 @@ public class OperationServiceTest {
         });
     }
 
-    @Order(17)
+  /*  @Order(17)
     @DisplayName("JUnit cryptoSendDone method in OperationService")
     @Test
     void cryptoSendDoneTest() throws ResourceNotFound, PriceNotInAValidRange, IntentionAlreadyTaken, PriceExceedVariationWithRespectIntentionTypeLimits {
@@ -342,6 +342,8 @@ public class OperationServiceTest {
 
         assertEquals(operation.getState(), CRYPTOSENT);
     }
+
+   */
 
     @Order(18)
     @DisplayName("JUni cryptoSendDone method with exception in OperationService")
@@ -384,7 +386,7 @@ public class OperationServiceTest {
         });
     }
 
-    @Order(21)
+ /*   @Order(21)
     @DisplayName("JUnit modify method in OperationService")
     @Test
     void modifyTest() throws ResourceNotFound, InvalidState, PriceNotInAValidRange {
@@ -401,6 +403,8 @@ public class OperationServiceTest {
 
         assertEquals(operationModify.getState(), PAID);
     }
+
+  */
 
     @Order(22)
     @DisplayName("JUnit modify method with exception in OperationService")
