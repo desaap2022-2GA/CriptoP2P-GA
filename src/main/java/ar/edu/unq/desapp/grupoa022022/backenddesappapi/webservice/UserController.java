@@ -40,14 +40,14 @@ public class UserController {
     public ResponseEntity<UserView> getUserById(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFoundException {
         return ResponseEntity.ok(userService.findById(id));
     }
-
+/*
     @Operation(summary = "Search for a user by password")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/password/{password}")
     public ResponseEntity<UserView> getUserByPassword(@RequestHeader(value = "Authorization") String token, @PathVariable("password") String password) throws ResourceNotFoundException {
         return ResponseEntity.ok(userService.findByPassword(password));
     }
-
+*/
     @Operation(summary = "Operations between two dates")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/operations-between-dates/{id}/{firstdate}/{seconddate}")

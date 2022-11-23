@@ -94,13 +94,13 @@ public class UserService implements IUserService {
                 () -> new ResourceNotFoundException("User not found with user password")
         ));
     }
-
+/*
     public Object login(String email, String password) throws ResourceNotFoundException {
         UserView user = findByPassword(password);
 
         return (user.getEmail().equals(email)) ? user : new ResourceNotFoundException("Incorrect email or password");
     }
-
+*/
     @Override
     public TradedBetweenDates operationsBetweenDates(int userId, long firstDate, long secondDate) throws ResourceNotFoundException {
         User user = this.getFromDataBase(userId);
