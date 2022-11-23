@@ -86,7 +86,7 @@ public class OperationServiceTest {
         Mockito.when(mockIntention.isTaken()).thenReturn(false);
         Mockito.when(mockUser.getId()).thenReturn(1);
 
-        //intentionService.deleteAll();
+        operationService.deleteAll();
 
     }
 
