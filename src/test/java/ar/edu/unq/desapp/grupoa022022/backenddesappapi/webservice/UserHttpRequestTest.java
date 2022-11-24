@@ -95,16 +95,16 @@ class UserHttpRequestTest {
 
         Assertions.assertTrue(Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(result.getBody())).getLastname()).contains("Gaudio"));
     }
-/*
+
     @Test
-    @Order(8)
+    @Order(1)
     void gettingUserOperationBetweenDatesReturnATradedBetweenDates() {
-        ResponseEntity<TradedBetweenDates> result = restTemplate.exchange("http://localhost:" + port + "/users/traded/{id}/{firstdate}/{seconddate}",
-                HttpMethod.GET, headersWithToken, TradedBetweenDates.class,1,"1569217259171","1769217259171");
+        ResponseEntity<TradedBetweenDatesDTO> result = restTemplate.exchange(testHostname + port + "/users/traded/{id}/{firstdate}/{seconddate}",
+                HttpMethod.GET, headersWithToken, TradedBetweenDatesDTO.class,3,"1569217259171","1769217259171");
         System.out.println(result.getBody().toString());
-        Assertions.assertEquals(579.5, Objects.requireNonNull(result.getBody()).getPesosAmount());
+        Assertions.assertEquals(000.00, Objects.requireNonNull(result.getBody()).getPesosAmount());
     }
-*/
+
     @Test
     @Order(6)
     void postingAnUserWithEmail_federer_gmail_com_ShouldReturnIt() {

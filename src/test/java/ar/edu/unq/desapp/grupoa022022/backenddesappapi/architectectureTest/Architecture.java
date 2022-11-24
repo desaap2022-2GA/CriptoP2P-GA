@@ -77,21 +77,30 @@ public class Architecture{
                 .whereLayer("Persistence").mayOnlyBeAccessedByLayers("Service");
     }
 
- /*   @Test
-    public void serviceClassesShouldHaveSpringServiceAnnotation() {
-        classes().that().resideInAPackage("..services..")
+    @Test
+    public void serviceIntegrationClassesShouldHaveSpringServiceAnnotation() {
+        classes().that().resideInAPackage("..integration..")
+                .should().beAnnotatedWith("org.springframework.stereotype.Service")
+                .check(baseClasses);
+    }
+/*
+    @Test
+    public void serviceImplClassesShouldHaveSpringServiceAnnotation() {
+        classes().that().resideInAPackage("..serviceimpl..")
                 .should().beAnnotatedWith("org.springframework.stereotype.Service")
                 .check(baseClasses);
     }
 
+
+
     @Test
     public void controllerClassesShouldHaveSpringControllerAnnotation() {
         classes().that().resideInAPackage("..webservices..")
-                .should().beAnnotatedWith("org.springframework.web.bind.annotation.*")
+                .should().beAnnotatedWith("org.springframework.web.bind.annotation.RestController")
                 .check(baseClasses);
     }
+*/
 
-  */
 
 }
 

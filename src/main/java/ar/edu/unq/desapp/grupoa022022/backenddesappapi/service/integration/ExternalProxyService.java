@@ -17,9 +17,11 @@ import java.util.stream.Collectors;
 public class ExternalProxyService {
 
     RestTemplate restTemplate = new RestTemplate();
+/*
 
     @Value("${integration.dolarsi.api.url.valoresprincipales}")
     private String dolarSiApiURL;
+*/
 
     @Value("${integration.binance.api.url}")
     private String binanceApiURL;
@@ -27,7 +29,7 @@ public class ExternalProxyService {
     public double dolarSiLatestQuote() {
 
         ResponseEntity<ObjectCasaDTO[]> objetcsCasa =
-                restTemplate.getForEntity(dolarSiApiURL, ObjectCasaDTO[].class);
+                restTemplate.getForEntity("https://dolarsi.com/api/api.php?type=valoresprincipales", ObjectCasaDTO[].class);
         CasaDTO responseBean = Objects.requireNonNull(objetcsCasa.getBody())[1].getCasa();
         String quoteDollarBlueSale = responseBean.getVenta().replace(",", ".");
         return Double.parseDouble(quoteDollarBlueSale);
