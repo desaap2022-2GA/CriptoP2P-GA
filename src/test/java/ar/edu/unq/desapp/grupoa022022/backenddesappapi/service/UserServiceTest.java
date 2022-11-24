@@ -1,15 +1,18 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.TradedBetweenDatesDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserQueryDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegisterDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserViewDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExistsException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.UserValidationException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DollarConvert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
@@ -28,6 +31,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 
 
 @RunWith(SpringRunner.class)
@@ -38,7 +42,6 @@ public class UserServiceTest {
 
     @Autowired
     private UserService userService;
-
     public User mockUser = Mockito.mock(User.class);
     public UserRegisterDTO mockUserRegisterDTO = Mockito.mock(UserRegisterDTO.class);
     public UserRegisterDTO mockUserRegisterDTO1 = Mockito.mock(UserRegisterDTO.class);
@@ -211,21 +214,25 @@ public class UserServiceTest {
             UserViewDTO user = userService.findById(100);
             UserViewDTO userModify = userService.modifyUser(user.getId(), "lastname", "Pastone");
         });
-    }
-
-
-
-
- /*   @DisplayName("JUnit test operationsBetweenDates")
+    }/*
+    @Order(1)
+    @DisplayName("JUnit test operationsBetweenDates")
     @Test
-    public void operationsBetweenDatesTest(){
-        User user = dataSet.getUserTest();
-        long firstDate = 2000000;
-        long secondDate = 2000010;
+    void operationsBetweenDatesTest() throws ResourceNotFoundException {
+        long firstDate = 1569217259171L;
+        long secondDate = 1769217259171L;
 
-        Operation operation = new Operation();
-        Set<Operation> operations = user.operationsBetweenDates(firstDate, secondDate);
+        TradedBetweenDatesDTO tradedBetweenDatesDTO = userService.operationsBetweenDates(1,firstDate, secondDate);
+        assertEquals(579.50, tradedBetweenDatesDTO.getPesosAmount());
+    }*/
+    @Order(1)
+    @DisplayName("JUnit test operationsBetweenDates")
+    @Test
+    void operationsBetweenDatesTest0() throws ResourceNotFoundException {
+        long firstDate = 1000000000000L;
+        long secondDate = 1000000000000L;
+
+        TradedBetweenDatesDTO tradedBetweenDatesDTO = userService.operationsBetweenDates(1,firstDate, secondDate);
+        assertEquals(0.00, tradedBetweenDatesDTO.getPesosAmount());
     }
-*/
-
 }

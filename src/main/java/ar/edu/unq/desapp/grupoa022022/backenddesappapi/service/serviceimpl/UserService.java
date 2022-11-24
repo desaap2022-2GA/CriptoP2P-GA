@@ -30,7 +30,6 @@ public class UserService implements IUserService {
     @Autowired
     private JwtProvider jwtProvider;
 
-
     private final HelperDTO helper = new HelperDTO();
 
 
