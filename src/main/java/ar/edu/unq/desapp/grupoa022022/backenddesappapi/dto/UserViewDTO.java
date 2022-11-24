@@ -4,14 +4,14 @@ import lombok.*;
 
 @Getter
 @Setter
-public class UserView extends UserAPI{
+public class UserViewDTO extends UserAPIDTO {
     private int id;
     private int points;
     private int numberOperations;
     private int reputation;
 
-    public UserView(int id, String name, String lastname, String email, String address, String mercadoPagoCVU,
-                    String addressWalletActiveCrypto, int points, int numberOperations, int reputation) {
+    public UserViewDTO(int id, String name, String lastname, String email, String address, String mercadoPagoCVU,
+                       String addressWalletActiveCrypto, int points, int numberOperations, int reputation) {
         super(name, lastname, email, address, mercadoPagoCVU, addressWalletActiveCrypto);
         this.id = id;
         this.points = points;

@@ -1,9 +1,9 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice;
 
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.ActiveIntentionView;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionView;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.ActiveIntentionViewDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegisterDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionViewDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRangeException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
@@ -11,7 +11,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.Resource
 import java.util.List;
 
 public interface IIntentionService {
-    Intention create(IntentionRegister intentionRegister) throws ResourceNotFoundException, PriceNotInAValidRangeException;
+    Intention create(IntentionRegisterDTO intentionRegisterDTO) throws ResourceNotFoundException, PriceNotInAValidRangeException;
 
     void update(Intention intention);
 
@@ -19,13 +19,13 @@ public interface IIntentionService {
 
     void deleteAll();
 
-    List<ActiveIntentionView> getActiveIntentions();
+    List<ActiveIntentionViewDTO> getActiveIntentions();
 
     Intention findById(int id) throws ResourceNotFoundException;
 
-    IntentionView getIntentionById(int id) throws ResourceNotFoundException;
+    IntentionViewDTO getIntentionById(int id) throws ResourceNotFoundException;
 
-    IntentionView open(IntentionRegister intentionRegister) throws PriceNotInAValidRangeException, ResourceNotFoundException;
+    IntentionViewDTO open(IntentionRegisterDTO intentionRegisterDTO) throws PriceNotInAValidRangeException, ResourceNotFoundException;
 
-    List<IntentionView> getAll();
+    List<IntentionViewDTO> getAll();
 }

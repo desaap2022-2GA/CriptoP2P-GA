@@ -1,8 +1,8 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserQuery;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserQueryDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegisterDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserViewDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 
@@ -40,10 +40,10 @@ public class UserServiceTest {
     private UserService userService;
 
     public User mockUser = Mockito.mock(User.class);
-    public UserRegister mockUserRegister = Mockito.mock(UserRegister.class);
-    public UserRegister mockUserRegister1 = Mockito.mock(UserRegister.class);
+    public UserRegisterDTO mockUserRegisterDTO = Mockito.mock(UserRegisterDTO.class);
+    public UserRegisterDTO mockUserRegisterDTO1 = Mockito.mock(UserRegisterDTO.class);
 
-    public UserRegister mockUserRegister2 = Mockito.mock(UserRegister.class);
+    public UserRegisterDTO mockUserRegisterDTO2 = Mockito.mock(UserRegisterDTO.class);
 
     private Set<Intention> intentions = new HashSet<>();
     
@@ -53,34 +53,34 @@ public class UserServiceTest {
             Mockito.when(mockUser.getEmail()).thenReturn("gaudio@yahoo.com");
             //Mockito.when(mockUser.operationsBetweenDates(2000000, 2000010)).thenReturn([1,2]);
 
-            Mockito.when(mockUserRegister.getName()).thenReturn("Paston");
-            Mockito.when(mockUserRegister.getLastname()).thenReturn("Gaudio");
-            Mockito.when(mockUserRegister.getEmail()).thenReturn("gaudio@yahoo.com");
-            Mockito.when(mockUserRegister.getAddress()).thenReturn("Av Libertador 5000, CABA");
-            Mockito.when(mockUserRegister.getPassword()).thenReturn("1111");
-            Mockito.when(mockUserRegister.getMercadoPagoCVU()).thenReturn("6352879863528798635287");
-            Mockito.when(mockUserRegister.getAddressWalletActiveCrypto()).thenReturn("Xwf5u5ef");
+            Mockito.when(mockUserRegisterDTO.getName()).thenReturn("Paston");
+            Mockito.when(mockUserRegisterDTO.getLastname()).thenReturn("Gaudio");
+            Mockito.when(mockUserRegisterDTO.getEmail()).thenReturn("gaudio@yahoo.com");
+            Mockito.when(mockUserRegisterDTO.getAddress()).thenReturn("Av Libertador 5000, CABA");
+            Mockito.when(mockUserRegisterDTO.getPassword()).thenReturn("1111");
+            Mockito.when(mockUserRegisterDTO.getMercadoPagoCVU()).thenReturn("6352879863528798635287");
+            Mockito.when(mockUserRegisterDTO.getAddressWalletActiveCrypto()).thenReturn("Xwf5u5ef");
 
-            Mockito.when(mockUserRegister1.getName()).thenReturn("Paston");
-            Mockito.when(mockUserRegister1.getLastname()).thenReturn("Gaudio");
-            Mockito.when(mockUserRegister1.getEmail()).thenReturn("gaudioPaston@yahoo.com");
-            Mockito.when(mockUserRegister1.getAddress()).thenReturn("Av Libertador 5000, CABA");
-            Mockito.when(mockUserRegister1.getPassword()).thenReturn("1111");
-            Mockito.when(mockUserRegister1.getMercadoPagoCVU()).thenReturn("6352879863528798635287");
-            Mockito.when(mockUserRegister1.getAddressWalletActiveCrypto()).thenReturn("Xwf5u5ef");
+            Mockito.when(mockUserRegisterDTO1.getName()).thenReturn("Paston");
+            Mockito.when(mockUserRegisterDTO1.getLastname()).thenReturn("Gaudio");
+            Mockito.when(mockUserRegisterDTO1.getEmail()).thenReturn("gaudioPaston@yahoo.com");
+            Mockito.when(mockUserRegisterDTO1.getAddress()).thenReturn("Av Libertador 5000, CABA");
+            Mockito.when(mockUserRegisterDTO1.getPassword()).thenReturn("1111");
+            Mockito.when(mockUserRegisterDTO1.getMercadoPagoCVU()).thenReturn("6352879863528798635287");
+            Mockito.when(mockUserRegisterDTO1.getAddressWalletActiveCrypto()).thenReturn("Xwf5u5ef");
 
-            Mockito.when(mockUserRegister2.getEmail()).thenReturn("gaudio@gmail.com");
+            Mockito.when(mockUserRegisterDTO2.getEmail()).thenReturn("gaudio@gmail.com");
     }
 
     @DisplayName("JUnit test create method in UserService")
     @Test
     @Order(0)
     void createAUserTest() throws EmailAlreadyExistsException {
-        UserRegister userRegister = new UserRegister("sarasa","sarasaaa",
+        UserRegisterDTO userRegisterDTO = new UserRegisterDTO("sarasa","sarasaaa",
                 "sarasa@sarasa.com", "sasasasas 12", "Sasasa22",
                 "1234567890123456789012", "12345678");
-        System.out.println("userReg creado mail: " + userRegister.getEmail());
-        UserView userMock = userService.create(userRegister);
+        System.out.println("userReg creado mail: " + userRegisterDTO.getEmail());
+        UserViewDTO userMock = userService.create(userRegisterDTO);
         System.out.println("userMock creado mail: " + userMock.getEmail());
 
         assertEquals(userMock.getEmail(), "sarasa@sarasa.com");
@@ -162,11 +162,11 @@ public class UserServiceTest {
     @DisplayName("JUnit saveToDataBase method in UserService")
     @Test
     void saveToDataBaseTest(){
-        UserRegister userRegister = new UserRegister(mockUserRegister1.getName(), mockUserRegister1.getLastname(),
-                mockUserRegister1.getEmail(), mockUserRegister1.getAddress(), mockUserRegister1.getPassword(),
-                mockUserRegister1.getMercadoPagoCVU(), mockUserRegister1.getAddressWalletActiveCrypto());
+        UserRegisterDTO userRegisterDTO = new UserRegisterDTO(mockUserRegisterDTO1.getName(), mockUserRegisterDTO1.getLastname(),
+                mockUserRegisterDTO1.getEmail(), mockUserRegisterDTO1.getAddress(), mockUserRegisterDTO1.getPassword(),
+                mockUserRegisterDTO1.getMercadoPagoCVU(), mockUserRegisterDTO1.getAddressWalletActiveCrypto());
 
-        User user = userService.saveToDataBase(userRegister);
+        User user = userService.saveToDataBase(userRegisterDTO);
 
         assertEquals(user.getEmail(), "gaudioPaston@yahoo.com");
     }
@@ -182,7 +182,7 @@ public class UserServiceTest {
 
          */
 
-        UserView user = userService.findById(1);
+        UserViewDTO user = userService.findById(1);
 
         assertEquals(userService.findUserByEmail(user.getEmail()).get().getEmail(), "gaudio@yahoo.com");
     }
@@ -190,7 +190,7 @@ public class UserServiceTest {
     @DisplayName("JUnit getListUsers method in UserService")
     @Test
     void getListUsersTest(){
-        List<UserQuery> users = userService.getListUsers();
+        List<UserQueryDTO> users = userService.getListUsers();
 
         assertEquals(users.size(), 2);
     }
@@ -198,18 +198,18 @@ public class UserServiceTest {
     @DisplayName("Junit modifyUser method in UserService")
     @Test
     void modifyUserTest() throws ResourceNotFoundException, UserValidationException {
-        UserView user = userService.findById(mockUser.getId());
-        UserView userView = userService.modifyUser(user.getId(), "lastname", "Pastone");
+        UserViewDTO user = userService.findById(mockUser.getId());
+        UserViewDTO userViewDTO = userService.modifyUser(user.getId(), "lastname", "Pastone");
 
-        assertEquals(userView.getLastname(), "Pastone");
+        assertEquals(userViewDTO.getLastname(), "Pastone");
     }
 
     @DisplayName("Junit modifyUser method with exception in UserService")
     @Test
     void modifyUser_With_Exception_Test()  {
         assertThrows(ResourceNotFoundException.class, () -> {
-            UserView user = userService.findById(100);
-            UserView userModify = userService.modifyUser(user.getId(), "lastname", "Pastone");
+            UserViewDTO user = userService.findById(100);
+            UserViewDTO userModify = userService.modifyUser(user.getId(), "lastname", "Pastone");
         });
     }
 

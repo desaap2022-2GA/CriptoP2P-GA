@@ -33,30 +33,30 @@ public class OperationServiceTest {
     @Autowired
     private IntentionService intentionService;
 
-    public OperationRegister mockOperationReg1 = Mockito.mock(OperationRegister.class);
-    public OperationRegister mockOperationReg2 = Mockito.mock(OperationRegister.class);
+    public OperationRegisterDTO mockOperationReg1 = Mockito.mock(OperationRegisterDTO.class);
+    public OperationRegisterDTO mockOperationReg2 = Mockito.mock(OperationRegisterDTO.class);
 
-    public OperationRegister mockOperationReg3 = Mockito.mock(OperationRegister.class);
+    public OperationRegisterDTO mockOperationReg3 = Mockito.mock(OperationRegisterDTO.class);
 
-    public OperationRegister mockOperationReg4 = Mockito.mock(OperationRegister.class);
+    public OperationRegisterDTO mockOperationReg4 = Mockito.mock(OperationRegisterDTO.class);
 
-    public OperationRegister mockOperationReg5 = Mockito.mock(OperationRegister.class);
+    public OperationRegisterDTO mockOperationReg5 = Mockito.mock(OperationRegisterDTO.class);
 
-    public OperationRegister mockOperationReg6 = Mockito.mock(OperationRegister.class);
+    public OperationRegisterDTO mockOperationReg6 = Mockito.mock(OperationRegisterDTO.class);
 
-    public OperationRegister mockOperationReg7 = Mockito.mock(OperationRegister.class);
+    public OperationRegisterDTO mockOperationReg7 = Mockito.mock(OperationRegisterDTO.class);
 
-    public OperationRegister mockOperationReg8 = Mockito.mock(OperationRegister.class);
+    public OperationRegisterDTO mockOperationReg8 = Mockito.mock(OperationRegisterDTO.class);
 
-    public OperationRegister mockOperationReg9 = Mockito.mock(OperationRegister.class);
+    public OperationRegisterDTO mockOperationReg9 = Mockito.mock(OperationRegisterDTO.class);
 
-    public OperationModify mockOperationModify = Mockito.mock(OperationModify.class);
+    public OperationModifyDTO mockOperationModifyDTO = Mockito.mock(OperationModifyDTO.class);
 
     public Intention mockIntention = Mockito.mock(Intention.class);
 
-    public IntentionRegister mockIntentionReg = Mockito.mock(IntentionRegister.class);
+    public IntentionRegisterDTO mockIntentionReg = Mockito.mock(IntentionRegisterDTO.class);
 
-    public IntentionView mockIntentionView = Mockito.mock(IntentionView.class);
+    public IntentionViewDTO mockIntentionViewDTO = Mockito.mock(IntentionViewDTO.class);
     public User mockUser = Mockito.mock(User.class);
 
 
@@ -68,9 +68,9 @@ public class OperationServiceTest {
         Mockito.when(mockOperationReg2.getIntentionId()).thenReturn(3);
         Mockito.when(mockOperationReg2.getUserId()).thenReturn(1);
         Mockito.when(mockOperationReg3.getIntentionId()).thenReturn(4);
-        Mockito.when(mockOperationModify.getOperationId()).thenReturn(1);
-        Mockito.when(mockOperationModify.getUserId()).thenReturn(1);
-        Mockito.when(mockOperationModify.getState()).thenReturn(PAID);
+        Mockito.when(mockOperationModifyDTO.getOperationId()).thenReturn(1);
+        Mockito.when(mockOperationModifyDTO.getUserId()).thenReturn(1);
+        Mockito.when(mockOperationModifyDTO.getState()).thenReturn(PAID);
 
         Mockito.when(mockIntention.getId()).thenReturn(1);
         Mockito.when(mockIntention.getType()).thenReturn(IntentionType.valueOf("BUY"));
@@ -79,10 +79,10 @@ public class OperationServiceTest {
         Mockito.when(mockIntention.isTaken()).thenReturn(false);
         Mockito.when(mockIntentionReg.getUserId()).thenReturn(1);
         Mockito.when(mockIntentionReg.getCryptocurrencyId()).thenReturn(1);
-        Mockito.when(mockIntentionView.getId()).thenReturn(String.valueOf(1));
-        Mockito.when(mockIntentionView.getAmountPriceInPesos()).thenReturn(String.valueOf(200d));
-        Mockito.when(mockIntentionView.getCryptocurrency()).thenReturn("DAI");
-        Mockito.when(mockIntentionView.getUnits()).thenReturn(String.valueOf(1));
+        Mockito.when(mockIntentionViewDTO.getId()).thenReturn(String.valueOf(1));
+        Mockito.when(mockIntentionViewDTO.getAmountPriceInPesos()).thenReturn(String.valueOf(200d));
+        Mockito.when(mockIntentionViewDTO.getCryptocurrency()).thenReturn("DAI");
+        Mockito.when(mockIntentionViewDTO.getUnits()).thenReturn(String.valueOf(1));
         Mockito.when(mockIntention.isTaken()).thenReturn(false);
         Mockito.when(mockUser.getId()).thenReturn(1);
 
@@ -97,12 +97,12 @@ public class OperationServiceTest {
     @Test
     void createOperationTest() throws PriceNotInAValidRangeException, ResourceNotFoundException, PriceNotInAValidRangeException, PriceExceedVariationWithRespectIntentionTypeLimitsException, IntentionAlreadyTakenException {
         //cambiar id intention
-        IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
+        IntentionRegisterDTO intentionRegisterDTO = new IntentionRegisterDTO(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
-        Intention intent = intentionService.create(intentionRegister);
+        Intention intent = intentionService.create(intentionRegisterDTO);
 
-        OperationRegister operationRegister = new OperationRegister(intent.getId(), mockOperationReg1.getUserId());
-        Operation operation = operationService.create(operationRegister);
+        OperationRegisterDTO operationRegisterDTO = new OperationRegisterDTO(intent.getId(), mockOperationReg1.getUserId());
+        Operation operation = operationService.create(operationRegisterDTO);
 
         assertEquals(operation.getIntention().getId(), 11);
     }
@@ -112,8 +112,8 @@ public class OperationServiceTest {
     @Test
     void createOperation_With_Exceptition_Test(){
         assertThrows(ResourceNotFoundException.class, () -> {
-            OperationRegister operationRegister = new OperationRegister(mockOperationReg3.getIntentionId(), mockOperationReg1.getUserId());
-            operationService.create(operationRegister);
+            OperationRegisterDTO operationRegisterDTO = new OperationRegisterDTO(mockOperationReg3.getIntentionId(), mockOperationReg1.getUserId());
+            operationService.create(operationRegisterDTO);
         });
     }
 
@@ -121,13 +121,13 @@ public class OperationServiceTest {
     @DisplayName("JUnit test open method in OperationService")
     @Test
     void openOperationTest() throws PriceNotInAValidRangeException, ResourceNotFoundException, PriceExceedVariationWithRespectIntentionTypeLimitsException, PriceNotInAValidRangeException, IntentionAlreadyTakenException {
-        IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
+        IntentionRegisterDTO intentionRegisterDTO = new IntentionRegisterDTO(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
-        Intention intent = intentionService.create(intentionRegister);
+        Intention intent = intentionService.create(intentionRegisterDTO);
 
-        OperationRegister operationRegister = new OperationRegister(intent.getId(), mockOperationReg1.getUserId());
+        OperationRegisterDTO operationRegisterDTO = new OperationRegisterDTO(intent.getId(), mockOperationReg1.getUserId());
 
-        Operation operation = operationService.create(operationRegister);
+        Operation operation = operationService.create(operationRegisterDTO);
 
         assertEquals(operation.getState(),ACTIVE);
     }
@@ -137,9 +137,9 @@ public class OperationServiceTest {
     @Test
     void openOperation_With_Exception_Test(){
         assertThrows(ResourceNotFoundException.class, () -> {
-            OperationRegister operationRegister = new OperationRegister(mockOperationReg5.getIntentionId(), mockOperationReg1.getUserId());
-            operationRegister.setUserId(50);
-            operationService.create(operationRegister);
+            OperationRegisterDTO operationRegisterDTO = new OperationRegisterDTO(mockOperationReg5.getIntentionId(), mockOperationReg1.getUserId());
+            operationRegisterDTO.setUserId(50);
+            operationService.create(operationRegisterDTO);
         });
     }
 
@@ -212,13 +212,13 @@ public class OperationServiceTest {
     void findByIdOperationTest() throws ResourceNotFoundException, PriceNotInAValidRangeException, PriceExceedVariationWithRespectIntentionTypeLimitsException, PriceNotInAValidRangeException, IntentionAlreadyTakenException {
         //crear operacion
         //Operation operation = operationService.findById(1);
-        IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
+        IntentionRegisterDTO intentionRegisterDTO = new IntentionRegisterDTO(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
 
-        Intention intent = intentionService.create(intentionRegister);
+        Intention intent = intentionService.create(intentionRegisterDTO);
 
-        OperationRegister operationRegister = new OperationRegister(intent.getId(), mockOperationReg1.getUserId());
-        Operation operation = operationService.create(operationRegister);
+        OperationRegisterDTO operationRegisterDTO = new OperationRegisterDTO(intent.getId(), mockOperationReg1.getUserId());
+        Operation operation = operationService.create(operationRegisterDTO);
 
         assertEquals(operation.getId(), 4);
     }
@@ -238,16 +238,16 @@ public class OperationServiceTest {
     void getOperationByIdTest() throws ResourceNotFoundException, PriceNotInAValidRangeException, PriceExceedVariationWithRespectIntentionTypeLimitsException, PriceNotInAValidRangeException, IntentionAlreadyTakenException {
         //crear operation
         //OperationView operation = operationService.getOperationById(1, 1);
-        IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
+        IntentionRegisterDTO intentionRegisterDTO = new IntentionRegisterDTO(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
-        Intention intent = intentionService.create(intentionRegister);
+        Intention intent = intentionService.create(intentionRegisterDTO);
 
-        OperationRegister operationRegister = new OperationRegister(intent.getId(), mockOperationReg1.getUserId());
-        Operation operation = operationService.create(operationRegister);
+        OperationRegisterDTO operationRegisterDTO = new OperationRegisterDTO(intent.getId(), mockOperationReg1.getUserId());
+        Operation operation = operationService.create(operationRegisterDTO);
 
-        OperationView operationView = operationService.getOperationById(operation.getId(), 1);
+        OperationViewDTO operationViewDTO = operationService.getOperationById(operation.getId(), 1);
 
-        assertEquals(operationView.getOperationNumber(), 1);
+        assertEquals(operationViewDTO.getOperationNumber(), 1);
     }
 
     @Order(12)
@@ -411,9 +411,9 @@ public class OperationServiceTest {
     @Test
     void modify_With_Exception_Test(){
         assertThrows(ResourceNotFoundException.class, () -> {
-            OperationModify operationModify = new OperationModify(105, mockOperationModify.getState(),
-                    mockOperationModify.getUserId());
-            operationService.modify(operationModify);
+            OperationModifyDTO operationModifyDTO = new OperationModifyDTO(105, mockOperationModifyDTO.getState(),
+                    mockOperationModifyDTO.getUserId());
+            operationService.modify(operationModifyDTO);
         });
     }
 }

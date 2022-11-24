@@ -74,20 +74,20 @@ class UtilsTests {
     void getACryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFoundException, PriceNotInAValidRangeException, UserValidationException {
         Cryptocurrency cryptocurrency = cryptocurrencyService.create(dataSet.getCryptocurrencyRegisterDAI());
         User user = userService.saveToDataBase(dataSet.getUserRegister());
-        Intention intention = intentionService.create(new IntentionRegister(dataSet.getSomeTypeBUY()
+        Intention intention = intentionService.create(new IntentionRegisterDTO(dataSet.getSomeTypeBUY()
                 , cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), user.getId()));
 
-        assertEquals(CryptoDetails.class, helperDTO.intentionToCryptoDetails(intention).getClass());
+        assertEquals(CryptoDetailsDTO.class, helperDTO.intentionToCryptoDetails(intention).getClass());
     }
 
     @Test
     void getStringCryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFoundException, PriceNotInAValidRangeException, UserValidationException {
         Cryptocurrency cryptocurrency = cryptocurrencyService.create(dataSet.getCryptocurrencyRegisterDAI());
         User user = userService.saveToDataBase(dataSet.getUserRegister());
-        Intention intention = intentionService.create(new IntentionRegister(dataSet.getSomeTypeBUY()
+        Intention intention = intentionService.create(new IntentionRegisterDTO(dataSet.getSomeTypeBUY()
                 , cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), user.getId()));
 
-        assertEquals("CryptoDetails(name=DAI, units=3, actualQuote=320.38, pesosAmount=915.0)", helperDTO.intentionToCryptoDetails(intention).toString());
+        assertEquals("CryptoDetailsDTO(name=DAI, units=3, actualQuote=320.38, pesosAmount=915.0)", helperDTO.intentionToCryptoDetails(intention).toString());
     }
 
     @Test
@@ -102,10 +102,10 @@ class UtilsTests {
 
     @Test
     void oneCryptoDetailsIsPresentOnSetWhenItIsAddedToIt(){
-        TradedBetweenDates tradedBetweenDates = new TradedBetweenDates(200.00, 40000);
-        tradedBetweenDates.addCryptoDetails(new CryptoDetails("X",2,1.00,2.00));
+        TradedBetweenDatesDTO tradedBetweenDatesDTO = new TradedBetweenDatesDTO(200.00, 40000);
+        tradedBetweenDatesDTO.addCryptoDetails(new CryptoDetailsDTO("X",2,1.00,2.00));
 
-        assertEquals(1, tradedBetweenDates.getCryptoDetails().size());
+        assertEquals(1, tradedBetweenDatesDTO.getCryptoDetailDTOS().size());
     }
 
     public String dataString(User user) {

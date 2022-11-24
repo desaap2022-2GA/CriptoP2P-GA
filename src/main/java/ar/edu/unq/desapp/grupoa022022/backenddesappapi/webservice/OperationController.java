@@ -1,8 +1,8 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationModify;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationView;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationModifyDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegisterDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationViewDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.IntentionAlreadyTakenException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.InvalidStateException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceExceedVariationWithRespectIntentionTypeLimitsException;
@@ -28,22 +28,22 @@ public class OperationController {
     @Operation(summary = "Start an operation")
     @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping
-    public ResponseEntity<OperationView> openOperation(@RequestHeader(value = "Authorization") String token, @RequestBody OperationRegister operationRegister) throws ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException {
-        return ResponseEntity.ok(operationService.open(operationRegister));
+    public ResponseEntity<OperationViewDTO> openOperation(@RequestHeader(value = "Authorization") String token, @RequestBody OperationRegisterDTO operationRegisterDTO) throws ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException {
+        return ResponseEntity.ok(operationService.open(operationRegisterDTO));
     }
 
     @Operation(summary = "Modify an operation")
     @SecurityRequirement(name = "Bearer Authentication")
     @PutMapping(value = "/{id}")
-    public ResponseEntity<?> modifyOperation(@RequestHeader(value = "Authorization") String token, @RequestBody OperationModify operationModify) throws ResourceNotFoundException, InvalidStateException {
-        operationService.modify(operationModify);
+    public ResponseEntity<?> modifyOperation(@RequestHeader(value = "Authorization") String token, @RequestBody OperationModifyDTO operationModifyDTO) throws ResourceNotFoundException, InvalidStateException {
+        operationService.modify(operationModifyDTO);
         return ResponseEntity.ok("");
     }
 
     @Operation(summary = "Search for operation id")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/{userId}/{operationId}")
-    public ResponseEntity<OperationView> getOperationById(@RequestHeader(value = "Authorization") String token, @PathVariable int operationId, @PathVariable int userId) throws ResourceNotFoundException {
+    public ResponseEntity<OperationViewDTO> getOperationById(@RequestHeader(value = "Authorization") String token, @PathVariable int operationId, @PathVariable int userId) throws ResourceNotFoundException {
         return ResponseEntity.ok(operationService.getOperationById(operationId,userId));
     }
 }

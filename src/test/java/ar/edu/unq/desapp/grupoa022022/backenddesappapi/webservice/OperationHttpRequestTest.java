@@ -73,8 +73,8 @@ class OperationHttpRequestTest {
     @Test
     @Order(1)
     void askingForOperation2WithUser1ShouldReturnAnOperationWithUserWhoPostNamePastonGaudio() {
-        ResponseEntity<OperationView> result = restTemplate.exchange(TEST_HOSTNAME + port + "/operations/2/1",
-                HttpMethod.GET, headersWithToken, OperationView.class);
+        ResponseEntity<OperationViewDTO> result = restTemplate.exchange(TEST_HOSTNAME + port + "/operations/2/1",
+                HttpMethod.GET, headersWithToken, OperationViewDTO.class);
 
         Assertions.assertEquals("Paston Gaudio", Objects.requireNonNull(result.getBody()).getUserWhoPostCompleteName());
     }
@@ -82,11 +82,11 @@ class OperationHttpRequestTest {
     @Test
     @Order(2)
     void puttingOperationWithID1OperationStateCancelledUserID2() {
-        OperationModify operationModify = new OperationModify(1, OperationState.CANCELLED,2);
+        OperationModifyDTO operationModifyDTO = new OperationModifyDTO(1, OperationState.CANCELLED,2);
 
         ResponseEntity<Void> result = restTemplate.exchange(TEST_HOSTNAME + port + "/operations/{id}",
                 HttpMethod.PUT,
-                new HttpEntity<>(operationModify, headersWithToken.getHeaders()),
+                new HttpEntity<>(operationModifyDTO, headersWithToken.getHeaders()),
                 Void.class, 1);
 
         Assertions.assertEquals(200, result.getStatusCode().value());
@@ -95,13 +95,13 @@ class OperationHttpRequestTest {
     @Test
     @Order(3)
     void postingAnOperationWithIntentionThatExceedConditionsPriceObtainBadRequest() throws Exception {
-        OperationRegister operationRegister = new OperationRegister(2,1);
+        OperationRegisterDTO operationRegisterDTO = new OperationRegisterDTO(2,1);
 
 
         System.out.println("heathers: "+headersWithToken);
-        ResponseEntity<OperationView> result = restTemplate.exchange(TEST_HOSTNAME + port + "/operations",
-                HttpMethod.POST, new HttpEntity<>(testController.getBody(operationRegister), headersWithToken.getHeaders())
-                , OperationView.class);
+        ResponseEntity<OperationViewDTO> result = restTemplate.exchange(TEST_HOSTNAME + port + "/operations",
+                HttpMethod.POST, new HttpEntity<>(testController.getBody(operationRegisterDTO), headersWithToken.getHeaders())
+                , OperationViewDTO.class);
 
         System.out.println("result = " + result);
 
@@ -112,11 +112,11 @@ class OperationHttpRequestTest {
     @Order(4)
     void postingAnOperationWithIntentionID2AndUserID1ShouldReturnIt() throws Exception {
 
-        OperationRegister operationRegister = new OperationRegister(3,1);
+        OperationRegisterDTO operationRegisterDTO = new OperationRegisterDTO(3,1);
 
-        ResponseEntity<OperationView> result = restTemplate.exchange(TEST_HOSTNAME + port + "/operations",
-                HttpMethod.POST, new HttpEntity<>(testController.getBody(operationRegister), headersWithToken.getHeaders())
-                , OperationView.class);
+        ResponseEntity<OperationViewDTO> result = restTemplate.exchange(TEST_HOSTNAME + port + "/operations",
+                HttpMethod.POST, new HttpEntity<>(testController.getBody(operationRegisterDTO), headersWithToken.getHeaders())
+                , OperationViewDTO.class);
 
         System.out.println("result = " + result);
 

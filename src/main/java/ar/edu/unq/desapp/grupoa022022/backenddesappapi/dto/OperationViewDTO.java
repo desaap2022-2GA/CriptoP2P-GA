@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class OperationView {
+public class OperationViewDTO {
 
     private String cryptocurrency;
     private double nominalAmount;

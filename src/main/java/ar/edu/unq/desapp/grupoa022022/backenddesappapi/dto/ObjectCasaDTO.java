@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
-public class ObjectCasa {
+public class ObjectCasaDTO {
     @JsonProperty("casa")
-    Casa casa;
+    CasaDTO casa;
 }

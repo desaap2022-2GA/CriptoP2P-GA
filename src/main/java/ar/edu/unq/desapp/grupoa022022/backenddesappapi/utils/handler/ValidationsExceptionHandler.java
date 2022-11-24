@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice.handler;
+package ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.handler;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;

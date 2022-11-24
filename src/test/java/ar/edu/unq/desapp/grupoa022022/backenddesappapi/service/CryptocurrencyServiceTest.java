@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service;
 
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegisterDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
@@ -30,8 +30,8 @@ public class CryptocurrencyServiceTest {
     private QuoteService quoteService;
 
     public Cryptocurrency mockCrypto = Mockito.mock(Cryptocurrency.class);
-    public CryptocurrencyRegister mockCryptoReg1 = Mockito.mock(CryptocurrencyRegister.class);
-    public CryptocurrencyRegister mockCryptoReg2 = Mockito.mock(CryptocurrencyRegister.class);
+    public CryptocurrencyRegisterDTO mockCryptoReg1 = Mockito.mock(CryptocurrencyRegisterDTO.class);
+    public CryptocurrencyRegisterDTO mockCryptoReg2 = Mockito.mock(CryptocurrencyRegisterDTO.class);
 
 
     @BeforeEach
@@ -47,9 +47,9 @@ public class CryptocurrencyServiceTest {
     @DisplayName("JUnit test create method in CryptocurrencyService")
     @Test
     void createCryptocurrencyTest(){
-        CryptocurrencyRegister cryptocurrencyRegister= new CryptocurrencyRegister(mockCryptoReg1.getName(),
+        CryptocurrencyRegisterDTO cryptocurrencyRegisterDTO = new CryptocurrencyRegisterDTO(mockCryptoReg1.getName(),
                 mockCryptoReg1.getPrice());
-        Cryptocurrency crypto = cryptocurrencyService.create(cryptocurrencyRegister);
+        Cryptocurrency crypto = cryptocurrencyService.create(cryptocurrencyRegisterDTO);
 
         assertEquals(crypto.getName(), "DAINA");
     }
@@ -94,9 +94,9 @@ public class CryptocurrencyServiceTest {
     @DisplayName("Junit test update method in CryptocurrencyService")
     @Test
     void updateCryptoTest(){
-        CryptocurrencyRegister cryptocurrencyRegister= new CryptocurrencyRegister(mockCryptoReg2.getName(),
+        CryptocurrencyRegisterDTO cryptocurrencyRegisterDTO = new CryptocurrencyRegisterDTO(mockCryptoReg2.getName(),
                 mockCryptoReg2.getPrice());
-        Cryptocurrency crypto = cryptocurrencyService.create(cryptocurrencyRegister);
+        Cryptocurrency crypto = cryptocurrencyService.create(cryptocurrencyRegisterDTO);
 
         crypto.setName("MMM");
         cryptocurrencyService.update(crypto);

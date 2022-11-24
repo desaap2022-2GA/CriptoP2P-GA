@@ -1,26 +1,23 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.ActiveIntentionView;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.ActiveIntentionViewDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.HelperDTO;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionView;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegisterDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionViewDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRangeException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IIntentionRepo;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IOperationRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IOperationService;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -44,22 +41,22 @@ public class IntentionService implements IIntentionService {
   //  private IOperationService operationService;
 
     @Override
-    public Intention create(IntentionRegister intentionRegister) throws ResourceNotFoundException, PriceNotInAValidRangeException {
-        Cryptocurrency cryptocurrency = cryptocurrencyService.findById(intentionRegister.getCryptocurrencyId());
-        User user = userService.getFromDataBase(intentionRegister.getUserId());
-        if (cryptocurrency.latestQuote().intentionPriceInARangeOfFiveUpAndDown(intentionRegister.getPrice())) {
-            Intention intention = new Intention(intentionRegister.getType(), cryptocurrency, intentionRegister.getPrice(),
-                    intentionRegister.getUnits(), user);
+    public Intention create(IntentionRegisterDTO intentionRegisterDTO) throws ResourceNotFoundException, PriceNotInAValidRangeException {
+        Cryptocurrency cryptocurrency = cryptocurrencyService.findById(intentionRegisterDTO.getCryptocurrencyId());
+        User user = userService.getFromDataBase(intentionRegisterDTO.getUserId());
+        if (cryptocurrency.latestQuote().intentionPriceInARangeOfFiveUpAndDown(intentionRegisterDTO.getPrice())) {
+            Intention intention = new Intention(intentionRegisterDTO.getType(), cryptocurrency, intentionRegisterDTO.getPrice(),
+                    intentionRegisterDTO.getUnits(), user);
             return intentionRepo.save(intention);
         } else {
-            throw new PriceNotInAValidRangeException("Price exceed five percent with respect to latest quote, price selected: " + intentionRegister.getPrice()
+            throw new PriceNotInAValidRangeException("Price exceed five percent with respect to latest quote, price selected: " + intentionRegisterDTO.getPrice()
                     + " ,price latest quote: " + cryptocurrency.latestQuote().getPrice());
         }
     }
 
     @Override
-    public IntentionView open(IntentionRegister intentionRegister) throws PriceNotInAValidRangeException, ResourceNotFoundException {
-        Intention intention = this.create(intentionRegister);
+    public IntentionViewDTO open(IntentionRegisterDTO intentionRegisterDTO) throws PriceNotInAValidRangeException, ResourceNotFoundException {
+        Intention intention = this.create(intentionRegisterDTO);
         return helper.intentionToIntentionView(intention, intention.getUser());
     }
 
@@ -92,13 +89,13 @@ public class IntentionService implements IIntentionService {
     }
 
     @Override
-    public IntentionView getIntentionById(int id) throws ResourceNotFoundException {
+    public IntentionViewDTO getIntentionById(int id) throws ResourceNotFoundException {
         Intention intention = this.findById(id);
         return helper.intentionToIntentionView(intention, intention.getUser());
     }
 
     @Override
-    public List<ActiveIntentionView> getActiveIntentions() {
+    public List<ActiveIntentionViewDTO> getActiveIntentions() {
         return this.findActiveIntentions().stream().map(intention -> helper.intentionToActiveIntentionView(intention
                 ,intention.getUser())).toList();
     }
@@ -116,7 +113,7 @@ public class IntentionService implements IIntentionService {
     }
 
     @Override
-    public List<IntentionView> getAll() {
+    public List<IntentionViewDTO> getAll() {
         return intentionRepo.findAll(Sort.by(Sort.Direction.ASC,"id")).stream().map(intention -> helper.intentionToIntentionView(intention
         ,intention.getUser())).toList();
     }

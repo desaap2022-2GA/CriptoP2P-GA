@@ -1,9 +1,9 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.HelperDTO;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationModify;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationView;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationModifyDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegisterDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationViewDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
@@ -34,9 +34,9 @@ public class OperationService implements IOperationService {
     IIntentionService intentionService;
 
     @Override
-    public Operation create(OperationRegister operationRegister) throws ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException {
-        User user = userService.getFromDataBase(operationRegister.getUserId());
-        Intention intention = intentionService.findById(operationRegister.getIntentionId());
+    public Operation create(OperationRegisterDTO operationRegisterDTO) throws ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException {
+        User user = userService.getFromDataBase(operationRegisterDTO.getUserId());
+        Intention intention = intentionService.findById(operationRegisterDTO.getIntentionId());
         Operation operation;
         if (!intention.isTaken()) {
             intention.setTaken(true);
@@ -58,8 +58,8 @@ public class OperationService implements IOperationService {
     }
 
     @Override
-    public OperationView open(OperationRegister operationRegister) throws ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException {
-        Operation operationCreated = this.create(operationRegister);
+    public OperationViewDTO open(OperationRegisterDTO operationRegisterDTO) throws ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException {
+        Operation operationCreated = this.create(operationRegisterDTO);
         return helper.operationToOperationView(operationCreated, operationCreated.getUserWhoAccepts());
     }
 
@@ -89,7 +89,7 @@ public class OperationService implements IOperationService {
         );
     }
 
-    public OperationView getOperationById(int operationId, int userId) throws ResourceNotFoundException {
+    public OperationViewDTO getOperationById(int operationId, int userId) throws ResourceNotFoundException {
         Operation operation = findById(operationId);
         User userWhoAsk = userService.getFromDataBase(userId);
         return helper.operationToOperationView(operation, userWhoAsk);
@@ -125,11 +125,11 @@ public class OperationService implements IOperationService {
     }
 
     @Override
-    public void modify(OperationModify operationModify) throws ResourceNotFoundException, InvalidStateException {
-        Operation operation = findById(operationModify.getOperationId());
-        User user = userService.getFromDataBase(operationModify.getUserId());
+    public void modify(OperationModifyDTO operationModifyDTO) throws ResourceNotFoundException, InvalidStateException {
+        Operation operation = findById(operationModifyDTO.getOperationId());
+        User user = userService.getFromDataBase(operationModifyDTO.getUserId());
 
-        switch (operationModify.getState()) {
+        switch (operationModifyDTO.getState()) {
             case PAID -> moneyTransferDone(operation);
             case CRYPTOSENT -> {
                 cryptoSendDone(operation);

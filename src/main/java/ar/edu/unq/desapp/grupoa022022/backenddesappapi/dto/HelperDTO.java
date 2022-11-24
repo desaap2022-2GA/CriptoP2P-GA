@@ -15,49 +15,49 @@ import java.util.Objects;
 public class HelperDTO {
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public User userRegisterToUser(UserRegister userRegister) {
-        return new User(userRegister.getName(), userRegister.getLastname(), userRegister.getEmail()
-                , userRegister.getAddress(), encoder.encode(userRegister.getPassword()), userRegister.getMercadoPagoCVU()
-                , userRegister.getAddressWalletActiveCrypto());
+    public User userRegisterToUser(UserRegisterDTO userRegisterDTO) {
+        return new User(userRegisterDTO.getName(), userRegisterDTO.getLastname(), userRegisterDTO.getEmail()
+                , userRegisterDTO.getAddress(), encoder.encode(userRegisterDTO.getPassword()), userRegisterDTO.getMercadoPagoCVU()
+                , userRegisterDTO.getAddressWalletActiveCrypto());
     }
 
     public boolean firstNotNullAndFirstAndSecondNotEquals(String firstCheck, String secondCheck) {
         return firstCheck != null && !Objects.equals(firstCheck, secondCheck);
     }
 
-    public UserView userToUserView(User user) {
-        return new UserView(user.getId(), user.getName(), user.getLastname(), user.getEmail(), user.getAddress(),
+    public UserViewDTO userToUserView(User user) {
+        return new UserViewDTO(user.getId(), user.getName(), user.getLastname(), user.getEmail(), user.getAddress(),
                 user.getMercadoPagoCVU(), user.getAddressWalletActiveCrypto(), user.getPoints(),
                 user.getNumberOperations(), user.getReputation());
     }
 
-    public List<UserView> usersToUsersView(List<User> all) {
+    public List<UserViewDTO> usersToUsersView(List<User> all) {
         return all.stream().map(this::userToUserView).toList();
     }
 
-    public CryptoDetails intentionToCryptoDetails(Intention intention) throws ResourceNotFoundException {
-        return new CryptoDetails(intention.getCryptocurrency().getName(), intention.getUnits()
+    public CryptoDetailsDTO intentionToCryptoDetails(Intention intention) throws ResourceNotFoundException {
+        return new CryptoDetailsDTO(intention.getCryptocurrency().getName(), intention.getUnits()
                 , intention.getCryptocurrency().latestQuote().getPrice(), intention.amountPriceInPesos());
     }
 
-    public OperationView operationToOperationView(Operation operation, User userWhoAsk) throws ResourceNotFoundException {
+    public OperationViewDTO operationToOperationView(Operation operation, User userWhoAsk) throws ResourceNotFoundException {
         Intention intention = operation.getIntention();
         Cryptocurrency cryptocurrency = intention.getCryptocurrency();
         User user = intention.getUser();
         String completeName = user.getName() + " " + user.getLastname();
-        return new OperationView(intention.getCryptocurrency().getName(), intention.actualAmountPriceInPesos()
+        return new OperationViewDTO(intention.getCryptocurrency().getName(), intention.actualAmountPriceInPesos()
                 , cryptocurrency.latestQuote().getPrice(), completeName, user.getNumberOperations(), user.getReputation()
                 , intention.transactionInfoToShow(userWhoAsk), operation.actionToDo(userWhoAsk));
     }
 
-    public IntentionView intentionToIntentionView(Intention intention, User userWhoPost){
-        return new IntentionView(String.valueOf(intention.getId()), new DateTimeInMilliseconds().convertLongToDate(intention.getDateTime())
+    public IntentionViewDTO intentionToIntentionView(Intention intention, User userWhoPost){
+        return new IntentionViewDTO(String.valueOf(intention.getId()), new DateTimeInMilliseconds().convertLongToDate(intention.getDateTime())
                 , intention.getType().toString(), intention.getCryptocurrency().getName(), intention.getPrice().toString(), String.valueOf(intention.getUnits())
                 , intention.amountPriceInPesos().toString(), userWhoPost.getName()+" "+userWhoPost.getLastname());
     }
 
-    public ActiveIntentionView intentionToActiveIntentionView(Intention intention, User userWhoPost){
-        return new ActiveIntentionView(String.valueOf(intention.getId()), new DateTimeInMilliseconds().convertLongToDate(intention.getDateTime())
+    public ActiveIntentionViewDTO intentionToActiveIntentionView(Intention intention, User userWhoPost){
+        return new ActiveIntentionViewDTO(String.valueOf(intention.getId()), new DateTimeInMilliseconds().convertLongToDate(intention.getDateTime())
                 , intention.getType().toString(), intention.getCryptocurrency().getName(), intention.getPrice().toString(), String.valueOf(intention.getUnits())
                 , intention.amountPriceInPesos().toString(), userWhoPost.getName()+" "+userWhoPost.getLastname(), String.valueOf(userWhoPost.getNumberOperations()), String.valueOf(userWhoPost.getReputation()));
     }

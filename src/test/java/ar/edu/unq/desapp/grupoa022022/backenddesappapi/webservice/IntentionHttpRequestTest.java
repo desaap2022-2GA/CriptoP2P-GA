@@ -1,9 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionView;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionViewDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.TokenDTO;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.IntentionType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,16 +74,16 @@ class IntentionHttpRequestTest {
     @Test
     @Order(1)
     void gettingIntentionsShouldReturnAListWith3Intentions() {
-        ResponseEntity<IntentionView[]> result = restTemplate.exchange(TEST_HOSTNAME + port + "/intentions",
-                HttpMethod.GET, headersWithToken, IntentionView[].class);
+        ResponseEntity<IntentionViewDTO[]> result = restTemplate.exchange(TEST_HOSTNAME + port + "/intentions",
+                HttpMethod.GET, headersWithToken, IntentionViewDTO[].class);
 
         Assertions.assertEquals(3, Arrays.stream(Objects.requireNonNull(result.getBody())).toList().size());
     }
 
     @Test
     void gettingIntention1ShouldReturnAnIntentionWith5326807_85Price() {
-        ResponseEntity<IntentionView> result = restTemplate.exchange(TEST_HOSTNAME + port + "/intentions/2",
-                HttpMethod.GET, headersWithToken, IntentionView.class);
+        ResponseEntity<IntentionViewDTO> result = restTemplate.exchange(TEST_HOSTNAME + port + "/intentions/2",
+                HttpMethod.GET, headersWithToken, IntentionViewDTO.class);
 
         Assertions.assertEquals("5326807.85", Objects.requireNonNull(result.getBody()).getPrice());
     }
@@ -93,8 +91,8 @@ class IntentionHttpRequestTest {
     @Test
     @Order(2)
     void gettingActiveIntentionShouldReturn2() {
-        ResponseEntity<IntentionView[]> result = restTemplate.exchange(TEST_HOSTNAME + port + "/intentions/active",
-                HttpMethod.GET, headersWithToken, IntentionView[].class);
+        ResponseEntity<IntentionViewDTO[]> result = restTemplate.exchange(TEST_HOSTNAME + port + "/intentions/active",
+                HttpMethod.GET, headersWithToken, IntentionViewDTO[].class);
 
         Assertions.assertEquals(2, Objects.requireNonNull(Objects.requireNonNull(result.getBody())).length);
     }

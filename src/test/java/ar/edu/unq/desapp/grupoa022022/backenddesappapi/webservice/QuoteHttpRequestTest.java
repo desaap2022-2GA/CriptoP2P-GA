@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.QuoteRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.QuoteRegisterDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.TokenDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -92,11 +91,11 @@ class QuoteHttpRequestTest {
     @Test
     @Order(7)
     void postingAQuoteNamedBITCOINShouldReturnAListThatIncludesIt() {
-        QuoteRegister quoteRegister = new QuoteRegister(1, 152.50);
+        QuoteRegisterDTO quoteRegisterDTO = new QuoteRegisterDTO(1, 152.50);
         ResponseEntity<Quote> result;
         try {
             result = restTemplate.exchange(TEST_HOSTNAME + port + "/quotes",
-                    HttpMethod.POST, new HttpEntity<>(testController.getBody(quoteRegister), headersWithToken.getHeaders()), Quote.class);
+                    HttpMethod.POST, new HttpEntity<>(testController.getBody(quoteRegisterDTO), headersWithToken.getHeaders()), Quote.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

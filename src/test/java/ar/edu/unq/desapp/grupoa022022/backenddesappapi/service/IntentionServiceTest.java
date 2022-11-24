@@ -42,9 +42,9 @@ public class IntentionServiceTest {
 
     public Intention mockIntention = Mockito.mock(Intention.class);
 
-    public IntentionRegister mockIntentionReg = Mockito.mock(IntentionRegister.class);
+    public IntentionRegisterDTO mockIntentionReg = Mockito.mock(IntentionRegisterDTO.class);
 
-    public IntentionView mockIntentionView = Mockito.mock(IntentionView.class);
+    public IntentionViewDTO mockIntentionViewDTO = Mockito.mock(IntentionViewDTO.class);
     public User mockUser = Mockito.mock(User.class);
 
     @BeforeEach
@@ -56,10 +56,10 @@ public class IntentionServiceTest {
         Mockito.when(mockIntention.isTaken()).thenReturn(false);
         Mockito.when(mockIntentionReg.getUserId()).thenReturn(1);
         Mockito.when(mockIntentionReg.getCryptocurrencyId()).thenReturn(1);
-        Mockito.when(mockIntentionView.getId()).thenReturn(String.valueOf(1));
-        Mockito.when(mockIntentionView.getAmountPriceInPesos()).thenReturn(String.valueOf(200d));
-        Mockito.when(mockIntentionView.getCryptocurrency()).thenReturn("DAI");
-        Mockito.when(mockIntentionView.getUnits()).thenReturn(String.valueOf(1));
+        Mockito.when(mockIntentionViewDTO.getId()).thenReturn(String.valueOf(1));
+        Mockito.when(mockIntentionViewDTO.getAmountPriceInPesos()).thenReturn(String.valueOf(200d));
+        Mockito.when(mockIntentionViewDTO.getCryptocurrency()).thenReturn("DAI");
+        Mockito.when(mockIntentionViewDTO.getUnits()).thenReturn(String.valueOf(1));
         Mockito.when(mockIntention.isTaken()).thenReturn(false);
         Mockito.when(mockUser.getId()).thenReturn(1);
 
@@ -71,50 +71,50 @@ public class IntentionServiceTest {
     @DisplayName("JUnit test create method in IntentionService")
     @Test
     void createIntentionTest() throws PriceNotInAValidRangeException, ResourceNotFoundException {
-        IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
+        IntentionRegisterDTO intentionRegisterDTO = new IntentionRegisterDTO(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
-        Intention intent = intentionService.create(intentionRegister);
-        assertEquals(intent.getPrice(), intentionRegister.getPrice());
+        Intention intent = intentionService.create(intentionRegisterDTO);
+        assertEquals(intent.getPrice(), intentionRegisterDTO.getPrice());
     }
 
     @DisplayName("JUnit test create method with exception in IntentionService")
     @Test
     void createIntention_WithException_Test(){
         assertThrows(PriceNotInAValidRangeException.class, () -> {
-            IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
+            IntentionRegisterDTO intentionRegisterDTO = new IntentionRegisterDTO(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                     mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
-            intentionRegister.setPrice(50000d);
-            intentionService.create(intentionRegister);
+            intentionRegisterDTO.setPrice(50000d);
+            intentionService.create(intentionRegisterDTO);
         });
     }
 
     @DisplayName("JUnit test open method in IntentionService")
     @Test
     void openIntentionTest() throws PriceNotInAValidRangeException, ResourceNotFoundException {
-        IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
+        IntentionRegisterDTO intentionRegisterDTO = new IntentionRegisterDTO(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
 
-        assertEquals(intentionService.open(intentionRegister).getPrice(), "289.75");
+        assertEquals(intentionService.open(intentionRegisterDTO).getPrice(), "289.75");
     }
 
     @DisplayName("JUnit test open method with exception in IntentionService")
     @Test
     void openIntention_WithException_Test(){
         assertThrows(PriceNotInAValidRangeException.class, () -> {
-            IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
+            IntentionRegisterDTO intentionRegisterDTO = new IntentionRegisterDTO(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                     mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
-            intentionRegister.setPrice(50d);
-            intentionService.open(intentionRegister);
+            intentionRegisterDTO.setPrice(50d);
+            intentionService.open(intentionRegisterDTO);
         });
     }
 
     @DisplayName("JUnit test update method in IntentionService")
     @Test
     void updateIntentionTest() throws PriceNotInAValidRangeException, ResourceNotFoundException {
-        IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
+        IntentionRegisterDTO intentionRegisterDTO = new IntentionRegisterDTO(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
 
-        Intention intent = intentionService.create(intentionRegister);
+        Intention intent = intentionService.create(intentionRegisterDTO);
         intent.setUnits(3);
         intentionService.update(intent);
 
@@ -124,10 +124,10 @@ public class IntentionServiceTest {
     @DisplayName("JUnit test deleteById Method in IntentionService")
     @Test
     void deleteByIdIntentionTest() throws PriceNotInAValidRangeException, ResourceNotFoundException {
-        IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
+        IntentionRegisterDTO intentionRegisterDTO = new IntentionRegisterDTO(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
 
-        Intention intent = intentionService.create(intentionRegister);
+        Intention intent = intentionService.create(intentionRegisterDTO);
 
         intentionService.delete(intent.getId());
 
@@ -137,12 +137,12 @@ public class IntentionServiceTest {
     @DisplayName("JUnit test getIntentionById method in IntentionService")
     @Test
     void getIntentionByIdTest() throws PriceNotInAValidRangeException, ResourceNotFoundException {
-        IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
+        IntentionRegisterDTO intentionRegisterDTO = new IntentionRegisterDTO(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
 
-        Intention intent = intentionService.create(intentionRegister);
+        Intention intent = intentionService.create(intentionRegisterDTO);
 
-        List<IntentionView> intentions = intentionService.getAll();
+        List<IntentionViewDTO> intentions = intentionService.getAll();
 
         assertEquals(intentionService.getIntentionById(intent.getId()).getUnits(), "2");
     }
@@ -159,10 +159,10 @@ public class IntentionServiceTest {
     @DisplayName("JUnit test getActiveIntention method in IntentionService")
     @Test
     void getActiveIntentionsTest() throws PriceNotInAValidRangeException, ResourceNotFoundException {
-        IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
+        IntentionRegisterDTO intentionRegisterDTO = new IntentionRegisterDTO(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
 
-        Intention intent = intentionService.create(intentionRegister);
+        Intention intent = intentionService.create(intentionRegisterDTO);
 
         assertEquals(intentionService.getActiveIntentions().size(), 1);
     }
@@ -170,11 +170,11 @@ public class IntentionServiceTest {
     @DisplayName("JUnit test findById method in IntentionService")
     @Test
     void findByIdIntentionTest() throws PriceNotInAValidRangeException, ResourceNotFoundException {
-        IntentionRegister intentionRegister = new IntentionRegister(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
+        IntentionRegisterDTO intentionRegisterDTO = new IntentionRegisterDTO(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
 
-        Intention intent = intentionService.create(intentionRegister);
-        List<IntentionView> intentions = intentionService.getAll();
+        Intention intent = intentionService.create(intentionRegisterDTO);
+        List<IntentionViewDTO> intentions = intentionService.getAll();
 
         assertEquals(intentionService.findById(intent.getId()).getPrice(), 289.75d);
     }

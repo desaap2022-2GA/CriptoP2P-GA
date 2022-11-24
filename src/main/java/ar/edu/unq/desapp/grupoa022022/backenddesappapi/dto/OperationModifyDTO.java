@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @AllArgsConstructor
-public class OperationModify {
+public class OperationModifyDTO {
 
     @NotNull
     private int operationId;

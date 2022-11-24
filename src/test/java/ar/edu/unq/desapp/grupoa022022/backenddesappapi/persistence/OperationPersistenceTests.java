@@ -87,33 +87,33 @@ class OperationPersistenceTests {
         return getCryptocurrencyDB2().getId();
     }
 
-    public IntentionRegister getSomeIntentionRegister() throws UserValidationException {
-        return new IntentionRegister(dataSet.getSomeTypeBUY(),
+    public IntentionRegisterDTO getSomeIntentionRegister() throws UserValidationException {
+        return new IntentionRegisterDTO(dataSet.getSomeTypeBUY(),
                 getSomeCryptocurrencyDBId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), getUserWhoPostDBId());
     }
 
-    public IntentionRegister getIntentionRegisterWithPrice320Units2() throws UserValidationException {
-        return new IntentionRegister(IntentionType.SELL,
+    public IntentionRegisterDTO getIntentionRegisterWithPrice320Units2() throws UserValidationException {
+        return new IntentionRegisterDTO(IntentionType.SELL,
                 getSomeCryptocurrencyDBId(), 320.00, 2, getUserWhoPostDBId());
     }
 
-    public IntentionRegister getIntentionRegisterWithPrice330Units2() throws UserValidationException {
-        return new IntentionRegister(IntentionType.BUY,
+    public IntentionRegisterDTO getIntentionRegisterWithPrice330Units2() throws UserValidationException {
+        return new IntentionRegisterDTO(IntentionType.BUY,
                 getSomeCryptocurrencyDBId(), 330.00, 2, getUserWhoPostDBId());
     }
 
-    public IntentionRegister getIntentionRegisterWithUserWhoHas30Point3NumberOperations() throws UserValidationException {
-        return new IntentionRegister(dataSet.getSomeTypeBUY(), getSomeCryptocurrencyDBId(), dataSet.getSomePriceInRangeDAI(),
+    public IntentionRegisterDTO getIntentionRegisterWithUserWhoHas30Point3NumberOperations() throws UserValidationException {
+        return new IntentionRegisterDTO(dataSet.getSomeTypeBUY(), getSomeCryptocurrencyDBId(), dataSet.getSomePriceInRangeDAI(),
                 dataSet.getSomeUnit(), getUserWith30Point3NumberOperationsDBId());
     }
 
-    public IntentionRegister getIntentionRegisterBUYType() throws UserValidationException {
-        return new IntentionRegister(IntentionType.BUY,
+    public IntentionRegisterDTO getIntentionRegisterBUYType() throws UserValidationException {
+        return new IntentionRegisterDTO(IntentionType.BUY,
                 getSomeCryptocurrencyDBId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), getUserWhoPostDBId());
     }
 
-    public IntentionRegister getIntentionRegisterSELLType() throws UserValidationException {
-        return new IntentionRegister(IntentionType.SELL,
+    public IntentionRegisterDTO getIntentionRegisterSELLType() throws UserValidationException {
+        return new IntentionRegisterDTO(IntentionType.SELL,
                 getSomeCryptocurrencyDB2Id(), dataSet.getSomePriceInRangeBITCOIN(), dataSet.getSomeUnit(), getUserWhoPostDBId());
     }
 
@@ -154,24 +154,24 @@ class OperationPersistenceTests {
         return getBUYTypeIntentionDB().getId();
     }
 
-    public OperationRegister getOperationRegisterWithUserPostWhoHas30Point3NumberOperations() throws ResourceNotFoundException, PriceNotInAValidRangeException, UserValidationException {
-        return new OperationRegister(getIntentionWhoUserHas30Points3NumberOperationsDB().getId(), getUserWhoAcceptDB2Id());
+    public OperationRegisterDTO getOperationRegisterWithUserPostWhoHas30Point3NumberOperations() throws ResourceNotFoundException, PriceNotInAValidRangeException, UserValidationException {
+        return new OperationRegisterDTO(getIntentionWhoUserHas30Points3NumberOperationsDB().getId(), getUserWhoAcceptDB2Id());
     }
 
-    public OperationRegister getBUYOperationRegister() throws ResourceNotFoundException, PriceNotInAValidRangeException, UserValidationException {
-        return new OperationRegister(getBUYIntentionDBId(), getUserWhoAcceptDB2Id());
+    public OperationRegisterDTO getBUYOperationRegister() throws ResourceNotFoundException, PriceNotInAValidRangeException, UserValidationException {
+        return new OperationRegisterDTO(getBUYIntentionDBId(), getUserWhoAcceptDB2Id());
     }
 
-    public OperationRegister getSELLOperationRegister() throws ResourceNotFoundException, PriceNotInAValidRangeException, UserValidationException {
-        return new OperationRegister(getSELLIntentionDBId(), getUserWhoAcceptDB2Id());
+    public OperationRegisterDTO getSELLOperationRegister() throws ResourceNotFoundException, PriceNotInAValidRangeException, UserValidationException {
+        return new OperationRegisterDTO(getSELLIntentionDBId(), getUserWhoAcceptDB2Id());
     }
 
-    public OperationRegister getSomeOperationRegister() throws ResourceNotFoundException, PriceNotInAValidRangeException, UserValidationException {
-        return new OperationRegister(getIntentionDBId(), getUserWhoAcceptDB2Id());
+    public OperationRegisterDTO getSomeOperationRegister() throws ResourceNotFoundException, PriceNotInAValidRangeException, UserValidationException {
+        return new OperationRegisterDTO(getIntentionDBId(), getUserWhoAcceptDB2Id());
     }
 
-    public OperationRegister getOperationRegisterWithUserAcceptWhoHas30Point3NumberOperations() throws ResourceNotFoundException, PriceNotInAValidRangeException, UserValidationException {
-        return new OperationRegister(getIntentionDBId(), getUserWith30Point3NumberOperationsDBId());
+    public OperationRegisterDTO getOperationRegisterWithUserAcceptWhoHas30Point3NumberOperations() throws ResourceNotFoundException, PriceNotInAValidRangeException, UserValidationException {
+        return new OperationRegisterDTO(getIntentionDBId(), getUserWith30Point3NumberOperationsDBId());
     }
 
     @BeforeEach
@@ -360,8 +360,8 @@ class OperationPersistenceTests {
     @Test
     void modifyAnOperationWithPaidState() throws PriceNotInAValidRangeException, ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException, InvalidStateException, UserValidationException {
         Operation operation = operationService.create(getSELLOperationRegister());
-        OperationModify operationModify = new OperationModify(operation.getId(), OperationState.PAID, operation.getUserWhoAccepts().getId());
-        operationService.modify(operationModify);
+        OperationModifyDTO operationModifyDTO = new OperationModifyDTO(operation.getId(), OperationState.PAID, operation.getUserWhoAccepts().getId());
+        operationService.modify(operationModifyDTO);
 
         assertEquals(OperationState.PAID, operationService.findById(operation.getId()).getState());
     }
@@ -369,8 +369,8 @@ class OperationPersistenceTests {
     @Test
     void modifyAnOperationWithCryptoSentState() throws PriceNotInAValidRangeException, ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException, InvalidStateException, UserValidationException {
         Operation operation = operationService.create(getSELLOperationRegister());
-        OperationModify operationModify = new OperationModify(operation.getId(), OperationState.CRYPTOSENT, operation.getUserWhoAccepts().getId());
-        operationService.modify(operationModify);
+        OperationModifyDTO operationModifyDTO = new OperationModifyDTO(operation.getId(), OperationState.CRYPTOSENT, operation.getUserWhoAccepts().getId());
+        operationService.modify(operationModifyDTO);
 
         assertEquals(OperationState.CRYPTOSENT, operationService.findById(operation.getId()).getState());
     }
@@ -378,8 +378,8 @@ class OperationPersistenceTests {
     @Test
     void modifyAnOperationWithCancelledState() throws PriceNotInAValidRangeException, ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException, InvalidStateException, UserValidationException {
         Operation operation = operationService.create(getSELLOperationRegister());
-        OperationModify operationModify = new OperationModify(operation.getId(), OperationState.CANCELLED, operation.getUserWhoAccepts().getId());
-        operationService.modify(operationModify);
+        OperationModifyDTO operationModifyDTO = new OperationModifyDTO(operation.getId(), OperationState.CANCELLED, operation.getUserWhoAccepts().getId());
+        operationService.modify(operationModifyDTO);
 
         assertEquals(OperationState.CANCELLED, operationService.findById(operation.getId()).getState());
     }
@@ -388,32 +388,32 @@ class OperationPersistenceTests {
     void whenTryToSetAStateInvalidThrowsException() throws PriceNotInAValidRangeException, ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException, UserValidationException {
         int operationId = operationService.create(getSELLOperationRegister()).getId();
 
-        assertThrows(InvalidStateException.class, () -> operationService.modify(new OperationModify(operationId, OperationState.ACTIVE, getUserWhoAcceptDB2Id())));
+        assertThrows(InvalidStateException.class, () -> operationService.modify(new OperationModifyDTO(operationId, OperationState.ACTIVE, getUserWhoAcceptDB2Id())));
     }
 
     @Test
     void getPriceExceedVariationWithRespectIntentionSELLTypeLimitsPriceLowerThanQuoteOfCryptocurrency() throws ResourceNotFoundException, PriceNotInAValidRangeException, UserValidationException {
         int intentionId = getIntentionRegisterWithPrice320Units2DB().getId();
 
-        assertThrows(PriceExceedVariationWithRespectIntentionTypeLimitsException.class, () -> operationService.create(new OperationRegister(intentionId, getUserWhoAcceptDB2Id())));
+        assertThrows(PriceExceedVariationWithRespectIntentionTypeLimitsException.class, () -> operationService.create(new OperationRegisterDTO(intentionId, getUserWhoAcceptDB2Id())));
     }
 
     @Test
     void getPriceExceedVariationWithRespectIntentionBUYTypeLimitsPriceHigherThanQuoteOfCryptocurrency() throws ResourceNotFoundException, PriceNotInAValidRangeException, UserValidationException {
         int intentionId = getIntentionRegisterWithPrice330Units2DB().getId();
 
-        assertThrows(PriceExceedVariationWithRespectIntentionTypeLimitsException.class, () -> operationService.create(new OperationRegister(intentionId, getUserWhoAcceptDB2Id())));
+        assertThrows(PriceExceedVariationWithRespectIntentionTypeLimitsException.class, () -> operationService.create(new OperationRegisterDTO(intentionId, getUserWhoAcceptDB2Id())));
     }
 
     @Test
     void whenTryToTakeAnIntentionAlreadyTakenThrowsException() throws PriceNotInAValidRangeException, ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException, UserValidationException {
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create(new CryptocurrencyRegister("DOGCOIN", 320.38));
-        int intentionId = intentionService.create(new IntentionRegister(IntentionType.BUY,
+        Cryptocurrency cryptocurrency = cryptocurrencyService.create(new CryptocurrencyRegisterDTO("DOGCOIN", 320.38));
+        int intentionId = intentionService.create(new IntentionRegisterDTO(IntentionType.BUY,
                 cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), getUserWhoPostDBId())).getId();
 
-        operationService.create(new OperationRegister(intentionId, getUserWhoAcceptDB2Id()));
+        operationService.create(new OperationRegisterDTO(intentionId, getUserWhoAcceptDB2Id()));
 
-        assertThrows(IntentionAlreadyTakenException.class, () -> operationService.create(new OperationRegister(intentionId, getUserWhoAcceptDB2Id())));
+        assertThrows(IntentionAlreadyTakenException.class, () -> operationService.create(new OperationRegisterDTO(intentionId, getUserWhoAcceptDB2Id())));
     }
 
     @Test
@@ -426,12 +426,12 @@ class OperationPersistenceTests {
 
     @Test
     void operationViewClassIsObtainAfterOpenIsCalledWithAndOperationRegister() throws ResourceNotFoundException, PriceNotInAValidRangeException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException, UserValidationException {
-        assertEquals(OperationView.class, operationService.open(getSomeOperationRegister()).getClass());
+        assertEquals(OperationViewDTO.class, operationService.open(getSomeOperationRegister()).getClass());
     }
 
     @Test
     void operationViewStringInfoObtainAfterOpenIsCalledWithAndOperationRegister() throws ResourceNotFoundException, PriceNotInAValidRangeException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException, UserValidationException {
-        assertEquals("OperationView(cryptocurrency=DAI, nominalAmount=961.14, quote=320.38, userWhoPostCompleteName=Paston Gaudio, operationNumber=0, reputation=0, sentAddress=Xwf5u5ef, actionToDo=Waiting for counterpart transfer)"
+        assertEquals("OperationViewDTO(cryptocurrency=DAI, nominalAmount=961.14, quote=320.38, userWhoPostCompleteName=Paston Gaudio, operationNumber=0, reputation=0, sentAddress=Xwf5u5ef, actionToDo=Waiting for counterpart transfer)"
                 , operationService.open(getSomeOperationRegister()).toString());
     }
 }

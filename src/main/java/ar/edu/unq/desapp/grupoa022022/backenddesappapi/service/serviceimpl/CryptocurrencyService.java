@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyLastQuote;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyLastQuoteDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegisterDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
@@ -32,10 +32,10 @@ public class CryptocurrencyService implements ICryptocurrencyService {
 
 
     @Override
-    public Cryptocurrency create(CryptocurrencyRegister cryptocurrencyRegister) {
-        Cryptocurrency cryptocurrency = new Cryptocurrency(cryptocurrencyRegister.getName());
+    public Cryptocurrency create(CryptocurrencyRegisterDTO cryptocurrencyRegisterDTO) {
+        Cryptocurrency cryptocurrency = new Cryptocurrency(cryptocurrencyRegisterDTO.getName());
         Cryptocurrency savedCryptocurrency = cryptocurrencyRepo.save(cryptocurrency);
-        Quote quote = new Quote(savedCryptocurrency, cryptocurrencyRegister.getPrice());
+        Quote quote = new Quote(savedCryptocurrency, cryptocurrencyRegisterDTO.getPrice());
         quoteRepo.save(quote);
         return savedCryptocurrency;
     }
@@ -73,12 +73,12 @@ public class CryptocurrencyService implements ICryptocurrencyService {
 
     @Override
     @Cacheable("cryptoCurrency")
-    public List<CryptocurrencyLastQuote> latestQuotes() {
+    public List<CryptocurrencyLastQuoteDTO> latestQuotes() {
         return externalProxyService.binanceLatestQuotes();
     }
 
     @Override
-    public List<CryptocurrencyLastQuote> oneDayQuotes(Integer id) throws ResourceNotFoundException {
+    public List<CryptocurrencyLastQuoteDTO> oneDayQuotes(Integer id) throws ResourceNotFoundException {
         Cryptocurrency cryptocurrency = findById(id);
         //return cryptocurrency.last24HoursQuotes();
         return externalProxyService.binance24hsQuotesForCryptocurrency(cryptocurrency);

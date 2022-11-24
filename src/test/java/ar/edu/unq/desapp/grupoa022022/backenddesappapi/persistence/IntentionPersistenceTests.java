@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegisterDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
@@ -73,17 +73,17 @@ class IntentionPersistenceTests {
     public int getSomeCryptocurrencyDBId(){return getCryptocurrencyDB().getId();}
 
     public int getSomeCryptocurrencyDB2Id(){return getCryptocurrencyDB2().getId();}
-    public IntentionRegister getSomeIntentionRegister() { return new IntentionRegister(dataSet.getSomeTypeBUY(),
+    public IntentionRegisterDTO getSomeIntentionRegister() { return new IntentionRegisterDTO(dataSet.getSomeTypeBUY(),
             getSomeCryptocurrencyDBId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), getSomeUserDBId());}
-    public IntentionRegister getSomeIntentionRegister2() { return new IntentionRegister(dataSet.getSomeTypeBUY(),
+    public IntentionRegisterDTO getSomeIntentionRegister2() { return new IntentionRegisterDTO(dataSet.getSomeTypeBUY(),
             getSomeCryptocurrencyDB2Id(), dataSet.getSomePriceInRangeBITCOIN(), dataSet.getSomeUnit(), getSomeUserDBId());}
-    public IntentionRegister getIntentionRegisterWithPrice335Units2() { return new IntentionRegister(dataSet.getSomeTypeBUY(),
+    public IntentionRegisterDTO getIntentionRegisterWithPrice335Units2() { return new IntentionRegisterDTO(dataSet.getSomeTypeBUY(),
             getSomeCryptocurrencyDBId(), 335.00, 2, getSomeUserDBId());}
-    public IntentionRegister getIntentionRegisterWithUserWhoHas50Point5NumberOperations() { return new IntentionRegister(dataSet.getSomeTypeBUY(),
+    public IntentionRegisterDTO getIntentionRegisterWithUserWhoHas50Point5NumberOperations() { return new IntentionRegisterDTO(dataSet.getSomeTypeBUY(),
             getSomeCryptocurrencyDBId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), getUserWith50Point5NumberOperationsId());}
-    public IntentionRegister getIntentionRegisterBUYType() { return new IntentionRegister(IntentionType.BUY,
+    public IntentionRegisterDTO getIntentionRegisterBUYType() { return new IntentionRegisterDTO(IntentionType.BUY,
             getSomeCryptocurrencyDBId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), getSomeUserDBId());}
-    public IntentionRegister getIntentionRegisterSELLType() { return new IntentionRegister(IntentionType.SELL,
+    public IntentionRegisterDTO getIntentionRegisterSELLType() { return new IntentionRegisterDTO(IntentionType.SELL,
             getSomeCryptocurrencyDBId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), getSomeUserDBId());}
 
     @BeforeEach

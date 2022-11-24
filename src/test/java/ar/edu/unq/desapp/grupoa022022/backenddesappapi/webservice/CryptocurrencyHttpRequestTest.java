@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegisterDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.TokenDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -87,12 +87,12 @@ class CryptocurrencyHttpRequestTest {
     @Order(6)
     void postingACryptocurrencyNamedUSDTShouldIt() {
 
-        CryptocurrencyRegister cryptocurrencyRegister = new CryptocurrencyRegister("USDT", 152.50);
+        CryptocurrencyRegisterDTO cryptocurrencyRegisterDTO = new CryptocurrencyRegisterDTO("USDT", 152.50);
 
         ResponseEntity<Cryptocurrency> result;
         try {
             result = restTemplate.exchange(TEST_HOSTNAME + port + "/cryptocurrencies",
-                    HttpMethod.POST, new HttpEntity<>(testController.getBody(cryptocurrencyRegister), headersWithToken.getHeaders()), Cryptocurrency.class);
+                    HttpMethod.POST, new HttpEntity<>(testController.getBody(cryptocurrencyRegisterDTO), headersWithToken.getHeaders()), Cryptocurrency.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

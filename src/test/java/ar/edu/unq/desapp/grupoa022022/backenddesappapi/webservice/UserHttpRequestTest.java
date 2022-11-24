@@ -1,9 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.*;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -75,8 +71,8 @@ class UserHttpRequestTest {
     @Test
     @Order(2)
     void gettingUsersShouldReturnAListWithSizeGrater3() {
-        ResponseEntity<UserView[]> result = restTemplate.exchange(testHostname + port + "/users",
-                HttpMethod.GET, headersWithToken, UserView[].class);
+        ResponseEntity<UserViewDTO[]> result = restTemplate.exchange(testHostname + port + "/users",
+                HttpMethod.GET, headersWithToken, UserViewDTO[].class);
 
         System.out.println(Arrays.stream(result.getBody()).map(userView -> userView.getId()).toString());
         Assertions.assertTrue(2 < Objects.requireNonNull(result.getBody()).length);
@@ -85,8 +81,8 @@ class UserHttpRequestTest {
     @Test
     @Order(3)
     void gettingUser1ShouldReturnAnUserWithLastnameGaudio() {
-        ResponseEntity<UserView> result = restTemplate.exchange(testHostname + port + "/users/1",
-                HttpMethod.GET, headersWithToken, UserView.class);
+        ResponseEntity<UserViewDTO> result = restTemplate.exchange(testHostname + port + "/users/1",
+                HttpMethod.GET, headersWithToken, UserViewDTO.class);
 
         Assertions.assertTrue(Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(result.getBody())).getLastname()).contains("Gaudio"));
     }
@@ -94,8 +90,8 @@ class UserHttpRequestTest {
     @Test
     @Order(4)
     void gettingUserWithEmailGaudioYahooShouldReturnAnUserWithLastnameGaudio() {
-        ResponseEntity<UserView> result = restTemplate.exchange(testHostname + port + "/users/email/gaudio@yahoo.com",
-                HttpMethod.GET, headersWithToken, UserView.class);
+        ResponseEntity<UserViewDTO> result = restTemplate.exchange(testHostname + port + "/users/email/gaudio@yahoo.com",
+                HttpMethod.GET, headersWithToken, UserViewDTO.class);
 
         Assertions.assertTrue(Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(result.getBody())).getLastname()).contains("Gaudio"));
     }
@@ -112,13 +108,13 @@ class UserHttpRequestTest {
     @Test
     @Order(6)
     void postingAnUserWithEmail_federer_gmail_com_ShouldReturnIt() {
-        UserRegister userRegister = new UserRegister("Roger", "Federer", "federer@gmail.com"
+        UserRegisterDTO userRegisterDTO = new UserRegisterDTO("Roger", "Federer", "federer@gmail.com"
                 , "Av Libertador 5000", "unoDo$", "1236549877412589632145", "Zs59f4lo");
 
-        ResponseEntity<UserView> result;
+        ResponseEntity<UserViewDTO> result;
         try {
             result = restTemplate.exchange(testHostname + port + "/auth",
-                    HttpMethod.POST, new HttpEntity<>(testController.getBody(userRegister), headersWithToken.getHeaders()), UserView.class);
+                    HttpMethod.POST, new HttpEntity<>(testController.getBody(userRegisterDTO), headersWithToken.getHeaders()), UserViewDTO.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -130,10 +126,10 @@ class UserHttpRequestTest {
     @Order(7)
     void puttingUser1WithAddressHusaresShouldReturnThatChange() {
 
-        ResponseEntity<UserView> result = restTemplate.exchange(testHostname + port + "/users/{id},{field},{data}",
+        ResponseEntity<UserViewDTO> result = restTemplate.exchange(testHostname + port + "/users/{id},{field},{data}",
                 HttpMethod.PUT,
                 new HttpEntity<>(null, headersWithToken.getHeaders()),
-                UserView.class, 2,"address","Husares 5000");
+                UserViewDTO.class, 2,"address","Husares 5000");
 
         Assertions.assertEquals(200, result.getStatusCode().value());
         Assertions.assertEquals("Husares 5000", Objects.requireNonNull(Objects.requireNonNull(result.getBody())).getAddress());

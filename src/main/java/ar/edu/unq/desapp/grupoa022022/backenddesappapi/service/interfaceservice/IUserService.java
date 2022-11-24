@@ -1,9 +1,9 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserQuery;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserQueryDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegisterDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserViewDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExistsException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.UserValidationException;
@@ -14,35 +14,35 @@ import java.util.Optional;
 
 public interface IUserService {
 
-    UserView create(UserRegister userRegister) throws EmailAlreadyExistsException;
+    UserViewDTO create(UserRegisterDTO userRegisterDTO) throws EmailAlreadyExistsException;
 
-    List<UserView> getAllUsers();
+    List<UserViewDTO> getAllUsers();
 
     void delete(int id) throws ResourceNotFoundException;
 
-    UserView findById(Integer id) throws ResourceNotFoundException;
+    UserViewDTO findById(Integer id) throws ResourceNotFoundException;
 
-    UserView findByEmail(String email) throws ResourceNotFoundException;
+    UserViewDTO findByEmail(String email) throws ResourceNotFoundException;
 
     Optional<User> findUserByEmail(String email);
 
     void checkNewUserEmail(String email) throws EmailAlreadyExistsException;
 
-    TradedBetweenDates operationsBetweenDates(int userId, long firstDate, long secondDate) throws ResourceNotFoundException;
+    TradedBetweenDatesDTO operationsBetweenDates(int userId, long firstDate, long secondDate) throws ResourceNotFoundException;
 
     void deleteAllUsers();
 
-    User saveToDataBase(UserRegister userRegister) throws UserValidationException;
+    User saveToDataBase(UserRegisterDTO userRegisterDTO) throws UserValidationException;
 
     User getFromDataBase(int userId) throws ResourceNotFoundException;
 
-    UserView findByPassword(String password) throws ResourceNotFoundException;
+    UserViewDTO findByPassword(String password) throws ResourceNotFoundException;
 
     Object login(UserDTO userDTO) throws ResourceNotFoundException;
 
     void update(User user);
 
-    List<UserQuery> getListUsers() throws UserValidationException;
+    List<UserQueryDTO> getListUsers() throws UserValidationException;
 
-    UserView modifyUser(int id, String field, String data) throws ResourceNotFoundException, UserValidationException;
+    UserViewDTO modifyUser(int id, String field, String data) throws ResourceNotFoundException, UserValidationException;
 }

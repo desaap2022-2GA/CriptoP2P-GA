@@ -59,7 +59,7 @@ public class BackendDesappApiApplication {
 
     @Scheduled(cron = "0 * * * * *")//10 minutos
     @CachePut("cryptoCurrency")
-    public List<CryptocurrencyLastQuote> updateCryptocurrenciesQuotes() {
+    public List<CryptocurrencyLastQuoteDTO> updateCryptocurrenciesQuotes() {
         logger.info("Quotes UPDATED" + new Date());
         return externalProxyService.binanceLatestQuotes();
     }
@@ -78,24 +78,24 @@ public class BackendDesappApiApplication {
     private void fireInitialData() throws PriceNotInAValidRangeException, ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException, InvalidStateException, UserValidationException {
 
         //USERS
-        User user = userService.saveToDataBase(new UserRegister("Paston", "Gaudio", "gaudio@yahoo.com",
+        User user = userService.saveToDataBase(new UserRegisterDTO("Paston", "Gaudio", "gaudio@yahoo.com",
                 "Av Libertador 5000, CABA", "Ruben?", "6352879863528798635287",
                 "Xwf5u5ef"));
 
-        User user2 = userService.saveToDataBase(new UserRegister("Martin", "Fierro", "fierro@gmail.com",
+        User user2 = userService.saveToDataBase(new UserRegisterDTO("Martin", "Fierro", "fierro@gmail.com",
                 "Av Cordoba 3000, CABA", "Maria!", "6352879863528798635288",
                 "Zwf5u5ef"));
 
         //CRYPTOCURRENCIES
 
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create(new CryptocurrencyRegister("DAI", 320.38));
+        Cryptocurrency cryptocurrency = cryptocurrencyService.create(new CryptocurrencyRegisterDTO("DAI", 320.38));
 
-        Cryptocurrency cryptocurrency2 = cryptocurrencyService.create(new CryptocurrencyRegister("BITCOIN", 5840798.98));
+        Cryptocurrency cryptocurrency2 = cryptocurrencyService.create(new CryptocurrencyRegisterDTO("BITCOIN", 5840798.98));
 
         List<String> cryptocurrencyNameList = Arrays.asList("ALICEUSDT", "MATICUSDT", "AXSUSDT", "AAVEUSDT", "ATOMUSDT", "NEOUSDT", "DOTUSDT"
                 , "ETHUSDT", "CAKEUSDT", "BTCUSDT", "BNBUSDT", "ADAUSDT", "TRXUSDT", "AUDIOUSDT");
 
-        cryptocurrencyNameList.forEach(name -> cryptocurrencyService.create(new CryptocurrencyRegister(name, 0.00)));
+        cryptocurrencyNameList.forEach(name -> cryptocurrencyService.create(new CryptocurrencyRegisterDTO(name, 0.00)));
 
         //QUOTES
         quoteService.create(cryptocurrency.getId(), 305.00);
@@ -103,23 +103,23 @@ public class BackendDesappApiApplication {
         quoteService.create(cryptocurrency2.getId(), 5607166.15);
 
         //INTENTIONS
-        Intention intention = intentionService.create(new IntentionRegister(IntentionType.BUY, cryptocurrency.getId(),
+        Intention intention = intentionService.create(new IntentionRegisterDTO(IntentionType.BUY, cryptocurrency.getId(),
                 289.75, 2, user.getId()));
 
-        intentionService.create(new IntentionRegister(IntentionType.SELL, cryptocurrency2.getId(),
+        intentionService.create(new IntentionRegisterDTO(IntentionType.SELL, cryptocurrency2.getId(),
                 5326807.85, 2, user.getId()));
 
-        intentionService.create(new IntentionRegister(IntentionType.SELL, cryptocurrency2.getId(),
+        intentionService.create(new IntentionRegisterDTO(IntentionType.SELL, cryptocurrency2.getId(),
                 5726807.85, 1, user.getId()));
 
         //OPERATION
-        Operation operation = operationService.create(new OperationRegister(intention.getId(), user2.getId()));
+        Operation operation = operationService.create(new OperationRegisterDTO(intention.getId(), user2.getId()));
 
         //OPERATION PAID
-        operationService.modify(new OperationModify(operation.getId(), OperationState.PAID, user.getId()));
+        operationService.modify(new OperationModifyDTO(operation.getId(), OperationState.PAID, user.getId()));
 
         //OPERATION CRYPTOSENT (TERMINATED)
-        operationService.modify(new OperationModify(operation.getId(), OperationState.CRYPTOSENT, user2.getId()));
+        operationService.modify(new OperationModifyDTO(operation.getId(), OperationState.CRYPTOSENT, user2.getId()));
 
     }
 

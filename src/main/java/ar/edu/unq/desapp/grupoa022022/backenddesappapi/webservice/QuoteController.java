@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.QuoteRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.QuoteRegisterDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.QuoteService;
@@ -27,8 +27,8 @@ public class QuoteController {
     @Operation(summary = "Create a quote")
     @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping
-    public ResponseEntity<Quote> createQuote(@RequestHeader(value = "Authorization") String token, @RequestBody @Valid QuoteRegister quoteRegister) throws ResourceNotFoundException {
-        return ResponseEntity.ok(quoteService.create(quoteRegister.getCryptocurrencyId(), quoteRegister.getPrice()));
+    public ResponseEntity<Quote> createQuote(@RequestHeader(value = "Authorization") String token, @RequestBody @Valid QuoteRegisterDTO quoteRegisterDTO) throws ResourceNotFoundException {
+        return ResponseEntity.ok(quoteService.create(quoteRegisterDTO.getCryptocurrencyId(), quoteRegisterDTO.getPrice()));
     }
 
     @Operation(summary = "List all quotes")//eliminar ya esta en otro endpoint

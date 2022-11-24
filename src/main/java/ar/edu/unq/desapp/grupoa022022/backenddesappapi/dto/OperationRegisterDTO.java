@@ -4,17 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class QuoteRegister {
+public class OperationRegisterDTO {
 
     @NotNull
-    private int cryptocurrencyId;
+    private int intentionId;
     @NotNull
-    @Min(value = 0)
-    private Double price;
+    private int userId;
+
+
 }
+

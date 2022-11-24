@@ -1,8 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegisterDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegisterDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Intention;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
@@ -20,15 +19,15 @@ public class DataSet {
             "Xwf5u5ef");
 
 
-    private final UserRegister userRegister = new UserRegister("Paston", "Gaudio", "gaudio@yahoo.com",
+    private final UserRegisterDTO userRegisterDTO = new UserRegisterDTO("Paston", "Gaudio", "gaudio@yahoo.com",
                 "Av Libertador 5000, CABA", "Calor*", "6352879863528798635287","Xwf5u5ef");
 
 
-    private final UserRegister userRegister2 = new UserRegister("Martin", "Fierro", "fierro@gmail.com",
+    private final UserRegisterDTO userRegisterDTO2 = new UserRegisterDTO("Martin", "Fierro", "fierro@gmail.com",
             "Av Cordoba 3000, CABA", "Calor*", "6352879863528798635287",
             "Xwf5u5ef");
 
-   private final UserRegister userRegister3 = new UserRegister("Paston", "Gaudio", "gaudio@yahoo.com",
+   private final UserRegisterDTO userRegisterDTO3 = new UserRegisterDTO("Paston", "Gaudio", "gaudio@yahoo.com",
             "Av Libertador 5000, CABA", "Paston33", "6352879863528798635287",
             "Xwf5u5ef");
 
@@ -66,15 +65,15 @@ public class DataSet {
         return userTest2;
     }
 
-    public UserRegister getUserRegister() {
-        return userRegister;
+    public UserRegisterDTO getUserRegister() {
+        return userRegisterDTO;
     }
 
-    public UserRegister getUserRegister2() {
-        return userRegister2;
+    public UserRegisterDTO getUserRegister2() {
+        return userRegisterDTO2;
     }
 
-    public UserRegister getUserRegister3() {return  userRegister3;}
+    public UserRegisterDTO getUserRegister3() {return userRegisterDTO3;}
 
     public Cryptocurrency getCryptocurrency() {
         new Quote(cryptocurrency, 305.00);
@@ -102,14 +101,14 @@ public class DataSet {
         return cryptocurrency2;
     }
 
-    public CryptocurrencyRegister cryptocurrencyRegisterDAI = new CryptocurrencyRegister("DAI", 320.38);
-    public CryptocurrencyRegister cryptocurrencyRegisterBITCOIN = new CryptocurrencyRegister("BITCOIN", 5840798.98);
+    public CryptocurrencyRegisterDTO cryptocurrencyRegisterDTODAI = new CryptocurrencyRegisterDTO("DAI", 320.38);
+    public CryptocurrencyRegisterDTO cryptocurrencyRegisterDTOBITCOIN = new CryptocurrencyRegisterDTO("BITCOIN", 5840798.98);
 
-    public CryptocurrencyRegister getCryptocurrencyRegisterDAI() {
-        return cryptocurrencyRegisterDAI;
+    public CryptocurrencyRegisterDTO getCryptocurrencyRegisterDAI() {
+        return cryptocurrencyRegisterDTODAI;
     }
 
-    public CryptocurrencyRegister getCryptocurrencyRegisterBITCOIN() {
-        return cryptocurrencyRegisterBITCOIN;
+    public CryptocurrencyRegisterDTO getCryptocurrencyRegisterBITCOIN() {
+        return cryptocurrencyRegisterDTOBITCOIN;
     }
 }

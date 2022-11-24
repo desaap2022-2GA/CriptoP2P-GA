@@ -3,16 +3,14 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor
-public class CryptoDetails {
+public class UserQueryDTO {
 
-    private String name;
-    private int units;
-    private Double actualQuote;
-    private Double pesosAmount;
+    private final String name;
+    private final String lastname;
+    private final String numberOperations;
+    private final String reputation;
 }

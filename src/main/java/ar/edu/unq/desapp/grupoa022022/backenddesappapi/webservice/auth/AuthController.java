@@ -6,15 +6,10 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.Resource
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/auth")
@@ -32,8 +27,8 @@ public class AuthController {
 
     @Operation(summary = "Register User")
     @PostMapping
-    public ResponseEntity<UserView> create(@Valid @RequestBody UserRegister dto) throws EmailAlreadyExistsException {
-        UserView userView = userService.create(dto);
-        return ResponseEntity.ok(userView);
+    public ResponseEntity<UserViewDTO> create(@Valid @RequestBody UserRegisterDTO dto) throws EmailAlreadyExistsException {
+        UserViewDTO userViewDTO = userService.create(dto);
+        return ResponseEntity.ok(userViewDTO);
     }
 }

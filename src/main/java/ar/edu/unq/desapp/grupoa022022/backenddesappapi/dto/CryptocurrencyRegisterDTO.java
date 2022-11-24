@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CryptocurrencyRegister {
+public class CryptocurrencyRegisterDTO {
 
     @NotBlank
     @Column(unique = true)

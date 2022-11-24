@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyLastQuote;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyLastQuoteDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegisterDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.ICryptocurrencyService;
@@ -28,8 +28,8 @@ public class CryptocurrencyController {
     @Operation(summary = "Create a cryptocurrency")
     @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping
-    public ResponseEntity<Cryptocurrency> createCryptocurrency(@RequestHeader(value = "Authorization") String token, @RequestBody @Valid CryptocurrencyRegister cryptocurrencyRegister) {
-        return ResponseEntity.ok(cryptocurrencyService.create(cryptocurrencyRegister));
+    public ResponseEntity<Cryptocurrency> createCryptocurrency(@RequestHeader(value = "Authorization") String token, @RequestBody @Valid CryptocurrencyRegisterDTO cryptocurrencyRegisterDTO) {
+        return ResponseEntity.ok(cryptocurrencyService.create(cryptocurrencyRegisterDTO));
 
     }
 
@@ -44,14 +44,14 @@ public class CryptocurrencyController {
     @Operation(summary = "List last quote of cryptocurrencies")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("/latest_quotes")
-    public ResponseEntity<List<CryptocurrencyLastQuote>> listLastQuoteOfCryptocurrencies(@RequestHeader(value = "Authorization") String token) {
+    public ResponseEntity<List<CryptocurrencyLastQuoteDTO>> listLastQuoteOfCryptocurrencies(@RequestHeader(value = "Authorization") String token) {
         return ResponseEntity.ok(cryptocurrencyService.latestQuotes());
     }
 
     @Operation(summary = "List 24hs quotes of cryptocurrency")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping("/oneday_quotes/{id}")
-    public ResponseEntity<List<CryptocurrencyLastQuote>> list24hsQuotesOfCryptocurrency(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFoundException {
+    public ResponseEntity<List<CryptocurrencyLastQuoteDTO>> list24hsQuotesOfCryptocurrency(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFoundException {
         return ResponseEntity.ok(cryptocurrencyService.oneDayQuotes(id));
     }
 }

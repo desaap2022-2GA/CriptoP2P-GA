@@ -2,8 +2,8 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.aspects.log_data.LogMethodData;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserQuery;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserView;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserQueryDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserViewDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.UserValidationException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.TokenService;
@@ -30,14 +30,14 @@ public class UserController {
     @Operation(summary = "Search for a user by mail")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/email/{email}")
-    public ResponseEntity<UserView> getUserByEmail(@RequestHeader(value = "Authorization") String token, @PathVariable("email") String email) throws NoSuchElementException, ResourceNotFoundException {
+    public ResponseEntity<UserViewDTO> getUserByEmail(@RequestHeader(value = "Authorization") String token, @PathVariable("email") String email) throws NoSuchElementException, ResourceNotFoundException {
         return ResponseEntity.ok(userService.findByEmail(email));
     }
 
     @Operation(summary = "Search for a user by id")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserView> getUserById(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFoundException {
+    public ResponseEntity<UserViewDTO> getUserById(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFoundException {
         return ResponseEntity.ok(userService.findById(id));
     }
 /*
@@ -52,7 +52,7 @@ public class UserController {
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/traded/{id}/{firstdate}/{seconddate}")
     @ResponseBody
-    public ResponseEntity<TradedBetweenDates> getOperationsBetweenDates(@RequestHeader(value = "Authorization") String token, @PathVariable int id, @PathVariable String firstdate, @PathVariable String seconddate) throws ResourceNotFoundException {
+    public ResponseEntity<TradedBetweenDatesDTO> getOperationsBetweenDates(@RequestHeader(value = "Authorization") String token, @PathVariable int id, @PathVariable String firstdate, @PathVariable String seconddate) throws ResourceNotFoundException {
         System.out.println("controller"+id+firstdate+seconddate);
         return ResponseEntity.ok(userService.operationsBetweenDates(id, Long.parseLong(firstdate), Long.parseLong(seconddate)));
     }
@@ -61,14 +61,14 @@ public class UserController {
     @Operation(summary = "List the users of the query")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping
-    public ResponseEntity<List<UserQuery>> listUsers(@RequestHeader(value = "Authorization") String token) {
+    public ResponseEntity<List<UserQueryDTO>> listUsers(@RequestHeader(value = "Authorization") String token) {
         return ResponseEntity.ok(userService.getListUsers());
     }
 
     @Operation(summary = "modify a user's data")
     @SecurityRequirement(name = "Bearer Authentication")
     @PutMapping(value = "/{id},{field},{data}")
-    public ResponseEntity<UserView> modifyAUser(@RequestHeader(value = "Authorization") String token, @PathVariable int id, @PathVariable String field, @PathVariable String data) throws ResourceNotFoundException, UserValidationException {
+    public ResponseEntity<UserViewDTO> modifyAUser(@RequestHeader(value = "Authorization") String token, @PathVariable int id, @PathVariable String field, @PathVariable String data) throws ResourceNotFoundException, UserValidationException {
         return ResponseEntity.ok(userService.modifyUser(id, field, data));
     }
 }

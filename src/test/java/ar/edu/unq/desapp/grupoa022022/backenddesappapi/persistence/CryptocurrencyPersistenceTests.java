@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegisterDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
@@ -38,14 +38,14 @@ class CryptocurrencyPersistenceTests {
     @Autowired
     IOperationService operationService;
 
-    public CryptocurrencyRegister cryptocurrencyRegisterDAI = new CryptocurrencyRegister("DAI", 320.38);
-    public CryptocurrencyRegister cryptocurrencyRegisterBITCOIN = new CryptocurrencyRegister("BITCOIN", 5840798.98);
-    public CryptocurrencyRegister cryptocurrencyRegisterLUNA = new CryptocurrencyRegister("LUNA", 399.08);
-    public CryptocurrencyRegister cryptocurrencyRegisterUSDT = new CryptocurrencyRegister("USDT", 152.50);
-    public Cryptocurrency getCryptocurrencyDB(){ return cryptocurrencyService.create(cryptocurrencyRegisterDAI);}
-    public Cryptocurrency getCryptocurrencyDB2(){ return cryptocurrencyService.create(cryptocurrencyRegisterBITCOIN);}
-    public Cryptocurrency getCryptocurrencyDB3(){ return cryptocurrencyService.create(cryptocurrencyRegisterLUNA);}
-    public Cryptocurrency getCryptocurrencyDB4(){ return cryptocurrencyService.create(cryptocurrencyRegisterUSDT);}
+    public CryptocurrencyRegisterDTO cryptocurrencyRegisterDTODAI = new CryptocurrencyRegisterDTO("DAI", 320.38);
+    public CryptocurrencyRegisterDTO cryptocurrencyRegisterDTOBITCOIN = new CryptocurrencyRegisterDTO("BITCOIN", 5840798.98);
+    public CryptocurrencyRegisterDTO cryptocurrencyRegisterDTOLUNA = new CryptocurrencyRegisterDTO("LUNA", 399.08);
+    public CryptocurrencyRegisterDTO cryptocurrencyRegisterDTOUSDT = new CryptocurrencyRegisterDTO("USDT", 152.50);
+    public Cryptocurrency getCryptocurrencyDB(){ return cryptocurrencyService.create(cryptocurrencyRegisterDTODAI);}
+    public Cryptocurrency getCryptocurrencyDB2(){ return cryptocurrencyService.create(cryptocurrencyRegisterDTOBITCOIN);}
+    public Cryptocurrency getCryptocurrencyDB3(){ return cryptocurrencyService.create(cryptocurrencyRegisterDTOLUNA);}
+    public Cryptocurrency getCryptocurrencyDB4(){ return cryptocurrencyService.create(cryptocurrencyRegisterDTOUSDT);}
 
     @BeforeEach
 
@@ -71,7 +71,7 @@ class CryptocurrencyPersistenceTests {
 
     @Test
     void createACryptocurrencyCheckId() throws ResourceNotFoundException {
-        int cryptocurrencyId = cryptocurrencyService.create(cryptocurrencyRegisterDAI).getId();
+        int cryptocurrencyId = cryptocurrencyService.create(cryptocurrencyRegisterDTODAI).getId();
 
         assertEquals(cryptocurrencyId, cryptocurrencyService.findById(cryptocurrencyId).getId());
     }

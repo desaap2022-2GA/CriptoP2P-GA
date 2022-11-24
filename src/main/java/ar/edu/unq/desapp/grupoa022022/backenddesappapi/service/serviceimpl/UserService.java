@@ -35,9 +35,9 @@ public class UserService implements IUserService {
 
 
     @Override
-    public UserView create(UserRegister userRegister) throws EmailAlreadyExistsException {
-        this.checkNewUserEmail(userRegister.getEmail());
-        User user = helper.userRegisterToUser(userRegister);
+    public UserViewDTO create(UserRegisterDTO userRegisterDTO) throws EmailAlreadyExistsException {
+        this.checkNewUserEmail(userRegisterDTO.getEmail());
+        User user = helper.userRegisterToUser(userRegisterDTO);
         return helper.userToUserView(userRepo.save(user));
     }
 
@@ -51,7 +51,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<UserView> getAllUsers() {
+    public List<UserViewDTO> getAllUsers() {
         return helper.usersToUsersView(userRepo.findAll(Sort.by(Sort.Direction.ASC, "id")));
     }
 
@@ -62,12 +62,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserView findById(Integer id) throws ResourceNotFoundException {
+    public UserViewDTO findById(Integer id) throws ResourceNotFoundException {
         return helper.userToUserView(getFromDataBase(id));
     }
 
     @Override
-    public UserView findByEmail(String email) throws ResourceNotFoundException {
+    public UserViewDTO findByEmail(String email) throws ResourceNotFoundException {
         return helper.userToUserView(userRepo.findByEmail(email).orElseThrow(
                 () -> new ResourceNotFoundException("User not found with user email")
         ));
@@ -86,7 +86,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserView findByPassword(String password) throws ResourceNotFoundException {
+    public UserViewDTO findByPassword(String password) throws ResourceNotFoundException {
         return helper.userToUserView(userRepo.findByPassword(password).orElseThrow(
                 () -> new ResourceNotFoundException("User not found with user password")
         ));
@@ -100,26 +100,26 @@ public class UserService implements IUserService {
         }
     */
     @Override
-    public TradedBetweenDates operationsBetweenDates(int userId, long firstDate, long secondDate) throws ResourceNotFoundException {
+    public TradedBetweenDatesDTO operationsBetweenDates(int userId, long firstDate, long secondDate) throws ResourceNotFoundException {
         User user = this.getFromDataBase(userId);
         Set<Operation> operations = user.operationsBetweenDates(firstDate, secondDate);
 
         double amountInPesos = user.volumeTraded(operations);
         double amountInDollars = new DollarConvert().amountInDollars(amountInPesos);
-        TradedBetweenDates tradedBetweenDates = new TradedBetweenDates(amountInDollars, amountInPesos);
+        TradedBetweenDatesDTO tradedBetweenDatesDTO = new TradedBetweenDatesDTO(amountInDollars, amountInPesos);
         for (Operation operation : operations) {
             Intention intention = operation.getIntention();
-            tradedBetweenDates.addCryptoDetails(helper.intentionToCryptoDetails(intention));
+            tradedBetweenDatesDTO.addCryptoDetails(helper.intentionToCryptoDetails(intention));
         }
-        return tradedBetweenDates;
+        return tradedBetweenDatesDTO;
     }
 
     public void deleteAllUsers() {
         userRepo.deleteAll();
     }
 
-    public User saveToDataBase(UserRegister userRegister) {
-        return userRepo.save(helper.userRegisterToUser(userRegister));
+    public User saveToDataBase(UserRegisterDTO userRegisterDTO) {
+        return userRepo.save(helper.userRegisterToUser(userRegisterDTO));
     }
 
     public User getFromDataBase(int userId) throws ResourceNotFoundException {
@@ -133,12 +133,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<UserQuery> getListUsers() {
+    public List<UserQueryDTO> getListUsers() {
 
-        ArrayList<UserQuery> userList = new ArrayList<>();
+        ArrayList<UserQueryDTO> userList = new ArrayList<>();
         List<User> users = userRepo.findAll(Sort.by(Sort.Direction.ASC, "id"));
         for (User us : users) {
-            UserQuery user = new UserQuery(us.getName(), us.getLastname(), String.valueOf(us.getNumberOperations()),
+            UserQueryDTO user = new UserQueryDTO(us.getName(), us.getLastname(), String.valueOf(us.getNumberOperations()),
                     String.valueOf(us.getReputation()));
 
             userList.add(user);
@@ -147,7 +147,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserView modifyUser(int id, String field, String data) throws ResourceNotFoundException, UserValidationException {
+    public UserViewDTO modifyUser(int id, String field, String data) throws ResourceNotFoundException, UserValidationException {
 
         User user = userRepo.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("User not found with id " + id)

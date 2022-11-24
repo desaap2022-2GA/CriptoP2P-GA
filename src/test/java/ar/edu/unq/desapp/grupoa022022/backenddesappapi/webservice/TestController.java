@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserDTO;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegister;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserRegisterDTO;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -22,27 +22,27 @@ public class TestController {
     }
 
     public HttpEntity<String> getRegistrationEntity() throws JsonProcessingException {
-        return new HttpEntity<>(getBody(new UserRegister("userU", "userU", "userU@gmail.com",
+        return new HttpEntity<>(getBody(new UserRegisterDTO("userU", "userU", "userU@gmail.com",
                 "userU 56", "userU@", "userUserUserUserUserUs",
                 "userUser")), getHeaders());
     }
     public HttpEntity<String> getRegistrationEntityC() throws JsonProcessingException {
-        return new HttpEntity<>(getBody(new UserRegister("userU", "userU", "userC@gmail.com",
+        return new HttpEntity<>(getBody(new UserRegisterDTO("userU", "userU", "userC@gmail.com",
                 "userU 56", "userU@", "userUserUserUserUserUs",
                 "userUser")), getHeaders());
     }
     public HttpEntity<String> getRegistrationEntityI() throws JsonProcessingException {
-        return new HttpEntity<>(getBody(new UserRegister("userU", "userU", "userI@gmail.com",
+        return new HttpEntity<>(getBody(new UserRegisterDTO("userU", "userU", "userI@gmail.com",
                 "userU 56", "userU@", "userUserUserUserUserUs",
                 "userUser")), getHeaders());
     }
     public HttpEntity<String> getRegistrationEntityQ() throws JsonProcessingException {
-        return new HttpEntity<>(getBody(new UserRegister("userU", "userU", "userQ@gmail.com",
+        return new HttpEntity<>(getBody(new UserRegisterDTO("userU", "userU", "userQ@gmail.com",
                 "userU 56", "userU@", "userUserUserUserUserUs",
                 "userUser")), getHeaders());
     }
     public HttpEntity<String> getRegistrationEntityO() throws JsonProcessingException {
-        return new HttpEntity<>(getBody(new UserRegister("userU", "userU", "userO@gmail.com",
+        return new HttpEntity<>(getBody(new UserRegisterDTO("userU", "userU", "userO@gmail.com",
                 "userU 56", "userU@", "userUserUserUserUserUs",
                 "userUser")), getHeaders());
     }

@@ -1,8 +1,8 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.ActiveIntentionView;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegister;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionView;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.ActiveIntentionViewDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegisterDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionViewDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRangeException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.interfaceservice.IIntentionService;
@@ -29,28 +29,28 @@ public class IntentionController {
     @Operation(summary = "Create an intention")
     @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping
-    public ResponseEntity<IntentionView> openIntention(@RequestHeader(value = "Authorization") String token, @RequestBody @Valid IntentionRegister intentionRegister) throws ResourceNotFoundException, PriceNotInAValidRangeException {
-        return ResponseEntity.ok(intentionService.open(intentionRegister));
+    public ResponseEntity<IntentionViewDTO> openIntention(@RequestHeader(value = "Authorization") String token, @RequestBody @Valid IntentionRegisterDTO intentionRegisterDTO) throws ResourceNotFoundException, PriceNotInAValidRangeException {
+        return ResponseEntity.ok(intentionService.open(intentionRegisterDTO));
     }
 
     @Operation(summary = "Search an intention by id")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/{id}")
-    public ResponseEntity<IntentionView> getIntentionById(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFoundException {
+    public ResponseEntity<IntentionViewDTO> getIntentionById(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFoundException {
         return ResponseEntity.ok(intentionService.getIntentionById(id));
     }
 
     @Operation(summary = "List all intentions")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping
-    public ResponseEntity<List<IntentionView>> listAllIntentions(@RequestHeader(value = "Authorization") String token) {
+    public ResponseEntity<List<IntentionViewDTO>> listAllIntentions(@RequestHeader(value = "Authorization") String token) {
         return ResponseEntity.ok(intentionService.getAll());
     }
 
     @Operation(summary = "List all active intentions")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/active")
-    public ResponseEntity<List<ActiveIntentionView>> listIntentionActive(@RequestHeader(value = "Authorization") String token) {
+    public ResponseEntity<List<ActiveIntentionViewDTO>> listIntentionActive(@RequestHeader(value = "Authorization") String token) {
         return ResponseEntity.ok(intentionService.getActiveIntentions());
     }
 }

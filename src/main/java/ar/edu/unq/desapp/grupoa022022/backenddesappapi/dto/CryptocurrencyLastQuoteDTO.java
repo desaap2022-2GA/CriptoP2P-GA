@@ -7,14 +7,14 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CryptocurrencyLastQuote {
+public class CryptocurrencyLastQuoteDTO {
     @JsonProperty("symbol")
     private String name;
     @JsonProperty("price")
     private String lastQuote;
 
     private String dateTime;
-    public CryptocurrencyLastQuote(String name, String lastQuote){
+    public CryptocurrencyLastQuoteDTO(String name, String lastQuote){
         this.name = name;
         this.lastQuote = lastQuote;
     }

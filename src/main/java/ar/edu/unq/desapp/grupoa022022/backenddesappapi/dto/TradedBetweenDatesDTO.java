@@ -11,20 +11,20 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-public class TradedBetweenDates {
+public class TradedBetweenDatesDTO {
 
     private String date;
     private double dollarAmount;
     private double pesosAmount;
-    Set<CryptoDetails> cryptoDetails = new HashSet<>();
+    Set<CryptoDetailsDTO> cryptoDetailDTOS = new HashSet<>();
 
-    public TradedBetweenDates(double dollarAmount, double pesosAmount){
+    public TradedBetweenDatesDTO(double dollarAmount, double pesosAmount){
         this.date = new DateTimeInMilliseconds().getCurrentTimeInMillisecondsDateFormat();
         this.dollarAmount = dollarAmount;
         this.pesosAmount = pesosAmount;
     }
 
-    public void addCryptoDetails(CryptoDetails cryptoDetails){
-        this.cryptoDetails.add(cryptoDetails);
+    public void addCryptoDetails(CryptoDetailsDTO cryptoDetailsDTO){
+        this.cryptoDetailDTOS.add(cryptoDetailsDTO);
     }
 }

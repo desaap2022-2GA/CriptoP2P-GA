@@ -1,8 +1,8 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.integration;
 
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.Casa;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyLastQuote;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.ObjectCasa;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CasaDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyLastQuoteDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.ObjectCasaDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.DateTimeInMilliseconds;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,16 +26,16 @@ public class ExternalProxyService {
 
     public double dolarSiLatestQuote() {
 
-        ResponseEntity<ObjectCasa[]> objetcsCasa =
-                restTemplate.getForEntity(dolarSiApiURL, ObjectCasa[].class);
-        Casa responseBean = Objects.requireNonNull(objetcsCasa.getBody())[1].getCasa();
+        ResponseEntity<ObjectCasaDTO[]> objetcsCasa =
+                restTemplate.getForEntity(dolarSiApiURL, ObjectCasaDTO[].class);
+        CasaDTO responseBean = Objects.requireNonNull(objetcsCasa.getBody())[1].getCasa();
         String quoteDollarBlueSale = responseBean.getVenta().replace(",", ".");
         return Double.parseDouble(quoteDollarBlueSale);
     }
 
-    public List<CryptocurrencyLastQuote> binanceLatestQuotes() {
+    public List<CryptocurrencyLastQuoteDTO> binanceLatestQuotes() {
 
-        List<CryptocurrencyLastQuote> cryptocurrencyLastQuotesList = new ArrayList<>();
+        List<CryptocurrencyLastQuoteDTO> cryptocurrencyLastQuotesList = new ArrayList<>();
 
         List<String> cryptocurrencyNameList = Arrays.asList("ALICEUSDT", "MATICUSDT", "AXSUSDT", "AAVEUSDT", "ATOMUSDT", "NEOUSDT", "DOTUSDT"
                 , "ETHUSDT", "CAKEUSDT", "BTCUSDT", "BNBUSDT", "ADAUSDT", "TRXUSDT", "AUDIOUSDT");
@@ -43,10 +43,10 @@ public class ExternalProxyService {
         cryptocurrencyNameList.forEach(name -> {
             String url = binanceApiURL + "ticker/price?symbol=" + name;
 
-            ResponseEntity<CryptocurrencyLastQuote> cryptoCurrencyLastQuote =
-                    restTemplate.getForEntity(url, CryptocurrencyLastQuote.class);
+            ResponseEntity<CryptocurrencyLastQuoteDTO> cryptoCurrencyLastQuote =
+                    restTemplate.getForEntity(url, CryptocurrencyLastQuoteDTO.class);
 
-            CryptocurrencyLastQuote responseBean = cryptoCurrencyLastQuote.getBody();
+            CryptocurrencyLastQuoteDTO responseBean = cryptoCurrencyLastQuote.getBody();
             responseBean.setDateTime(String.valueOf(new Date()));
 
             cryptocurrencyLastQuotesList.add(responseBean);
@@ -54,7 +54,7 @@ public class ExternalProxyService {
         return cryptocurrencyLastQuotesList;
     }
 
-    public List<CryptocurrencyLastQuote> binance24hsQuotesForCryptocurrency(Cryptocurrency cryptocurrency) {
+    public List<CryptocurrencyLastQuoteDTO> binance24hsQuotesForCryptocurrency(Cryptocurrency cryptocurrency) {
 
         DateTimeInMilliseconds dateUtils = new DateTimeInMilliseconds();
 
@@ -66,7 +66,7 @@ public class ExternalProxyService {
                 restTemplate.getForEntity(url, List[].class);
 
         return Arrays.stream(Objects.requireNonNull(responseList.getBody())).map(
-                obj -> new CryptocurrencyLastQuote(cryptocurrency.getName(),
+                obj -> new CryptocurrencyLastQuoteDTO(cryptocurrency.getName(),
                         obj.get(4) + "",
                         dateUtils.convertLongToDate((long) obj.get(0)))).collect(Collectors.toList());
     }
