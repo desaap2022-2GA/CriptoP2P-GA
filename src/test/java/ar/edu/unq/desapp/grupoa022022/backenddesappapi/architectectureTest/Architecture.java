@@ -19,40 +19,52 @@ public class Architecture{
     }
 
 
-    @Test//funca
+    @Test
     public void dtoClassesShouldEndWithDTO(){
         classes().that().resideInAPackage("..dto..")
                 .should().haveSimpleNameEndingWith("DTO").check(baseClasses);
     }
 
- /*   @Test//funca
+   @Test
     public void exceptionsClassesShouldEndWithException(){
-        classes().that().resideInAPackage("..model/exceptions..")
+        classes().that().resideInAPackage("..exceptions..")
                 .should().haveSimpleNameEndingWith("Exception").check(baseClasses);
     }
 
-
-  */
-    @Test//funca
+    @Test
     public void persistanceClassesShouldEndWithRepo(){
         classes().that().resideInAPackage("..persistence..")
                 .should().haveSimpleNameEndingWith("Repo").check(baseClasses);
     }
 
-    /*@Test
-    public void serviceClassesShouldEndWithService(){
-        classes().that().resideInAPackage("..service..")
+    @Test
+    public void serviceIntegrationClassesShouldEndWithService(){
+        classes().that().resideInAPackage("..integration..")
                 .should().haveSimpleNameEndingWith("Service").check(baseClasses);
-    }*/
+    }
 
-    @Test//funca
+    @Test
+    public void serviceInterfaceserviceClassesShouldEndWithService(){
+        classes().that().resideInAPackage("..interfaceservice..")
+                .should().haveSimpleNameEndingWith("Service").check(baseClasses);
+    }
+    /*
+    @Test
+    public void serviceImplClassesShouldEndWithService(){
+        classes().that().resideInAPackage("..serviceimpl..")
+               .should().haveSimpleNameEndingWith("Service").check(baseClasses);
+    }
+
+     */
+
+    @Test
     public void webserviceClassesShouldEndWithController(){
         classes().that().resideInAPackage("..webservice..")
                 .should().haveSimpleNameEndingWith("Controller").check(baseClasses);
     }
 
 
-    @Test//funca
+    @Test
     public void layeredArchitectureShouldBeRespected(){
         layeredArchitecture()
                 .consideringAllDependencies()
