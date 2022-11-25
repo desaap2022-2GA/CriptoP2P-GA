@@ -48,15 +48,14 @@ public class Architecture{
         classes().that().resideInAPackage("..interfaceservice..")
                 .should().haveSimpleNameEndingWith("Service").check(baseClasses);
     }
-    /*
-    @Test
+
+/*    @Test
     public void serviceImplClassesShouldEndWithService(){
         classes().that().resideInAPackage("..serviceimpl..")
                .should().haveSimpleNameEndingWith("Service").check(baseClasses);
     }
 
-     */
-
+ */
     @Test
     public void webserviceClassesShouldEndWithController(){
         classes().that().resideInAPackage("..webservice..")
@@ -83,23 +82,31 @@ public class Architecture{
                 .should().beAnnotatedWith("org.springframework.stereotype.Service")
                 .check(baseClasses);
     }
-/*
-    @Test
+/*    @Test
     public void serviceImplClassesShouldHaveSpringServiceAnnotation() {
-        classes().that().resideInAPackage("..serviceimpl..")
+        classes().that().resideInAPackage("..serviceImpl..")
                 .should().beAnnotatedWith("org.springframework.stereotype.Service")
                 .check(baseClasses);
     }
+
+ */
 
 
 
     @Test
     public void controllerClassesShouldHaveSpringControllerAnnotation() {
-        classes().that().resideInAPackage("..webservices..")
+        classes().that().resideInAPackage("..webservice..")
                 .should().beAnnotatedWith("org.springframework.web.bind.annotation.RestController")
                 .check(baseClasses);
     }
-*/
+
+    @Test
+    public void authClassesShouldHaveSpringControllerAnnotation() {
+        classes().that().resideInAPackage("..auth..")
+                .should().beAnnotatedWith("org.springframework.web.bind.annotation.RestController")
+                .check(baseClasses);
+    }
+
 
 
 }

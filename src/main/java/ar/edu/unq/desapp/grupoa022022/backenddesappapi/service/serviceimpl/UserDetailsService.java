@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
+package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.serviceimpl;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IUserRepo;
@@ -17,9 +17,9 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Autowired
     private IUserRepo userRepo;
 
-    /*
-    UserDetails está esperando un usuario. El userDatails tiene la información del usuario que quiere iniciar sesión
-     */
+
+    //UserDetails está esperando un usuario. El userDatails tiene la información del usuario que quiere iniciar sesión
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user;
@@ -68,4 +68,8 @@ public class UserDetailsService implements org.springframework.security.core.use
             }
         };
     }
+
 }
+
+
+

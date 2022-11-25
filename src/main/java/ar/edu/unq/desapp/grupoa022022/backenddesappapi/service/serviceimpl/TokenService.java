@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
+package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.serviceimpl;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.TokenDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IUserRepo;
