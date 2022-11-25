@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.aspects.log_data.LogMethodData;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.ActiveIntentionViewDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionRegisterDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.IntentionViewDTO;
@@ -26,6 +27,7 @@ public class IntentionController {
     @Autowired
     TokenService tokenService;
 
+    @LogMethodData
     @Operation(summary = "Create an intention")
     @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping

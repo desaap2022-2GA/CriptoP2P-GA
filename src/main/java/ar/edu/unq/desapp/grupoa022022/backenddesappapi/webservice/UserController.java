@@ -6,8 +6,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserQueryDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.UserViewDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.UserValidationException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.TokenService;
-import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.UserService;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ import java.util.NoSuchElementException;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    UserService userService;
 
     @Autowired
     TokenService tokenService;
@@ -57,7 +56,6 @@ public class UserController {
         return ResponseEntity.ok(userService.operationsBetweenDates(id, Long.parseLong(firstdate), Long.parseLong(seconddate)));
     }
 
-    @LogMethodData
     @Operation(summary = "List the users of the query")
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping
@@ -65,6 +63,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getListUsers());
     }
 
+    @LogMethodData
     @Operation(summary = "modify a user's data")
     @SecurityRequirement(name = "Bearer Authentication")
     @PutMapping(value = "/{id},{field},{data}")

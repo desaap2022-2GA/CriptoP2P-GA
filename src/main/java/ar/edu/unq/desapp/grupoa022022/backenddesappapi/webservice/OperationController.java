@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.aspects.log_data.LogMethodData;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationModifyDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegisterDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationViewDTO;
@@ -25,6 +26,7 @@ public class OperationController {
     @Autowired
     TokenService tokenService;
 
+    @LogMethodData
     @Operation(summary = "Start an operation")
     @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping
@@ -32,6 +34,7 @@ public class OperationController {
         return ResponseEntity.ok(operationService.open(operationRegisterDTO));
     }
 
+    @LogMethodData
     @Operation(summary = "Modify an operation")
     @SecurityRequirement(name = "Bearer Authentication")
     @PutMapping(value = "/{id}")

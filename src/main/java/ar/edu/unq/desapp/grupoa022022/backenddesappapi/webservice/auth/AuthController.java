@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice.auth;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.aspects.log_data.LogMethodData;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExistsException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
@@ -18,6 +19,7 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    @LogMethodData
     @Operation(summary = "Login")
     @PostMapping(value = "/login")
     public ResponseEntity<TokenDTO> login(@RequestBody UserDTO dto) throws ResourceNotFoundException {
@@ -25,6 +27,7 @@ public class AuthController {
         return ResponseEntity.ok(tokenDTO);
     }
 
+    @LogMethodData
     @Operation(summary = "Register User")
     @PostMapping
     public ResponseEntity<UserViewDTO> create(@Valid @RequestBody UserRegisterDTO dto) throws EmailAlreadyExistsException {

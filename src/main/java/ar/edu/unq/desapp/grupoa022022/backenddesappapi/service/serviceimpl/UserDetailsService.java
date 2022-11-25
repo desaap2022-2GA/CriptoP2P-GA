@@ -1,5 +1,4 @@
-package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.serviceimpl;
-
+package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.aspects.log_data.LogMethodData;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyLastQuoteDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.CryptocurrencyRegisterDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Cryptocurrency;
@@ -25,6 +26,7 @@ public class CryptocurrencyController {
     @Autowired
     TokenService tokenService;
 
+    @LogMethodData
     @Operation(summary = "Create a cryptocurrency")
     @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping

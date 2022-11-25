@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.webservice;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.aspects.log_data.LogMethodData;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.QuoteRegisterDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.Quote;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
@@ -24,6 +25,7 @@ public class QuoteController {
     @Autowired
     TokenService tokenService;
 
+    @LogMethodData
     @Operation(summary = "Create a quote")
     @SecurityRequirement(name = "Bearer Authentication")
     @PostMapping
