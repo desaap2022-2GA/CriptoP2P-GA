@@ -77,8 +77,8 @@ class IntentionPersistenceTests {
             getSomeCryptocurrencyDBId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), getSomeUserDBId());}
     public IntentionRegisterDTO getSomeIntentionRegister2() { return new IntentionRegisterDTO(dataSet.getSomeTypeBUY(),
             getSomeCryptocurrencyDB2Id(), dataSet.getSomePriceInRangeBITCOIN(), dataSet.getSomeUnit(), getSomeUserDBId());}
-    public IntentionRegisterDTO getIntentionRegisterWithPrice335Units2() { return new IntentionRegisterDTO(dataSet.getSomeTypeBUY(),
-            getSomeCryptocurrencyDBId(), 335.00, 2, getSomeUserDBId());}
+    public IntentionRegisterDTO getIntentionRegisterWithPrice275Units2() { return new IntentionRegisterDTO(dataSet.getSomeTypeBUY(),
+            getSomeCryptocurrencyDBId(), 275.00, 2, getSomeUserDBId());}
     public IntentionRegisterDTO getIntentionRegisterWithUserWhoHas50Point5NumberOperations() { return new IntentionRegisterDTO(dataSet.getSomeTypeBUY(),
             getSomeCryptocurrencyDBId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), getUserWith50Point5NumberOperationsId());}
     public IntentionRegisterDTO getIntentionRegisterBUYType() { return new IntentionRegisterDTO(IntentionType.BUY,
@@ -154,17 +154,17 @@ class IntentionPersistenceTests {
     }
 
     @Test
-    void getAmountPriceInDollarsFromAnIntentionWithPrice335Units2AndActualQuotePrice320_38() throws ResourceNotFoundException, PriceNotInAValidRangeException {
-        Intention intention = intentionService.create(getIntentionRegisterWithPrice335Units2());
+    void getAmountPriceInDollarsFromAnIntentionWithPrice275Units2AndActualQuotePrice305_38() throws ResourceNotFoundException, PriceNotInAValidRangeException {
+        Intention intention = intentionService.create(getIntentionRegisterWithPrice275Units2());
 
-        assertEquals(640.76 / 149.00, intention.actualAmountPriceInDollars(149.00));
+        assertEquals(574 / 149.00, intention.actualAmountPriceInDollars(149.00));
     }
 
     @Test
-    void getAmountPriceInPesosFromAnIntentionWithPrice335Units2() throws ResourceNotFoundException, PriceNotInAValidRangeException {
-        Intention intention = intentionService.create(getIntentionRegisterWithPrice335Units2());
+    void getAmountPriceInPesosFromAnIntentionWithPrice275Units2() throws ResourceNotFoundException, PriceNotInAValidRangeException {
+        Intention intention = intentionService.create(getIntentionRegisterWithPrice275Units2());
 
-        assertEquals(670, intention.amountPriceInPesos());
+        assertEquals(550, intention.amountPriceInPesos());
     }
 
     @Test

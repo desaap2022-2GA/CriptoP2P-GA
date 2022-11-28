@@ -106,8 +106,5 @@ public class Architecture{
                 .should().beAnnotatedWith("org.springframework.web.bind.annotation.RestController")
                 .check(baseClasses);
     }
-
-
-
 }
 

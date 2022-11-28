@@ -94,12 +94,12 @@ class OperationPersistenceTests {
 
     public IntentionRegisterDTO getIntentionRegisterWithPrice320Units2() throws UserValidationException {
         return new IntentionRegisterDTO(IntentionType.SELL,
-                getSomeCryptocurrencyDBId(), 320.00, 2, getUserWhoPostDBId());
+                getSomeCryptocurrencyDBId(), 295.00, 2, getUserWhoPostDBId());
     }
 
     public IntentionRegisterDTO getIntentionRegisterWithPrice330Units2() throws UserValidationException {
         return new IntentionRegisterDTO(IntentionType.BUY,
-                getSomeCryptocurrencyDBId(), 330.00, 2, getUserWhoPostDBId());
+                getSomeCryptocurrencyDBId(), 280.00, 2, getUserWhoPostDBId());
     }
 
     public IntentionRegisterDTO getIntentionRegisterWithUserWhoHas30Point3NumberOperations() throws UserValidationException {
@@ -407,7 +407,7 @@ class OperationPersistenceTests {
 
     @Test
     void whenTryToTakeAnIntentionAlreadyTakenThrowsException() throws PriceNotInAValidRangeException, ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException, UserValidationException {
-        Cryptocurrency cryptocurrency = cryptocurrencyService.create(new CryptocurrencyRegisterDTO("DOGCOIN", 320.38));
+        Cryptocurrency cryptocurrency = cryptocurrencyService.create(new CryptocurrencyRegisterDTO("DOGCOIN", 285.38));
         int intentionId = intentionService.create(new IntentionRegisterDTO(IntentionType.BUY,
                 cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), getUserWhoPostDBId())).getId();
 
@@ -431,7 +431,7 @@ class OperationPersistenceTests {
 
     @Test
     void operationViewStringInfoObtainAfterOpenIsCalledWithAndOperationRegister() throws ResourceNotFoundException, PriceNotInAValidRangeException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException, UserValidationException {
-        assertEquals("OperationViewDTO(cryptocurrency=DAI, nominalAmount=961.14, quote=320.38, userWhoPostCompleteName=Paston Gaudio, operationNumber=0, reputation=0, sentAddress=Xwf5u5ef, actionToDo=Waiting for counterpart transfer)"
+        assertEquals("OperationViewDTO(cryptocurrency=DAI, nominalAmount=856.14, quote=285.38, userWhoPostCompleteName=Paston Gaudio, operationNumber=0, reputation=0, sentAddress=Xwf5u5ef, actionToDo=Waiting for counterpart transfer)"
                 , operationService.open(getSomeOperationRegister()).toString());
     }
 }

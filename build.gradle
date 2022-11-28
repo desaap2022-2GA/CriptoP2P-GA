@@ -42,7 +42,8 @@ dependencies {
 
     implementation 'org.postgresql:postgresql:42.5.0'
 
-    implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.8'
+    implementation 'io.swagger:swagger-annotations:1.6.8'
 
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 

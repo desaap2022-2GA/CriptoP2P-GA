@@ -87,7 +87,7 @@ class UtilsTests {
         Intention intention = intentionService.create(new IntentionRegisterDTO(dataSet.getSomeTypeBUY()
                 , cryptocurrency.getId(), dataSet.getSomePriceInRangeDAI(), dataSet.getSomeUnit(), user.getId()));
 
-        assertEquals("CryptoDetailsDTO(name=DAI, units=3, actualQuote=320.38, pesosAmount=915.0)", helperDTO.intentionToCryptoDetails(intention).toString());
+        assertEquals("CryptoDetailsDTO(name=DAI, units=3, actualQuote=285.38, pesosAmount=875.25)", helperDTO.intentionToCryptoDetails(intention).toString());
     }
 
     @Test

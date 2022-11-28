@@ -1,13 +1,12 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.aspects.error_handler;
 
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.ResponseEntityBadRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -26,15 +25,10 @@ public class LogErrorHandlerAspect {
         try {
             return joinPoint.proceed();
         } catch (Exception e) {
-            HttpHeaders headers = HttpHeaders.EMPTY;
-            HttpStatus status = HttpStatus.BAD_REQUEST;
-            String error_message = "errorMessage: ";
-            Map<String, Object> body = new LinkedHashMap<>();
             List<String> errors = new LinkedList<>();
-            body.put("timestamp: ", new Date());
-            body.put("status: ", status.value());
 
             switch (e.getClass().toString()) {
+                //business exceptions
                 case "class ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRangeException",
                         "class ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceExceedVariationWithRespectIntentionTypeLimitsException",
                         "class ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.InvalidStateException",
@@ -43,6 +37,7 @@ public class LogErrorHandlerAspect {
                         "class ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExistsException",
                         "class ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException" ->
                         errors.add(e.getMessage());
+                //argument validations exceptions
                 case "class org.springframework.web.bind.MethodArgumentNotValidException",
                         "class javax.validation.ConstraintViolationException" -> {
                     ConstraintViolationException ex = (ConstraintViolationException) e;
@@ -50,11 +45,12 @@ public class LogErrorHandlerAspect {
                 }
                 default -> errors.add("Exception not handled: " + e.getClass() + " " + e.getMessage() + " " + e);
             }
-            body.put(error_message, errors);
+
+            ResponseEntity responseEntityBadRequest = (new ResponseEntityBadRequest(errors)).getResponseEntity();
             long errorExecutionTime = System.currentTimeMillis();
-            logger.info("/////// EXCEPTION HANDLED ON: " + joinPoint.getSignature() + " executed at " + errorExecutionTime + "ms " +
-                    " exception class: " + e.getClass() + " " + body + " " + status + "///////");
-            return new ResponseEntity<>(body, headers, status);
+            logger.info("/////// EXCEPTION ON: " + joinPoint.getSignature() + " executed at " + errorExecutionTime + "ms " +
+                    " exception class: " + e.getClass() + " " + responseEntityBadRequest.getBody() + " " + responseEntityBadRequest.getStatusCode() + "///////");
+            return responseEntityBadRequest;
         }
     }
 }

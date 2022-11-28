@@ -74,7 +74,7 @@ public class OperationServiceTest {
 
         Mockito.when(mockIntention.getId()).thenReturn(1);
         Mockito.when(mockIntention.getType()).thenReturn(IntentionType.valueOf("BUY"));
-        Mockito.when(mockIntention.getPrice()).thenReturn(289.75d);
+        Mockito.when(mockIntention.getPrice()).thenReturn(304.75d);
         Mockito.when(mockIntention.getUnits()).thenReturn(2);
         Mockito.when(mockIntention.isTaken()).thenReturn(false);
         Mockito.when(mockIntentionReg.getUserId()).thenReturn(1);
@@ -104,14 +104,14 @@ public class OperationServiceTest {
         OperationRegisterDTO operationRegisterDTO = new OperationRegisterDTO(intent.getId(), mockOperationReg1.getUserId());
         Operation operation = operationService.create(operationRegisterDTO);
 
-        assertEquals(operation.getIntention().getId(), 11);
+        assertEquals(operation.getIntention().getId(), 4);
     }
 
     @Order(2)
     @DisplayName("JUnit test create method with exception in OperationService")
     @Test
     void createOperation_With_Exceptition_Test(){
-        assertThrows(ResourceNotFoundException.class, () -> {
+        assertThrows(IntentionAlreadyTakenException.class, () -> {
             OperationRegisterDTO operationRegisterDTO = new OperationRegisterDTO(mockOperationReg3.getIntentionId(), mockOperationReg1.getUserId());
             operationService.create(operationRegisterDTO);
         });

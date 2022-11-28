@@ -98,19 +98,19 @@ public class BackendDesappApiApplication {
         cryptocurrencyNameList.forEach(name -> cryptocurrencyService.create(new CryptocurrencyRegisterDTO(name, 0.00)));
 
         //QUOTES
-        quoteService.create(cryptocurrency.getId(), 305.00);
+        quoteService.create(cryptocurrency.getId(), 291.75);
 
-        quoteService.create(cryptocurrency2.getId(), 5607166.15);
+        quoteService.create(cryptocurrency2.getId(), 5326807.85);
 
         //INTENTIONS
         Intention intention = intentionService.create(new IntentionRegisterDTO(IntentionType.BUY, cryptocurrency.getId(),
-                289.75, 2, user.getId()));
+                305.00, 2, user.getId()));
 
         intentionService.create(new IntentionRegisterDTO(IntentionType.SELL, cryptocurrency2.getId(),
-                5326807.85, 2, user.getId()));
+                5507166.15, 2, user.getId()));
 
         intentionService.create(new IntentionRegisterDTO(IntentionType.SELL, cryptocurrency2.getId(),
-                5726807.85, 1, user.getId()));
+                5226807.85, 1, user.getId()));
 
         //OPERATION
         Operation operation = operationService.create(new OperationRegisterDTO(intention.getId(), user2.getId()));
@@ -122,8 +122,5 @@ public class BackendDesappApiApplication {
         operationService.modify(new OperationModifyDTO(operation.getId(), OperationState.CRYPTOSENT, user2.getId()));
 
     }
-
-
-
 }
 

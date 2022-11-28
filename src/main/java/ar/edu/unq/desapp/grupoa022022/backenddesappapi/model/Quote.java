@@ -64,9 +64,9 @@ public class Quote {
     public boolean priceExceedVariationWithRespectTheIntentionPriceAccordingIntentionTypeLimits(Double intentionPrice
             , IntentionType intentionType) {
         if (intentionType.equals(IntentionType.SELL)) {
-            return intentionPriceLowerThanQuotePrice(intentionPrice);
-        } else {
             return intentionPriceHigherThanQuotePrice(intentionPrice);
+        } else {
+            return intentionPriceLowerThanQuotePrice(intentionPrice);
         }
     }
 }

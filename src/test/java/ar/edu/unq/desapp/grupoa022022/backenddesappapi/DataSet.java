@@ -37,9 +37,9 @@ public class DataSet {
 
     private final IntentionType someTypeBUY = IntentionType.BUY;
 
-    private final Double somePriceInRangeDAI = 305.00;
+    private final Double somePriceInRangeDAI = 291.75;
 
-    private final Double somePriceInRangeBITCOIN = 6132838.92;
+    private final Double somePriceInRangeBITCOIN = 5840798.98;
 
     private final int someUnit = 3;
 
@@ -76,7 +76,7 @@ public class DataSet {
     public UserRegisterDTO getUserRegister3() {return userRegisterDTO3;}
 
     public Cryptocurrency getCryptocurrency() {
-        new Quote(cryptocurrency, 305.00);
+        new Quote(cryptocurrency, 290.00);
         return cryptocurrency;
     }
 
@@ -101,8 +101,8 @@ public class DataSet {
         return cryptocurrency2;
     }
 
-    public CryptocurrencyRegisterDTO cryptocurrencyRegisterDTODAI = new CryptocurrencyRegisterDTO("DAI", 320.38);
-    public CryptocurrencyRegisterDTO cryptocurrencyRegisterDTOBITCOIN = new CryptocurrencyRegisterDTO("BITCOIN", 5840798.98);
+    public CryptocurrencyRegisterDTO cryptocurrencyRegisterDTODAI = new CryptocurrencyRegisterDTO("DAI", 285.38);
+    public CryptocurrencyRegisterDTO cryptocurrencyRegisterDTOBITCOIN = new CryptocurrencyRegisterDTO("BITCOIN", 6132838.92);
 
     public CryptocurrencyRegisterDTO getCryptocurrencyRegisterDAI() {
         return cryptocurrencyRegisterDTODAI;
