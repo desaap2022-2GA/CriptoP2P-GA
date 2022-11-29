@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/quotes")
 public class QuoteController {
-
+/*
     @Autowired
     QuoteService quoteService;
 
@@ -46,4 +46,6 @@ public class QuoteController {
     public ResponseEntity<Quote> getQuoteById(@RequestHeader(value = "Authorization") String token, @PathVariable("id") Integer id) throws ResourceNotFoundException {
         return ResponseEntity.ok(quoteService.findById(id));
     }
+
+ */
 }

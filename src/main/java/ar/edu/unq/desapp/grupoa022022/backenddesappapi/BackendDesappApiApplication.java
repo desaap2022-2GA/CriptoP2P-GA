@@ -57,8 +57,9 @@ public class BackendDesappApiApplication {
 
     protected final Logger logger = LogManager.getLogger(getClass());
 
-    @Scheduled(cron = "0 * * * * *")//10 minutos
+    @Scheduled(cron = "0 */10 * * * *")//10 minutos
     @CachePut("cryptoCurrency")
+
     public List<CryptocurrencyLastQuoteDTO> updateCryptocurrenciesQuotes() {
         logger.info("Quotes UPDATED" + new Date());
         return externalProxyService.binanceLatestQuotes();

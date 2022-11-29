@@ -55,4 +55,6 @@ class QuoteModelTests {
 
         assertEquals(quote.getId(), mockCryptocurrency.latestQuote().getId());
     }
+
+
 }

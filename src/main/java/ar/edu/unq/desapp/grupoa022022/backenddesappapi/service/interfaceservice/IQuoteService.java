@@ -17,4 +17,6 @@ public interface IQuoteService {
     List<Quote> getAll();
 
     Quote findById(int id) throws ResourceNotFoundException;
+
+
 }

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
 
-class Architecture{
+class Architecture {
     private JavaClasses baseClasses;
     @BeforeEach
     public void setup() {

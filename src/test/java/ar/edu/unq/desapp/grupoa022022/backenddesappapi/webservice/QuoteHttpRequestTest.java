@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class QuoteHttpRequestTest {
-
+/*
     @Value("${local.server.port}")
     private int port;
     @Value("${test.hostname}")
@@ -80,7 +80,7 @@ class QuoteHttpRequestTest {
         Assertions.assertEquals(18, Objects.requireNonNull(result.getBody()).length);
     }
 */
-    @Test
+ /*   @Test
     void gettingQuotes1ShouldReturnAQuoteWith32038Price() {
         ResponseEntity<Quote> result = restTemplate.exchange(TEST_HOSTNAME + port + "/quotes/1",
                 HttpMethod.GET, headersWithToken,  Quote.class);
@@ -101,4 +101,6 @@ class QuoteHttpRequestTest {
         }
         Assertions.assertEquals(152.50, Objects.requireNonNull(result.getBody()).getPrice());
     }
+
+  */
 }

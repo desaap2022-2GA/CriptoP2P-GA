@@ -9,6 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserQueryDTO {
 
+    private final String id;
     private final String name;
     private final String lastname;
     private final String numberOperations;

@@ -137,7 +137,7 @@ public class UserService implements IUserService {
         ArrayList<UserQueryDTO> userList = new ArrayList<>();
         List<User> users = userRepo.findAll(Sort.by(Sort.Direction.ASC, "id"));
         for (User us : users) {
-            UserQueryDTO user = new UserQueryDTO(us.getName(), us.getLastname(), String.valueOf(us.getNumberOperations()),
+            UserQueryDTO user = new UserQueryDTO(String.valueOf(us.getId()), us.getName(), us.getLastname(), String.valueOf(us.getNumberOperations()),
                     String.valueOf(us.getReputation()));
 
             userList.add(user);

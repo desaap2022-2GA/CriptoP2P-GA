@@ -22,9 +22,11 @@ public class UserController {
 
     @Autowired
     UserService userService;
-
+/*
     @Autowired
     TokenService tokenService;
+
+ */
 
     @Operation(summary = "Search for a user by mail")
     @SecurityRequirement(name = "Bearer Authentication")
