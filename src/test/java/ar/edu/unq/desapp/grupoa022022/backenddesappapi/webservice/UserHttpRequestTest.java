@@ -74,7 +74,6 @@ class UserHttpRequestTest {
         ResponseEntity<UserViewDTO[]> result = restTemplate.exchange(testHostname + port + "/users",
                 HttpMethod.GET, headersWithToken, UserViewDTO[].class);
 
-        System.out.println(Arrays.stream(result.getBody()).map(userView -> userView.getId()).toString());
         Assertions.assertTrue(2 < Objects.requireNonNull(result.getBody()).length);
     }
 
@@ -101,7 +100,7 @@ class UserHttpRequestTest {
     void gettingUserOperationBetweenDatesReturnATradedBetweenDates() {
         ResponseEntity<TradedBetweenDatesDTO> result = restTemplate.exchange(testHostname + port + "/users/traded/{id}/{firstdate}/{seconddate}",
                 HttpMethod.GET, headersWithToken, TradedBetweenDatesDTO.class,3,"1569217259171","1769217259171");
-        System.out.println(result.getBody().toString());
+
         Assertions.assertEquals(000.00, Objects.requireNonNull(result.getBody()).getPesosAmount());
     }
 

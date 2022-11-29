@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 @Setter
 @AllArgsConstructor
 public class IntentionRegisterDTO {
-
     @NotNull
     @Enumerated(EnumType.STRING)
     private IntentionType type;

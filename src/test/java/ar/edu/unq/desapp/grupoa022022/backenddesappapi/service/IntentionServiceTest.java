@@ -150,9 +150,7 @@ class IntentionServiceTest {
     @DisplayName("JUnit test getIntentionById method with exception in IntentionService")
     @Test
     void getIntentionById_WithException_Test(){
-        assertThrows(ResourceNotFoundException.class, () -> {
-            intentionService.getIntentionById(20);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> intentionService.getIntentionById(20));
     }
 
 
@@ -162,7 +160,7 @@ class IntentionServiceTest {
         IntentionRegisterDTO intentionRegisterDTO = new IntentionRegisterDTO(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
 
-        Intention intent = intentionService.create(intentionRegisterDTO);
+        intentionService.create(intentionRegisterDTO);
 
         assertEquals(1, intentionService.getActiveIntentions().size());
     }
@@ -182,9 +180,7 @@ class IntentionServiceTest {
     @DisplayName("JUnit test findIntentionById method with exception in IntentionService")
     @Test
     void findIntentionById_WithException_Test(){
-        assertThrows(ResourceNotFoundException.class, () -> {
-            intentionService.getIntentionById(20);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> intentionService.getIntentionById(20));
     }
 
     @DisplayName("Junit test findActiveIntentions method in IntentionService")

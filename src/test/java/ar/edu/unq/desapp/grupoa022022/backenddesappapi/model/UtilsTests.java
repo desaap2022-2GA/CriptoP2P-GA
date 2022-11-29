@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoa022022.backenddesappapi.model;
 
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.DataSet;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.*;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.EmailAlreadyExistsException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.UserValidationException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceNotInAValidRangeException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
@@ -71,7 +72,7 @@ class UtilsTests {
     //SERVICE
 
     @Test
-    void getACryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFoundException, PriceNotInAValidRangeException, UserValidationException {
+    void getACryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFoundException, PriceNotInAValidRangeException {
         Cryptocurrency cryptocurrency = cryptocurrencyService.create(dataSet.getCryptocurrencyRegisterDAI());
         User user = userService.saveToDataBase(dataSet.getUserRegister());
         Intention intention = intentionService.create(new IntentionRegisterDTO(dataSet.getSomeTypeBUY()
@@ -81,7 +82,7 @@ class UtilsTests {
     }
 
     @Test
-    void getStringCryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFoundException, PriceNotInAValidRangeException, UserValidationException {
+    void getStringCryptoDetailsWhenCallIntentionCryptoDetailsWithAnIntention() throws ResourceNotFoundException, PriceNotInAValidRangeException {
         Cryptocurrency cryptocurrency = cryptocurrencyService.create(dataSet.getCryptocurrencyRegisterDAI());
         User user = userService.saveToDataBase(dataSet.getUserRegister());
         Intention intention = intentionService.create(new IntentionRegisterDTO(dataSet.getSomeTypeBUY()
@@ -91,13 +92,21 @@ class UtilsTests {
     }
 
     @Test
-    void userChangeDataIfNewParamsAreNotNull() throws UserValidationException {
+    void userChangeDataIfNewParamsAreNotNull() throws UserValidationException, ResourceNotFoundException {
         User user = new User("Mara", "Lopez", "Mara@gmail.com", "Luro 234", "1234"
                 , "1234567899876543211236", "123654");
 
         User userReturned = helperDTO.userModify(user, "email", "m@gmail.com");
 
         assertEquals(dataString(user), dataString(userReturned));
+    }
+
+    @Test
+    void getResourseNotFoundWhenTryToChangeDataWithWrongParam() {
+        User user = new User("Mara", "Lopez", "Mara@gmail.com", "Luro 234", "1234"
+                , "1234567899876543211236", "123654");
+
+        assertThrows(ResourceNotFoundException.class, () -> helperDTO.userModify(user, "saraza", "m@gmail.com"));
     }
 
     @Test

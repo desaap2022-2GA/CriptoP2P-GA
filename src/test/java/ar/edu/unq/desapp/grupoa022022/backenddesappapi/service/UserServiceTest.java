@@ -104,9 +104,7 @@ class UserServiceTest {
     @DisplayName("JUnit test findById method with exception in UserService")
     @Test
     void findUserById_WithException_Test(){
-        assertThrows(ResourceNotFoundException.class, () -> {
-            userService.findById(6);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> userService.findById(6));
     }
 
     @DisplayName("JUnit test findByEmail method in UserService")
@@ -120,9 +118,7 @@ class UserServiceTest {
     @DisplayName("JUnit test findByEmail method in UserService")
     @Test
     void findByEmail_With_Exception_Test() {
-        assertThrows(ResourceNotFoundException.class, () -> {
-            userService.findByEmail("g@yahoo.com");
-        });
+        assertThrows(ResourceNotFoundException.class, () -> userService.findByEmail("g@yahoo.com"));
     }
 
     @DisplayName("JUnit test findUserByEmail method in UserService")
@@ -136,14 +132,12 @@ class UserServiceTest {
     @DisplayName("JUnit test findByEmail method with exception in UserService")
     @Test
     void findByEmail_WithException_Test(){
-        assertThrows(ResourceNotFoundException.class, () -> {
-            userService.findByEmail("gauisio@yahoo.com");
-        });
+        assertThrows(ResourceNotFoundException.class, () -> userService.findByEmail("gauisio@yahoo.com"));
     }
 
     @DisplayName("JUnit test checkNewUserMail method in UserService")
     @Test
-    void checkNewUserMailTest() throws ResourceNotFoundException {
+    void checkNewUserMailTest() {
         String emailMock = mockUser.getEmail();
 
         assertTrue(userService.findUserByEmail(emailMock).isPresent());
@@ -152,9 +146,7 @@ class UserServiceTest {
     @DisplayName("JUnit test checkNewUserEmail method with exception in UserService")
     @Test
     void checkNewUserEmail_WithException_Test(){
-        assertThrows(EmailAlreadyExistsException.class, () -> {
-            userService.checkNewUserEmail("gaudio@yahoo.com");
-        });
+        assertThrows(EmailAlreadyExistsException.class, () -> userService.checkNewUserEmail("gaudio@yahoo.com"));
     }
 
     @DisplayName("JUnit saveToDataBase method in UserService")

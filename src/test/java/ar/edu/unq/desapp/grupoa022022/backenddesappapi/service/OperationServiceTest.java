@@ -95,7 +95,7 @@ class OperationServiceTest {
     @Order(1)
     @DisplayName("JUnit test create method in OperationService")
     @Test
-    void createOperationTest() throws PriceNotInAValidRangeException, ResourceNotFoundException, PriceNotInAValidRangeException, PriceExceedVariationWithRespectIntentionTypeLimitsException, IntentionAlreadyTakenException {
+    void createOperationTest() throws ResourceNotFoundException, PriceNotInAValidRangeException, PriceExceedVariationWithRespectIntentionTypeLimitsException, IntentionAlreadyTakenException {
         //cambiar id intention
         IntentionRegisterDTO intentionRegisterDTO = new IntentionRegisterDTO(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
@@ -120,7 +120,7 @@ class OperationServiceTest {
     @Order(3)
     @DisplayName("JUnit test open method in OperationService")
     @Test
-    void openOperationTest() throws PriceNotInAValidRangeException, ResourceNotFoundException, PriceExceedVariationWithRespectIntentionTypeLimitsException, PriceNotInAValidRangeException, IntentionAlreadyTakenException {
+    void openOperationTest() throws ResourceNotFoundException, PriceExceedVariationWithRespectIntentionTypeLimitsException, PriceNotInAValidRangeException, IntentionAlreadyTakenException {
         IntentionRegisterDTO intentionRegisterDTO = new IntentionRegisterDTO(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
         Intention intent = intentionService.create(intentionRegisterDTO);
@@ -209,7 +209,7 @@ class OperationServiceTest {
     @Order(9)
     @DisplayName("JUnit test findById method in OperationService")
     @Test
-    void findByIdOperationTest() throws ResourceNotFoundException, PriceNotInAValidRangeException, PriceExceedVariationWithRespectIntentionTypeLimitsException, PriceNotInAValidRangeException, IntentionAlreadyTakenException {
+    void findByIdOperationTest() throws ResourceNotFoundException, PriceExceedVariationWithRespectIntentionTypeLimitsException, PriceNotInAValidRangeException, IntentionAlreadyTakenException {
         //crear operacion
         //Operation operation = operationService.findById(1);
         IntentionRegisterDTO intentionRegisterDTO = new IntentionRegisterDTO(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
@@ -227,9 +227,7 @@ class OperationServiceTest {
     @DisplayName("JUnit test findById method with exception in OperationService")
     @Test
     void findById_With_Exception_Test(){
-        assertThrows(ResourceNotFoundException.class, () -> {
-            operationService.findById(20);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> operationService.findById(20));
     }
 
     @Order(11)
@@ -254,9 +252,7 @@ class OperationServiceTest {
     @DisplayName("JUNit test getOperationById method with exception in OperationService")
     @Test
     void getOperationById_With_Exception_Test(){
-        assertThrows(ResourceNotFoundException.class, () -> {
-            operationService.getOperationById(1000, 55);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> operationService.getOperationById(1000, 55));
     }
 
  /*   @Order(13)

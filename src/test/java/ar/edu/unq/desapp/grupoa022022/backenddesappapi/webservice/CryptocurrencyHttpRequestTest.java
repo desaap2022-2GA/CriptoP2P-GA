@@ -76,7 +76,7 @@ class CryptocurrencyHttpRequestTest {
     @Test
     @Order(1)
     void gettingCryptocurrenciesShouldReturnAListWhit16Cryptocurrencies() {
-        System.out.println("headersWithToken: "+headersWithToken);
+
         ResponseEntity<Cryptocurrency[]> result = restTemplate.exchange(TEST_HOSTNAME + port + "/cryptocurrencies",
                 HttpMethod.GET, headersWithToken, Cryptocurrency[].class);
         System.out.println(result);

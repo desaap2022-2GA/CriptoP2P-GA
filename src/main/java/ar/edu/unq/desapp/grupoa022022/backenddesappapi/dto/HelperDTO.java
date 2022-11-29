@@ -50,33 +50,28 @@ public class HelperDTO {
                 , intention.transactionInfoToShow(userWhoAsk), operation.actionToDo(userWhoAsk));
     }
 
-    public IntentionViewDTO intentionToIntentionView(Intention intention, User userWhoPost){
+    public IntentionViewDTO intentionToIntentionView(Intention intention, User userWhoPost) {
         return new IntentionViewDTO(String.valueOf(intention.getId()), new DateTimeInMilliseconds().convertLongToDate(intention.getDateTime())
                 , intention.getType().toString(), intention.getCryptocurrency().getName(), intention.getPrice().toString(), String.valueOf(intention.getUnits())
-                , intention.amountPriceInPesos().toString(), userWhoPost.getName()+" "+userWhoPost.getLastname());
+                , intention.amountPriceInPesos().toString(), userWhoPost.getName() + " " + userWhoPost.getLastname());
     }
 
-    public ActiveIntentionViewDTO intentionToActiveIntentionView(Intention intention, User userWhoPost){
+    public ActiveIntentionViewDTO intentionToActiveIntentionView(Intention intention, User userWhoPost) {
         return new ActiveIntentionViewDTO(String.valueOf(intention.getId()), new DateTimeInMilliseconds().convertLongToDate(intention.getDateTime())
                 , intention.getType().toString(), intention.getCryptocurrency().getName(), intention.getPrice().toString(), String.valueOf(intention.getUnits())
-                , intention.amountPriceInPesos().toString(), userWhoPost.getName()+" "+userWhoPost.getLastname(), String.valueOf(userWhoPost.getNumberOperations()), String.valueOf(userWhoPost.getReputation()));
+                , intention.amountPriceInPesos().toString(), userWhoPost.getName() + " " + userWhoPost.getLastname(), String.valueOf(userWhoPost.getNumberOperations()), String.valueOf(userWhoPost.getReputation()));
     }
-    public User userModify(User user, String field, String data) throws UserValidationException {
-        switch (field){
-            case "name": user.setName(data);
-                break;
-            case "lastname": user.setLastname(data);
-                break;
-            case "email": user.setEmail(data);
-                break;
-            case "address": user.setAddress(data);
-                break;
-            case "password": user.setPassword(data);
-                break;
-            case "mercadoPagoCVU": user.setMercadoPagoCVU(data);
-                break;
-            case "addressWalletActiveCripto": user.setAddressWalletActiveCrypto(data);
-                break;
+
+    public User userModify(User user, String field, String data) throws UserValidationException, ResourceNotFoundException {
+        switch (field) {
+            case "name" -> user.setName(data);
+            case "lastname" -> user.setLastname(data);
+            case "email" -> user.setEmail(data);
+            case "address" -> user.setAddress(data);
+            case "password" -> user.setPassword(data);
+            case "mercadoPagoCVU" -> user.setMercadoPagoCVU(data);
+            case "addressWalletActiveCripto" -> user.setAddressWalletActiveCrypto(data);
+            default -> throw new ResourceNotFoundException("wrong field");
         }
         return user;
     }

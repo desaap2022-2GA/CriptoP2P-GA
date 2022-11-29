@@ -198,7 +198,7 @@ class UserPersistenceTests {
     }
 
     @Test
-    void checkIfAnEmailIsInTheDatabaseAndThrowsAException() throws EmailAlreadyExistsException, UserValidationException {
+    void checkIfAnEmailIsInTheDatabaseAndThrowsAException() throws UserValidationException {
         prueUser1.setPassword(encoder.encode("3546DelpoWinner"));
         userRepo.save(prueUser1);
 

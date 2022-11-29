@@ -97,13 +97,9 @@ class OperationHttpRequestTest {
     void postingAnOperationWithIntentionThatExceedConditionsPriceObtainBadRequest() throws Exception {
         OperationRegisterDTO operationRegisterDTO = new OperationRegisterDTO(2,1);
 
-
-        System.out.println("heathers: "+headersWithToken);
         ResponseEntity<OperationViewDTO> result = restTemplate.exchange(TEST_HOSTNAME + port + "/operations",
                 HttpMethod.POST, new HttpEntity<>(testController.getBody(operationRegisterDTO), headersWithToken.getHeaders())
                 , OperationViewDTO.class);
-
-        System.out.println("result = " + result);
 
         Assertions.assertEquals(400, result.getStatusCode().value());
     }
@@ -117,8 +113,6 @@ class OperationHttpRequestTest {
         ResponseEntity<OperationViewDTO> result = restTemplate.exchange(TEST_HOSTNAME + port + "/operations",
                 HttpMethod.POST, new HttpEntity<>(testController.getBody(operationRegisterDTO), headersWithToken.getHeaders())
                 , OperationViewDTO.class);
-
-        System.out.println("result = " + result);
 
         Assertions.assertEquals("BITCOIN", Objects.requireNonNull(result.getBody()).getCryptocurrency());
     }
