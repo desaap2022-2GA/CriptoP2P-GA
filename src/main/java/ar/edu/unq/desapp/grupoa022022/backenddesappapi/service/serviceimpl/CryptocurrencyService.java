@@ -80,7 +80,6 @@ public class CryptocurrencyService implements ICryptocurrencyService {
     @Override
     public List<CryptocurrencyLastQuoteDTO> oneDayQuotes(Integer id) throws ResourceNotFoundException {
         Cryptocurrency cryptocurrency = findById(id);
-        //return cryptocurrency.last24HoursQuotes();
         return externalProxyService.binance24hsQuotesForCryptocurrency(cryptocurrency);
     }
 }

@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @RunWith(SpringRunner.class)
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
-public class OperationServiceTest {
+class OperationServiceTest {
 
     @Autowired
     private OperationService operationService;
@@ -104,7 +104,7 @@ public class OperationServiceTest {
         OperationRegisterDTO operationRegisterDTO = new OperationRegisterDTO(intent.getId(), mockOperationReg1.getUserId());
         Operation operation = operationService.create(operationRegisterDTO);
 
-        assertEquals(operation.getIntention().getId(), 11);
+        assertEquals(11, operation.getIntention().getId());
     }
 
     @Order(2)
@@ -129,7 +129,7 @@ public class OperationServiceTest {
 
         Operation operation = operationService.create(operationRegisterDTO);
 
-        assertEquals(operation.getState(),ACTIVE);
+        assertEquals(ACTIVE, operation.getState());
     }
 
     @Order(4)
@@ -220,7 +220,7 @@ public class OperationServiceTest {
         OperationRegisterDTO operationRegisterDTO = new OperationRegisterDTO(intent.getId(), mockOperationReg1.getUserId());
         Operation operation = operationService.create(operationRegisterDTO);
 
-        assertEquals(operation.getId(), 4);
+        assertEquals(4, operation.getId());
     }
 
     @Order(10)
@@ -247,7 +247,7 @@ public class OperationServiceTest {
 
         OperationViewDTO operationViewDTO = operationService.getOperationById(operation.getId(), 1);
 
-        assertEquals(operationViewDTO.getOperationNumber(), 1);
+        assertEquals(1, operationViewDTO.getOperationNumber());
     }
 
     @Order(12)

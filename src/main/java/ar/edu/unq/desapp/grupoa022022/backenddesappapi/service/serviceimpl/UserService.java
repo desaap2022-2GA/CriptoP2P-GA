@@ -153,7 +153,6 @@ public class UserService implements IUserService {
         );
 
         User newUser = helper.userModify(user, field, data);
-        //       System.out.println("usuario cambiado: " + newUser);
         update(newUser);
 
         return helper.userToUserView(newUser);

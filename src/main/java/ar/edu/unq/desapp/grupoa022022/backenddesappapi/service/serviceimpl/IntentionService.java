@@ -28,17 +28,11 @@ public class IntentionService implements IIntentionService {
     @Autowired
     private IIntentionRepo intentionRepo;
 
-   // @Autowired
-    //private IOperationRepo operationRepo;
-
     @Autowired
     private ICryptocurrencyService cryptocurrencyService;
 
     @Autowired
     private IUserService userService;
-
-   // @Autowired
-  //  private IOperationService operationService;
 
     @Override
     public Intention create(IntentionRegisterDTO intentionRegisterDTO) throws ResourceNotFoundException, PriceNotInAValidRangeException {

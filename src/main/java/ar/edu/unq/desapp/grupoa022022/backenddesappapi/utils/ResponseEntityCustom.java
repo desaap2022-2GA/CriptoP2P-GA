@@ -22,12 +22,12 @@ public class ResponseEntityCustom {
         body.put("error message: ", message);
     }
 
-    public ResponseEntity getResponseEntityBadRequest(){
+    public ResponseEntity<?> getResponseEntityBadRequest(){
         body.put("status: ", HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(body, HttpHeaders.EMPTY, HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity getResponseEntityUnauthorized(){
+    public  ResponseEntity<?> getResponseEntityUnauthorized(){
         body.put("status: ", HttpStatus.UNAUTHORIZED.value());
         return new ResponseEntity<>(body, HttpHeaders.EMPTY, HttpStatus.UNAUTHORIZED);
     }

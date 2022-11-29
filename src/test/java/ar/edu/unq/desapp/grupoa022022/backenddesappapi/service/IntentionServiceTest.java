@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
-public class IntentionServiceTest {
+class IntentionServiceTest {
 
     @Autowired
     private IntentionService intentionService;
@@ -94,7 +94,7 @@ public class IntentionServiceTest {
         IntentionRegisterDTO intentionRegisterDTO = new IntentionRegisterDTO(mockIntention.getType(), mockIntentionReg.getCryptocurrencyId(),
                 mockIntention.getPrice(), mockIntention.getUnits(), mockIntentionReg.getUserId());
 
-        assertEquals(intentionService.open(intentionRegisterDTO).getPrice(), "289.75");
+        assertEquals("289.75", intentionService.open(intentionRegisterDTO).getPrice());
     }
 
     @DisplayName("JUnit test open method with exception in IntentionService")
@@ -118,7 +118,7 @@ public class IntentionServiceTest {
         intent.setUnits(3);
         intentionService.update(intent);
 
-        assertEquals(intent.getUnits(), 3);
+        assertEquals(3, intent.getUnits());
     }
 
     @DisplayName("JUnit test deleteById Method in IntentionService")
@@ -131,7 +131,7 @@ public class IntentionServiceTest {
 
         intentionService.delete(intent.getId());
 
-        assertEquals(intentionService.getAll().size(), 0);
+        assertEquals(0, intentionService.getAll().size());
     }
 
     @DisplayName("JUnit test getIntentionById method in IntentionService")
@@ -144,7 +144,7 @@ public class IntentionServiceTest {
 
         List<IntentionViewDTO> intentions = intentionService.getAll();
 
-        assertEquals(intentionService.getIntentionById(intent.getId()).getUnits(), "2");
+        assertEquals("2", intentionService.getIntentionById(intent.getId()).getUnits());
     }
 
     @DisplayName("JUnit test getIntentionById method with exception in IntentionService")
@@ -164,7 +164,7 @@ public class IntentionServiceTest {
 
         Intention intent = intentionService.create(intentionRegisterDTO);
 
-        assertEquals(intentionService.getActiveIntentions().size(), 1);
+        assertEquals(1, intentionService.getActiveIntentions().size());
     }
 
     @DisplayName("JUnit test findById method in IntentionService")
@@ -176,7 +176,7 @@ public class IntentionServiceTest {
         Intention intent = intentionService.create(intentionRegisterDTO);
         List<IntentionViewDTO> intentions = intentionService.getAll();
 
-        assertEquals(intentionService.findById(intent.getId()).getPrice(), 289.75d);
+        assertEquals(289.75d, intentionService.findById(intent.getId()).getPrice());
     }
 
     @DisplayName("JUnit test findIntentionById method with exception in IntentionService")
@@ -190,14 +190,14 @@ public class IntentionServiceTest {
     @DisplayName("Junit test findActiveIntentions method in IntentionService")
     @Test
     void findActiveIntentionTest(){
-        assertEquals(intentionService.findActiveIntentions().size(),0);
+        assertEquals(0, intentionService.findActiveIntentions().size());
     }
 
     @DisplayName("JUnit test getAll method in IntentionService")
     @Test
     void getAllIntentionTest() {
 
-        assertEquals(intentionService.getAll().size(), 0);
+        assertEquals(0, intentionService.getAll().size());
     }
 
     @DisplayName("JUnit test deleteAll method in IntentionService")

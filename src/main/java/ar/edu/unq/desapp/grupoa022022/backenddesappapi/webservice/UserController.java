@@ -52,7 +52,6 @@ public class UserController {
     @GetMapping(value = "/traded/{id}/{firstdate}/{seconddate}")
     @ResponseBody
     public ResponseEntity<TradedBetweenDatesDTO> getOperationsBetweenDates(@RequestHeader(value = "Authorization") String token, @PathVariable int id, @PathVariable String firstdate, @PathVariable String seconddate) throws ResourceNotFoundException {
-        System.out.println("controller"+id+firstdate+seconddate);
         return ResponseEntity.ok(userService.operationsBetweenDates(id, Long.parseLong(firstdate), Long.parseLong(seconddate)));
     }
 

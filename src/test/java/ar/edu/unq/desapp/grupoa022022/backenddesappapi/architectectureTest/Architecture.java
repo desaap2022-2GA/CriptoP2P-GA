@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
 
-public class Architecture{
+class Architecture{
     private JavaClasses baseClasses;
     @BeforeEach
     public void setup() {
@@ -18,33 +18,32 @@ public class Architecture{
                 .importPackages("ar.edu.unq.desapp.grupoa022022.backenddesappapi");
     }
 
-
     @Test
-    public void dtoClassesShouldEndWithDTO(){
+    void dtoClassesShouldEndWithDTO(){
         classes().that().resideInAPackage("..dto..")
                 .should().haveSimpleNameEndingWith("DTO").check(baseClasses);
     }
 
    @Test
-    public void exceptionsClassesShouldEndWithException(){
+    void exceptionsClassesShouldEndWithException(){
         classes().that().resideInAPackage("..exceptions..")
                 .should().haveSimpleNameEndingWith("Exception").check(baseClasses);
     }
 
     @Test
-    public void persistanceClassesShouldEndWithRepo(){
+    void persistanceClassesShouldEndWithRepo(){
         classes().that().resideInAPackage("..persistence..")
                 .should().haveSimpleNameEndingWith("Repo").check(baseClasses);
     }
 
     @Test
-    public void serviceIntegrationClassesShouldEndWithService(){
+    void serviceIntegrationClassesShouldEndWithService(){
         classes().that().resideInAPackage("..integration..")
                 .should().haveSimpleNameEndingWith("Service").check(baseClasses);
     }
 
     @Test
-    public void serviceInterfaceserviceClassesShouldEndWithService(){
+    void serviceInterfaceserviceClassesShouldEndWithService(){
         classes().that().resideInAPackage("..interfaceservice..")
                 .should().haveSimpleNameEndingWith("Service").check(baseClasses);
     }
@@ -54,17 +53,15 @@ public class Architecture{
         classes().that().resideInAPackage("..serviceimpl..")
                .should().haveSimpleNameEndingWith("Service").check(baseClasses);
     }
-
  */
     @Test
-    public void webserviceClassesShouldEndWithController(){
+    void webserviceClassesShouldEndWithController(){
         classes().that().resideInAPackage("..webservice..")
                 .should().haveSimpleNameEndingWith("Controller").check(baseClasses);
     }
 
-
     @Test
-    public void layeredArchitectureShouldBeRespected(){
+    void layeredArchitectureShouldBeRespected(){
         layeredArchitecture()
                 .consideringAllDependencies()
                 .layer("Controller").definedBy("..webservice..")
@@ -77,37 +74,31 @@ public class Architecture{
     }
 
     @Test
-    public void serviceIntegrationClassesShouldHaveSpringServiceAnnotation() {
+    void serviceIntegrationClassesShouldHaveSpringServiceAnnotation() {
         classes().that().resideInAPackage("..integration..")
                 .should().beAnnotatedWith("org.springframework.stereotype.Service")
                 .check(baseClasses);
     }
+
 /*    @Test
     public void serviceImplClassesShouldHaveSpringServiceAnnotation() {
         classes().that().resideInAPackage("..serviceImpl..")
                 .should().beAnnotatedWith("org.springframework.stereotype.Service")
                 .check(baseClasses);
     }
-
  */
 
-
-
     @Test
-    public void controllerClassesShouldHaveSpringControllerAnnotation() {
+    void controllerClassesShouldHaveSpringControllerAnnotation() {
         classes().that().resideInAPackage("..webservice..")
                 .should().beAnnotatedWith("org.springframework.web.bind.annotation.RestController")
                 .check(baseClasses);
     }
 
     @Test
-    public void authClassesShouldHaveSpringControllerAnnotation() {
+    void authClassesShouldHaveSpringControllerAnnotation() {
         classes().that().resideInAPackage("..auth..")
                 .should().beAnnotatedWith("org.springframework.web.bind.annotation.RestController")
                 .check(baseClasses);
     }
-
-
-
 }
-

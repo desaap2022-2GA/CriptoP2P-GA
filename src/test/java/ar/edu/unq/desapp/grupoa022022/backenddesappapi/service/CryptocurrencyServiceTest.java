@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @RunWith(SpringRunner.class)
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
-public class CryptocurrencyServiceTest {
+class CryptocurrencyServiceTest {
 
     @Autowired
     private CryptocurrencyService cryptocurrencyService;
@@ -51,13 +51,13 @@ public class CryptocurrencyServiceTest {
                 mockCryptoReg1.getPrice());
         Cryptocurrency crypto = cryptocurrencyService.create(cryptocurrencyRegisterDTO);
 
-        assertEquals(crypto.getName(), "DAINA");
+        assertEquals("DAINA", crypto.getName());
     }
 
     @DisplayName("Junit test getAll method in CryptocurrencyService")
     @Test
     void getAllCryptoTest(){
-        assertEquals(cryptocurrencyService.getAll().size(),17);
+        assertEquals(17, cryptocurrencyService.getAll().size());
     }
 /*
     @DisplayName("Junit test delete method in CryptocurrencyService")
@@ -101,13 +101,13 @@ public class CryptocurrencyServiceTest {
         crypto.setName("MMM");
         cryptocurrencyService.update(crypto);
 
-        assertEquals(crypto.getName(), "MMM");
+        assertEquals("MMM", crypto.getName());
     }
 
     @DisplayName("JUnit test latestQuotes method in Cryptocurrency")
     @Test
     void latestQuotesCryptoTest(){
-        assertEquals(cryptocurrencyService.latestQuotes().size(), 14);
+        assertEquals(14, cryptocurrencyService.latestQuotes().size());
     }
 
     /*

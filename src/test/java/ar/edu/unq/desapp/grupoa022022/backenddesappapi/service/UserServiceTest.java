@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 @Order(0)
-public class UserServiceTest {
+class UserServiceTest {
 
     @Autowired
     private UserService userService;
@@ -81,7 +81,7 @@ public class UserServiceTest {
         UserViewDTO userMock = userService.create(userRegisterDTO);
         System.out.println("userMock creado mail: " + userMock.getEmail());
 
-        assertEquals(userMock.getEmail(), "sarasa@sarasa.com");
+        assertEquals("sarasa@sarasa.com", userMock.getEmail());
     }
 
 
@@ -90,7 +90,7 @@ public class UserServiceTest {
     @DisplayName("JUnit test getAllUsers method in UserService")
     @Test
     void getAllUsersTest() {
-        assertEquals(userService.getAllUsers().size(), 2);
+        assertEquals(2, userService.getAllUsers().size());
     }
 
     @DisplayName("JUnit test findById method in UserService")
@@ -166,7 +166,7 @@ public class UserServiceTest {
 
         User user = userService.saveToDataBase(userRegisterDTO);
 
-        assertEquals(user.getEmail(), "gaudioPaston@yahoo.com");
+        assertEquals("gaudioPaston@yahoo.com", user.getEmail());
     }
 
     @DisplayName("JUnit getFromDataBase method in UserService")
@@ -182,7 +182,7 @@ public class UserServiceTest {
 
         UserViewDTO user = userService.findById(1);
 
-        assertEquals(userService.findUserByEmail(user.getEmail()).get().getEmail(), "gaudio@yahoo.com");
+        assertEquals("gaudio@yahoo.com", userService.findUserByEmail(user.getEmail()).get().getEmail());
     }
 
     @DisplayName("JUnit getListUsers method in UserService")
@@ -190,7 +190,7 @@ public class UserServiceTest {
     void getListUsersTest(){
         List<UserQueryDTO> users = userService.getListUsers();
 
-        assertEquals(users.size(), 2);
+        assertEquals(2, users.size());
     }
 
     @DisplayName("Junit modifyUser method in UserService")
@@ -199,7 +199,7 @@ public class UserServiceTest {
         UserViewDTO user = userService.findById(mockUser.getId());
         UserViewDTO userViewDTO = userService.modifyUser(user.getId(), "lastname", "Pastone");
 
-        assertEquals(userViewDTO.getLastname(), "Pastone");
+        assertEquals("Pastone", userViewDTO.getLastname());
     }
 
     @DisplayName("Junit modifyUser method with exception in UserService")
