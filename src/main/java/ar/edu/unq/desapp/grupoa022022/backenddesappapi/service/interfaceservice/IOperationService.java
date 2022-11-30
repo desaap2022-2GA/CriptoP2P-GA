@@ -11,9 +11,9 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceExc
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.ResourceNotFoundException;
 
 public interface IOperationService {
-    Operation create(OperationRegisterDTO operationRegisterDTO) throws ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException;
+    Operation create(OperationRegisterDTO operationRegisterDTO, User user) throws ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException;
 
-    OperationViewDTO open(OperationRegisterDTO operationRegisterDTO) throws ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException;
+    OperationViewDTO open(OperationRegisterDTO operationRegisterDTO, User user) throws ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException;
 
     void update(Operation operation);
 

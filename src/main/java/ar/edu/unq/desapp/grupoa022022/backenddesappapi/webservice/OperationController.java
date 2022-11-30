@@ -4,6 +4,7 @@ import ar.edu.unq.desapp.grupoa022022.backenddesappapi.aspects.log_data.LogMetho
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationModifyDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationRegisterDTO;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.OperationViewDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.IntentionAlreadyTakenException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.InvalidStateException;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.exceptions.PriceExceedVariationWithRespectIntentionTypeLimitsException;
@@ -15,6 +16,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/operations")
@@ -29,9 +32,14 @@ public class OperationController {
     @LogMethodData
     @Operation(summary = "Start an operation")
     @SecurityRequirement(name = "Bearer Authentication")
-    @PostMapping
-    public ResponseEntity<OperationViewDTO> openOperation(@RequestHeader(value = "Authorization") String token, @RequestBody OperationRegisterDTO operationRegisterDTO) throws ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException {
-        return ResponseEntity.ok(operationService.open(operationRegisterDTO));
+    @PostMapping(value = "/{intentionId}")
+    public ResponseEntity<OperationViewDTO> openOperation(@RequestHeader(value = "Authorization") String token, @PathVariable int intentionId) throws ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException {
+        System.out.println("aca//////1");
+
+        User user = tokenService.getUserFromToken(token).get();
+        System.out.println("userName"+user.getName());
+        OperationRegisterDTO operationRegisterDTO = new OperationRegisterDTO(intentionId);
+        return ResponseEntity.ok(operationService.open(operationRegisterDTO, user));
     }
 
     @LogMethodData

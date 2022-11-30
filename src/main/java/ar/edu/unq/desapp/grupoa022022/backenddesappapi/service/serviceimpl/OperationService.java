@@ -34,8 +34,8 @@ public class OperationService implements IOperationService {
     IIntentionService intentionService;
 
     @Override
-    public Operation create(OperationRegisterDTO operationRegisterDTO) throws ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException {
-        User user = userService.getFromDataBase(operationRegisterDTO.getUserId());
+    public Operation create(OperationRegisterDTO operationRegisterDTO, User user) throws ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException {
+//        User user = userService.getFromDataBase(operationRegisterDTO.getUserId());
         Intention intention = intentionService.findById(operationRegisterDTO.getIntentionId());
         Operation operation;
         if (!intention.isTaken()) {
@@ -58,8 +58,8 @@ public class OperationService implements IOperationService {
     }
 
     @Override
-    public OperationViewDTO open(OperationRegisterDTO operationRegisterDTO) throws ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException {
-        Operation operationCreated = this.create(operationRegisterDTO);
+    public OperationViewDTO open(OperationRegisterDTO operationRegisterDTO, User user) throws ResourceNotFoundException, IntentionAlreadyTakenException, PriceExceedVariationWithRespectIntentionTypeLimitsException {
+        Operation operationCreated = this.create(operationRegisterDTO, user);
         return helper.operationToOperationView(operationCreated, operationCreated.getUserWhoAccepts());
     }
 

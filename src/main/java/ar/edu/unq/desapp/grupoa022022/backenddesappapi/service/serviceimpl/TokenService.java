@@ -1,9 +1,12 @@
 package ar.edu.unq.desapp.grupoa022022.backenddesappapi.service.serviceimpl;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.dto.TokenDTO;
+import ar.edu.unq.desapp.grupoa022022.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.persistence.IUserRepo;
 import ar.edu.unq.desapp.grupoa022022.backenddesappapi.utils.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class TokenService {
@@ -33,5 +36,10 @@ public class TokenService {
             return null;
         }
         return email;
+    }
+
+    public Optional<User> getUserFromToken(String token){
+        String email = this.emailFromToken(token);
+        return userRepo.findByEmail(email);
     }
 }

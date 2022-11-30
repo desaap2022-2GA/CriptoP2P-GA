@@ -13,7 +13,4 @@ public class OperationRegisterDTO {
 
     @NotNull
     private int intentionId;
-    @NotNull
-    private int userId;
 }
-

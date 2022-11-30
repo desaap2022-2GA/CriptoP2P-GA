@@ -114,7 +114,7 @@ public class BackendDesappApiApplication {
                 5726807.85, 1, user.getId()));
 
         //OPERATION
-        Operation operation = operationService.create(new OperationRegisterDTO(intention.getId(), user2.getId()));
+        Operation operation = operationService.create(new OperationRegisterDTO(intention.getId()),user2);
 
         //OPERATION PAID
         operationService.modify(new OperationModifyDTO(operation.getId(), OperationState.PAID, user.getId()));
